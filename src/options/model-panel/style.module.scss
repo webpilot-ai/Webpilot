@@ -1,0 +1,111 @@
+.modelPanel {
+  position: relative;
+  min-height: 560px;
+  padding: 40px 40px 60px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  .left {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modelTitle {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .modelName {
+    margin-left: 10px;
+    color: #7d7d7d;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .docs {
+    color: #7d7d7d;
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration-line: underline;
+  }
+}
+
+.advanced {
+  margin-top: 42px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 60px;
+  padding: 0 40px;
+
+  .mode {
+    display: flex;
+    align-items: center;
+    color: #7d7d7d;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+
+    .checkbox {
+      width: 24px;
+      height: 24px;
+      margin-left: 4px;
+    }
+  }
+
+  .save {
+    width: 160px;
+  }
+}
+
+.modalBody {
+  .input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    color: #000;
+    font-size: 16px;
+    line-height: 40px;
+    word-wrap: normal;
+    border: 1px solid #a6a6a6;
+    border-radius: 10px;
+    outline: 0;
+
+    &::placeholder {
+      color: #777;
+    }
+  }
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .cancel,
+  .confirm {
+    width: 80px;
+  }
+
+  .confirm {
+    margin-left: 24px;
+  }
+}

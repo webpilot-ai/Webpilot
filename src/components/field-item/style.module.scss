@@ -1,0 +1,63 @@
+.filedItem {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #a6a6a6;
+}
+
+.header {
+  display: flex;
+
+  .title {
+    color: #000;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .subtitle {
+    margin-left: 8px;
+    color: #7d7d7d;
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
+.body {
+  position: relative;
+
+  .textarea {
+    display: block;
+    width: 100%;
+    height: 22px;
+    margin-top: 8px;
+    padding: 0 4px;
+    color: #000;
+    font-size: 16px;
+    line-height: 22px;
+    word-wrap: normal;
+    border: none;
+    outline: 0;
+    resize: none;
+
+    &::placeholder {
+      color: #777;
+    }
+
+    &:disabled {
+      background-color: #fff;
+    }
+
+    &.secret {
+      cursor: pointer;
+    }
+  }
+
+  .edit {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    cursor: pointer;
+  }
+}

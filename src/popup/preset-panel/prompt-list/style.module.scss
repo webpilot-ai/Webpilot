@@ -1,0 +1,16 @@
+.promptList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.item {
+  width: 45%;
+  margin-bottom: 14px;
+}
+
+.custom {
+  width: 100%;
+  text-align: left;
+}

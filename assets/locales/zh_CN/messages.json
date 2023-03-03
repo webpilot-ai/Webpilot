@@ -1,0 +1,122 @@
+{
+  "extensionDescription": {
+    "message": "Fluentify 允许你将 \"ChatGPT\" 添加到任何网页。 只需要对着内容选一下、点一下，不必打字，便可获得答案。"
+  },
+  "Settings": {
+    "message": "设置"
+  },
+  "I_want_to_recommend_an_open_source_Chrome_extension_called_Fluentify__With_no_prior_knowledge__you_can_create_a_custom_AI_in_just_seconds_to_handle_tasks__such_as_writing_articles__code__and_weekly_reports__Download_it_at__www_fluentify_io": {
+    "message": "我推荐一个叫做 Fluentify 的 Chrome 开源插件。\n无需任何知识，你就可以在几秒内创建一个专属的 AI，解决你的各种工作，如写文章、写周报、写代码。\n下载地址：www.fluentify.io"
+  },
+  "Copy_succeeded": {
+    "message": "已复制"
+  },
+  "Like_Fluentify__Recommend_it_to_your_friend_": {
+    "message": "喜欢 Fluentify？推荐给朋友吧！"
+  },
+  "Copy": {
+    "message": "复制"
+  },
+  "Please_select_any_text_on_the_webpage_first": {
+    "message": "请先在网页内选中任意文字"
+  },
+  "Auth_key_not_available__please_reset": {
+    "message": "auth key 不可用，请重新设置"
+  },
+  "Generating_content__takes_about_10_seconds": {
+    "message": "内容生成中，需要约10秒"
+  },
+  "Summarize": {
+    "message": "总结"
+  },
+  "Summarize_and_express_these_words_concisely": {
+    "message": "用简短的话，概括这些文本的主要内容"
+  },
+  "Retouch": {
+    "message": "润色"
+  },
+  "Retouch_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
+    "message": "润色文本，审查和修改拼写、语法、标点符号、用词、句子结构中出现的问题"
+  },
+  "Disagree": {
+    "message": "抬杠"
+  },
+  "Identify_any_logical_or_factual_errors_in_these_texts_and_provide_a_rebuttal__At_the_same_time__present_the_opposite_viewpoint_with_supporting_evidence": {
+    "message": "找出这些文本的逻辑错误或事实错误，并进行反驳。同时，给出相反观点，并加以事实依据"
+  },
+  "Restored_to_default_settings": {
+    "message": "已恢复为默认设置"
+  },
+  "Parameter": {
+    "message": "参数"
+  },
+  "Restore_default_settings": {
+    "message": "重置"
+  },
+  "Tips": {
+    "message": "提示"
+  },
+  "Dismiss": {
+    "message": "取消"
+  },
+  "Confirm": {
+    "message": "确认"
+  },
+  "About_to_clear_the_auth_key_and_restore_all_preset_functions": {
+    "message": "即将清除 auth key，并恢复所有预设功能"
+  },
+  "Save_succeeded": {
+    "message": "保存成功"
+  },
+  "Model": {
+    "message": "模型"
+  },
+  "Documentation": {
+    "message": "查看文档"
+  },
+  "Enter_auth_key": {
+    "message": "输入 auth key"
+  },
+  "Advanced": {
+    "message": "高级"
+  },
+  "Save": {
+    "message": "保存"
+  },
+  "Set_auth_key": {
+    "message": "设置 auth key"
+  },
+  "Name_this": {
+    "message": "给这个功能起个名字"
+  },
+  "e_g__Summarize": {
+    "message": "如：做总结"
+  },
+  "Command": {
+    "message": "指令"
+  },
+  "e_g__summarize_text__be_concise": {
+    "message": "如：用简短的话，概括这些文本的主要内容"
+  },
+  "What_do_you_want_to_do_with_the_selected_text_": {
+    "message": "你希望对选中的文字做些什么？"
+  },
+  "Instructions_1__Select_some_text_on_a_webpage_": {
+    "message": "操作指引\n1. 从网页中选中一段文字\n"
+  },
+  "2__Enter_a_command_in_the_input_box_above_and_click_the_Confirm_button": {
+    "message": "2. 在上方输入框中输入指令，点击确认按钮"
+  },
+  "2__Click_the_button_above": {
+    "message": "2. 点击上方按钮"
+  },
+  "You_can_find_your_auth_key_on_the_OpenAI_website_": {
+    "message": "你的 auth key 可以在 OpenAI 官网中找到："
+  },
+  "You_can_also_follow_the_instructions_below_to_get_started_": {
+    "message": "你也可以参考下方指引，按步骤操作："
+  },
+  "Other": {
+    "message": "其他"
+  }
+}

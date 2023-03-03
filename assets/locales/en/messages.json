@@ -1,0 +1,119 @@
+{
+  "extensionDescription": {
+    "message": "Fluentify allows you to easily add \"ChatGPT\" to any webpage. With a click, you can get answers without endless chatting."
+  },
+  "Settings": {
+    "message": "Settings"
+  },
+  "I_want_to_recommend_an_open_source_Chrome_extension_called_Fluentify__With_no_prior_knowledge__you_can_create_a_custom_AI_in_just_seconds_to_handle_tasks__such_as_writing_articles__code__and_weekly_reports__Download_it_at__www_fluentify_io": {
+    "message": "I want to recommend an open-source Chrome extension called Fluentify.\nWith no prior knowledge, you can create a custom AI in just seconds to handle tasks, such as writing articles, code, and weekly reports.\nDownload it at: www.fluentify.io"
+  },
+  "Like_Fluentify__Recommend_it_to_your_friend_": {
+    "message": "Like Fluentify? Recommend it to your friend!"
+  },
+  "Copy": {
+    "message": "Copy"
+  },
+  "Please_select_any_text_on_the_webpage_first": {
+    "message": "Please select any text on the webpage first"
+  },
+  "Auth_key_not_available__please_reset": {
+    "message": "Auth key not available, please reset"
+  },
+  "Generating_content__takes_about_10_seconds": {
+    "message": "Generating content, takes about 10 seconds"
+  },
+  "Summarize": {
+    "message": "Summarize"
+  },
+  "Summarize_and_express_these_words_concisely": {
+    "message": "Summarize and express these words concisely"
+  },
+  "Retouch": {
+    "message": "Retouch"
+  },
+  "Retouch_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
+    "message": "Retouch text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
+  },
+  "Disagree": {
+    "message": "Disagree"
+  },
+  "Identify_any_logical_or_factual_errors_in_these_texts_and_provide_a_rebuttal__At_the_same_time__present_the_opposite_viewpoint_with_supporting_evidence": {
+    "message": "Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence"
+  },
+  "Restored_to_default_settings": {
+    "message": "Restored to default settings"
+  },
+  "Parameter": {
+    "message": "Parameter"
+  },
+  "Restore_default_settings": {
+    "message": "Restore default settings"
+  },
+  "Tips": {
+    "message": "Tips"
+  },
+  "Dismiss": {
+    "message": "Dismiss"
+  },
+  "Confirm": {
+    "message": "Confirm"
+  },
+  "About_to_clear_the_auth_key_and_restore_all_preset_functions": {
+    "message": "About to clear the auth key and restore all preset functions"
+  },
+  "Save_succeeded": {
+    "message": "Save succeeded"
+  },
+  "Model": {
+    "message": "Model"
+  },
+  "Documentation": {
+    "message": "Documentation"
+  },
+  "Enter_auth_key": {
+    "message": "Enter auth key"
+  },
+  "Advanced": {
+    "message": "Advanced"
+  },
+  "Save": {
+    "message": "Save"
+  },
+  "Set_auth_key": {
+    "message": "Set auth key"
+  },
+  "Name_this": {
+    "message": "Name this"
+  },
+  "e_g__Summarize": {
+    "message": "e.g. Summarize"
+  },
+  "Command": {
+    "message": "Command"
+  },
+  "e_g__summarize_text__be_concise": {
+    "message": "e.g. summarize text, be concise"
+  },
+  "What_do_you_want_to_do_with_the_selected_text_": {
+    "message": "What do you want to do with the selected text?"
+  },
+  "Instructions_1__Select_some_text_on_a_webpage_": {
+    "message": "Instructions\n1. Select some text on a webpage\n"
+  },
+  "2__Enter_a_command_in_the_input_box_above_and_click_the_Confirm_button": {
+    "message": "2. Enter a command in the input box above and click the Confirm button"
+  },
+  "2__Click_the_button_above": {
+    "message": "2. Click the button above"
+  },
+  "You_can_find_your_auth_key_on_the_OpenAI_website_": {
+    "message": "You can find your auth key on the OpenAI website:"
+  },
+  "You_can_also_follow_the_instructions_below_to_get_started_": {
+    "message": "You can also follow the instructions below to get started: "
+  },
+  "Other": {
+    "message": "Other"
+  }
+}

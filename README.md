@@ -1,6 +1,6 @@
 # English
 
-Fluentify exists to make using ChatGPT easier, and this project will remain open source. 
+Fluentify exists to make using ChatGPT easier, and this project will remain open source.
 
 Fluentify binds commonly used prompts to shortcut commands, and uses selected content from web pages to make API requests and display the results.
 
@@ -14,6 +14,27 @@ Next Steps(Welcome to contribute code):
    - For creating content or emails, Fluentify should process selected text (or input box text if none is selected).
 2. Fix issues with inability to process selected text on certain web pages.
 3. Create a GitHub page for collecting and sharing prompts.
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+pnpm dev
+# or
+npm run dev
+# or
+yarn dev
+```
+
+Open your Chrome browser and load the appropriate development build：
+
+1. Go to [chrome://extensions](chrome://extensions).
+2. At the top right, turn on Developer mode.
+3. Click Load unpacked.
+4. Find and select the `build/chrome-mv3-dev` folder.
+5. Pin this extension to your Chrome toolbar.
+6. After installation, please refresh the page where you want to select text before using this extension.
 
 # 中文
 
@@ -32,3 +53,23 @@ Chrome 插件：https://chrome.google.com/webstore/detail/fluentify/biaggnjibplc
 2. 处理在某些页面中无法处理选中文字的问题。
 3. 新增一个 GitHub 页面，用于收集和分享大家的 prompt。
 
+## 入门指南
+
+首先，运行：
+
+```bash
+pnpm dev
+# 或者
+npm run dev
+# 或者
+yarn dev
+```
+
+打开 Chrome 浏览器，加载相应的开发构建：
+
+1. 打开 [chrome://extensions](chrome://extensions)。
+2. 在右上角打开开发者模式。
+3. 点击“加载已解压的扩展程序”。
+4. 找到并选择 `build/chrome-mv3-dev` 文件夹。
+5. 将此扩展程序固定到 Chrome 工具栏上。
+6. 安装完成后，请先刷新要选中文字的页面，再使用本插件。
