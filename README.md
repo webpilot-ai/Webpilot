@@ -1,4 +1,4 @@
-# Fluentify
+# 中文
 
 Fluentify 的存在是为了更简单地使用 ChatGPT，本项目将保持开源状态。
 
@@ -15,7 +15,7 @@ Fluentify 将常用的 prompt 绑定到快捷指令，结合网页中的选中�
 2. 处理在某些页面中无法处理选中文字的问题。
 3. 新增一个 GitHub 页面，用于收集和分享大家的 prompt。
 
-
+# English
 
 Fluentify exists to make using ChatGPT easier, and this project will remain open source. 
 
