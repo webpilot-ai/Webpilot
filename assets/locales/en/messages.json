@@ -1,27 +1,39 @@
 {
   "extensionDescription": {
-    "message": "Fluentify allows you to easily add \"ChatGPT\" to any webpage. With a click, you can get answers without endless chatting."
+    "message": "Fluentify is extremely easy to use. Simply swipe the text and everything will be done."
   },
   "Settings": {
     "message": "Settings"
   },
-  "I_want_to_recommend_an_open_source_Chrome_extension_called_Fluentify__With_no_prior_knowledge__you_can_create_a_custom_AI_in_just_seconds_to_handle_tasks__such_as_writing_articles__code__and_weekly_reports__Download_it_at__www_fluentify_io": {
-    "message": "I want to recommend an open-source Chrome extension called Fluentify.\nWith no prior knowledge, you can create a custom AI in just seconds to handle tasks, such as writing articles, code, and weekly reports.\nDownload it at: www.fluentify.io"
+  "Auto_Pop__ON": {
+    "message": "Auto Pop: ON"
   },
-  "Like_Fluentify__Recommend_it_to_your_friend_": {
-    "message": "Like Fluentify? Recommend it to your friend!"
+  "Auto_Pop__OFF": {
+    "message": "Auto Pop: OFF"
+  },
+  "Turbo_Mode__ON": {
+    "message": "Turbo Mode: ON"
+  },
+  "Turbo_Mode__OFF": {
+    "message": "Turbo Mode: OFF"
+  },
+  "Let_me_tell_you_about_this_crazy_useful_AI_tool_called_Fluentify__All_you_gotta_do_is_swipe_on_the_task__and_it_gets_done_automatically__It_s_way_better_than_ChatGPT__trust_me___Install__https___bit_ly_3mAJ9I7_GitHub__https___github_com_Fluentify_IO_Fluentify": {
+    "message": "Let me tell you about this crazy useful AI tool called Fluentify. All you gotta do is swipe on the task, and it gets done automatically. It's way better than ChatGPT, trust me!\n\nInstall: https://bit.ly/3mAJ9I7\nGitHub: https://github.com/Fluentify-IO/Fluentify"
+  },
+  "Amazing_Fluentify__telling_friends_": {
+    "message": "Amazing Fluentify, telling friends!"
   },
   "Copy": {
     "message": "Copy"
   },
-  "Please_select_any_text_on_the_webpage_first": {
-    "message": "Please select any text on the webpage first"
+  "Remember_to_select_text__If_using_for_the_first_time__refresh_the_page": {
+    "message": "Remember to select text. If using for the first time, refresh the page"
   },
   "Auth_key_not_available__please_reset": {
     "message": "Auth key not available, please reset"
   },
-  "Generating_content__takes_about_10_seconds": {
-    "message": "Generating content, takes about 10 seconds"
+  "Generating_content__takes_about_a_few_seconds": {
+    "message": "Generating content, takes about a few seconds"
   },
   "Summarize": {
     "message": "Summarize"
@@ -29,11 +41,11 @@
   "Summarize_and_express_these_words_concisely": {
     "message": "Summarize and express these words concisely"
   },
-  "Retouch": {
-    "message": "Retouch"
+  "Refine": {
+    "message": "Refine"
   },
-  "Retouch_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
-    "message": "Retouch text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
+  "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
+    "message": "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
   },
   "Disagree": {
     "message": "Disagree"
@@ -98,14 +110,17 @@
   "What_do_you_want_to_do_with_the_selected_text_": {
     "message": "What do you want to do with the selected text?"
   },
-  "Instructions_1__Select_some_text_on_a_webpage_": {
-    "message": "Instructions\n1. Select some text on a webpage\n"
+  "How_to_use__1__Select_text_on_the_webpage__click_button__": {
+    "message": "How to use:\n1. Select text on the webpage, click button\n\n"
   },
-  "2__Enter_a_command_in_the_input_box_above_and_click_the_Confirm_button": {
-    "message": "2. Enter a command in the input box above and click the Confirm button"
+  "How_to_use__1__Ask_a_question_about_selected_text_on_the_webpage__or_take_it_as_prompt__": {
+    "message": "How to use:\n1. Ask a question about selected text on the webpage, or take it as prompt\n\n"
   },
-  "2__Click_the_button_above": {
-    "message": "2. Click the button above"
+  "Auto_Pop_Mode__1__Click_top_right_icon_to_toggle_2__Pop_up_when_text_selected__": {
+    "message": "Auto-Pop Mode:\n1. Click top-right icon to toggle\n2. Pop-up when text selected\n\n"
+  },
+  "Turbo_Mode__1__Click_lightning_icon_to_toggle_2__Auto_process_selected_text_3__Auto_copy_the_result": {
+    "message": "Turbo Mode:\n1. Click lightning icon to toggle\n2. Auto process selected text\n3. Auto copy the result"
   },
   "You_can_find_your_auth_key_on_the_OpenAI_website_": {
     "message": "You can find your auth key on the OpenAI website:"

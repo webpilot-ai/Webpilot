@@ -1,31 +1,16 @@
 import {toast as rowToast} from 'react-toastify'
-import {MESSAGING_EVENT} from '@/config'
 
 const toastConfig = {
   position: 'top-center',
   style: {width: '80%', margin: '125px auto'},
-  autoClose: 1000,
+  autoClose: 1000, // ms
+  limit: 1,
   hideProgressBar: true,
   closeOnClick: false,
   pauseOnHover: false,
   draggable: false,
   progress: undefined,
   theme: 'light',
-}
-
-export async function getSelectedText() {
-  const tab = await getActiveTab()
-  const message = {event: MESSAGING_EVENT.GET_SELECTED_TEXT}
-
-  return new Promise((resolve, reject) => {
-    chrome.tabs.sendMessage(tab.id, message, selectedText => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError)
-      } else {
-        resolve(selectedText)
-      }
-    })
-  })
 }
 
 export function toast(text, config = {}) {
@@ -44,18 +29,20 @@ toast.warn = (text, config = {}) => {
 }
 
 toast.success = (text, config = {}) => {
-  rowToast.success(text, {...toastConfig, ...config})
+  rowToast.success(text, {...toastConfig, autoClose: 4000, ...config})
 }
 
 toast.error = (text, config = {}) => {
-  rowToast.error(text, {...toastConfig, ...config})
+  rowToast.error(text, {...toastConfig, autoClose: 4000, ...config})
 }
 
 export function navToOptions() {
-  if (chrome.runtime.openOptionsPage) {
-    chrome.runtime.openOptionsPage()
+  const {openOptionsPage, getURL} = chrome?.runtime
+
+  if (openOptionsPage) {
+    openOptionsPage()
   } else {
-    window.open(chrome.runtime.getURL('options.html'))
+    window.open(getURL('options.html'))
   }
 }
 

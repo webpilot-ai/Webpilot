@@ -1,0 +1,48 @@
+.plasmo-csui-container {
+  right: 0;
+  left: unset;
+}
+
+.container {
+  position: fixed !important;
+  top: 80px;
+  right: -500px;
+  z-index: 99999999999;
+  width: 400px;
+  height: 594px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
+  transition: all 0.3s ease;
+}
+
+.container-visible {
+  right: 0;
+}
+
+.iframe {
+  width: 400px;
+  height: 594px;
+  overflow: hidden;
+  border: none;
+}
+
+.floating-logo-container {
+  position: fixed;
+  top: 200px;
+  left: 200px;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+  cursor: pointer;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.floating-logo {
+  width: 24px;
+  height: 24px;
+}

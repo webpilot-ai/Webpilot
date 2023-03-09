@@ -1,30 +1,42 @@
 {
   "extensionDescription": {
-    "message": "Fluentify 允许你将 \"ChatGPT\" 添加到任何网页。 只需要对着内容选一下、点一下，不必打字，便可获得答案。"
+    "message": "Fluentify 用起来超简单。简单在文字上划一下，一切就都搞定了！"
   },
   "Settings": {
     "message": "设置"
   },
-  "I_want_to_recommend_an_open_source_Chrome_extension_called_Fluentify__With_no_prior_knowledge__you_can_create_a_custom_AI_in_just_seconds_to_handle_tasks__such_as_writing_articles__code__and_weekly_reports__Download_it_at__www_fluentify_io": {
-    "message": "我推荐一个叫做 Fluentify 的 Chrome 开源插件。\n无需任何知识，你就可以在几秒内创建一个专属的 AI，解决你的各种工作，如写文章、写周报、写代码。\n下载地址：www.fluentify.io"
+  "Auto_Pop__ON": {
+    "message": "自动弹出：开"
+  },
+  "Auto_Pop__OFF": {
+    "message": "自动弹出：关"
+  },
+  "Turbo_Mode__ON": {
+    "message": "极速模式: 开"
+  },
+  "Turbo_Mode__OFF": {
+    "message": "极速模式: 关"
+  },
+  "Let_me_tell_you_about_this_crazy_useful_AI_tool_called_Fluentify__All_you_gotta_do_is_swipe_on_the_task__and_it_gets_done_automatically__It_s_way_better_than_ChatGPT__trust_me___Install__https___bit_ly_3mAJ9I7_GitHub__https___github_com_Fluentify_IO_Fluentify": {
+    "message": "我说个极其离谱的AI，叫 Fluentify。只要在任务上划一下，就能自动干活，比 ChatGPT 好用多了！\n\n插件安装：https://bit.ly/3IZGXkV\n开源地址：https://github.com/Fluentify-IO/Fluentify"
   },
   "Copy_succeeded": {
     "message": "已复制"
   },
-  "Like_Fluentify__Recommend_it_to_your_friend_": {
-    "message": "喜欢 Fluentify？推荐给朋友吧！"
+  "Amazing_Fluentify__telling_friends_": {
+    "message": "Fluentify 牛逼！我要安利小伙伴！"
   },
   "Copy": {
     "message": "复制"
   },
-  "Please_select_any_text_on_the_webpage_first": {
-    "message": "请先在网页内选中任意文字"
+  "Remember_to_select_text__If_using_for_the_first_time__refresh_the_page": {
+    "message": "请先选择文字。如果首次使用，请先刷新页面"
   },
   "Auth_key_not_available__please_reset": {
     "message": "auth key 不可用，请重新设置"
   },
-  "Generating_content__takes_about_10_seconds": {
-    "message": "内容生成中，需要约10秒"
+  "Generating_content__takes_about_a_few_seconds": {
+    "message": "内容生成中，需要约几秒钟"
   },
   "Summarize": {
     "message": "总结"
@@ -32,10 +44,10 @@
   "Summarize_and_express_these_words_concisely": {
     "message": "用简短的话，概括这些文本的主要内容"
   },
-  "Retouch": {
+  "Refine": {
     "message": "润色"
   },
-  "Retouch_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
+  "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
     "message": "润色文本，审查和修改拼写、语法、标点符号、用词、句子结构中出现的问题"
   },
   "Disagree": {
@@ -101,14 +113,17 @@
   "What_do_you_want_to_do_with_the_selected_text_": {
     "message": "你希望对选中的文字做些什么？"
   },
-  "Instructions_1__Select_some_text_on_a_webpage_": {
-    "message": "操作指引\n1. 从网页中选中一段文字\n"
+  "How_to_use__1__Select_text_on_the_webpage__click_button__": {
+    "message": "使用方法：\n1. 在网页中选中文字，点击上方按钮\n\n"
   },
-  "2__Enter_a_command_in_the_input_box_above_and_click_the_Confirm_button": {
-    "message": "2. 在上方输入框中输入指令，点击确认按钮"
+  "How_to_use__1__Ask_a_question_about_selected_text_on_the_webpage__or_take_it_as_prompt__": {
+    "message": "使用方法：\n1. 对选中的文字进行提问，或者把它当作问题\n\n"
   },
-  "2__Click_the_button_above": {
-    "message": "2. 点击上方按钮"
+  "Auto_Pop_Mode__1__Click_top_right_icon_to_toggle_2__Pop_up_when_text_selected__": {
+    "message": "自动弹窗模式：\n1. 开关在右上角\n2. 选中文字，自动弹窗\n\n"
+  },
+  "Turbo_Mode__1__Click_lightning_icon_to_toggle_2__Auto_process_selected_text_3__Auto_copy_the_result": {
+    "message": "极速模式：\n1. 开关是闪电图标\n2. 自动处理选中文字\n2. 自动复制结果"
   },
   "You_can_find_your_auth_key_on_the_OpenAI_website_": {
     "message": "你的 auth key 可以在 OpenAI 官网中找到："

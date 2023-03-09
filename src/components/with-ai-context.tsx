@@ -1,8 +1,10 @@
 import {createContext, useReducer} from 'react'
 
+import {MESSAGING_EVENT, ROUTE} from '@/config'
 import {askOpenAI} from '@/io'
+import {gettext, toast} from '@/utils'
 import useConfig from '@/hooks/use-config'
-import {gettext, getSelectedText, toast} from '@/utils'
+import {sendToContentScript} from '@plasmohq/messaging'
 
 export const AIContext = createContext({ai: null, aiDispatch: null})
 
@@ -22,19 +24,22 @@ const initialState = {
 export function withAIContext(Component) {
   return function WithAIContext(props) {
     const [ai, aiDispatch] = useReducer(reducer, initialState)
-
     const {config, setConfig} = useConfig()
 
-    const askAI = async ({authKey, command, onlyCommand = false}) => {
-      let selectedText = ''
+    const askAI = async ({authKey, command, text = '', onlyCommand = false}) => {
+      let selectedText = text.trim()
 
-      if (!onlyCommand) {
+      if (!onlyCommand || text) {
         try {
-          selectedText = await getSelectedText()
+          selectedText = await sendToContentScript({
+            name: MESSAGING_EVENT.GET_SELECTED_TEXT,
+          })
         } catch (e) {}
 
         if (!selectedText.trim()) {
-          return toast.error(gettext('Please select any text on the webpage first'))
+          return toast.error(
+            gettext('Remember to select text. If using for the first time, refresh the page')
+          )
         }
       }
 
@@ -54,12 +59,12 @@ export function withAIContext(Component) {
           aiDispatch({type: AI_REDUCER_ACTION_TYPE.FAILURE, payload: err})
 
           if (err.response && err.response.status === 401) {
+            setConfig({...config, latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL, isAuth: false})
             toast.error(gettext('Auth key not available, please reset'))
           } else {
-            toast.error(err?.response?.data?.error?.message || '')
+            toast.error(err?.response?.data?.error?.message || err.message || '')
           }
 
-          setConfig({...config, isAuth: false})
           throw err
         })
     }
@@ -81,7 +86,7 @@ function reducer(state, action) {
         ...state,
         loading: true,
         error: null,
-        result: gettext('Generating content, takes about 10 seconds'),
+        result: gettext('Generating content, takes about a few seconds'),
       }
 
     case AI_REDUCER_ACTION_TYPE.SUCCESS:

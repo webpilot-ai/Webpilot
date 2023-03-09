@@ -1,8 +1,6 @@
 import {useStorage} from '@plasmohq/storage/hook'
 
-import {defaultConfig} from '@/config'
-
-const FLUENTIFY_CONFIG_STORAGE_KEY = 'FLUENTIFY_CONFIG'
+import {defaultConfig, FLUENTIFY_CONFIG_STORAGE_KEY} from '@/config'
 
 export default function useConfig() {
   const [config, setConfig] = useStorage(FLUENTIFY_CONFIG_STORAGE_KEY, val => {

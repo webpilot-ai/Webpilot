@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions'
+import {OPEN_AI_API} from '@/config'
 
 export function askOpenAI({authKey, model, prompt}) {
   model.messages = [{role: 'user', content: prompt}]

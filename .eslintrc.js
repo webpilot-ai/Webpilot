@@ -2,16 +2,10 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    commonjs: true,
   },
   ignorePatterns: ['!.*.js'],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-  },
   settings: {
-    react: {version: 'detect'},
     'import/resolver': {
       alias: {
         map: [
@@ -25,10 +19,10 @@ module.exports = {
   // plugins: ['@typescript-eslint'],
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'standard',
     'standard-jsx',
     'standard-react',
     'plugin:react/jsx-runtime',
+    'standard',
     'plugin:prettier/recommended',
   ],
   globals: {
@@ -36,6 +30,7 @@ module.exports = {
   },
   rules: {
     'react/prop-types': 'off',
+    'react/no-unknown-property': ['error', {ignore: ['jsx', 'global']}],
     'prettier/prettier': [
       'error',
       {

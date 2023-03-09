@@ -17,7 +17,8 @@ p,
 figure,
 blockquote,
 dl,
-dd {
+dd,
+section {
   margin: 0;
 }
 
@@ -55,5 +56,6 @@ input,
 button,
 textarea,
 select {
+  box-sizing: border-box;
   font: inherit;
 }

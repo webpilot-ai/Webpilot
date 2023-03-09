@@ -1,25 +1,34 @@
 import {gettext} from './utils'
 
+export const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions'
+
+export const FLUENTIFY_CONFIG_STORAGE_KEY = 'FLUENTIFY_CONFIG'
+
 export const ROUTE = {
-  POPUP_ENTRY_PANEL: '/',
-  POPUP_PRESET_PANEL: '/preset-panel',
-  POPUP_CUSTOM_PANEL: '/custom-panel',
+  PROMPT_BOARD_ENTRY_PANEL: '/',
+  PROMPT_BOARD_PRESET_PANEL: '/preset-panel',
+  PROMPT_BOARD_CUSTOM_PANEL: '/custom-panel',
 }
 
 export const defaultConfig = {
   authKey: '',
   isAuth: false,
-  latestRoute: ROUTE.POPUP_PRESET_PANEL,
+
+  autoPopup: true,
+  turboMode: false,
   customCommand: '',
+  latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL,
+  latestPresetPromptIndex: 0,
+
   prompts: [
     {
       title: gettext('Summarize'),
       command: gettext('Summarize and express these words concisely'),
     },
     {
-      title: gettext('Retouch'),
+      title: gettext('Refine'),
       command: gettext(
-        'Retouch text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure'
+        'Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure'
       ),
     },
     {
@@ -29,11 +38,10 @@ export const defaultConfig = {
       ),
     },
   ],
+
   model: {
     model: 'gpt-3.5-turbo',
-    temperature: 0,
-    max_tokens: 1024,
-    top_p: 1,
+    temperature: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
     stop: '<|endoftext|>',
@@ -42,4 +50,6 @@ export const defaultConfig = {
 
 export const MESSAGING_EVENT = {
   GET_SELECTED_TEXT: 'GET_SELECTED_TEXT',
+  SET_AUTO_POPUP: 'SET_AUTO_POPUP',
+  INVOKE_ASK_AI: 'INVOKE_ASK_AI',
 }
