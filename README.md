@@ -59,3 +59,19 @@ yarn dev
 4. 找到并选择 `build/chrome-mv3-dev` 文件夹。
 5. 将此扩展程序固定到 Chrome 工具栏上。
 6. 安装完成后，请先刷新要选中文字的页面，再使用本插件。
+
+## 其他
+
+希望 Fluentify 这个项目可以成为 GPT Coplit for X，一个傻瓜的、免费的生产力工具，AI for All。
+
+这几天我会完善出产品规划，及近期的迭代文档，感兴趣的朋友非常欢迎加入。无论是产品、设计、技术，都非常欢迎！
+
+这个项目正在参加即刻的 hackathon，我是里面的「葬花达人鲁智深」。非常希望能把提交 PR 的小伙伴写进 Contributors，如果你不介意。
+https://docs.qq.com/sheet/DTUJZSWVkTlBxY0ds
+
+感兴趣的话，可以加个微信（加的时候记得备注一下：Git来的，并附上一些必要的信息，比如身份、岗位啥的）
+
+![image](https://user-images.githubusercontent.com/6043666/224199335-55b16eee-1c04-43cd-985c-27ccec9ab731.png)
+
+
+
