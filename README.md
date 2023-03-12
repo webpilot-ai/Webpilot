@@ -32,7 +32,9 @@ Open your Chrome browser and load the appropriate development build：
 Welcome to contribute code for the following aspects:
 1. Multi-language support. You can refer to the locals file to perform more language adaptation.
 2. Add the "Fluentify" button to more websites. For example: https://github.com/Fluentify-IO/Fluentify/issues/new
-3. Other interesting features.
+- The button name is "Fluentify", and it uses the native design of the page. It is located next to buttons such as "Send", "Publish", "Submit", etc.
+- The placeholder for the input box is "Write prompt here, click Fluentify, get your content", and it can be adapted for multiple languages.
+4. Other interesting features.
 
 # 中文
 
@@ -69,6 +71,8 @@ yarn dev
 欢迎贡献以下方面的代码：
 1. 多语言支持。可以参考 locals 文件，进行更多的语言适配。
 2. 给更多的网站，加上【Fluentify】按钮。举个栗子： https://github.com/Fluentify-IO/Fluentify/issues/new
+- 按钮名称为【Fluentify】，使用页面原生的设计，位置在“发送”、“发布”、“提交”等按钮的旁边
+- 输入框的 placeholder 为“Write prompt here, click Fluentify, get your content”，可进行多语言适配
 3. 其他有趣的Feature
 
 
