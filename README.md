@@ -1,8 +1,8 @@
 # English
 
-Fluentify exists to make using ChatGPT easier, and this project will remain open source.
-
-Fluentify binds commonly used prompts to shortcut commands, and uses selected content from web pages to make API requests and display the results.
+Unlike ChatGPT, Fluentify doesn't require chatting or switching pages back and forth or copying and pasting content. Just select the text and everything is done.
+ 
+The current version of Fluentify is developed based on gpt-3.5-turbo, which binds some common prompts with shortcut commands, requests API, and displays results to manipulate the selected text on the webpage.
 
 Chrome Extension: [Click Me](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
@@ -37,10 +37,9 @@ Welcome to contribute code for the following aspects:
 4. Other interesting features.
 
 # 中文
+和 ChatGPT 不同，Fluentify 不需要进行Chat，也不需要来回切换页面或者复制粘贴内容。只需选中文本，一切就都搞定了。
 
-Fluentify 的存在是为了更简单地使用 ChatGPT，本项目将保持开源状态。
-
-Fluentify 将常用的 prompt 绑定到快捷指令，结合网页中的选中内容进行 API 请求，并将请求结果进行展示。
+当前版本的 Fluentify 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
 
 Chrome 插件：[查看](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
