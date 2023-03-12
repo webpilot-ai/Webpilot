@@ -29,6 +29,12 @@ Open your Chrome browser and load the appropriate development build：
 5. Pin this extension to your Chrome toolbar.
 6. After installation, please refresh the page where you want to select text before using this extension.
 
+## Welcome to Contribute Code
+Welcome to contribute code for the following aspects:
+1. Multi-language support. You can refer to the locals file to perform more language adaptation.
+2. Add the "Fluentify" button to more websites. For example: https://github.com/Fluentify-IO/Fluentify/issues/new
+3. Other interesting features.
+
 # 中文
 
 Fluentify 的存在是为了更简单地使用 ChatGPT，本项目将保持开源状态。
@@ -59,6 +65,15 @@ yarn dev
 4. 找到并选择 `build/chrome-mv3-dev` 文件夹。
 5. 将此扩展程序固定到 Chrome 工具栏上。
 6. 安装完成后，请先刷新要选中文字的页面，再使用本插件。
+
+
+
+## 欢迎贡献代码
+欢迎贡献以下方面的代码：
+1. 多语言支持。可以参考 locals 文件，进行更多的语言适配。
+2. 给更多的网站，加上【Fluentify】按钮。举个栗子： https://github.com/Fluentify-IO/Fluentify/issues/new
+3. 其他有趣的Feature
+
 
 ## 其他
 
