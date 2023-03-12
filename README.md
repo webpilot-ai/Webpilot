@@ -4,7 +4,7 @@ Fluentify exists to make using ChatGPT easier, and this project will remain open
 
 Fluentify binds commonly used prompts to shortcut commands, and uses selected content from web pages to make API requests and display the results.
 
-Chrome Extension:https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp
+Chrome Extension: [Click Me](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
 
 ## Getting Started
@@ -40,8 +40,7 @@ Fluentify 的存在是为了更简单地使用 ChatGPT，本项目将保持开�
 
 Fluentify 将常用的 prompt 绑定到快捷指令，结合网页中的选中内容进行 API 请求，并将请求结果进行展示。
 
-Chrome 插件：https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp
-
+Chrome 插件：[查看](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
 ## 入门指南
 
