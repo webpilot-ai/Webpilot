@@ -2,7 +2,7 @@
 
 
 
-# English
+# Fluentify
 
 Unlike ChatGPT, Fluentify doesn't require chatting or switching pages back and forth or copying and pasting content. Just select the text and everything is done.
  
