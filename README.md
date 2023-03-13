@@ -1,3 +1,7 @@
+# [致谢:感谢大哥们的赞助](#%E6%84%9F%E8%B0%A2%E5%A4%A7%E5%93%A5)
+
+
+
 # English
 
 Unlike ChatGPT, Fluentify doesn't require chatting or switching pages back and forth or copying and pasting content. Just select the text and everything is done.
@@ -91,4 +95,8 @@ https://docs.qq.com/sheet/DTUJZSWVkTlBxY0ds
 ![image](https://user-images.githubusercontent.com/6043666/224199335-55b16eee-1c04-43cd-985c-27ccec9ab731.png)
 
 
+# 感谢大哥！
+千想，万想，千万没想到，这个项目上线的不到24小时，就收到了两笔巨额赞助，分别为：
+- 陈芳洲，真格基金，10000元
+- 崔传荣，毫微科技&浙江省半导体协会，10000元
 
