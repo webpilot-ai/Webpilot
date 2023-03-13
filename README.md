@@ -41,7 +41,7 @@ Welcome to contribute code for the following aspects:
 3. If you find that Fluentify isn't working on some websites, please help us investigate the issue and submit the fix code.
 4. Other interesting features.
 
-# 中文
+# Fluentify
 和 ChatGPT 不同，Fluentify 不需要进行Chat，也不需要来回切换页面或者复制粘贴内容。只需选中文本，一切就都搞定了。
 
 当前版本的 Fluentify 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
