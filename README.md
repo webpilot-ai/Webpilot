@@ -10,6 +10,8 @@ The current version of Fluentify is developed based on gpt-3.5-turbo, which bind
 
 Chrome Extension: [Click Me](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
+[HomePage](https://www.fluentify.io/)
+
 
 ## Getting Started
 
@@ -47,6 +49,9 @@ Welcome to contribute code for the following aspects:
 当前版本的 Fluentify 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
 
 Chrome 插件：[查看](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
+
+[官网](https://www.fluentify.io/)
+
 
 ## 入门指南
 
