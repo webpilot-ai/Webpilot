@@ -16,7 +16,6 @@ module.exports = {
       },
     },
   },
-  // plugins: ['@typescript-eslint'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'standard-jsx',
@@ -31,6 +30,20 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/no-unknown-property': ['error', {ignore: ['jsx', 'global']}],
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always-and-inside-groups',
+        distinctGroup: false,
+        pathGroups: [
+          {
+            pattern: '@/**',
+            group: 'parent',
+            position: 'before',
+          },
+        ],
+      },
+    ],
     'prettier/prettier': [
       'error',
       {

@@ -1,7 +1,7 @@
 import '@assets/styles/base.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {ToastContainer} from 'react-toastify'
 import Modal from 'rc-dialog/es'
 import css from 'styled-jsx/css'
@@ -10,24 +10,19 @@ import {defaultConfig} from '@/config'
 import {gettext, toast} from '@/utils'
 
 import useConfig from '@/hooks/use-config'
+
 import Button, {BUTTON_TYPE} from '@/components/button'
 import {withAIContext} from '@/components/with-ai-context'
 
-import PromptSettings from './prompt-settings'
 import ModelSettings from './model-settings'
+import PromptSettings from './prompt-settings'
 
 export default withAIContext(function Options() {
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
-  const [resetModalVisible, setResetModalVisible] = useState(false)
   const {config, setConfig} = useConfig()
-
   const {prompts} = config
 
-  useEffect(() => {
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-      sendResponse('')
-    })
-  })
+  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [resetModalVisible, setResetModalVisible] = useState(false)
 
   const toggleResetModalVisible = () => setResetModalVisible(!resetModalVisible)
 

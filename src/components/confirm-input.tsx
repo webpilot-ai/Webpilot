@@ -1,6 +1,7 @@
 import CheckIcon from 'react:@assets/images/check.svg'
 
 import css from 'styled-jsx/css'
+
 import Button from './button'
 
 export default function ConfirmInput({

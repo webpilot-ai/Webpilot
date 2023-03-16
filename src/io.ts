@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import {OPEN_AI_API} from '@/config'
 
 export function askOpenAI({authKey, model, prompt}) {

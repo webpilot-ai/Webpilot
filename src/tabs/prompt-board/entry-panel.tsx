@@ -1,5 +1,3 @@
-import getAuthKeyImage from '~assets/images/get-auth-key.gif'
-
 import {useEffect, useState} from 'react'
 import css from 'styled-jsx/css'
 
@@ -11,6 +9,8 @@ import useAI from '@/hooks/use-ai'
 import PromptBoardHeader from '@/components/prompt-board-header'
 import ConfirmInput from '@/components/confirm-input'
 import {ROUTE} from '@/config'
+
+import getAuthKeyImage from '~assets/images/get-auth-key.gif'
 
 export default function EntryPanel() {
   const [inputValue, setInputValue] = useState('')

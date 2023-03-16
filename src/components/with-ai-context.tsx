@@ -1,10 +1,11 @@
 import {createContext, useReducer} from 'react'
+import {sendToContentScript} from '@plasmohq/messaging'
 
-import {MESSAGING_EVENT, ROUTE} from '@/config'
 import {askOpenAI} from '@/io'
 import {gettext, toast} from '@/utils'
+import {MESSAGING_EVENT, ROUTE} from '@/config'
+
 import useConfig from '@/hooks/use-config'
-import {sendToContentScript} from '@plasmohq/messaging'
 
 export const AIContext = createContext({ai: null, aiDispatch: null})
 

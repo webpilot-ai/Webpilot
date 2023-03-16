@@ -3,31 +3,34 @@ import cssText from 'data-text:./index.scss'
 import Logo from 'data-base64:~assets/icon.png'
 
 import {useEffect, useState} from 'react'
-import {useTextSelection} from 'ahooks'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 
 import {MESSAGING_EVENT} from '@/config'
+import {getSelectedText} from '@/utils'
+
 import useConfig from '@/hooks/use-config'
 
 export default function Index() {
+  const [selectedText, setSelectedText] = useState(() => getSelectedText())
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [floatingLogoVisible, setFloatingLogoVisible] = useState(false)
   const [floatingPosition, setFloatingPosition] = useState({clientX: 0, clientY: 0})
 
-  const selection = useTextSelection()
   const {config} = useConfig()
   const {isAuth, autoPopup, turboMode} = config
 
   useMessage((req, res) => {
     if (req.name === MESSAGING_EVENT.GET_SELECTED_TEXT) {
-      const selectedText = selection.text
+      const selectedText = getSelectedText()
       res.send(selectedText)
     }
   })
 
   useEffect(() => {
-    document.addEventListener('mouseup', e => {
+    window.addEventListener('mouseup', e => {
+      setSelectedText(getSelectedText())
+
       const {clientX, clientY} = e
       setTimeout(() => {
         setFloatingPosition({clientX, clientY})
@@ -36,8 +39,6 @@ export default function Index() {
   }, [])
 
   useEffect(() => {
-    const selectedText = selection.text?.trim()
-
     setTimeout(() => {
       if (autoPopup && isAuth) {
         setOverlayVisible(!!selectedText)
@@ -46,11 +47,9 @@ export default function Index() {
         setFloatingLogoVisible(!!selectedText && !overlayVisible)
       }
     }, 200)
-  }, [selection.text, autoPopup, overlayVisible, isAuth])
+  }, [selectedText, autoPopup, overlayVisible, isAuth])
 
   useEffect(() => {
-    const selectedText = selection.text?.trim()
-
     if (turboMode && selectedText) {
       setOverlayVisible(true)
 
@@ -59,7 +58,7 @@ export default function Index() {
         body: {selectedText},
       })
     }
-  }, [selection.text, turboMode])
+  }, [selectedText, turboMode])
 
   const showOverlay = () => {
     setOverlayVisible(true)

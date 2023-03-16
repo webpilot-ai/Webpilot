@@ -16,35 +16,27 @@ import Button, {BUTTON_TYPE} from '@/components/button'
 
 export default function ModelSettings() {
   const {config, setConfig} = useConfig()
-  const {ai, askAI} = useAI()
-
   const {authKey, model} = config
 
   const [form, setForm] = useState({...model, authKey})
-
   const [advanced, setAdvanced] = useState(false)
-
   const [inputtedAuthKey, setInputtedAuthKey] = useState('')
   const [authKeyModelVisible, setAuthKeyModelVisible] = useState(false)
+
+  const {ai, askAI} = useAI()
 
   useEffect(() => {
     setForm(form => ({...form, ...model, authKey}))
   }, [model, authKey])
-
-  const handleChangeAuthKey = e => {
-    const {value} = e.target
-
-    setInputtedAuthKey(value)
-  }
 
   const toggleAuthKeyModelVisible = () => {
     setAuthKeyModelVisible(!authKeyModelVisible)
     setInputtedAuthKey('')
   }
 
-  const toggleAdvanced = () => {
-    setAdvanced(!advanced)
-  }
+  const toggleAdvanced = () => setAdvanced(!advanced)
+
+  const handleChangeAuthKey = e => setInputtedAuthKey(e.target.value)
 
   const saveAuthKey = () => {
     form.authKey = inputtedAuthKey
@@ -60,6 +52,7 @@ export default function ModelSettings() {
         acc[key] = value
         return acc
       }, {})
+
     const model = {...defaultModel, ...currentModel}
 
     askAI({authKey: form.authKey, command: 'Say Hi.', onlyCommand: true}).then(() => {

@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import copyToClipboard from 'copy-to-clipboard'
 import css from 'styled-jsx/css'
 
+import {useMessage} from '@plasmohq/messaging/hook'
+
 import {MESSAGING_EVENT, ROUTE} from '@/config'
 import {gettext, toast} from '@/utils'
 
@@ -11,7 +13,6 @@ import useConfig from '@/hooks/use-config'
 import ConfirmInput from '@/components/confirm-input'
 import PromptBoardHeader from '@/components/prompt-board-header'
 import PromptBoardResult from '@/components/prompt-board-result'
-import {useMessage} from '@plasmohq/messaging/hook'
 
 export default function CustomPanel() {
   const {ai, askAI} = useAI()
