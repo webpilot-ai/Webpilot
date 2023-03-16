@@ -4,7 +4,7 @@
 
 # Fluentify
 
-Unlike ChatGPT, Fluentify doesn't require chatting or switching pages back and forth or copying and pasting content. Just select the text and everything is done.
+Fluentify is a free, versatile, open-source and more powerful Notion AI that can be embedded into your daily work. Unlike ChatGPT, Fluentify does not require chatting and there is no need to switch pages or copy/paste content back and forth. Simply select the text and everything is taken care of.
  
 The current version of Fluentify is developed based on gpt-3.5-turbo, which binds some common prompts with shortcut commands, requests API, and displays results to manipulate the selected text on the webpage.
 
@@ -44,7 +44,7 @@ Welcome to contribute code for the following aspects:
 4. Other interesting features.
 
 # Fluentify
-和 ChatGPT 不同，Fluentify 不需要进行Chat，也不需要来回切换页面或者复制粘贴内容。只需选中文本，一切就都搞定了。
+Fluentify 是一款免费、通用、开源并且更强大的 Notion AI，你可以把它嵌入到日常工作。Fluentify 也与ChatGPT 不同，它并不需要进行Chat，也不需要来回切换页面或者复制粘贴内容。只需选中文本，一切就都搞定了。
 
 当前版本的 Fluentify 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
 
