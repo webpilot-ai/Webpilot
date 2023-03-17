@@ -1,3 +1,4 @@
+import {useCallback, useEffect} from 'react'
 import CheckIcon from 'react:@assets/images/check.svg'
 
 import css from 'styled-jsx/css'
@@ -12,12 +13,35 @@ export default function ConfirmInput({
   handleChangeInput = () => null,
   onConfirm = () => null,
 }) {
+  const keydownHandler = useCallback(
+    e => {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        onConfirm(value)
+      }
+    },
+    [onConfirm, value]
+  )
+
+  useEffect(() => {
+    return document.removeEventListener('keydown', keydownHandler)
+  }, [keydownHandler])
+
+  const addKeydownEventListener = () => {
+    document.addEventListener('keydown', keydownHandler)
+  }
+
+  const removeKeydownEventListener = () => {
+    document.removeEventListener('keydown', keydownHandler)
+  }
+
   return (
     <section className="confirm-input">
       <input
         placeholder={placeholder}
         className="input"
         onChange={handleChangeInput}
+        onFocus={addKeydownEventListener}
+        onBlur={removeKeydownEventListener}
         value={value}
       />
 

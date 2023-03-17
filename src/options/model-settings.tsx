@@ -93,9 +93,9 @@ export default function ModelSettings() {
           <>
             <FiledItem
               inputSettings={{type: 'number', min: 0, max: 1, step: 0.1}}
-              name="temperature"
-              title="temperature (0 ~ 2, default: 1)"
-              placeholder="1"
+              name="top_p"
+              title="top_p (0 ~ 1, default: 0.9)"
+              placeholder="0.9"
               form={form}
             />
             <FiledItem

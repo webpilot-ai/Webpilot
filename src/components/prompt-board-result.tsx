@@ -44,7 +44,7 @@ export default function PromptBoardResult({placeholder = ''}) {
     const text = ai.result?.trim()
 
     if (text.length) {
-      if (copyToClipboard(text)) {
+      if (copyToClipboard(text, {format: 'text/plain'})) {
         toast.success(gettext('Copy succeeded'), {position: 'bottom-center', autoClose: 600})
       }
     }

@@ -36,7 +36,7 @@ export default function PromptList() {
 
       askAI({command, text: selectedText})
         .then(res => {
-          if (copyToClipboard(res)) {
+          if (copyToClipboard(res, {format: 'text/plain'})) {
             toast.success(gettext('Copy succeeded'), {position: 'bottom-center', autoClose: 600})
           }
         })

@@ -63,11 +63,17 @@ export default function EntryPanel() {
           <div>{gettext('You can also follow the instructions below to get started:')}</div>
         </div>
 
-        <div className="guide">
-          <a href={getAuthKeyImage} target="_blank" rel="noreferrer">
-            <img src={getAuthKeyImage} />
-          </a>
-        </div>
+        {ai.loading ? (
+          <div className="loader-container">
+            <span className="loader" />
+          </div>
+        ) : (
+          <div className="guide">
+            <a href={getAuthKeyImage} target="_blank" rel="noreferrer">
+              <img src={getAuthKeyImage} />
+            </a>
+          </div>
+        )}
       </section>
 
       <style jsx>{styles}</style>
@@ -105,5 +111,32 @@ const styles = css`
     margin-top: 20px;
     background: #ddd;
     border-radius: 10px;
+  }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+  }
+
+  .loader {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    border: 5px solid #fff;
+    border-bottom-color: #ff3d00;
+    border-radius: 50%;
+    animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `

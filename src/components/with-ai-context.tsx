@@ -63,7 +63,13 @@ export function withAIContext(Component) {
             setConfig({...config, latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL, isAuth: false})
             toast.error(gettext('Auth key not available, please reset'))
           } else {
-            toast.error(err?.response?.data?.error?.message || err.message || '')
+            let errorMsg = err.message || ''
+
+            if (err?.response?.data?.error?.message) {
+              errorMsg = `OpenAI: ${err.response.data.error.message}`
+            }
+
+            toast.error(errorMsg)
           }
 
           throw err

@@ -14,7 +14,7 @@ export const defaultConfig = {
   authKey: '',
   isAuth: false,
 
-  autoPopup: true,
+  autoPopup: false,
   turboMode: false,
   customCommand: '',
   latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL,
@@ -42,6 +42,7 @@ export const defaultConfig = {
   model: {
     model: 'gpt-3.5-turbo',
     temperature: 1,
+    top_p: 0.9,
     frequency_penalty: 0,
     presence_penalty: 0,
     stop: '<|endoftext|>',
