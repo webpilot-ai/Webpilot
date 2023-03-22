@@ -6,6 +6,7 @@ import Tooltip from 'rc-tooltip/es'
 import copyToClipboard from 'copy-to-clipboard'
 
 import css from 'styled-jsx/css'
+import {useMessage} from '@plasmohq/messaging/hook'
 
 import {gettext, toast} from '@/utils'
 
@@ -15,12 +16,25 @@ import useConfig from '@/hooks/use-config'
 import Button, {BUTTON_TYPE} from '@/components/button'
 import {AI_REDUCER_ACTION_TYPE} from '@/components/with-ai-context'
 
+import {MESSAGING_EVENT} from '@/config'
+
 export default function PromptBoardResult({placeholder = ''}) {
-  const [value, setValue] = useState()
+  const [value, setValue] = useState('')
 
   const {ai, aiDispatch} = useAI()
   const {config, setConfig} = useConfig()
   const {turboMode} = config
+
+  useMessage((req, res) => {
+    const {name} = req
+    if (name === MESSAGING_EVENT.CLEAN_DATA) {
+      cleanData()
+    }
+  })
+
+  const cleanData = () => {
+    setValue('')
+  }
 
   const showRecommendationText = () => {
     const result = gettext(
@@ -50,94 +64,96 @@ export default function PromptBoardResult({placeholder = ''}) {
     }
   }
 
-  return (
-    <section className="prompt-board-result">
-      <section onClick={showRecommendationText} className="recommendation">
-        {gettext('Amazing Fluentify, telling friends!')}
-      </section>
-
-      <section className="result-container">
-        <Tooltip
-          placement="left"
-          trigger="hover"
-          showArrow={false}
-          overlay={
-            <span>{turboMode ? gettext('Turbo Mode: ON') : gettext('Turbo Mode: OFF')}</span>
-          }
-        >
-          <section onClick={toggleTurboMode} className="turbo-mode">
-            {turboMode ? <TurboOnIcon /> : <TurboOffIcon />}
-          </section>
-        </Tooltip>
-
-        <textarea value={value} className="textarea" placeholder={placeholder} />
-
-        <section className="copy">
-          <Button type={BUTTON_TYPE.PRIMARY} text={gettext('Copy')} onClick={copy} />
+  if (value) {
+    return (
+      <section className="prompt-board-result">
+        <section onClick={showRecommendationText} className="recommendation">
+          {/* FIXME */}
+          Webpilot Says:
         </section>
+
+        <section className="result-container">
+          <textarea readOnly value={value} className="textarea" placeholder={placeholder} />
+
+          <section className="copy">
+            <a target="_blank" className="share-link" href="">
+              Amazing Webpilot, telling friends!
+            </a>
+            <Button
+              width="48px"
+              height="24px"
+              type={BUTTON_TYPE.PRIMARY}
+              text={gettext('Copy')}
+              onClick={copy}
+            />
+          </section>
+        </section>
+        <style jsx>{styles}</style>
       </section>
-      <style jsx>{styles}</style>
-    </section>
-  )
+    )
+  }
+
+  return <></>
 }
 
 const styles = css`
   .prompt-board-result {
-    margin-top: 6px;
-  }
-
-  .recommendation {
-    margin-bottom: 14px;
-    color: #c4c4c4;
-    font-size: 16px;
-    text-decoration-line: underline;
-    line-height: 22px;
-    text-align: center;
-    cursor: pointer;
+    margin-top: 12px;
   }
 
   .result-container {
     position: relative;
     box-sizing: border-box;
-    height: 340px;
-    padding: 32px 0 14px;
     background-color: #fff;
-    border-radius: 10px;
-  }
 
-  .turbo-mode {
-    position: absolute;
-    top: 8px;
-    right: 14px;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+    .title {
+      font-weight: normal;
+      font-size: 12px;
+      color: #777;
+      line-height: 17px;
+    }
   }
 
   .textarea {
-    display: block;
+    margin-top: 4px;
+    padding: 10px 12px;
     width: 100%;
-    height: 236px;
-    padding: 0 20px;
-    color: #777;
-    font-size: 16px;
-    line-height: 24px;
-    border: none;
-    outline: none;
+    height: 104px;
+    border-radius: 5px;
+    border: 1px solid #dadada;
+    color: #000;
     resize: none;
 
-    &::placeholder {
-      color: #c4c4c4;
+    &:focus-visible {
+      outline: none;
     }
 
     &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-button {
       display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: lightgray;
     }
   }
 
   .copy {
-    width: 160px;
-    margin: 18px auto 0;
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    margin-top: 8px;
+
+    .share-link {
+      margin-right: auto;
+      &:visited {
+        color: #777;
+      }
+    }
   }
 
   .coustom {
@@ -150,5 +166,10 @@ const styles = css`
     text-align: center;
     text-decoration-line: underline;
     cursor: pointer;
+  }
+`
+
+const globalStyles = css.global`
+  .button {
   }
 `

@@ -56,7 +56,7 @@ export function noop() {
 
 const toastConfig = {
   position: 'top-center',
-  style: {width: '80%', margin: '125px auto'},
+  style: {width: '80%', margin: '60px auto'},
   autoClose: 1000, // ms
   limit: 1,
   hideProgressBar: true,

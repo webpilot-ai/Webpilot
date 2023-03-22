@@ -93,7 +93,7 @@ function reducer(state, action) {
         ...state,
         loading: true,
         error: null,
-        result: gettext('Generating content, takes about a few seconds'),
+        result: null,
       }
 
     case AI_REDUCER_ACTION_TYPE.SUCCESS:

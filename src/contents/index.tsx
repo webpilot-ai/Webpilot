@@ -16,20 +16,36 @@ export default function Index() {
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [floatingLogoVisible, setFloatingLogoVisible] = useState(false)
   const [floatingPosition, setFloatingPosition] = useState({clientX: 0, clientY: 0})
+  const [iframeHeight, setIFrameHeight] = useState(142)
 
   const {config} = useConfig()
   const {isAuth, autoPopup, turboMode} = config
 
-  useMessage((req, res) => {
+  useMessage<number, string>((req, res) => {
     if (req.name === MESSAGING_EVENT.GET_SELECTED_TEXT) {
       const selectedText = getSelectedText()
       res.send(selectedText)
+    }
+
+    if (req.name === MESSAGING_EVENT.SYNC_FRAME_HEIGHT) {
+      setIFrameHeight(req.body)
+    }
+
+    if (req.name === MESSAGING_EVENT.HIDE_OVERLAY) {
+      hideOverLay()
+      setFloatingLogoVisible(true)
     }
   })
 
   useEffect(() => {
     window.addEventListener('mouseup', e => {
-      setSelectedText(getSelectedText())
+      const selectedText = getSelectedText()
+      setSelectedText(selectedText)
+
+      sendToBackground({
+        name: MESSAGING_EVENT.SYNC_SELECTED_TEXT,
+        body: selectedText,
+      })
 
       const {clientX, clientY} = e
       setTimeout(() => {
@@ -43,7 +59,7 @@ export default function Index() {
       if (autoPopup && isAuth) {
         setOverlayVisible(!!selectedText)
       } else {
-        !selectedText && setOverlayVisible(false)
+        !selectedText && hideOverLay()
         setFloatingLogoVisible(!!selectedText && !overlayVisible)
       }
     }, 200)
@@ -53,10 +69,10 @@ export default function Index() {
     if (turboMode && selectedText) {
       setOverlayVisible(true)
 
-      sendToBackground({
-        name: MESSAGING_EVENT.INVOKE_ASK_AI,
-        body: {selectedText},
-      })
+      // sendToBackground({
+      //   name: MESSAGING_EVENT.INVOKE_ASK_AI,
+      //   body: {selectedText},
+      // })
     }
   }, [selectedText, turboMode])
 
@@ -67,12 +83,29 @@ export default function Index() {
     }, 400)
   }
 
+  const hideOverLay = () => {
+    setOverlayVisible(false)
+    sendToBackground({name: MESSAGING_EVENT.CLEAN_DATA})
+  }
+
   const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
   return (
-    <section className={`container ${overlayVisible && 'container-visible'}`}>
+    <section
+      className={`container ${overlayVisible && 'container-visible'}`}
+      style={{
+        left: `${floatingPosition.clientX - 225}px`,
+        top: `${floatingPosition.clientY + 24}px`,
+      }}
+    >
       {popupURL ? (
+        // FIXME: add fade in out animation
         <iframe
           className="iframe"
+          style={{
+            display: overlayVisible ? 'block' : 'none',
+            height: `${iframeHeight}px`,
+            opacity: overlayVisible ? 1 : 0,
+          }}
           src={chrome?.runtime?.getURL('tabs/prompt-board.html')}
           frameBorder="0"
         />

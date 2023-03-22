@@ -1,12 +1,13 @@
 import css from 'styled-jsx/css'
 
+import PromptBoard from './tabs/prompt-board'
+
 export default function Popup() {
-  const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
+  // const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
 
   return (
     <section className="popup">
-      {popupURL ? <iframe src={popupURL} className="iframe" frameBorder="0" /> : null}
-
+      <PromptBoard />
       <style jsx>{styles}</style>
       <style jsx global>
         {globalStyles}
@@ -17,15 +18,15 @@ export default function Popup() {
 
 const styles = css`
   .popup {
-    width: 400px;
-    height: 594px;
+    width: 360px;
+    /* height: 376px; */
     overflow: hidden;
     box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
   }
 
   .iframe {
-    width: 400px;
-    height: 594px;
+    width: 360px;
+    height: 376px;
     overflow: hidden;
     border: none;
   }

@@ -1,18 +1,19 @@
-import {useCallback, useEffect} from 'react'
-import CheckIcon from 'react:@assets/images/check.svg'
+import {useCallback, useEffect, useState} from 'react'
+import CheckIcon from 'react:@assets/images/vector.svg'
+import LoadingIcon from 'react:@assets/images/loading.svg'
 
 import css from 'styled-jsx/css'
-
-import Button from './button'
 
 export default function ConfirmInput({
   value = '',
   placeholder = '',
   loading = false,
   disabled = false,
-  handleChangeInput = () => null,
+  handleChangeInput = e => null,
   onConfirm = () => null,
 }) {
+  const [isActive, setActive] = useState(false)
+
   const keydownHandler = useCallback(
     e => {
       if (e.key === 'Enter' || e.keyCode === 13) {
@@ -27,16 +28,19 @@ export default function ConfirmInput({
   }, [keydownHandler])
 
   const addKeydownEventListener = () => {
+    setActive(true)
     document.addEventListener('keydown', keydownHandler)
   }
 
   const removeKeydownEventListener = () => {
+    setActive(false)
     document.removeEventListener('keydown', keydownHandler)
   }
 
   return (
-    <section className="confirm-input">
+    <section className={`confirm-input ${isActive && 'confirm-input--active'}`}>
       <input
+        disabled={loading}
         placeholder={placeholder}
         className="input"
         onChange={handleChangeInput}
@@ -44,19 +48,16 @@ export default function ConfirmInput({
         onBlur={removeKeydownEventListener}
         value={value}
       />
-
       <div className="confirm">
-        <Button
-          compact
-          type="primary"
-          loading={loading}
-          disabled={disabled}
+        <button
+          disabled={loading}
+          className={`send-btn ${isActive && (value !== '' || placeholder !== '') && 'active'} ${
+            loading && 'loading'
+          }`}
           onClick={() => onConfirm(value)}
         >
-          <div className="icon">
-            <CheckIcon />
-          </div>
-        </Button>
+          {loading ? <LoadingIcon className="loading" /> : <CheckIcon className="icon" />}
+        </button>
       </div>
 
       <style jsx>{styles}</style>
@@ -66,37 +67,68 @@ export default function ConfirmInput({
 
 const styles = css`
   .confirm-input {
+    position: relative;
     display: flex;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 32px;
+    margin-top: 12px;
+  }
+
+  //TODO: Bug fix
+  .confirm-input--active {
+    border-bottom: 1px solid #2d5eae;
   }
 
   .input {
     display: block;
     width: 100%;
-    height: 40px;
     padding: 0 12px;
     color: #777;
     font-size: 16px;
     line-height: 40px;
     border: none;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     outline: none;
+    font-size: 12px;
 
     &::placeholder {
-      color: #c4c4c4;
+      font-size: 12px;
+      color: #777777;
     }
   }
 
   .confirm {
     flex: none;
-    width: 60px;
+    width: 40px;
+
+    .send-btn {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background-color: rgba(0, 0, 0, 0);
+      fill: #dadada;
+
+      &.active {
+        fill: #2d5eae;
+      }
+      &.loading {
+        cursor: not-allowed;
+        animation: rotation 1s infinite linear;
+      }
+    }
   }
 
-  .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
   }
 `

@@ -4,15 +4,20 @@
 }
 
 .container {
+  border-radius: 10px;
   position: fixed !important;
   top: 80px;
   right: -500px;
   z-index: 99999999999;
-  width: 400px;
-  height: 594px;
+  width: 450px;
+  // height: 594px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
   transition: all 0.3s ease;
+
+  &::-webkit-scrollbar{
+    display: none;
+  }
 }
 
 .container-visible {
@@ -20,10 +25,11 @@
 }
 
 .iframe {
-  width: 400px;
-  height: 594px;
+  width: 100%;
   overflow: hidden;
   border: none;
+  background-color: white;
+  transition: all 0.3s;
 }
 
 .floating-logo-container {

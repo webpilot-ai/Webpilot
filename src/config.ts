@@ -10,6 +10,11 @@ export const ROUTE = {
   PROMPT_BOARD_CUSTOM_PANEL: '/custom-panel',
 }
 
+export interface Prompt {
+  title: string
+  command: string
+}
+
 export const defaultConfig = {
   authKey: '',
   isAuth: false,
@@ -37,7 +42,7 @@ export const defaultConfig = {
         'Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence'
       ),
     },
-  ],
+  ] as Prompt[],
 
   model: {
     model: 'gpt-3.5-turbo',
@@ -53,4 +58,8 @@ export const MESSAGING_EVENT = {
   GET_SELECTED_TEXT: 'GET_SELECTED_TEXT',
   SET_AUTO_POPUP: 'SET_AUTO_POPUP',
   INVOKE_ASK_AI: 'INVOKE_ASK_AI',
+  SYNC_FRAME_HEIGHT: 'SYNC_FRAME_HEIGHT',
+  SYNC_SELECTED_TEXT: 'SYNC_SELECTED_TEXT',
+  HIDE_OVERLAY: 'HIDE_OVERLAY',
+  CLEAN_DATA: 'CLEAN_DATA',
 }

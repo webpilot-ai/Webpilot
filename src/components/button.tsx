@@ -1,19 +1,19 @@
 import 'rc-tooltip/assets/bootstrap.css'
-import QuestionCircleIcon from 'react:@assets/images/question-circle.svg'
 
-import Tooltip from 'rc-tooltip/es'
 import css from 'styled-jsx/css'
 
 const noop = () => null
 
 export default function Button({
+  width = null,
+  height = null,
   type = BUTTON_TYPE.DEFAULT,
+  active = false,
   disabled = false,
   loading = false,
   selected = false,
-  compact = false,
+  compact = true,
   text = '',
-  tooltip = '',
   Icon = null,
   border = false,
   children = null,
@@ -21,29 +21,16 @@ export default function Button({
 }) {
   return (
     <button
+      style={{width, height}}
       className={`button ${type} ${compact && 'compact'}
       ${disabled && 'disabled'} ${loading && 'loading'} ${selected && 'selected'}
-      ${border && 'withBorder'} ${tooltip && 'withTooltip'} ${!disabled && 'withInteractive'}`}
+      ${border && 'withBorder'}  ${!disabled && 'withInteractive'}`}
       onClick={disabled ? noop : onClick}
     >
-      {loading ? (
-        <span className="loader" />
-      ) : (
-        children || (
-          <>
-            <span>{text}</span>
-            {tooltip ? (
-              <Tooltip
-                placement="bottom"
-                trigger="hover"
-                showArrow={false}
-                overlay={<span>{tooltip}</span>}
-              >
-                <span className="icon">{Icon ? <Icon /> : <QuestionCircleIcon />}</span>
-              </Tooltip>
-            ) : null}
-          </>
-        )
+      {children || (
+        <>
+          <span>{text}</span>
+        </>
       )}
       <style jsx>{styles}</style>
     </button>
@@ -61,52 +48,64 @@ const styles = css`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 40px;
+    min-height: 20px;
     padding: 8px 14px;
     color: #7d7d7d;
-    font-size: 16px;
+    font-size: 10px;
     text-align: center;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     outline: none;
     cursor: pointer;
 
     &.default {
+      color: #4f5aff;
+      border: 1px solid #4f5aff;
       background-color: #fff;
+
+      &:hover {
+        color: #4128d3;
+        border-color: #4128d3;
+      }
+
+      &:active {
+        color: #1a039f;
+        border-color: #1a039f;
+        background-color: #9cb2ff;
+      }
     }
 
     &.primary {
-      background-color: #f3e0c2;
+      background-color: #4f5aff;
+      color: #fff;
+
+      &:hover {
+        background-color: #4128d3;
+      }
+      &:active {
+        background-color: #1a039f;
+      }
     }
 
     &.compact {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+      height: 20px;
+      padding: 1px 8px;
     }
 
     &.disabled {
-      color: #a6a6a6;
-      background-color: #ddd;
-    }
+      border: 1px solid #8f95b5;
+      background-color: #e8ebfa;
+      color: #888fb8;
 
-    &.withTooltip {
-      justify-content: space-between;
+      &:hover {
+        cursor: not-allowed;
+      }
     }
 
     &.withBorder {
       border-color: #a6a6a6;
       border-style: solid;
       border-width: 1px;
-    }
-
-    &.withInteractive {
-      &:hover {
-        background-color: #e6cfab !important;
-      }
-
-      &:active {
-        background-color: #dec194 !important;
-      }
     }
 
     &.loading {
@@ -122,15 +121,7 @@ const styles = css`
     }
 
     &.selected {
-      background-color: #dec194;
-
-      &:hover {
-        background-color: #dec194 !important;
-      }
-
-      &:active {
-        background-color: #dec194 !important;
-      }
+      background-color: #9cb2ff;
     }
   }
 

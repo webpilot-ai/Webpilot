@@ -26,7 +26,6 @@ export default withAIContext(function Index() {
     <div className="container">
       <Panel />
       <ToastContainer limit={1} />
-
       <style jsx>{styles}</style>
       <style jsx global>
         {globalStyles}
@@ -38,10 +37,8 @@ export default withAIContext(function Index() {
 const styles = css`
   .container {
     position: relative;
-    width: 400px;
-    padding: 20px;
-    background-color: #f7f3ea;
-    transform: translate3d(0, 0, 0);
+    width: 100%;
+    transition: all 0.5;
   }
 `
 

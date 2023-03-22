@@ -49,32 +49,34 @@ export default function EntryPanel() {
         />
       </section>
 
-      <section>
-        <div className="tips">
-          {gettext('You can find your auth key on the OpenAI website:')}{' '}
-          <a
-            className="link"
-            href="https://platform.openai.com/account/api-keys"
-            target="_blank"
-            rel="noreferrer"
-          >
-            https://platform.openai.com/account/api-keys
-          </a>{' '}
-          <div>{gettext('You can also follow the instructions below to get started:')}</div>
-        </div>
-
-        {ai.loading ? (
-          <div className="loader-container">
-            <span className="loader" />
-          </div>
-        ) : (
-          <div className="guide">
-            <a href={getAuthKeyImage} target="_blank" rel="noreferrer">
-              <img src={getAuthKeyImage} />
+      {ai.loading ? null : (
+        <section>
+          <div className="tips">
+            {gettext('You can find your auth key on the OpenAI website:')}{' '}
+            <a
+              className="link"
+              href="https://platform.openai.com/account/api-keys"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://platform.openai.com/account/api-keys
             </a>
+            <div>{gettext('You can also follow the instructions below to get started:')}</div>
           </div>
-        )}
-      </section>
+
+          {ai.loading ? (
+            <div className="loader-container">
+              <span className="loader" />
+            </div>
+          ) : (
+            <div className="guide">
+              <a href={getAuthKeyImage} target="_blank" rel="noreferrer">
+                <img src={getAuthKeyImage} />
+              </a>
+            </div>
+          )}
+        </section>
+      )}
 
       <style jsx>{styles}</style>
     </section>
@@ -84,21 +86,24 @@ export default function EntryPanel() {
 const styles = css`
   .entry-panel {
     width: 100%;
-    height: 554px;
+    padding: 10px;
   }
 
   .confirm-input {
-    margin: 28px 0;
+    margin: 12px 0;
   }
 
   .tips {
-    padding: 12px 0;
     color: #c4c4c4;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 12px;
+    line-height: 16.8px;
+    height: 68px;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
 
     div {
-      margin-top: 12px;
+      margin-top: auto;
     }
   }
 
@@ -107,9 +112,10 @@ const styles = css`
   }
 
   .guide {
-    height: 202px;
-    margin-top: 20px;
-    background: #ddd;
+    height: 180px;
+    margin: 0 8px;
+    margin-top: 15px;
+    /* background: #ddd; */
     border-radius: 10px;
   }
 
