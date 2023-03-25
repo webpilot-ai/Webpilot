@@ -12,6 +12,7 @@ Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/flue
 
 Official Website: [HomePage](https://www.fluentify.io/)
 
+Note: Fluentify is a project code name and currently in demo version. It will be renamed and officially launched within the next month (we will remain open source and free).
 
 ## Getting Started
 
@@ -51,6 +52,8 @@ Fluentify是一个免费、开源的“Copilot for web”。与ChatGPT不同，�
 Chrome 插件：[获取](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
 Fluentify 官网：[访问](https://www.fluentify.io/)
+
+注意：Fluentify 是项目代号，目前仍处是Demo版本，会在最近1个月内改名并推出正式版（我们会保持开源&免费）。
 
 
 ## 入门指南
@@ -101,7 +104,7 @@ https://docs.qq.com/sheet/DTUJZSWVkTlBxY0ds
 
 
 # 感谢大哥！
-千想，万想，千万没想到，这个项目上线的不到24小时，就收到了两笔巨额打赏，分别为：
+千想，万想，千万没想到，这个项目作为Demo上线的不到24小时内，就收到了两笔巨额打赏，分别为：
 - f.chen，10000元
 - 崔传荣，毫微科技&浙江省半导体协会，10000元
 
