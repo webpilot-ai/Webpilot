@@ -1,5 +1,6 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import css from 'styled-jsx/css'
+import {sendToContentScript} from '@plasmohq/messaging'
 
 import {gettext} from '@/utils'
 
@@ -8,7 +9,7 @@ import useAI from '@/hooks/use-ai'
 
 import PromptBoardHeader from '@/components/prompt-board-header'
 import ConfirmInput from '@/components/confirm-input'
-import {ROUTE} from '@/config'
+import {MESSAGING_EVENT, ROUTE} from '@/config'
 
 import getAuthKeyImage from '~assets/images/get-auth-key.gif'
 
@@ -19,12 +20,34 @@ export default function EntryPanel() {
   const {config, setConfig} = useConfig()
   const {ai, askAI} = useAI()
 
+  const element = useRef()
+
+  const resizeObserver = new ResizeObserver(() => {
+    const currentHeight = element.current?.clientHeight
+    const currentWIdth = element.current?.clientWidth
+    sendToContentScript({
+      name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
+      body: {
+        width: currentWIdth,
+        height: currentHeight,
+      },
+    })
+  })
+
+  useEffect(() => {
+    resizeObserver.observe(element.current)
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
   useEffect(() => {
     setDisabled(!inputValue || ai.loading)
   }, [inputValue, ai.loading])
 
   const setAuthKey = authKey => {
     askAI({authKey, command: 'Say hi.', onlyCommand: true}).then(() => {
+      sendToContentScript({name: MESSAGING_EVENT.HIDE_OVERLAY})
       setConfig({...config, authKey, isAuth: true, latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL})
     })
   }
@@ -35,11 +58,12 @@ export default function EntryPanel() {
   }
 
   return (
-    <section className="entry-panel">
+    <section className="entry-panel" ref={element}>
       <PromptBoardHeader />
 
       <section className="confirm-input">
         <ConfirmInput
+          autoFocus
           value={inputValue}
           disabled={disabled}
           loading={ai.loading}
@@ -79,13 +103,14 @@ export default function EntryPanel() {
       )}
 
       <style jsx>{styles}</style>
+      <style jsx>{globalStyles}</style>
     </section>
   )
 }
 
 const styles = css`
   .entry-panel {
-    width: 100%;
+    width: 360px;
     padding: 10px;
   }
 
@@ -112,6 +137,7 @@ const styles = css`
   }
 
   .guide {
+    width: 320px;
     height: 180px;
     margin: 0 8px;
     margin-top: 15px;
@@ -144,5 +170,11 @@ const styles = css`
     100% {
       transform: rotate(360deg);
     }
+  }
+`
+
+const globalStyles = css.global`
+  body {
+    overflow: hidden;
   }
 `

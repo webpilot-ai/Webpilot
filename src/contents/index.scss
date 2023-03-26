@@ -7,21 +7,26 @@
   border-radius: 10px;
   position: fixed !important;
   top: 80px;
-  right: -500px;
   z-index: 99999999999;
-  width: 450px;
-  // height: 594px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
-  transition: all 0.3s ease;
+  transition: all 0.2s linear;
 
   &::-webkit-scrollbar{
     display: none;
+  }
+
+  &.entry{
+    width: 360px;
+    top:4px;
+    right: 25px;
   }
 }
 
 .container-visible {
   right: 0;
+  opacity: 1;
+  width: 450px;
 }
 
 .iframe {

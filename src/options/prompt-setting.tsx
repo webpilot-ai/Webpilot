@@ -14,13 +14,9 @@ export default function PromptSettings({
   onMoveUp = () => null,
   onMoveDown = () => null,
 }) {
-  const [promptInfo, setpromptInfo] = useState<{
-    title: string
-    command: string
-  }>(prompt as any)
+  const [promptInfo, setpromptInfo] = useState(prompt as any)
 
   const [isEditing, setIsEditing] = useState(false)
-  const [testareaHight, setTextareaHight] = useState(58)
 
   const itemRef = useRef<HTMLElement>()
   const teatareaRef = useRef<HTMLTextAreaElement>()
@@ -42,6 +38,14 @@ export default function PromptSettings({
     document.addEventListener('mouseup', handleClickOutside)
   }
 
+  useEffect(() => {
+    if (isEditing) {
+      document.addEventListener('mouseup', handleClickOutside)
+    } else {
+      document.removeEventListener('mouseup', handleClickOutside)
+    }
+  }, [isEditing])
+
   const handleTitleChange = e => {
     setpromptInfo({...promptInfo, title: e.target.value})
   }
@@ -56,7 +60,7 @@ export default function PromptSettings({
   }
 
   const updateTextArea = () => {
-    //FIXME: hack here
+    //FIXME: hack here, replace with editable element
     setTimeout(() => {
       teatareaRef.current.style.cssText = 'height: auto; padding 0px;'
       teatareaRef.current.style.cssText = `height: ${

@@ -1,18 +1,20 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import CheckIcon from 'react:@assets/images/vector.svg'
 import LoadingIcon from 'react:@assets/images/loading.svg'
 
 import css from 'styled-jsx/css'
 
 export default function ConfirmInput({
-  value = '',
+  command = '',
   placeholder = '',
   loading = false,
   disabled = false,
-  handleChangeInput = e => null,
+  autoFocus = false,
   onConfirm = () => null,
 }) {
+  const inputRef = useRef()
   const [isActive, setActive] = useState(false)
+  const [value, setValue] = useState(command)
 
   const keydownHandler = useCallback(
     e => {
@@ -27,6 +29,10 @@ export default function ConfirmInput({
     return document.removeEventListener('keydown', keydownHandler)
   }, [keydownHandler])
 
+  useEffect(() => {
+    setValue(command)
+  }, [command])
+
   const addKeydownEventListener = () => {
     setActive(true)
     document.addEventListener('keydown', keydownHandler)
@@ -37,9 +43,16 @@ export default function ConfirmInput({
     document.removeEventListener('keydown', keydownHandler)
   }
 
+  const handleChangeInput = e => {
+    const {value} = e.target
+    setValue(value)
+  }
+
   return (
     <section className={`confirm-input ${isActive && 'confirm-input--active'}`}>
       <input
+        ref={inputRef}
+        autoFocus={autoFocus}
         disabled={loading}
         placeholder={placeholder}
         className="input"

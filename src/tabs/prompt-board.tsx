@@ -10,12 +10,14 @@ import {withAIContext} from '@/components/with-ai-context'
 
 import EntryPanel from './prompt-board/entry-panel'
 import PresetPanel from './prompt-board/preset-panel'
-import CustomPanel from './prompt-board/custom-panel'
+// import CustomPanel from './prompt-board/custom-panel'
+import AskPage from './prompt-board/ask-page'
 
 const PANEL = {
   [ROUTE.PROMPT_BOARD_ENTRY_PANEL]: EntryPanel,
   [ROUTE.PROMPT_BOARD_PRESET_PANEL]: PresetPanel,
-  [ROUTE.PROMPT_BOARD_CUSTOM_PANEL]: CustomPanel,
+  // [ROUTE.PROMPT_BOARD_CUSTOM_PANEL]: CustomPanel,
+  [ROUTE.PROMOT_ASK_PAGE_PANEL]: AskPage,
 }
 
 export default withAIContext(function Index() {

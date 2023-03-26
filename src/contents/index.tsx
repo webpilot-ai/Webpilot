@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 
-import {MESSAGING_EVENT} from '@/config'
+import {MESSAGING_EVENT, ROUTE} from '@/config'
 import {getSelectedText} from '@/utils'
 
 import useConfig from '@/hooks/use-config'
@@ -17,8 +17,11 @@ export default function Index() {
   const [floatingLogoVisible, setFloatingLogoVisible] = useState(false)
   const [floatingPosition, setFloatingPosition] = useState({clientX: 0, clientY: 0})
   const [iframeHeight, setIFrameHeight] = useState(142)
+  const [iframeWidth, setIframeWidth] = useState(460)
 
-  const {config} = useConfig()
+  const [showInitWindow, setShowInitWindow] = useState(false)
+
+  const {config, setConfig} = useConfig()
   const {isAuth, autoPopup, turboMode} = config
 
   useMessage<number, string>((req, res) => {
@@ -27,13 +30,28 @@ export default function Index() {
       res.send(selectedText)
     }
 
-    if (req.name === MESSAGING_EVENT.SYNC_FRAME_HEIGHT) {
-      setIFrameHeight(req.body)
+    if (req.name === MESSAGING_EVENT.SYNC_FRAME_SIZE) {
+      const {width, height} = req.body as any
+      if (width) setIframeWidth(width)
+      if (height) setIFrameHeight(height)
     }
 
     if (req.name === MESSAGING_EVENT.HIDE_OVERLAY) {
       hideOverLay()
       setFloatingLogoVisible(true)
+    }
+
+    if (req.name === MESSAGING_EVENT.EXTNEION_ICON_CLICK) {
+      if (!config.isAuth) {
+        setShowInitWindow(!showInitWindow)
+        setOverlayVisible(!showInitWindow)
+      } else {
+        setConfig({
+          ...config,
+          latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
+        })
+        setOverlayVisible(true)
+      }
     }
   })
 
@@ -59,6 +77,8 @@ export default function Index() {
       if (autoPopup && isAuth) {
         setOverlayVisible(!!selectedText)
       } else {
+        if (!isAuth) return
+
         !selectedText && hideOverLay()
         setFloatingLogoVisible(!!selectedText && !overlayVisible)
       }
@@ -68,11 +88,6 @@ export default function Index() {
   useEffect(() => {
     if (turboMode && selectedText) {
       setOverlayVisible(true)
-
-      // sendToBackground({
-      //   name: MESSAGING_EVENT.INVOKE_ASK_AI,
-      //   body: {selectedText},
-      // })
     }
   }, [selectedText, turboMode])
 
@@ -91,19 +106,26 @@ export default function Index() {
   const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
   return (
     <section
-      className={`container ${overlayVisible && 'container-visible'}`}
-      style={{
-        left: `${floatingPosition.clientX - 225}px`,
-        top: `${floatingPosition.clientY + 24}px`,
-      }}
+      className={`container ${overlayVisible && 'container-visible'} ${!isAuth && 'entry'}`}
+      style={
+        !isAuth
+          ? {
+              top: '4px',
+              right: '25px',
+            }
+          : {
+              left: `${floatingPosition.clientX - 225}px`,
+              top: `${floatingPosition.clientY + 24}px`,
+            }
+      }
     >
       {popupURL ? (
-        // FIXME: add fade in out animation
         <iframe
           className="iframe"
           style={{
             display: overlayVisible ? 'block' : 'none',
             height: `${iframeHeight}px`,
+            width: iframeWidth ? `${iframeWidth}px` : null,
             opacity: overlayVisible ? 1 : 0,
           }}
           src={chrome?.runtime?.getURL('tabs/prompt-board.html')}

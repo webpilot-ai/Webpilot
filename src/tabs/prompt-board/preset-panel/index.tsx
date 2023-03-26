@@ -32,11 +32,16 @@ export default function PresetPanel() {
 
   const resizeObserver = new ResizeObserver(() => {
     const currentHeight = element.current.clientHeight
+    const currentWidth = element.current.clientWidth
+
     if (currentHeight !== height) {
       setHeight(currentHeight)
       sendToContentScript({
-        name: MESSAGING_EVENT.SYNC_FRAME_HEIGHT,
-        body: currentHeight,
+        name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
+        body: {
+          width: currentWidth,
+          height: currentHeight,
+        },
       })
     }
   })
@@ -109,8 +114,7 @@ export default function PresetPanel() {
         loading={ai.loading}
         disabled={disabled}
         placeholder={prompt?.command}
-        value={inputPrompt}
-        handleChangeInput={handleChangeInput}
+        command={prompt?.command}
         onConfirm={askAIByPrompt}
       />
       <PromptBoardResult />
@@ -122,7 +126,7 @@ export default function PresetPanel() {
 
 const styles = css`
   .preset-panel {
-    width: 100%;
+    width: 450px;
     padding: 12px;
   }
 `
