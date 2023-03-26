@@ -50,7 +50,7 @@ export default function Index() {
         //   ...config,
         //   latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
         // })
-        setOverlayVisible(true)
+        // setOverlayVisible(true)
       }
     }
   })
