@@ -16,7 +16,7 @@ export default function ConfirmInput({
 
   const keydownHandler = useCallback(
     e => {
-      if (e.key === 'Enter' || e.keyCode === 13) {
+      if ((e.key === 'Enter' || e.keyCode === 13) && !e.repeat) {
         onConfirm(value)
       }
     },
