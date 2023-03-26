@@ -77,12 +77,6 @@ export default function PresetPanel() {
     setInputPrompt('')
   }
 
-  const handleChangeInput = e => {
-    const {value} = e.target
-    setInputPrompt(value)
-    setSelectPromptIndex(-1)
-  }
-
   const handleUpdatePromptIndex = index => {
     setSelectPromptIndex(index)
 

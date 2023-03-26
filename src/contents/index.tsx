@@ -2,7 +2,7 @@ import 'rc-tooltip/assets/bootstrap.css'
 import cssText from 'data-text:./index.scss'
 import Logo from 'data-base64:~assets/icon.png'
 
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 
@@ -46,10 +46,10 @@ export default function Index() {
         setShowInitWindow(!showInitWindow)
         setOverlayVisible(!showInitWindow)
       } else {
-        setConfig({
-          ...config,
-          latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
-        })
+        // setConfig({
+        //   ...config,
+        //   latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
+        // })
         setOverlayVisible(true)
       }
     }
@@ -64,6 +64,10 @@ export default function Index() {
         name: MESSAGING_EVENT.SYNC_SELECTED_TEXT,
         body: selectedText,
       })
+
+      if (isAuth) {
+        // Set Route to  ROUTE.PROMPT_BOARD_PRESET_PANEL
+      }
 
       const {clientX, clientY} = e
       setTimeout(() => {
