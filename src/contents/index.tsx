@@ -118,7 +118,7 @@ export default function Index() {
               right: '25px',
             }
           : {
-              left: `${floatingPosition.clientX - 225}px`,
+              left: `${floatingPosition.clientX < 250 ? floatingPosition.clientX : 225}px`,
               top: `${floatingPosition.clientY + 24}px`,
             }
       }
@@ -141,8 +141,8 @@ export default function Index() {
         <section
           className="floating-logo-container"
           style={{
-            left: `${floatingPosition.clientX + 24}px`,
-            top: `${floatingPosition.clientY + 24}px`,
+            left: `${floatingPosition.clientX + 24 < window.innerWidth ? floatingPosition.clientX + 24 : window.innerWidth - 24}px`,
+            top: `${floatingPosition.clientY + 24 }px`,
           }}
           onMouseOver={showOverlay}
         >
