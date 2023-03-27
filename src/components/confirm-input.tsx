@@ -9,7 +9,7 @@ export default function ConfirmInput({
   placeholder = '',
   loading = false,
   disabled = false,
-  autoFocus = false,
+  autoFocus = true,
   onConfirm = () => null,
 }) {
   const inputRef = useRef()
@@ -24,6 +24,9 @@ export default function ConfirmInput({
     },
     [onConfirm, value]
   )
+  useEffect(() => {
+    document.querySelector('.input').focus();
+  });
 
   useEffect(() => {
     return document.removeEventListener('keydown', keydownHandler)
