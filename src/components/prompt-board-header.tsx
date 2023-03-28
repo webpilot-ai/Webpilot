@@ -34,6 +34,7 @@ export default function PromptBoardHeader({children = null, back = null, setting
       <h1 className="title">Working With Webpilot</h1>
       {isAuth ? (
         <ul role="list" className="header-settings">
+          <li className='d-inline'>{ turboMode ? gettext('Turbo Mode: ON') : ''}</li>
           <li>
             <section>
               <Tooltip
@@ -123,7 +124,7 @@ const globalStyles = css.global`
       stroke: #2d5eae;
     }
   }
-
+  
   .setting-icon--off {
     path {
       stroke: #777777;

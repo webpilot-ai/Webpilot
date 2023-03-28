@@ -12,10 +12,10 @@
     "message": "自动弹出：关"
   },
   "Turbo_Mode__ON": {
-    "message": "极速模式: 开"
+    "message": "划词即问: 开"
   },
   "Turbo_Mode__OFF": {
-    "message": "极速模式: 关"
+    "message": "划词即问: 关"
   },
   "Let_me_tell_you_about_this_crazy_useful_AI_tool_called_Fluentify__All_you_gotta_do_is_swipe_on_the_task__and_it_gets_done_automatically__It_s_way_better_than_ChatGPT__trust_me___Install__https___bit_ly_3mAJ9I7_GitHub__https___github_com_Fluentify_IO_Fluentify": {
     "message": "我说个极其离谱的AI，叫 Fluentify。只要在任务上划一下，就能自动干活，比 ChatGPT 好用多了！\n\n插件安装：http://bit.ly/3YGLmyS\n开源地址：https://github.com/Fluentify-IO/Fluentify"
@@ -123,7 +123,7 @@
     "message": "自动弹窗模式：\n1. 开关在右上角\n2. 选中文字，自动弹窗\n\n"
   },
   "Turbo_Mode__1__Click_lightning_icon_to_toggle_2__Auto_process_selected_text_3__Auto_copy_the_result": {
-    "message": "极速模式：\n1. 开关是闪电图标\n2. 自动处理选中文字\n2. 自动复制结果"
+    "message": "划词即问：\n1. 开关是闪电图标\n2. 自动处理选中文字\n2. 自动复制结果"
   },
   "You_can_find_your_auth_key_on_the_OpenAI_website_": {
     "message": "你的 auth key 可以在 OpenAI 官网中找到："
