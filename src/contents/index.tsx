@@ -82,7 +82,7 @@ export default function Index() {
   const showAskPage = () => {
     setConfig({
       ...config,
-      latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
+      latestRoute: ROUTE.PROMPT_ASK_PAGE_PANEL,
     })
     setIsAskPage(true)
     setOverlayVisible(true)

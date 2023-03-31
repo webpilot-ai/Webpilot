@@ -19,7 +19,7 @@ const PANEL = {
   [ROUTE.PROMPT_BOARD_ENTRY_PANEL]: EntryPanel,
   [ROUTE.PROMPT_BOARD_PRESET_PANEL]: PresetPanel,
   // [ROUTE.PROMPT_BOARD_CUSTOM_PANEL]: CustomPanel,
-  [ROUTE.PROMOT_ASK_PAGE_PANEL]: AskPage,
+  [ROUTE.PROMPT_ASK_PAGE_PANEL]: AskPage,
 }
 
 export default withAIContext(function Index() {

@@ -6,7 +6,7 @@ export const FLUENTIFY_CONFIG_STORAGE_KEY = 'FLUENTIFY_CONFIG'
 
 export const ROUTE = {
   PROMPT_BOARD_ENTRY_PANEL: '/',
-  PROMOT_ASK_PAGE_PANEL: '/ask-page',
+  PROMPT_ASK_PAGE_PANEL: '/ask-page',
   PROMPT_BOARD_PRESET_PANEL: '/preset-panel',
   PROMPT_BOARD_CUSTOM_PANEL: '/custom-panel',
 }
