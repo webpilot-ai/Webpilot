@@ -23,8 +23,8 @@ export default function Button({
     <button
       style={{width, height}}
       className={`button ${type} ${compact && 'compact'}
-      ${disabled && 'disabled'} ${loading && 'loading'} ${(selected || active) && 'selected'}
-      ${border && 'withBorder'}  ${!disabled && 'withInteractive'}`}
+      ${disabled && 'disabled'} ${loading && 'loading'} ${selected && 'selected'}
+      ${border && 'withBorder'}  ${!disabled && 'withInteractive'} ${active && 'active'}`}
       onClick={disabled ? noop : onClick}
     >
       {children || (
@@ -121,7 +121,13 @@ const styles = css`
     }
 
     &.selected {
-      background-color: #9cb2ff;
+      color: #ffffff;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), #4f5aff;
+    }
+
+    &.active {
+      color: #ffffff;
+      background-color: #4f5aff;
     }
   }
 
