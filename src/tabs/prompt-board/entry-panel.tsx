@@ -20,34 +20,13 @@ export default function EntryPanel() {
   const {config, setConfig} = useConfig()
   const {ai, askAI} = useAI()
 
-  const element = useRef()
-
-  const resizeObserver = new ResizeObserver(() => {
-    const currentHeight = element.current?.clientHeight
-    const currentWIdth = element.current?.clientWidth
-    sendToContentScript({
-      name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
-      body: {
-        width: currentWIdth,
-        height: currentHeight,
-      },
-    })
-  })
-
-  useEffect(() => {
-    resizeObserver.observe(element.current)
-    return () => {
-      resizeObserver.disconnect()
-    }
-  }, [])
-
   useEffect(() => {
     setDisabled(!inputValue || ai.loading)
   }, [inputValue, ai.loading])
 
   const setAuthKey = authKey => {
     askAI({authKey, command: 'Say hi.', onlyCommand: true}).then(() => {
-      sendToContentScript({name: MESSAGING_EVENT.HIDE_OVERLAY})
+      sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
       setConfig({...config, authKey, isAuth: true, latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL})
     })
   }
@@ -58,7 +37,7 @@ export default function EntryPanel() {
   }
 
   return (
-    <section className="entry-panel" ref={element}>
+    <section className="entry-panel">
       <PromptBoardHeader />
 
       <section className="confirm-input">

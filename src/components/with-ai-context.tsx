@@ -49,10 +49,10 @@ export function withAIContext(Component) {
       return askOpenAI({
         authKey: authKey || config.authKey,
         model: config.model,
-        prompt: `${command}:\n\n${selectedText}\n\n`,
+        prompt: onlyCommand ? command : `${command}:\n\n${selectedText}\n\n`,
       })
         .then(res => {
-          const result = onlyCommand ? '' : res
+          const result = res
           aiDispatch({type: AI_REDUCER_ACTION_TYPE.SUCCESS, payload: {result}})
           return result
         })

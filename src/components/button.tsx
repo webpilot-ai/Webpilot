@@ -23,7 +23,7 @@ export default function Button({
     <button
       style={{width, height}}
       className={`button ${type} ${compact && 'compact'}
-      ${disabled && 'disabled'} ${loading && 'loading'} ${selected && 'selected'}
+      ${disabled && 'disabled'} ${loading && 'loading'} ${(selected || active) && 'selected'}
       ${border && 'withBorder'}  ${!disabled && 'withInteractive'}`}
       onClick={disabled ? noop : onClick}
     >

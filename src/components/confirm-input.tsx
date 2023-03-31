@@ -10,7 +10,8 @@ export default function ConfirmInput({
   loading = false,
   disabled = false,
   autoFocus = true,
-  onConfirm = () => null,
+  onTextChange = text => null,
+  onConfirm = command => null,
 }) {
   const inputRef = useRef()
   const [isActive, setActive] = useState(false)
@@ -19,14 +20,13 @@ export default function ConfirmInput({
   const keydownHandler = useCallback(
     e => {
       if ((e.key === 'Enter' || e.keyCode === 13) && !e.repeat) {
-        onConfirm(value)
+        if (inputRef?.current) {
+          onConfirm((inputRef.current as any).value)
+        }
       }
     },
-    [onConfirm, value]
+    [onConfirm]
   )
-  useEffect(() => {
-    document.querySelector('.input').focus();
-  });
 
   useEffect(() => {
     return document.removeEventListener('keydown', keydownHandler)
@@ -49,6 +49,7 @@ export default function ConfirmInput({
   const handleChangeInput = e => {
     const {value} = e.target
     setValue(value)
+    onTextChange(value)
   }
 
   return (

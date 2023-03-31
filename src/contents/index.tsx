@@ -2,9 +2,10 @@ import 'rc-tooltip/assets/bootstrap.css'
 import cssText from 'data-text:./index.scss'
 import Logo from 'data-base64:~assets/icon.png'
 
-import {useCallback, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
+import {Readability} from '@mozilla/readability'
 
 import {MESSAGING_EVENT, ROUTE} from '@/config'
 import {getSelectedText} from '@/utils'
@@ -16,44 +17,85 @@ export default function Index() {
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [floatingLogoVisible, setFloatingLogoVisible] = useState(false)
   const [floatingPosition, setFloatingPosition] = useState({clientX: 0, clientY: 0})
-  const [iframeHeight, setIFrameHeight] = useState(142)
-  const [iframeWidth, setIframeWidth] = useState(460)
-
-  const [showInitWindow, setShowInitWindow] = useState(false)
-
+  const [iFrameSize, setIframeSize] = useState({
+    height: 142,
+    width: 460,
+  })
   const {config, setConfig} = useConfig()
+  const [isAskPage, setIsAskPage] = useState(false)
   const {isAuth, autoPopup, turboMode} = config
 
   useMessage<number, string>((req, res) => {
     if (req.name === MESSAGING_EVENT.GET_SELECTED_TEXT) {
       const selectedText = getSelectedText()
       res.send(selectedText)
+      return
     }
 
     if (req.name === MESSAGING_EVENT.SYNC_FRAME_SIZE) {
       const {width, height} = req.body as any
-      if (width) setIframeWidth(width)
-      if (height) setIFrameHeight(height)
+
+      if (width) {
+        setIframeSize({
+          ...iFrameSize,
+          width,
+        })
+      }
+      if (height) {
+        setIframeSize({
+          ...iFrameSize,
+          height,
+        })
+      }
+      return
     }
 
-    if (req.name === MESSAGING_EVENT.HIDE_OVERLAY) {
-      hideOverLay()
-      setFloatingLogoVisible(true)
+    if (req.name === MESSAGING_EVENT.CLICK_CLOSE) {
+      if (isAskPage) {
+        closeAskPage()
+      } else {
+        hideOverLay()
+        setFloatingLogoVisible(true)
+      }
+      return
     }
 
     if (req.name === MESSAGING_EVENT.EXTNEION_ICON_CLICK) {
       if (!config.isAuth) {
-        setShowInitWindow(!showInitWindow)
-        setOverlayVisible(!showInitWindow)
+        setOverlayVisible(true)
       } else {
-        // setConfig({
-        //   ...config,
-        //   latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
-        // })
-        // setOverlayVisible(true)
+        showAskPage()
       }
+      return
+    }
+
+    if (req.name === MESSAGING_EVENT.GET_DOCUMENT) {
+      let article: any = {}
+      try {
+        const cloneNode = document.cloneNode(true) as Document
+        article = new Readability(cloneNode).parse()
+      } catch (error) {}
+      if (article?.textContent) res.send(article.textContent)
     }
   })
+
+  const showAskPage = () => {
+    setConfig({
+      ...config,
+      latestRoute: ROUTE.PROMOT_ASK_PAGE_PANEL,
+    })
+    setIsAskPage(true)
+    setOverlayVisible(true)
+  }
+
+  const closeAskPage = () => {
+    setConfig({
+      ...config,
+      latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL,
+    })
+    setIsAskPage(false)
+    setOverlayVisible(false)
+  }
 
   useEffect(() => {
     window.addEventListener('mouseup', e => {
@@ -64,10 +106,6 @@ export default function Index() {
         name: MESSAGING_EVENT.SYNC_SELECTED_TEXT,
         body: selectedText,
       })
-
-      if (isAuth) {
-        // Set Route to  ROUTE.PROMPT_BOARD_PRESET_PANEL
-      }
 
       const {clientX, clientY} = e
       setTimeout(() => {
@@ -83,11 +121,17 @@ export default function Index() {
       } else {
         if (!isAuth) return
 
-        !selectedText && hideOverLay()
-        setFloatingLogoVisible(!!selectedText && !overlayVisible)
+        if (isAskPage) {
+          setOverlayVisible(true)
+        } else {
+          // not selected
+          !selectedText && hideOverLay()
+
+          setFloatingLogoVisible(!!selectedText && !overlayVisible)
+        }
       }
     }, 200)
-  }, [selectedText, autoPopup, overlayVisible, isAuth])
+  }, [selectedText, autoPopup, overlayVisible, isAuth, isAskPage])
 
   useEffect(() => {
     if (turboMode && selectedText) {
@@ -128,8 +172,8 @@ export default function Index() {
           className="iframe"
           style={{
             display: overlayVisible ? 'block' : 'none',
-            height: `${iframeHeight}px`,
-            width: iframeWidth ? `${iframeWidth}px` : null,
+            height: `${iFrameSize.height}px`,
+            width: iFrameSize.width ? `${iFrameSize.width}px` : null,
             opacity: overlayVisible ? 1 : 0,
           }}
           src={chrome?.runtime?.getURL('tabs/prompt-board.html')}
@@ -141,8 +185,12 @@ export default function Index() {
         <section
           className="floating-logo-container"
           style={{
-            left: `${floatingPosition.clientX + 24 < window.innerWidth ? floatingPosition.clientX + 24 : window.innerWidth - 24}px`,
-            top: `${floatingPosition.clientY + 24 }px`,
+            left: `${
+              floatingPosition.clientX + 24 < window.innerWidth
+                ? floatingPosition.clientX + 24
+                : window.innerWidth - 24
+            }px`,
+            top: `${floatingPosition.clientY + 24}px`,
           }}
           onMouseOver={showOverlay}
         >
