@@ -34,8 +34,6 @@ export default withAIContext(function Index() {
       const currentHeight = elementRef.current?.clientHeight
       const currentWIdth = elementRef.current?.clientWidth
 
-      console.log(currentWIdth, ' - ', currentHeight)
-
       sendToContentScript({
         name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
         body: {
