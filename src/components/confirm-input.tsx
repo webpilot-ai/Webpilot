@@ -57,7 +57,7 @@ export default function ConfirmInput({
       <input
         ref={inputRef}
         autoFocus={autoFocus}
-        disabled={loading}
+        disabled={loading || disabled}
         placeholder={placeholder}
         className="input"
         onChange={handleChangeInput}
@@ -67,7 +67,7 @@ export default function ConfirmInput({
       />
       <div className="confirm">
         <button
-          disabled={loading}
+          disabled={loading || disabled}
           className={`send-btn ${isActive && (value !== '' || placeholder !== '') && 'active'} ${
             loading && 'loading'
           }`}
