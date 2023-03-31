@@ -73,7 +73,7 @@ export default function PromptBoardResult({placeholder = ''}) {
 
           <section className="copy">
             <section className="share-extension" onClick={showRecommendationText}>
-              {gettext('Amazing_Fluentify__telling_friends_')}
+              {gettext('Amazing Fluentify, telling friends!')}
             </section>
             <Button
               width="48px"
