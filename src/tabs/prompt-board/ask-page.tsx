@@ -16,20 +16,22 @@ export default function AskPage() {
   const [command, setCommand] = useState('')
   const [askType, setAskType] = useState(ReferenceType.NONE)
 
-  const handleCommandChange = (text: string) => {
+  const handleCommandChange = text => {
     setCommand(text)
   }
 
-  const handleInputConfirm = (command: string) => {
+  const handleInputConfirm = command => {
     askIAByCommand(command, askType)
   }
 
-  const handleTypeChange = (type: ReferenceType) => {
+  const handleTypeChange = type => {
     setAskType(type)
     askIAByCommand(command, type)
   }
 
-  const askIAByCommand = async (command: string, type: ReferenceType) => {
+  const askIAByCommand = async (command, type) => {
+    if (!command || command === '') return
+
     if (type === ReferenceType.NONE) {
       askAI({
         command,
@@ -62,11 +64,7 @@ export default function AskPage() {
         onConfirm={handleInputConfirm}
         onTextChange={handleCommandChange}
       />
-      <ReferenceBtnGroup
-        disabled={ai.loading}
-        parentType={askType}
-        onTypeChange={handleTypeChange}
-      />
+      <ReferenceBtnGroup disabled={ai.loading} type={askType} onChange={handleTypeChange} />
       <PromptBoardResult />
       <style jsx>{styles}</style>
       <style jsx>{globalStyle}</style>

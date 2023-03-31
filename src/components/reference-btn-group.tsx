@@ -1,38 +1,18 @@
-import {useEffect, useState} from 'react'
 import css from 'styled-jsx/css'
 
 import Button from './button'
 
-export const enum ReferenceType {
-  NONE = 'NONE',
-  THE_SELECT = 'THE_SELECT',
-  THIS_PAGE = 'THIS_PAGE',
+export const ReferenceType = {
+  NONE: 'NONE',
+  THE_SELECT: 'THE_SELECT',
+  THIS_PAGE: 'THIS_PAGE',
 }
 
-interface PropsType {
-  parentType?: ReferenceType
-  disabled?: boolean
-  onTypeChange?: (bnt: ReferenceType) => void
-}
-
-export default function ReferenceBtnGroup({parentType, disabled, onTypeChange}: PropsType) {
-  const [type, setType] = useState<ReferenceType>(parentType)
-
-  useEffect(() => {
-    if (!parentType) {
-      setType(ReferenceType.NONE)
-    } else {
-      setType(parentType)
-    }
-  }, [parentType])
-
-  const handleClickBtn = (btn: ReferenceType) => {
-    if (btn === type) return
-
-    setType(btn)
-    onTypeChange(btn)
-  }
-
+export default function ReferenceBtnGroup({
+  type = ReferenceType.NONE,
+  disabled = false,
+  onChange = type => null,
+}) {
   return (
     <section className="reference-btn-group">
       <span>Reference:</span>
@@ -41,7 +21,7 @@ export default function ReferenceBtnGroup({parentType, disabled, onTypeChange}: 
           <Button
             disabled={disabled}
             active={type === ReferenceType.NONE}
-            onClick={() => handleClickBtn(ReferenceType.NONE)}
+            onClick={() => onChange(ReferenceType.NONE)}
           >
             None
           </Button>
@@ -50,7 +30,7 @@ export default function ReferenceBtnGroup({parentType, disabled, onTypeChange}: 
           <Button
             disabled={disabled}
             active={type === ReferenceType.THE_SELECT}
-            onClick={() => handleClickBtn(ReferenceType.THE_SELECT)}
+            onClick={() => onChange(ReferenceType.THE_SELECT)}
           >
             The Select
           </Button>
@@ -59,7 +39,7 @@ export default function ReferenceBtnGroup({parentType, disabled, onTypeChange}: 
           <Button
             disabled={disabled}
             active={type === ReferenceType.THIS_PAGE}
-            onClick={() => handleClickBtn(ReferenceType.THIS_PAGE)}
+            onClick={() => onChange(ReferenceType.THIS_PAGE)}
           >
             This Page
           </Button>
