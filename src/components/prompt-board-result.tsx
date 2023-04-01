@@ -1,8 +1,4 @@
-import TurboOnIcon from 'react:@assets/images/turbo-on.svg'
-import TurboOffIcon from 'react:@assets/images/turbo-off.svg'
-
 import {useEffect, useState} from 'react'
-import Tooltip from 'rc-tooltip/es'
 import copyToClipboard from 'copy-to-clipboard'
 
 import css from 'styled-jsx/css'
@@ -67,7 +63,7 @@ export default function PromptBoardResult({placeholder = ''}) {
   if (value) {
     return (
       <section className="prompt-board-result">
-        <section onClick={showRecommendationText} className="recommendation">
+        <section>
           {/* FIXME */}
           Webpilot Says:
         </section>
@@ -76,9 +72,9 @@ export default function PromptBoardResult({placeholder = ''}) {
           <textarea readOnly value={value} className="textarea" placeholder={placeholder} />
 
           <section className="copy">
-            <a target="_blank" className="share-link" href="">
-              Amazing Webpilot, telling friends!
-            </a>
+            <section className="share-extension" onClick={showRecommendationText}>
+              {gettext('Amazing Fluentify, telling friends!')}
+            </section>
             <Button
               width="48px"
               height="24px"
@@ -148,8 +144,11 @@ const styles = css`
     align-items: flex-end;
     margin-top: 8px;
 
-    .share-link {
+    .share-extension {
       margin-right: auto;
+      text-decoration: underline;
+      cursor: pointer;
+
       &:visited {
         color: #777;
       }

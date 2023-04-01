@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': 7.21.3
+  '@mozilla/readability': 0.4.3
   '@plasmohq/messaging': 0.1.6
   '@plasmohq/storage': 1.2.3
   '@styled-jsx/plugin-sass': 4.0.2
@@ -47,6 +48,7 @@ specifiers:
   typescript: 4.9.5
 
 dependencies:
+  '@mozilla/readability': 0.4.3
   '@plasmohq/messaging': 0.1.6_react@18.2.0
   '@plasmohq/storage': 1.2.3_react@18.2.0
   axios: 1.3.4
@@ -686,6 +688,11 @@ packages:
       '@lezer/common': 0.15.12
       '@lezer/lr': 0.15.8
       json5: 2.2.3
+    dev: false
+
+  /@mozilla/readability/0.4.3:
+    resolution: {integrity: sha512-TQc/hBySDWT6GTtk5G3HU4TrnulRxmyZUWSBxXX+loYSoz028SUdRV+isy3axBkvm+vUot61Z9CPAqGrfpXp9Q==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@mrmlnc/readdir-enhanced/2.2.1:

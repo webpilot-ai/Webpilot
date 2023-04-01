@@ -1,7 +1,6 @@
 import CameraFlashIcon from 'react:@assets/images/camera-flash.svg'
 import PreferencesIcon from 'react:@assets/images/preferences.svg'
 import RemoveIcon from 'react:@assets/images/e-remove.svg'
-import LogoIcon from 'react:@assets/images/logo.svg'
 
 import {sendToContentScript} from '@plasmohq/messaging'
 import Tooltip from 'rc-tooltip/es'
@@ -12,7 +11,7 @@ import useConfig from '@/hooks/use-config'
 
 import {MESSAGING_EVENT} from '@/config'
 
-export default function PromptBoardHeader({children = null, back = null, setting = false}) {
+export default function PromptBoardHeader({hideTurboMode = false}) {
   const {config, setConfig} = useConfig()
   const {turboMode, isAuth} = config
 
@@ -25,7 +24,7 @@ export default function PromptBoardHeader({children = null, back = null, setting
   }
 
   const closePopup = () => {
-    sendToContentScript({name: MESSAGING_EVENT.HIDE_OVERLAY})
+    sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
   }
 
   return (
@@ -34,24 +33,31 @@ export default function PromptBoardHeader({children = null, back = null, setting
       <h1 className="title">Working With Webpilot</h1>
       {isAuth ? (
         <ul role="list" className="header-settings">
-          <li className='d-inline'>{ turboMode ? gettext('Turbo Mode: ON') : ''}</li>
-          <li>
-            <section>
-              <Tooltip
-                showArrow={false}
-                placement="left"
-                overlay={() => (
-                  <span>{turboMode ? gettext('Turbo Mode: ON') : gettext('Turbo Mode: OFF')}</span>
-                )}
-              >
-                <section className="setting-icon camera-falsh" onClick={toggleTurboMode}>
-                  <CameraFlashIcon
-                    className={`settings  ${turboMode ? 'setting-icon--on' : 'setting-icon--off'}`}
-                  />
-                </section>
-              </Tooltip>
-            </section>
-          </li>
+          <li className="d-inline">{turboMode ? gettext('Turbo Mode: ON') : ''}</li>
+          {hideTurboMode ? undefined : (
+            <li>
+              <section>
+                <Tooltip
+                  showArrow={false}
+                  placement="left"
+                  overlay={() => (
+                    <span>
+                      {turboMode ? gettext('Turbo Mode: ON') : gettext('Turbo Mode: OFF')}
+                    </span>
+                  )}
+                >
+                  <section className="setting-icon camera-falsh" onClick={toggleTurboMode}>
+                    <CameraFlashIcon
+                      className={`settings  ${
+                        turboMode ? 'setting-icon--on' : 'setting-icon--off'
+                      }`}
+                    />
+                  </section>
+                </Tooltip>
+              </section>
+            </li>
+          )}
+
           <li>
             <section>
               <Tooltip
@@ -124,7 +130,7 @@ const globalStyles = css.global`
       stroke: #2d5eae;
     }
   }
-  
+
   .setting-icon--off {
     path {
       stroke: #777777;
