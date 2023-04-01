@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import css from 'styled-jsx/css'
 
 import PencilIcon from 'react:@assets/images/pencil.svg'
@@ -9,12 +9,12 @@ import DownIcon from 'react:@assets/images/down.svg'
 
 export default function PromptSettings({
   prompt = {},
-  onChange = p => undefined,
+  onChange = () => undefined,
   onDelete = () => null,
   onMoveUp = () => null,
   onMoveDown = () => null,
 }) {
-  const [promptInfo, setpromptInfo] = useState(prompt as any)
+  const [promptInfo, setpromptInfo] = useState(prompt)
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -26,12 +26,12 @@ export default function PromptSettings({
     updateTextArea()
   }, [prompt])
 
-  const handleClickOutside = event => {
+  const handleClickOutside = useCallback(event => {
     if (itemRef && !itemRef.current.contains(event.target)) {
       document.removeEventListener('mouseup', handleClickOutside)
       setIsEditing(false)
     }
-  }
+  }, [])
 
   const triggerEditing = () => {
     setIsEditing(true)
@@ -44,7 +44,7 @@ export default function PromptSettings({
     } else {
       document.removeEventListener('mouseup', handleClickOutside)
     }
-  }, [isEditing])
+  }, [isEditing, handleClickOutside])
 
   const handleTitleChange = e => {
     setpromptInfo({...promptInfo, title: e.target.value})
@@ -60,7 +60,7 @@ export default function PromptSettings({
   }
 
   const updateTextArea = () => {
-    //FIXME: hack here, replace with editable element
+    // FIXME: hack here, replace with editable element
     setTimeout(() => {
       teatareaRef.current.style.cssText = 'height: auto; padding 0px;'
       teatareaRef.current.style.cssText = `height: ${
@@ -120,46 +120,35 @@ export default function PromptSettings({
 
 const styles = css`
   .prompt-item {
-    border-radius: 10px;
     padding: 16px;
-    background-color: #ffffff;
+    background-color: #fff;
+    border-radius: 10px;
     transition: all 0.3s;
 
     &.prompt-item--shaodw {
-      filter: drop-shadow(0px 8px 24px rgba(149, 157, 165, 0.2));
-    }
-
-    &:hover {
-      filter: drop-shadow(0px 8px 24px rgba(149, 157, 165, 0.2));
-    }
-
-    &:hover > .title > .icon-wrap {
-      display: block;
-    }
-
-    &:hover > .btn-group {
-      display: flex;
+      filter: drop-shadow(0 8px 24px rgb(149 157 165 / 20%));
     }
 
     .title {
       display: flex;
       align-items: center;
-      color: #000000;
-      font-size: 16px;
-      font-weight: bold;
+      color: #000;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 25px;
 
       .show-title {
-        padding-left: 3px;
-        line-height: 30px;
         max-width: 180px;
+        padding-left: 3px;
         overflow: hidden;
+        line-height: 30px;
         text-overflow: ellipsis;
       }
 
       .title-input {
         height: 30px;
-        border-radius: 4px;
         border: 1px solid #dadada;
+        border-radius: 4px;
 
         &:focus-visible {
           outline: none;
@@ -172,42 +161,41 @@ const styles = css`
     }
 
     .content {
-      margin-top: 16px;
-      font-size: 16px;
-
+      margin-top: 8px;
       .prompt-input {
-        padding: 4px;
-        max-width: 100%;
         width: 100%;
         min-width: 100%;
+        max-width: 100%;
         height: auto;
-        resize: vertical;
+        padding: 4px;
+        color: #777;
         border: 1px solid #dadada;
-        border-radius: 4px;
-        color: #777777;
-
+        resize: vertical;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
         &:focus-visible {
           outline: none;
         }
 
         &:focus {
-          color: #000000;
+          color: #000;
         }
 
         &.disalbed {
-          border: 1px solid #ffffff;
+          color: #777;
+          background-color: #fff;
+          border: 1px solid #fff;
           resize: none;
-          color: #777777;
-          background-color: #ffffff;
         }
       }
     }
 
     .btn-group {
-      width: 100%;
       display: none;
       align-items: center;
       justify-content: flex-end;
+      width: 100%;
 
       .btn {
         width: 16px;
@@ -224,6 +212,18 @@ const styles = css`
         align-items: center;
         justify-content: center;
       }
+    }
+
+    &:hover {
+      filter: drop-shadow(0 8px 24px rgb(149 157 165 / 20%));
+    }
+
+    &:hover > .title > .icon-wrap {
+      display: block;
+    }
+
+    &:hover > .btn-group {
+      display: flex;
     }
   }
 `

@@ -1,8 +1,4 @@
-import TurboOnIcon from 'react:@assets/images/turbo-on.svg'
-import TurboOffIcon from 'react:@assets/images/turbo-off.svg'
-
 import {useEffect, useState} from 'react'
-import Tooltip from 'rc-tooltip/es'
 import copyToClipboard from 'copy-to-clipboard'
 
 import css from 'styled-jsx/css'
@@ -11,7 +7,6 @@ import {useMessage} from '@plasmohq/messaging/hook'
 import {gettext, toast} from '@/utils'
 
 import useAI from '@/hooks/use-ai'
-import useConfig from '@/hooks/use-config'
 
 import Button, {BUTTON_TYPE} from '@/components/button'
 import {AI_REDUCER_ACTION_TYPE} from '@/components/with-ai-context'
@@ -22,10 +17,8 @@ export default function PromptBoardResult({placeholder = ''}) {
   const [value, setValue] = useState('')
 
   const {ai, aiDispatch} = useAI()
-  const {config, setConfig} = useConfig()
-  const {turboMode} = config
 
-  useMessage((req, res) => {
+  useMessage(req => {
     const {name} = req
     if (name === MESSAGING_EVENT.CLEAN_DATA) {
       cleanData()
@@ -47,12 +40,20 @@ export default function PromptBoardResult({placeholder = ''}) {
   }
 
   useEffect(() => {
-    setValue(ai.result || '')
+    const textArray  = ai.result || '';
+    let i = 0;
+    setValue('');
+    const timer = setInterval(() => {
+      if (i < textArray.length) {
+        setValue(prevText => prevText + textArray[i]);
+        setValue(prevText => prevText.replace('undefined', ''));
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 50);
   }, [ai.result])
 
-  const toggleTurboMode = () => {
-    setConfig({...config, turboMode: !turboMode})
-  }
 
   const copy = () => {
     const text = ai.result?.trim()
@@ -67,7 +68,7 @@ export default function PromptBoardResult({placeholder = ''}) {
   if (value) {
     return (
       <section className="prompt-board-result">
-        <section onClick={showRecommendationText} className="recommendation">
+        <section>
           {/* FIXME */}
           Webpilot Says:
         </section>
@@ -76,9 +77,9 @@ export default function PromptBoardResult({placeholder = ''}) {
           <textarea readOnly value={value} className="textarea" placeholder={placeholder} />
 
           <section className="copy">
-            <a target="_blank" className="share-link" href="">
-              Amazing Webpilot, telling friends!
-            </a>
+            <section className="share-extension" onClick={showRecommendationText}>
+              {gettext('Amazing Fluentify, telling friends!')}
+            </section>
             <Button
               width="48px"
               height="24px"
@@ -107,21 +108,21 @@ const styles = css`
     background-color: #fff;
 
     .title {
+      color: #777;
       font-weight: normal;
       font-size: 12px;
-      color: #777;
       line-height: 17px;
     }
   }
 
   .textarea {
-    margin-top: 4px;
-    padding: 10px 12px;
     width: 100%;
     height: 104px;
-    border-radius: 5px;
-    border: 1px solid #dadada;
+    margin-top: 4px;
+    padding: 10px 12px;
     color: #000;
+    border: 1px solid #dadada;
+    border-radius: 5px;
     resize: none;
 
     &:focus-visible {
@@ -137,19 +138,22 @@ const styles = css`
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
       background-color: lightgray;
+      border-radius: 4px;
     }
   }
 
   .copy {
     display: flex;
-    width: 100%;
     align-items: flex-end;
+    width: 100%;
     margin-top: 8px;
 
-    .share-link {
+    .share-extension {
       margin-right: auto;
+      text-decoration: underline;
+      cursor: pointer;
+
       &:visited {
         color: #777;
       }
@@ -166,10 +170,5 @@ const styles = css`
     text-align: center;
     text-decoration-line: underline;
     cursor: pointer;
-  }
-`
-
-const globalStyles = css.global`
-  .button {
   }
 `
