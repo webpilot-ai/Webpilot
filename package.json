@@ -5,6 +5,7 @@
   "description": "__MSG_extensionDescription__",
   "author": "fluentify.io",
   "scripts": {
+    "prepare": "husky install",
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package",
@@ -49,6 +50,7 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
+    "husky": "8.0.3",
     "postcss": "8.4.21",
     "postcss-scss": "4.0.6",
     "postcss-styled-syntax": "0.4.0",

@@ -4,7 +4,6 @@ module.exports = {
     browser: true,
   },
   ignorePatterns: ['!.*.js'],
-  parser: '@typescript-eslint/parser',
   settings: {
     'import/resolver': {
       alias: {
@@ -30,6 +29,8 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/no-unknown-property': ['error', {ignore: ['jsx', 'global']}],
+    'react-hooks/exhaustive-deps': 'error',
+    '@typescript-eslint/no-explicit-any': 'error',
     'import/order': [
       'error',
       {
