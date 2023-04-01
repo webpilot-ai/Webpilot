@@ -3,6 +3,7 @@ import cssText from 'data-text:./index.scss'
 import Logo from 'data-base64:~assets/icon.png'
 
 import {useEffect, useState} from 'react'
+import Draggable from 'react-draggable'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 import {Readability} from '@mozilla/readability'
@@ -15,7 +16,9 @@ import useConfig from '@/hooks/use-config'
 export default function Index() {
   const [selectedText, setSelectedText] = useState(() => getSelectedText())
   const [overlayVisible, setOverlayVisible] = useState(false)
+  const [lockOverlay, setLockOverlay] = useState(false)
   const [floatingLogoVisible, setFloatingLogoVisible] = useState(false)
+
   const [floatingPosition, setFloatingPosition] = useState({clientX: 0, clientY: 0})
   const [iFrameSize, setIframeSize] = useState({
     height: 142,
@@ -55,6 +58,7 @@ export default function Index() {
         closeAskPage()
       } else {
         hideOverLay()
+        setLockOverlay(false)
         setFloatingLogoVisible(true)
       }
       return
@@ -99,6 +103,8 @@ export default function Index() {
 
   useEffect(() => {
     window.addEventListener('mouseup', e => {
+      if (lockOverlay) return
+
       const selectedText = getSelectedText()
       setSelectedText(selectedText)
 
@@ -112,9 +118,11 @@ export default function Index() {
         setFloatingPosition({clientX, clientY})
       }, 200)
     })
-  }, [])
+  }, [lockOverlay])
 
   useEffect(() => {
+    if (lockOverlay) return
+
     setTimeout(() => {
       if (autoPopup && isAuth) {
         setOverlayVisible(!!selectedText)
@@ -131,7 +139,7 @@ export default function Index() {
         }
       }
     }, 200)
-  }, [selectedText, autoPopup, overlayVisible, isAuth, isAskPage])
+  }, [selectedText, autoPopup, overlayVisible, isAuth, isAskPage, lockOverlay])
 
   useEffect(() => {
     if (turboMode && selectedText) {
@@ -151,36 +159,42 @@ export default function Index() {
     sendToBackground({name: MESSAGING_EVENT.CLEAN_DATA})
   }
 
+  const onDragStart = () => setLockOverlay(true)
+
   const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
   return (
-    <section
-      className={`container ${overlayVisible && 'container-visible'} ${!isAuth && 'entry'}`}
-      style={
-        !isAuth
-          ? {
-              top: '4px',
-              right: '25px',
-            }
-          : {
-              left: `${floatingPosition.clientX < 250 ? floatingPosition.clientX : 225}px`,
-              top: `${floatingPosition.clientY + 24}px`,
-            }
-      }
-    >
-      {popupURL ? (
-        <iframe
-          className="iframe"
-          style={{
-            display: overlayVisible ? 'block' : 'none',
-            height: `${iFrameSize.height}px`,
-            width: iFrameSize.width ? `${iFrameSize.width}px` : null,
-            opacity: overlayVisible ? 1 : 0,
-          }}
-          src={chrome?.runtime?.getURL('tabs/prompt-board.html')}
-          frameBorder="0"
-        />
-      ) : null}
-
+    <>
+      <Draggable handle=".drag-handle" bounds="html" onStart={onDragStart}>
+        <section
+          className={`container ${overlayVisible && 'container-visible'} ${!isAuth && 'entry'}`}
+          style={
+            !isAuth
+              ? {
+                  top: '4px',
+                  right: '25px',
+                }
+              : {
+                  left: `${floatingPosition.clientX < 250 ? floatingPosition.clientX : 225}px`,
+                  top: `${floatingPosition.clientY + 24}px`,
+                }
+          }
+        >
+          <section className="drag-handle" />
+          {popupURL ? (
+            <iframe
+              className="iframe"
+              style={{
+                display: overlayVisible ? 'block' : 'none',
+                height: `${iFrameSize.height}px`,
+                width: iFrameSize.width ? `${iFrameSize.width}px` : null,
+                opacity: overlayVisible ? 1 : 0,
+              }}
+              src={chrome?.runtime?.getURL('tabs/prompt-board.html')}
+              frameBorder="0"
+            />
+          ) : null}
+        </section>
+      </Draggable>
       {floatingLogoVisible ? (
         <section
           className="floating-logo-container"
@@ -197,7 +211,7 @@ export default function Index() {
           <img src={Logo} className="floating-logo" />
         </section>
       ) : null}
-    </section>
+    </>
   )
 }
 

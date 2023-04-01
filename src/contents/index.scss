@@ -10,7 +10,6 @@
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
-  transition: all 0.2s linear;
 
   &::-webkit-scrollbar {
     display: none;
@@ -27,6 +26,16 @@
   right: 0;
   width: 460px;
   opacity: 1;
+}
+
+.drag-handle {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  width: 66%;
+  height: 40px;
+  cursor: move;
+  opacity: 0.8;
 }
 
 .iframe {
