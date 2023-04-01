@@ -31,6 +31,7 @@ module.exports = {
     'react/no-unknown-property': ['error', {ignore: ['jsx', 'global']}],
     'react-hooks/exhaustive-deps': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
     'import/order': [
       'error',
       {

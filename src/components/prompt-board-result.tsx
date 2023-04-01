@@ -7,7 +7,6 @@ import {useMessage} from '@plasmohq/messaging/hook'
 import {gettext, toast} from '@/utils'
 
 import useAI from '@/hooks/use-ai'
-import useConfig from '@/hooks/use-config'
 
 import Button, {BUTTON_TYPE} from '@/components/button'
 import {AI_REDUCER_ACTION_TYPE} from '@/components/with-ai-context'
@@ -18,10 +17,8 @@ export default function PromptBoardResult({placeholder = ''}) {
   const [value, setValue] = useState('')
 
   const {ai, aiDispatch} = useAI()
-  const {config, setConfig} = useConfig()
-  const {turboMode} = config
 
-  useMessage((req, res) => {
+  useMessage(req => {
     const {name} = req
     if (name === MESSAGING_EVENT.CLEAN_DATA) {
       cleanData()
@@ -45,10 +42,6 @@ export default function PromptBoardResult({placeholder = ''}) {
   useEffect(() => {
     setValue(ai.result || '')
   }, [ai.result])
-
-  const toggleTurboMode = () => {
-    setConfig({...config, turboMode: !turboMode})
-  }
 
   const copy = () => {
     const text = ai.result?.trim()
@@ -103,21 +96,21 @@ const styles = css`
     background-color: #fff;
 
     .title {
+      color: #777;
       font-weight: normal;
       font-size: 12px;
-      color: #777;
       line-height: 17px;
     }
   }
 
   .textarea {
-    margin-top: 4px;
-    padding: 10px 12px;
     width: 100%;
     height: 104px;
-    border-radius: 5px;
-    border: 1px solid #dadada;
+    margin-top: 4px;
+    padding: 10px 12px;
     color: #000;
+    border: 1px solid #dadada;
+    border-radius: 5px;
     resize: none;
 
     &:focus-visible {
@@ -133,15 +126,15 @@ const styles = css`
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
       background-color: lightgray;
+      border-radius: 4px;
     }
   }
 
   .copy {
     display: flex;
-    width: 100%;
     align-items: flex-end;
+    width: 100%;
     margin-top: 8px;
 
     .share-extension {
@@ -165,10 +158,5 @@ const styles = css`
     text-align: center;
     text-decoration-line: underline;
     cursor: pointer;
-  }
-`
-
-const globalStyles = css.global`
-  .button {
   }
 `

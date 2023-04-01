@@ -14,7 +14,6 @@ export default function Button({
   selected = false,
   compact = true,
   text = '',
-  Icon = null,
   border = false,
   children = null,
   onClick = () => null,
@@ -60,8 +59,8 @@ const styles = css`
 
     &.default {
       color: #4f5aff;
-      border: 1px solid #4f5aff;
       background-color: #fff;
+      border: 1px solid #4f5aff;
 
       &:hover {
         color: #4128d3;
@@ -70,18 +69,19 @@ const styles = css`
 
       &:active {
         color: #1a039f;
-        border-color: #1a039f;
         background-color: #9cb2ff;
+        border-color: #1a039f;
       }
     }
 
     &.primary {
-      background-color: #4f5aff;
       color: #fff;
+      background-color: #4f5aff;
 
       &:hover {
         background-color: #4128d3;
       }
+
       &:active {
         background-color: #1a039f;
       }
@@ -93,9 +93,9 @@ const styles = css`
     }
 
     &.disabled {
-      border: 1px solid #8f95b5;
-      background-color: #e8ebfa;
       color: #888fb8;
+      background-color: #e8ebfa;
+      border: 1px solid #8f95b5;
 
       &:hover {
         cursor: not-allowed;
@@ -121,12 +121,12 @@ const styles = css`
     }
 
     &.selected {
-      color: #ffffff;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), #4f5aff;
+      color: #fff;
+      background: linear-gradient(0deg, rgb(0 0 0 / 40%), rgb(0 0 0 / 40%)), #4f5aff;
     }
 
     &.active {
-      color: #ffffff;
+      color: #fff;
       background-color: #4f5aff;
     }
   }

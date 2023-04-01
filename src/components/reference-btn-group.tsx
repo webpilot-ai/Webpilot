@@ -11,7 +11,7 @@ export const ReferenceType = {
 export default function ReferenceBtnGroup({
   type = ReferenceType.NONE,
   disabled = false,
-  onChange = type => null,
+  onChange = () => null,
 }) {
   return (
     <section className="reference-btn-group">
@@ -52,19 +52,19 @@ export default function ReferenceBtnGroup({
 
 const styles = css`
   .reference-btn-group {
-    margin: 8px 0px;
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    color: #929497;
     font-weight: 500;
     font-size: 12px;
     line-height: 17px;
-    color: #929497;
-    display: flex;
-    align-items: center;
 
     .btn-list {
-      margin: 0px;
-      padding: 0px;
       display: flex;
+      margin: 0;
       margin-left: 8px;
+      padding: 0;
 
       li + li {
         margin-left: 8px;

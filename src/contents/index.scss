@@ -4,36 +4,36 @@
 }
 
 .container {
-  border-radius: 10px;
   position: fixed !important;
   top: 80px;
   z-index: 99999999999;
   overflow: hidden;
+  border-radius: 10px;
   box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
   transition: all 0.2s linear;
 
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     display: none;
   }
 
-  &.entry{
-    width: 360px;
-    top:4px;
+  &.entry {
+    top: 4px;
     right: 25px;
+    width: 360px;
   }
 }
 
 .container-visible {
   right: 0;
-  opacity: 1;
   width: 460px;
+  opacity: 1;
 }
 
 .iframe {
   width: 100%;
   overflow: hidden;
-  border: none;
   background-color: white;
+  border: none;
   transition: all 0.3s;
 }
 

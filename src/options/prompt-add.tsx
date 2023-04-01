@@ -14,20 +14,20 @@ export default function PromptAdd({onClick = () => null}) {
 
 const styles = css`
   .new-prompt {
-    margin-top: 16px;
-    width: 100%;
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 15px 20px 14px 20px;
-    font-size: 16px;
-    color: #777777;
-    cursor: pointer;
-    user-select: none;
     display: flex;
     align-items: center;
+    width: 100%;
+    margin-top: 16px;
+    padding: 15px 20px 14px;
+    color: #777;
+    font-size: 16px;
+    background-color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
 
     &:hover {
-      filter: drop-shadow(0px 8px 24px rgba(149, 157, 165, 0.2));
+      filter: drop-shadow(0 8px 24px rgb(149 157 165 / 20%));
     }
 
     &:active {

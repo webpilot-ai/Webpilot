@@ -1,39 +1,20 @@
 import '@assets/styles/base.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
-import {useState} from 'react'
-import {ToastContainer} from 'react-toastify'
-import Modal from 'rc-dialog/es'
 import css from 'styled-jsx/css'
 
-import {defaultConfig} from '@/config'
-import {gettext, toast} from '@/utils'
+import LogoTextIcon from 'react:@assets/images/Text+Logo.svg'
 
 import useConfig from '@/hooks/use-config'
 
-import Button, {BUTTON_TYPE} from '@/components/button'
 import {withAIContext} from '@/components/with-ai-context'
 
-// import ModelSettings from './model-settings'
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'
-
-import LogoTextIcon from 'react:@assets/images/Text+Logo.svg'
 
 export default withAIContext(function Options() {
   const {config, setConfig} = useConfig()
   const {prompts} = config
-
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
-  const [resetModalVisible, setResetModalVisible] = useState(false)
-
-  const toggleResetModalVisible = () => setResetModalVisible(!resetModalVisible)
-
-  const resetDefaultConfig = () => {
-    setConfig(defaultConfig)
-    toggleResetModalVisible()
-    toast.success(gettext('Restored to default settings'))
-  }
 
   const handlePromptChange = (newPrompt, index) => {
     prompts[index] = newPrompt
@@ -124,34 +105,35 @@ export default withAIContext(function Options() {
 
 const styles = css`
   .container {
-    width: 100%;
-    height: 100vh;
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    width: 100%;
+    height: 100vh;
   }
 
   .body {
-    max-width: 1438px;
-    width: calc(100vw - 18px);
-    height: calc(100vh - 18px);
-    padding: 24px 16px;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid #ffffff;
-    border-radius: 20px 20px 0px 0px;
-
     display: flex;
     flex-direction: column;
+    width: calc(100vw - 18px);
+    max-width: 1438px;
+    height: calc(100vh - 18px);
+    padding: 24px 16px;
     overflow-y: scroll;
+    background: rgb(255 255 255 / 60%);
+    border: 1px solid #fff;
+    border-radius: 20px 20px 0 0;
 
     &::-webkit-scrollbar {
       width: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
       /* margin: 16px 0px;
       max-height: 32px;
       background-color: white; */
     }
+
     &::-webkit-scrollbar-button {
       display: none;
     }
@@ -161,11 +143,11 @@ const styles = css`
     }
 
     .header {
+      display: flex;
+      align-items: flex-end;
       color: #777;
       font-size: 24px;
       line-height: 28px;
-      display: flex;
-      align-items: flex-end;
 
       .slogan {
         margin-left: 43px;
@@ -173,39 +155,38 @@ const styles = css`
     }
 
     footer {
-      margin-top: 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin-top: 32px;
       font-size: 16px;
 
       a {
-        font-weight: bold;
         color: #4f5aff;
+        font-weight: bold;
       }
     }
   }
 
   .tabs {
-    margin-top: 50px;
     height: 34px;
-    padding: 0px 12px;
+    margin-top: 50px;
+    padding: 0 12px;
 
     .tab {
-      font-size: 24px;
-      font-color: #000000;
       position: relative;
+      color: #000;
+      font-size: 24px;
 
       &::after {
-        content: '';
+        position: absolute;
         display: block;
         width: 100px;
         height: 4px;
         background-color: #4128d3;
-        position: absolute;
-
         border-radius: 2px;
+        content: '';
       }
     }
   }

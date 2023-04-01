@@ -33,7 +33,7 @@ export default function Index() {
     }
 
     if (req.name === MESSAGING_EVENT.SYNC_FRAME_SIZE) {
-      const {width, height} = req.body as any
+      const {width, height} = req.body
 
       if (width) {
         setIframeSize({
@@ -70,7 +70,7 @@ export default function Index() {
     }
 
     if (req.name === MESSAGING_EVENT.GET_DOCUMENT) {
-      let article: any = {}
+      let article = {}
       try {
         const cloneNode = document.cloneNode(true) as Document
         article = new Readability(cloneNode).parse()

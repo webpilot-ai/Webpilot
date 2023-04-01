@@ -1,13 +1,6 @@
-import RadioIcon from 'react:@assets/images/radio.svg'
-import RadioCheckedIcon from 'react:@assets/images/radio-checked.svg'
-
-import {useState} from 'react'
-import copyToClipboard from 'copy-to-clipboard'
-import {useMessage} from '@plasmohq/messaging/hook'
 import css from 'styled-jsx/css'
 
-import {defaultConfig, MESSAGING_EVENT, Prompt, ROUTE} from '@/config'
-import {gettext, toast} from '@/utils'
+import {defaultConfig} from '@/config'
 
 import useConfig from '@/hooks/use-config'
 import useAI from '@/hooks/use-ai'
@@ -15,9 +8,9 @@ import useAI from '@/hooks/use-ai'
 import Button from '@/components/button'
 
 export default function PromptList({
-  onSelect = (prompt: Prompt) => null,
+  onSelect = () => null,
   selectIndex = -1,
-  updateIndex = index => null,
+  updateIndex = () => null,
 }) {
   const {config, setConfig} = useConfig()
   const {ai} = useAI()

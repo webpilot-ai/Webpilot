@@ -97,9 +97,9 @@ const styles = css`
 
     .header-settings {
       display: flex;
-      padding: 0px;
       align-items: center;
       justify-content: center;
+      padding: 0;
 
       li + li {
         margin-left: 14px;
@@ -108,11 +108,11 @@ const styles = css`
   }
 
   .title {
+    margin-right: auto;
+    margin-left: 10px;
     color: #000;
     font-weight: 600;
     font-size: 12px;
-    margin-right: auto;
-    margin-left: 10px;
   }
 `
 

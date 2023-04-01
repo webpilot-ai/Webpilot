@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import css from 'styled-jsx/css'
 import {sendToContentScript} from '@plasmohq/messaging'
 
@@ -98,13 +98,13 @@ const styles = css`
   }
 
   .tips {
+    display: flex;
+    flex-direction: column;
+    height: 68px;
+    padding: 0 8px;
     color: #c4c4c4;
     font-size: 12px;
     line-height: 16.8px;
-    height: 68px;
-    padding: 0 8px;
-    display: flex;
-    flex-direction: column;
 
     div {
       margin-top: auto;
@@ -120,6 +120,7 @@ const styles = css`
     height: 180px;
     margin: 0 8px;
     margin-top: 15px;
+
     /* background: #ddd; */
     border-radius: 10px;
   }

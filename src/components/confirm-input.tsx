@@ -10,8 +10,8 @@ export default function ConfirmInput({
   loading = false,
   disabled = false,
   autoFocus = true,
-  onTextChange = text => null,
-  onConfirm = command => null,
+  onTextChange = () => null,
+  onConfirm = () => null,
 }) {
   const inputRef = useRef()
   const [isActive, setActive] = useState(false)
@@ -86,14 +86,14 @@ const styles = css`
   .confirm-input {
     position: relative;
     display: flex;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    overflow: hidden;
     height: 32px;
     margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 5px;
   }
 
-  //TODO: Bug fix
+  /* TODO: Bug fix */
   .confirm-input--active {
     border-bottom: 1px solid #2d5eae;
   }
@@ -104,14 +104,14 @@ const styles = css`
     padding: 0 12px;
     color: #777;
     font-size: 16px;
+    font-size: 12px;
     line-height: 40px;
     border: none;
     outline: none;
-    font-size: 12px;
 
     &::placeholder {
+      color: #777;
       font-size: 12px;
-      color: #777777;
     }
   }
 
@@ -120,19 +120,20 @@ const styles = css`
     width: 40px;
 
     .send-btn {
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(0 0 0 / 0%);
       border: 0;
-      background-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
       fill: #dadada;
 
       &.active {
         fill: #2d5eae;
       }
+
       &.loading {
         cursor: not-allowed;
         animation: rotation 1s infinite linear;
@@ -144,6 +145,7 @@ const styles = css`
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(359deg);
     }

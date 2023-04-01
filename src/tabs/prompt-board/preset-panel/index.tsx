@@ -1,9 +1,8 @@
 import css from 'styled-jsx/css'
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState, useMemo} from 'react'
 import {sendToContentScript} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 
-// import {gettext} from '@/utils'
 import {MESSAGING_EVENT} from '@/config'
 
 import PromptBoardHeader from '@/components/prompt-board-header'
@@ -30,21 +29,23 @@ export default function PresetPanel() {
   const {prompts} = config
   const {latesPresetPromptIndex = 0, turboMode} = config
 
-  const resizeObserver = new ResizeObserver(() => {
-    const currentHeight = element.current.clientHeight
-    const currentWidth = element.current.clientWidth
+  const resizeObserver = useMemo(() => {
+    return new ResizeObserver(() => {
+      const currentHeight = element.current.clientHeight
+      const currentWidth = element.current.clientWidth
 
-    if (currentHeight !== height) {
-      setHeight(currentHeight)
-      sendToContentScript({
-        name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
-        body: {
-          width: currentWidth,
-          height: currentHeight,
-        },
-      })
-    }
-  })
+      if (currentHeight !== height) {
+        setHeight(currentHeight)
+        sendToContentScript({
+          name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
+          body: {
+            width: currentWidth,
+            height: currentHeight,
+          },
+        })
+      }
+    })
+  }, [height])
 
   useEffect(() => {
     setPrompt(prompts[latesPresetPromptIndex])
@@ -53,7 +54,7 @@ export default function PresetPanel() {
     return () => {
       resizeObserver.disconnect()
     }
-  }, [])
+  }, [latesPresetPromptIndex, prompts, resizeObserver])
 
   useMessage<string, string>(req => {
     const {name, body} = req
