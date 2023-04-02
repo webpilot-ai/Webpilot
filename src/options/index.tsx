@@ -89,7 +89,7 @@ export default withAIContext(function Options() {
         </main>
         <footer>
           <span>Webpilot is open source</span>
-          <a href="https://github.com/Fluentify-IO/Fluentify" target="blank">
+          <a href="https://github.com/Fluentify-IO/Fluentify" target="_blank" rel="noreferrer">
             Star on Github
           </a>
         </footer>
@@ -118,7 +118,7 @@ const styles = css`
     width: calc(100vw - 18px);
     max-width: 1438px;
     height: calc(100vh - 18px);
-    padding: 24px 16px;
+    padding: 24px 16px 16px;
     overflow-y: scroll;
     background: rgb(255 255 255 / 60%);
     border: 1px solid #fff;
@@ -145,12 +145,13 @@ const styles = css`
     .header {
       display: flex;
       align-items: flex-end;
-      color: #777;
-      font-size: 24px;
-      line-height: 28px;
 
       .slogan {
-        margin-left: 43px;
+        margin-left: 24px;
+        color: #777;
+        font-size: 18px;
+        line-height: 25px;
+        font-weight: 400;
       }
     }
 
@@ -160,11 +161,12 @@ const styles = css`
       align-items: center;
       justify-content: center;
       margin-top: 32px;
-      font-size: 16px;
+      color: #929497;
+      font-size: 18px;
 
       a {
         color: #4f5aff;
-        font-weight: bold;
+        font-weight: 400;
       }
     }
   }
@@ -192,7 +194,7 @@ const styles = css`
   }
 
   .prompts {
-    margin-top: 36px;
+    margin-top: 28px;
   }
 
   @media (max-width: 820px) {

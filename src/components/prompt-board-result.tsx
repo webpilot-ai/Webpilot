@@ -40,7 +40,18 @@ export default function PromptBoardResult({placeholder = ''}) {
   }
 
   useEffect(() => {
-    setValue(ai.result || '')
+    const textArray = ai.result || ''
+    let i = 0
+    setValue('')
+    const timer = setInterval(() => {
+      if (i < textArray.length) {
+        setValue(prevText => prevText + textArray[i])
+        setValue(prevText => prevText.replace('undefined', ''))
+        i++
+      } else {
+        clearInterval(timer)
+      }
+    }, 50)
   }, [ai.result])
 
   const copy = () => {
