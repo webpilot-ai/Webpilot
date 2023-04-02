@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import css from 'styled-jsx/css'
 import {sendToContentScript} from '@plasmohq/messaging'
 
@@ -15,14 +15,9 @@ import getAuthKeyImage from '~assets/images/get-auth-key.gif'
 
 export default function EntryPanel() {
   const [inputValue, setInputValue] = useState('')
-  const [disabled, setDisabled] = useState(false)
 
   const {config, setConfig} = useConfig()
   const {ai, askAI} = useAI()
-
-  useEffect(() => {
-    setDisabled(!inputValue || ai.loading)
-  }, [inputValue, ai.loading])
 
   const setAuthKey = authKey => {
     askAI({authKey, command: 'Say hi.', onlyCommand: true}).then(() => {
@@ -44,7 +39,7 @@ export default function EntryPanel() {
         <ConfirmInput
           autoFocus
           value={inputValue}
-          disabled={disabled}
+          disabled={ai.loading}
           loading={ai.loading}
           onConfirm={setAuthKey}
           handleChangeInput={handleChangeInput}

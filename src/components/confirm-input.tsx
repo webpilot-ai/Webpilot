@@ -9,7 +9,7 @@ export default function ConfirmInput({
   placeholder = '',
   loading = false,
   disabled = false,
-  autoFocus = true,
+  focus = false,
   onTextChange = () => null,
   onConfirm = () => null,
 }) {
@@ -52,12 +52,18 @@ export default function ConfirmInput({
     onTextChange(value)
   }
 
+  useEffect(() => {
+    if (focus) {
+      inputRef.current.focus()
+    }
+  }, [focus])
+
   return (
     <section className={`confirm-input ${isActive && 'confirm-input--active'}`}>
       <input
         ref={inputRef}
-        autoFocus={autoFocus}
-        disabled={loading || disabled}
+        autoFocus
+        disabled={disabled}
         placeholder={placeholder}
         className="input"
         onChange={handleChangeInput}
@@ -67,7 +73,7 @@ export default function ConfirmInput({
       />
       <div className="confirm">
         <button
-          disabled={loading || disabled}
+          disabled={disabled}
           className={`send-btn ${isActive && (value !== '' || placeholder !== '') && 'active'} ${
             loading && 'loading'
           }`}
@@ -132,6 +138,10 @@ const styles = css`
 
       &.active {
         fill: #2d5eae;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
       }
 
       &.loading {

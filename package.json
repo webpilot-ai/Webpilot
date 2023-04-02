@@ -10,8 +10,8 @@
     "build": "plasmo build",
     "package": "plasmo package",
     "lint": "pnpm lint:eslint && pnpm lint:stylelint",
-    "lint:eslint": "eslint 'src/**/*.{js,ts,tsx}' --cache --fix",
-    "lint:stylelint": "stylelint 'src/**/*.{css,scss,ts,tsx}' --fix"
+    "lint:eslint": "eslint \"src/**/*.{js,ts,tsx}\" --cache --fix",
+    "lint:stylelint": "stylelint \"src/**/*.{css,scss,ts,tsx}\" --fix"
   },
   "dependencies": {
     "@mozilla/readability": "0.4.3",

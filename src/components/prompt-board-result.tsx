@@ -26,6 +26,7 @@ export default function PromptBoardResult({placeholder = ''}) {
   })
 
   const cleanData = () => {
+    ai.result = ''
     setValue('')
   }
 

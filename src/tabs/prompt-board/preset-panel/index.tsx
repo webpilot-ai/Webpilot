@@ -1,6 +1,6 @@
 import css from 'styled-jsx/css'
-import {useEffect, useRef, useState, useMemo} from 'react'
-import {sendToContentScript} from '@plasmohq/messaging'
+import {useRef, useState} from 'react'
+// import {sendToContentScript} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 
 import {MESSAGING_EVENT} from '@/config'
@@ -16,9 +16,8 @@ import PromptList from './prompt-list'
 
 export default function PresetPanel() {
   const element = useRef<HTMLElement>()
-  const [height, setHeight] = useState<number>(0)
   const [prompt, setPrompt] = useState({})
-  const [disabled, setDisabled] = useState(false)
+  // const [disabled, setDisabled] = useState(false)
   const [selectPromptIndex, setSelectPromptIndex] = useState(-1)
   const [inputPrompt, setInputPrompt] = useState('')
   const [selectedText, setSelectedText] = useState('')
@@ -28,33 +27,6 @@ export default function PresetPanel() {
   const {config} = useConfig()
   const {prompts} = config
   const {latesPresetPromptIndex = 0, turboMode} = config
-
-  const resizeObserver = useMemo(() => {
-    return new ResizeObserver(() => {
-      const currentHeight = element.current.clientHeight
-      const currentWidth = element.current.clientWidth
-
-      if (currentHeight !== height) {
-        setHeight(currentHeight)
-        sendToContentScript({
-          name: MESSAGING_EVENT.SYNC_FRAME_SIZE,
-          body: {
-            width: currentWidth,
-            height: currentHeight,
-          },
-        })
-      }
-    })
-  }, [height])
-
-  useEffect(() => {
-    setPrompt(prompts[latesPresetPromptIndex])
-
-    resizeObserver.observe(element.current)
-    return () => {
-      resizeObserver.disconnect()
-    }
-  }, [latesPresetPromptIndex, prompts, resizeObserver])
 
   useMessage<string, string>(req => {
     const {name, body} = req
@@ -87,10 +59,6 @@ export default function PresetPanel() {
     askAIByPrompt()
   }
 
-  useEffect(() => {
-    setDisabled(!inputPrompt || ai.loading || prompt?.command)
-  }, [inputPrompt, ai.loading, prompt])
-
   const askAIByPrompt = () => {
     const command = inputPrompt !== '' ? inputPrompt : prompt?.command
     askAI({command})
@@ -107,7 +75,7 @@ export default function PresetPanel() {
       />
       <ConfirmInput
         loading={ai.loading}
-        disabled={disabled}
+        disabled={ai.loading}
         placeholder={prompt?.command}
         command={prompt?.command}
         onConfirm={askAIByPrompt}

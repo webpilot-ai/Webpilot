@@ -27,6 +27,10 @@ export default function Index() {
   const {config, setConfig} = useConfig()
   const [isAskPage, setIsAskPage] = useState(false)
   const {isAuth, autoPopup, turboMode} = config
+  const [dragPosition, setDragPosition] = useState({
+    x: 0,
+    y: 0,
+  })
 
   useMessage<number, string>((req, res) => {
     if (req.name === MESSAGING_EVENT.GET_SELECTED_TEXT) {
@@ -57,10 +61,13 @@ export default function Index() {
       if (isAskPage) {
         closeAskPage()
       } else {
-        hideOverLay()
         setLockOverlay(false)
         setFloatingLogoVisible(true)
       }
+      setDragPosition({x: 0, y: 0})
+
+      hideOverLay()
+
       return
     }
 
@@ -69,6 +76,7 @@ export default function Index() {
         setOverlayVisible(true)
       } else {
         showAskPage()
+        sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
       }
       return
     }
@@ -76,7 +84,7 @@ export default function Index() {
     if (req.name === MESSAGING_EVENT.GET_DOCUMENT) {
       let article = {}
       try {
-        const cloneNode = document.cloneNode(true) as Document
+        const cloneNode = document.cloneNode(true)
         article = new Readability(cloneNode).parse()
       } catch (error) {}
       if (article?.textContent) res.send(article.textContent)
@@ -90,6 +98,7 @@ export default function Index() {
     })
     setIsAskPage(true)
     setOverlayVisible(true)
+    setLockOverlay(true)
   }
 
   const closeAskPage = () => {
@@ -98,13 +107,12 @@ export default function Index() {
       latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL,
     })
     setIsAskPage(false)
-    setOverlayVisible(false)
+    setLockOverlay(false)
+    hideOverLay()
   }
 
   useEffect(() => {
-    window.addEventListener('mouseup', e => {
-      if (lockOverlay) return
-
+    const handleMouseUp = e => {
       const selectedText = getSelectedText()
       setSelectedText(selectedText)
 
@@ -117,7 +125,16 @@ export default function Index() {
       setTimeout(() => {
         setFloatingPosition({clientX, clientY})
       }, 200)
-    })
+    }
+
+    if (lockOverlay) {
+      window.removeEventListener('mouseup', handleMouseUp)
+    } else {
+      window.addEventListener('mouseup', handleMouseUp)
+    }
+    return () => {
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
   }, [lockOverlay])
 
   useEffect(() => {
@@ -159,12 +176,23 @@ export default function Index() {
     sendToBackground({name: MESSAGING_EVENT.CLEAN_DATA})
   }
 
-  const onDragStart = () => setLockOverlay(true)
+  const handleDragStart = () => setLockOverlay(true)
+
+  const handleDragEnd = (e, data) => {
+    const {x, y} = data
+    setDragPosition({x, y})
+  }
 
   const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
   return (
     <>
-      <Draggable handle=".drag-handle" bounds="html" onStart={onDragStart}>
+      <Draggable
+        handle=".drag-handle"
+        bounds="html"
+        position={dragPosition}
+        onStop={handleDragEnd}
+        onStart={handleDragStart}
+      >
         <section
           className={`container ${overlayVisible && 'container-visible'} ${!isAuth && 'entry'}`}
           style={
@@ -172,6 +200,11 @@ export default function Index() {
               ? {
                   top: '4px',
                   right: '25px',
+                }
+              : isAskPage
+              ? {
+                  top: (window.innerHeight - 131) / 2 - 80,
+                  left: (window.innerWidth - 460) / 2,
                 }
               : {
                   left: `${floatingPosition.clientX < 250 ? floatingPosition.clientX : 225}px`,
