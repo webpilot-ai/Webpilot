@@ -9,7 +9,7 @@ export const ReferenceType = {
 }
 
 export default function ReferenceBtnGroup({
-  type = ReferenceType.NONE,
+  type = ReferenceType.THIS_PAGE,
   disabled = false,
   onChange = () => null,
 }) {

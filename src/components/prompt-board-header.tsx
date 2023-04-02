@@ -1,6 +1,7 @@
 import CameraFlashIcon from 'react:@assets/images/camera-flash.svg'
 import PreferencesIcon from 'react:@assets/images/preferences.svg'
 import RemoveIcon from 'react:@assets/images/e-remove.svg'
+import LogoIcon from 'react:@assets/images/logo.svg'
 
 import {sendToContentScript} from '@plasmohq/messaging'
 import Tooltip from 'rc-tooltip/es'
@@ -29,7 +30,7 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
 
   return (
     <section className="header">
-      <span>LOGO</span>
+      <LogoIcon />
       <h1 className="title">Working With Webpilot</h1>
       {isAuth ? (
         <ul role="list" className="header-settings">

@@ -1,6 +1,7 @@
 import css from 'styled-jsx/css'
 import {useState} from 'react'
 import {sendToContentScript} from '@plasmohq/messaging'
+import {useMessage} from '@plasmohq/messaging/hook'
 
 import {MESSAGING_EVENT} from '@/config'
 import PromptBoardHeader from '@/components/prompt-board-header'
@@ -11,10 +12,11 @@ import useAI from '@/hooks/use-ai'
 import {toast} from '@/utils'
 
 export default function AskPage() {
-  const {ai, askAI} = useAI()
-
+  const [focus, setFocus] = useState(false)
   const [command, setCommand] = useState('')
-  const [askType, setAskType] = useState(ReferenceType.NONE)
+  const [askType, setAskType] = useState(ReferenceType.THIS_PAGE)
+
+  const {ai, askAI} = useAI()
 
   const handleCommandChange = text => {
     setCommand(text)
@@ -29,6 +31,16 @@ export default function AskPage() {
     askIAByCommand(command, type)
   }
 
+  useMessage(req => {
+    if (req.name === MESSAGING_EVENT.INPUT_FOCUS) {
+      setFocus(false)
+
+      setTimeout(() => {
+        setFocus(true)
+      }, 100)
+    }
+  })
+
   const askIAByCommand = async (command, type) => {
     if (!command || command === '') return
 
@@ -38,14 +50,12 @@ export default function AskPage() {
         onlyCommand: true,
       })
     } else if (type === ReferenceType.THE_SELECT) {
-      // leave text empty it will get selected text automatically
-      askAI({command})
+      askAI({command}) // leave text empty it will get selected text automatically
     } else if (type === ReferenceType.THIS_PAGE) {
       const article = await sendToContentScript({name: MESSAGING_EVENT.GET_DOCUMENT})
 
       if (article === '' || !article) {
-        // FIXME: i18n
-        toast.error("Can't get article")
+        toast.error("Can't get article") // FIXME: i18n
         return
       }
 
@@ -60,6 +70,7 @@ export default function AskPage() {
     <section className="ask-page-panel">
       <PromptBoardHeader hideTurboMode />
       <ConfirmInput
+        focus={focus}
         loading={ai.loading}
         onConfirm={handleInputConfirm}
         onTextChange={handleCommandChange}
