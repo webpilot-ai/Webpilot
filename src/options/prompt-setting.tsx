@@ -133,8 +133,9 @@ const styles = css`
       display: flex;
       align-items: center;
       color: #000;
-      font-weight: bold;
-      font-size: 16px;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 25px;
 
       .show-title {
         max-width: 180px;
@@ -160,8 +161,7 @@ const styles = css`
     }
 
     .content {
-      margin-top: 16px;
-      font-size: 16px;
+      margin-top: 8px;
 
       .prompt-input {
         width: 100%;
@@ -170,8 +170,10 @@ const styles = css`
         height: auto;
         padding: 4px;
         color: #777;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
         border: 1px solid #dadada;
-        border-radius: 4px;
         resize: vertical;
 
         &:focus-visible {
