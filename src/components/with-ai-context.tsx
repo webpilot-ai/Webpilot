@@ -1,7 +1,7 @@
 import {createContext, useReducer} from 'react'
 import {sendToContentScript} from '@plasmohq/messaging'
 
-import {askOpenAI} from '@/io'
+import {askOpenAI, parseStream} from '@/io'
 import {gettext, toast} from '@/utils'
 import {MESSAGING_EVENT, ROUTE} from '@/config'
 
@@ -51,10 +51,10 @@ export function withAIContext(Component) {
         model: config.model,
         prompt: onlyCommand ? command : `${command}:\n\n${selectedText}\n\n`,
       })
-        .then(res => {
-          const result = res
-          aiDispatch({type: AI_REDUCER_ACTION_TYPE.SUCCESS, payload: {result}})
-          return result
+        .then(streamReader => {
+          return parseStream(streamReader, result => {
+            aiDispatch({type: AI_REDUCER_ACTION_TYPE.SUCCESS, payload: {result}})
+          })
         })
         .catch(err => {
           aiDispatch({type: AI_REDUCER_ACTION_TYPE.FAILURE, payload: err})

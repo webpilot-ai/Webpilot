@@ -149,9 +149,9 @@ const styles = css`
       .slogan {
         margin-left: 24px;
         color: #777;
+        font-weight: 400;
         font-size: 18px;
         line-height: 25px;
-        font-weight: 400;
       }
     }
 
