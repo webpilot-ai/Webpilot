@@ -69,8 +69,8 @@ export default withAIContext(function Options() {
           </section>
           <section className="tabs">
             <section className="tab">Prompts</section>
-            <section className="tab">Model</section>
             <section className="tab">Advanced</section>
+            <section className="tab">About</section>
           </section>
 
           <section className="prompts">
@@ -81,7 +81,7 @@ export default withAIContext(function Options() {
                   prompt={item}
                   onMoveUp={() => handleMove('up', index)}
                   onMoveDown={() => handleMove('down', index)}
-                  onChange={p => handlePromptChange(p, index)}
+                  onChange={ p => handlePromptChange(p, index)}
                   onDelete={() => handleDeletePrompt(index)}
                 />
               )
