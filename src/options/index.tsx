@@ -69,6 +69,8 @@ export default withAIContext(function Options() {
           </section>
           <section className="tabs">
             <section className="tab">Prompts</section>
+            <section className="tab">Advanced</section>
+            <section className="tab">About</section>
           </section>
 
           <section className="prompts">
@@ -79,7 +81,7 @@ export default withAIContext(function Options() {
                   prompt={item}
                   onMoveUp={() => handleMove('up', index)}
                   onMoveDown={() => handleMove('down', index)}
-                  onChange={p => handlePromptChange(p, index)}
+                  onChange={ p => handlePromptChange(p, index)}
                   onDelete={() => handleDeletePrompt(index)}
                 />
               )
@@ -172,12 +174,14 @@ const styles = css`
   }
 
   .tabs {
+    display: flex;
     height: 34px;
     margin-top: 50px;
     padding: 0 12px;
 
     .tab {
       position: relative;
+      margin-right: 48px;
       color: #000;
       font-size: 24px;
 
