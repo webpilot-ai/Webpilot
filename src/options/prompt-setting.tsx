@@ -98,10 +98,8 @@ export default function PromptSettings({
           disabled={!isEditing}
         />
       </section>
-      <section className="placerholder">
-
-      </section>
-      {isEditing ? null: (
+      <section className="placerholder" />
+      {isEditing ? null : (
         <section className="btn-group">
           <section className="btn move-up" onClick={onMoveDown}>
             <DownIcon />
@@ -197,7 +195,7 @@ const styles = css`
     }
 
     .placerholder {
-      display:block;
+      display: block;
       min-height: 16px;
     }
 
@@ -206,7 +204,7 @@ const styles = css`
       align-items: center;
       justify-content: flex-end;
       width: 100%;
-      
+
       .btn {
         width: 16px;
         height: 16px;
@@ -231,11 +229,11 @@ const styles = css`
     &:hover > .title > .icon-wrap {
       display: block;
     }
-    
+
     &:hover > .placerholder {
       display: none;
     }
-   
+
     &:hover > .btn-group {
       display: flex;
     }

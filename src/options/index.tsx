@@ -174,16 +174,17 @@ const styles = css`
   }
 
   .tabs {
+    display: flex;
     height: 34px;
     margin-top: 50px;
     padding: 0 12px;
-    display:flex;
 
     .tab {
       position: relative;
+      margin-right: 48px;
       color: #000;
       font-size: 24px;
-      margin-right: 48px;
+
       &::after {
         position: absolute;
         display: block;
