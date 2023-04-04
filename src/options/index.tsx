@@ -69,6 +69,8 @@ export default withAIContext(function Options() {
           </section>
           <section className="tabs">
             <section className="tab">Prompts</section>
+            <section className="tab">Model</section>
+            <section className="tab">Advanced</section>
           </section>
 
           <section className="prompts">
@@ -175,12 +177,13 @@ const styles = css`
     height: 34px;
     margin-top: 50px;
     padding: 0 12px;
+    display:flex;
 
     .tab {
       position: relative;
       color: #000;
       font-size: 24px;
-
+      margin-right: 48px;
       &::after {
         position: absolute;
         display: block;
