@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import css from 'styled-jsx/css'
 
-import LogoTextIcon from 'react:@assets/images/Text+Logo.svg'
+import LogoTextIcon from 'react:@assets/images/text-logo.svg'
 
 import useConfig from '@/hooks/use-config'
 
@@ -11,6 +11,7 @@ import {withAIContext} from '@/components/with-ai-context'
 
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'
+import About from './about'
 
 export default withAIContext(function Options() {
   const {config, setConfig} = useConfig()
@@ -81,13 +82,17 @@ export default withAIContext(function Options() {
                   prompt={item}
                   onMoveUp={() => handleMove('up', index)}
                   onMoveDown={() => handleMove('down', index)}
-                  onChange={ p => handlePromptChange(p, index)}
+                  onChange={p => handlePromptChange(p, index)}
                   onDelete={() => handleDeletePrompt(index)}
                 />
               )
             })}
           </section>
           {prompts.length >= 4 ? null : <PromptAdd onClick={handleAddNewPrompt} />}
+
+          <section className="about">
+            <About />
+          </section>
         </main>
         <footer>
           <span>Webpilot is open source</span>
