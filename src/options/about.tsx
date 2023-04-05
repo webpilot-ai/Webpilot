@@ -5,7 +5,12 @@ import Engineer from './engineer'
 
 export default function About() {
   // dummy contributor here
-  const [engineers, setEngineers] = useState(['Jay chow', 'Lebrown James'])
+  const [engineers, setEngineers] = useState([
+    'Jay chow',
+    'Lebrown James',
+    'Kobe Bryant',
+    'Noodles Zhuge',
+  ])
 
   return (
     <section className="about">

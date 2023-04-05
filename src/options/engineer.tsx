@@ -1,12 +1,13 @@
 import css from 'styled-jsx/css'
-import Avatar from 'react:@assets/images/avatar/avatar.svg'
+
+import avatar from '/assets/images/avatar/avatar.svg'
 
 export default function Engineer() {
   return (
     <section className="engineer">
-      <Avatar />
+      <img src={avatar} alt="" />
       <a className="name" href="#">
-        Lebron James
+        LebronJames
       </a>
       <style jsx>{styles}</style>
     </section>
@@ -21,9 +22,14 @@ const styles = css`
     height: 80px;
     width: 183px;
     border-radius: 20px;
+    padding: 16px;
     align-items: center; /* align vertically */
     justify-content: center; /* align horizontally */
-
+    img {
+      width: 48px;
+      height: 48px;
+      margin-right: 16px;
+    }
     .name {
       font-weight: 400;
       font-size: 14px;

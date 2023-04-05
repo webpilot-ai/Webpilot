@@ -1,0 +1,101 @@
+import css from 'styled-jsx/css'
+
+import React, {useState} from 'react'
+
+import Logo from '/assets/images/advanced/logo.svg'
+
+export default function Advanced() {
+  const [inputValue, setInputValue] = useState('')
+
+  const handleInputChange = event => {
+    setInputValue(event.target.value)
+  }
+
+  return (
+    <section className="advanced">
+      <section className="header">
+        <img src={Logo} alt="" />
+        <span className="title">gpt-3.5-turbo</span>
+        <a href="#">Document</a>
+      </section>
+
+      <section className="inputs">
+        <div className="input-group">
+          <label htmlFor="authKey">Auth-key</label>
+          <input
+            type="text"
+            placeholder="Type something..."
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="authKey">Top p</label>
+          <input type="text" name="topP" id="topP" />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="authKey">frequency_penalty </label>
+          <input type="text" name="frequency_penalty" id="frequency_penalty" />
+        </div>
+      </section>
+      <style jsx>{styles}</style>
+    </section>
+  )
+}
+
+const styles = css`
+  .advanced {
+    margin-top: 28px;
+    padding: 22px 32px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    .header {
+      display: flex;
+      img {
+        margin-right: 8px;
+      }
+      .title {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 25px;
+        margin-right: 13px;
+        color: #4f5aff;
+      }
+
+      a {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+    .inputs {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 38px;
+        label {
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 25px;
+          color: #292929;
+          margin-bottom: 9px;
+        }
+        input {
+          border: 1px solid #dcdee1;
+          background: #ffffff;
+          width: 280px;
+          height: 36px;
+          box-sizing: border-box;
+          &:focus-visible {
+            border: 1px solid #dcdee1;
+          }
+        }
+      }
+    }
+  }
+`

@@ -1,17 +1,19 @@
 import '@assets/styles/base.scss'
 import 'react-toastify/dist/ReactToastify.css'
+import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
 
 import css from 'styled-jsx/css'
-
-import LogoTextIcon from 'react:@assets/images/text-logo.svg'
 
 import useConfig from '@/hooks/use-config'
 
 import {withAIContext} from '@/components/with-ai-context'
 
+import LogoTextIcon from '/assets/images/text-logo.svg'
+
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'
 import About from './about'
+import Advanced from './advanced'
 
 export default withAIContext(function Options() {
   const {config, setConfig} = useConfig()
@@ -65,34 +67,41 @@ export default withAIContext(function Options() {
       <section className="body">
         <main>
           <section className="header">
-            <LogoTextIcon />
+            <img src={LogoTextIcon} alt="" />
             <span className="slogan">Opensource | AI Assistant on All Websites</span>
           </section>
-          <section className="tabs">
-            <section className="tab">Prompts</section>
-            <section className="tab">Advanced</section>
-            <section className="tab">About</section>
-          </section>
 
-          <section className="prompts">
-            {prompts.map((item, index) => {
-              return (
-                <PromptSetting
-                  key={index}
-                  prompt={item}
-                  onMoveUp={() => handleMove('up', index)}
-                  onMoveDown={() => handleMove('down', index)}
-                  onChange={p => handlePromptChange(p, index)}
-                  onDelete={() => handleDeletePrompt(index)}
-                />
-              )
-            })}
-          </section>
-          {prompts.length >= 4 ? null : <PromptAdd onClick={handleAddNewPrompt} />}
+          <Tabs>
+            <TabList className="custom-list">
+              <Tab className="custom-tab">Prompts</Tab>
+              <Tab className="custom-tab">Advanced</Tab>
+              <Tab className="custom-tab">About</Tab>
+            </TabList>
 
-          <section className="about">
-            <About />
-          </section>
+            <TabPanel>
+              <section className="prompts">
+                {prompts.map((item, index) => {
+                  return (
+                    <PromptSetting
+                      key={index}
+                      prompt={item}
+                      onMoveUp={() => handleMove('up', index)}
+                      onMoveDown={() => handleMove('down', index)}
+                      onChange={p => handlePromptChange(p, index)}
+                      onDelete={() => handleDeletePrompt(index)}
+                    />
+                  )
+                })}
+              </section>
+              {prompts.length >= 4 ? null : <PromptAdd onClick={handleAddNewPrompt} />}
+            </TabPanel>
+            <TabPanel>
+              <Advanced />
+            </TabPanel>
+            <TabPanel>
+              <About />
+            </TabPanel>
+          </Tabs>
         </main>
         <footer>
           <span>Webpilot is open source</span>
@@ -135,12 +144,6 @@ const styles = css`
       width: 4px;
     }
 
-    &::-webkit-scrollbar-thumb {
-      /* margin: 16px 0px;
-      max-height: 32px;
-      background-color: white; */
-    }
-
     &::-webkit-scrollbar-button {
       display: none;
     }
@@ -148,11 +151,14 @@ const styles = css`
     main {
       flex: 1;
     }
-
+    .custom-tablist {
+      li {
+        color: yellow;
+      }
+    }
     .header {
       display: flex;
       align-items: flex-end;
-
       .slogan {
         margin-left: 24px;
         color: #777;
@@ -170,7 +176,6 @@ const styles = css`
       margin-top: 32px;
       color: #929497;
       font-size: 18px;
-
       a {
         color: #4f5aff;
         font-weight: 400;
@@ -178,8 +183,19 @@ const styles = css`
     }
   }
 
-  .tabs {
+  .prompts {
+    margin-top: 28px;
+  }
+
+  @media (max-width: 820px) {
+    .slogan {
+      display: none;
+    }
+  }
+
+  .custom-tablist {
     display: flex;
+    background-color: red;
     height: 34px;
     margin-top: 50px;
     padding: 0 12px;
@@ -201,16 +217,6 @@ const styles = css`
       }
     }
   }
-
-  .prompts {
-    margin-top: 28px;
-  }
-
-  @media (max-width: 820px) {
-    .slogan {
-      display: none;
-    }
-  }
 `
 
 const globalStyles = css.global`
@@ -222,5 +228,22 @@ const globalStyles = css.global`
 
   .prompt-item + .prompt-item {
     margin-top: 16px;
+  }
+  .custom-list {
+    display: flex;
+    list-style: none;
+    padding-left: 4px;
+    .custom-tab {
+      margin-right: 48px;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 34px;
+      cursor: pointer;
+    }
+    .react-tabs__tab--selected {
+      font-weight: 600;
+      color: #4f5aff;
+      border-bottom: 4px solid #4f5aff;
+    }
   }
 `

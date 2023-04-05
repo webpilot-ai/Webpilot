@@ -26,6 +26,7 @@
     "react-draggable": "4.4.5",
     "react-router": "6.9.0",
     "react-router-dom": "6.9.0",
+    "react-tabs": "6.0.0",
     "react-toastify": "9.1.1",
     "styled-jsx": "5.1.2"
   },
