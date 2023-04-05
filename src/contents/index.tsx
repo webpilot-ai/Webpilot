@@ -2,7 +2,7 @@ import 'rc-tooltip/assets/bootstrap.css'
 import cssText from 'data-text:./index.scss'
 import Logo from 'data-base64:~assets/icon.png'
 
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import Draggable from 'react-draggable'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
@@ -13,20 +13,28 @@ import {getSelectedText, getSelectedTextPosition} from '@/utils'
 
 import useConfig from '@/hooks/use-config'
 
+const LOGO_WIDTH = 24
+const LOGO_HEIGHT = 24
+
+const FRAME_WIDTH = 460
+const FRAME_HEIGHT = 141
+
 export default function Index() {
   const [selectedText, setSelectedText] = useState(() => getSelectedText())
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [lockOverlay, setLockOverlay] = useState(false)
   const [floatingLogoVisible, setFloatingLogoVisible] = useState(false)
 
-  const [floatingPosition, setFloatingPosition] = useState({clientX: 0, clientY: 0})
+  const {config, setConfig} = useConfig()
+  const [isAskPage, setIsAskPage] = useState(false)
+  const {isAuth, autoPopup, turboMode} = config
+  const [mousePosition, setMousePosition] = useState({x: 0, y: 0})
+  const [logoPosition, setLogoPosition] = useState({x: 0, y: 0})
+  const [framePosition, setFramePosition] = useState({x: 0, y: 0})
   const [iFrameSize, setIframeSize] = useState({
     height: 142,
     width: 460,
   })
-  const {config, setConfig} = useConfig()
-  const [isAskPage, setIsAskPage] = useState(false)
-  const {isAuth, autoPopup, turboMode} = config
   const [dragPosition, setDragPosition] = useState({
     x: 0,
     y: 0,
@@ -125,7 +133,7 @@ export default function Index() {
 
       const {clientX, clientY} = e
       setTimeout(() => {
-        setFloatingPosition({clientX, clientY})
+        setMousePosition({x: clientX, y: clientY})
       }, 200)
     }
 
@@ -143,7 +151,7 @@ export default function Index() {
 
         setTimeout(() => {
           setFloatingLogoVisible(true)
-          setFloatingPosition({clientX: x, clientY: y + 10})
+          setMousePosition({x, y})
         })
       }
     }
@@ -201,12 +209,101 @@ export default function Index() {
     sendToBackground({name: MESSAGING_EVENT.CLEAN_DATA})
   }
 
-  const handleDragStart = () => setLockOverlay(true)
+  const handleDragStart = () => {
+    setLockOverlay(true)
+  }
 
   const handleDragEnd = (e, data) => {
     const {x, y} = data
+    setScrollYOffset(0)
     setDragPosition({x, y})
   }
+
+  /**
+   * calculatr logo position
+   */
+  useEffect(() => {
+    if (floatingLogoVisible) {
+      const LOGO_OFFSET = {
+        x: 10,
+        y: 20,
+      }
+
+      let {x, y} = mousePosition
+
+      // left edge
+      x = x < LOGO_WIDTH ? LOGO_WIDTH + LOGO_OFFSET.x : x
+      // right edge
+      x = window.innerWidth - x < LOGO_WIDTH ? window.innerWidth - LOGO_WIDTH - LOGO_OFFSET.x : x
+      // bottom
+      if (window.innerHeight - y < LOGO_HEIGHT + LOGO_OFFSET.y) {
+        y = window.innerHeight - (LOGO_WIDTH + LOGO_OFFSET.y)
+
+        // avoid popup active at the same time
+        x = x + 24 < window.innerWidth - LOGO_WIDTH ? x + 24 : x - 24
+      }
+
+      y =
+        window.innerHeight - y < LOGO_HEIGHT + LOGO_OFFSET.y
+          ? window.innerHeight - (LOGO_WIDTH + LOGO_OFFSET.y)
+          : y + LOGO_OFFSET.y
+
+      setLogoPosition({x, y})
+    }
+  }, [mousePosition, floatingLogoVisible])
+
+  const [scrollY, setScrollY] = useState(0)
+  const [scrollYOffset, setScrollYOffset] = useState(0)
+
+  const handleScroll = useCallback(() => {
+    setScrollYOffset(scrollY - window.scrollY)
+  }, [scrollY])
+
+  /**
+   * listen scroll
+   */
+  useEffect(() => {
+    if (floatingLogoVisible || overlayVisible) {
+      setScrollY(window.scrollY)
+      window.addEventListener('scroll', handleScroll)
+    } else {
+      window.removeEventListener('scroll', handleScroll)
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [floatingLogoVisible, overlayVisible, handleScroll])
+
+  /**
+   * calculatr frame position
+   */
+  useEffect(() => {
+    const EDGE_OFFEST = 25
+    const FRMAE_OFFSET = {
+      y: 20,
+    }
+    if (overlayVisible) {
+      let {x, y} = mousePosition
+
+      if (window.innerWidth > FRAME_WIDTH + EDGE_OFFEST) {
+        // left edge
+        x = x < EDGE_OFFEST ? EDGE_OFFEST : x
+        // right edeg
+        const xMax = window.innerWidth - (FRAME_WIDTH + EDGE_OFFEST)
+        x = x <= xMax ? x : xMax
+      } else {
+        x = window.innerWidth / 2
+      }
+
+      y =
+        window.innerHeight - y < FRAME_HEIGHT + EDGE_OFFEST + FRMAE_OFFSET.y
+          ? window.innerHeight - (FRAME_HEIGHT + EDGE_OFFEST + FRMAE_OFFSET.y)
+          : y + FRMAE_OFFSET.y
+
+      setFramePosition({x, y})
+    }
+  }, [mousePosition, overlayVisible])
 
   const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
   return (
@@ -214,7 +311,10 @@ export default function Index() {
       <Draggable
         handle=".drag-handle"
         bounds="html"
-        position={dragPosition}
+        position={{
+          x: dragPosition.x,
+          y: dragPosition.y + scrollYOffset,
+        }}
         onStop={handleDragEnd}
         onStart={handleDragStart}
       >
@@ -232,8 +332,8 @@ export default function Index() {
                   left: (window.innerWidth - 460) / 2,
                 }
               : {
-                  left: `${floatingPosition.clientX < 250 ? floatingPosition.clientX : 225}px`,
-                  top: `${floatingPosition.clientY + 24}px`,
+                  left: `${framePosition.x}px`,
+                  top: `${framePosition.y}px`,
                 }
           }
         >
@@ -257,12 +357,9 @@ export default function Index() {
         <section
           className="floating-logo-container"
           style={{
-            left: `${
-              floatingPosition.clientX + 24 < window.innerWidth
-                ? floatingPosition.clientX + 24
-                : window.innerWidth - 24
-            }px`,
-            top: `${floatingPosition.clientY + 24}px`,
+            left: `${logoPosition.x}px`,
+            top: `${logoPosition.y}px`,
+            transform: `translate(0px, ${scrollYOffset}px)`,
           }}
           onMouseOver={showOverlay}
         >
