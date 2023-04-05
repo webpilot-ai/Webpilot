@@ -76,7 +76,9 @@ export default function Index() {
         setOverlayVisible(true)
       } else {
         showAskPage()
-        sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
+        setTimeout(() => {
+          sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
+        }, 100)
       }
       return
     }
