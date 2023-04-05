@@ -12,7 +12,6 @@ import useAI from '@/hooks/use-ai'
 import {toast} from '@/utils'
 
 export default function AskPage() {
-  const [focus, setFocus] = useState(false)
   const [command, setCommand] = useState('')
   const [askType, setAskType] = useState(ReferenceType.THIS_PAGE)
 
@@ -33,11 +32,8 @@ export default function AskPage() {
 
   useMessage(req => {
     if (req.name === MESSAGING_EVENT.INPUT_FOCUS) {
-      setFocus(false)
-
-      setTimeout(() => {
-        setFocus(true)
-      }, 100)
+      const input = document.getElementById('prompt-input')
+      input?.focus()
     }
   })
 
@@ -70,7 +66,6 @@ export default function AskPage() {
     <section className="ask-page-panel">
       <PromptBoardHeader hideTurboMode />
       <ConfirmInput
-        focus={focus}
         loading={ai.loading}
         onConfirm={handleInputConfirm}
         onTextChange={handleCommandChange}
