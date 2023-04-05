@@ -140,8 +140,12 @@ export default function Index() {
     }
 
     const handleKeyUp = e => {
-      // Ctrl + A
-      if (e.ctrlKey && e.key === 'a') {
+      // Ctrl + A or Ctrl + left/right/up/down
+      if (
+        (e.ctrlKey && e.key === 'a') ||
+        (e.shiftKey &&
+          (e.keycode === 37 || e.keycode === 38 || e.keycode === 39 || e.keycode === 40))
+      ) {
         const selecteText = getSelectedText()
         setSelectedText(selecteText)
         sendToBackground({
