@@ -109,6 +109,8 @@ export default function Index() {
     setIsAskPage(true)
     setOverlayVisible(true)
     setLockOverlay(true)
+    setScrollY(0)
+    setScrollYOffset(0)
   }
 
   const closeAskPage = () => {
@@ -186,6 +188,8 @@ export default function Index() {
           !selectedText && hideOverLay()
 
           setFloatingLogoVisible(!!selectedText && !overlayVisible)
+          setScrollY(0)
+          setScrollYOffset(0)
         }
       }
     }, 200)
@@ -256,8 +260,10 @@ export default function Index() {
   const [scrollYOffset, setScrollYOffset] = useState(0)
 
   const handleScroll = useCallback(() => {
-    setScrollYOffset(scrollY - window.scrollY)
-  }, [scrollY])
+    if (!isAskPage) {
+      setScrollYOffset(scrollY - window.scrollY)
+    }
+  }, [scrollY, isAskPage])
 
   /**
    * listen scroll
