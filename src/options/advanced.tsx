@@ -1,8 +1,8 @@
 import css from 'styled-jsx/css'
 
-import React, {useState} from 'react'
+import {useState} from 'react'
 
-import Logo from '/assets/images/advanced/logo.svg'
+import Logo from '../../../assets/images/advanced/logo.svg'
 
 export default function Advanced() {
   const [inputValue, setInputValue] = useState('')
@@ -49,19 +49,22 @@ const styles = css`
   .advanced {
     margin-top: 28px;
     padding: 22px 32px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 10px;
+
     .header {
       display: flex;
+
       img {
         margin-right: 8px;
       }
+
       .title {
+        margin-right: 13px;
+        color: #4f5aff;
         font-weight: 400;
         font-size: 18px;
         line-height: 25px;
-        margin-right: 13px;
-        color: #4f5aff;
       }
 
       a {
@@ -70,27 +73,32 @@ const styles = css`
         line-height: 20px;
       }
     }
+
     .inputs {
-      margin-top: 16px;
       display: flex;
       flex-direction: column;
+      margin-top: 16px;
+
       .input-group {
         display: flex;
         flex-direction: column;
         margin-bottom: 38px;
+
         label {
+          margin-bottom: 9px;
+          color: #292929;
           font-weight: 400;
           font-size: 18px;
           line-height: 25px;
-          color: #292929;
-          margin-bottom: 9px;
         }
+
         input {
-          border: 1px solid #dcdee1;
-          background: #ffffff;
+          box-sizing: border-box;
           width: 280px;
           height: 36px;
-          box-sizing: border-box;
+          background: #fff;
+          border: 1px solid #dcdee1;
+
           &:focus-visible {
             border: 1px solid #dcdee1;
           }

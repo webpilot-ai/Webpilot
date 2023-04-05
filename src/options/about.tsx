@@ -1,24 +1,17 @@
 import css from 'styled-jsx/css'
-import {useEffect, useState} from 'react'
 
 import Engineer from './engineer'
 
 export default function About() {
   // dummy contributor here
-  const [engineers, setEngineers] = useState([
-    'Jay chow',
-    'Lebrown James',
-    'Kobe Bryant',
-    'Noodles Zhuge',
-  ])
-
+  const demo = ['Jay chow', 'Lebrown James', 'Kobe Bryant', 'Noodles Zhuge']
   return (
     <section className="about">
       <div className="title">Contributors</div>
       <div className="sub-title">Engineering</div>
       <div className="engineers">
-        {engineers.map((engineer, index) => {
-          return <Engineer />
+        {demo.map(index => {
+          return <Engineer key={index} />
         })}
       </div>
       <style jsx>{styles}</style>
@@ -30,7 +23,7 @@ const styles = css`
   .about {
     margin-top: 28px;
     padding: 16px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 10px;
 
     .title {
@@ -41,8 +34,8 @@ const styles = css`
 
     .sub-title {
       margin-top: 16px;
-      font-size: 12px;
       font-weight: 500;
+      font-size: 12px;
       line-height: 17px;
     }
 

@@ -8,7 +8,7 @@ import useConfig from '@/hooks/use-config'
 
 import {withAIContext} from '@/components/with-ai-context'
 
-import LogoTextIcon from '/assets/images/text-logo.svg'
+import LogoTextIcon from '../../../assets/images/text-logo.svg'
 
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'
@@ -151,14 +151,11 @@ const styles = css`
     main {
       flex: 1;
     }
-    .custom-tablist {
-      li {
-        color: yellow;
-      }
-    }
+
     .header {
       display: flex;
       align-items: flex-end;
+
       .slogan {
         margin-left: 24px;
         color: #777;
@@ -176,6 +173,7 @@ const styles = css`
       margin-top: 32px;
       color: #929497;
       font-size: 18px;
+
       a {
         color: #4f5aff;
         font-weight: 400;
@@ -195,10 +193,10 @@ const styles = css`
 
   .custom-tablist {
     display: flex;
-    background-color: red;
     height: 34px;
     margin-top: 50px;
     padding: 0 12px;
+    background-color: red;
 
     .tab {
       position: relative;
