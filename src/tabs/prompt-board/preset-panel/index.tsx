@@ -1,6 +1,5 @@
 import css from 'styled-jsx/css'
-import {useRef, useState} from 'react'
-// import {sendToContentScript} from '@plasmohq/messaging'
+import {useEffect, useRef, useState} from 'react'
 import {useMessage} from '@plasmohq/messaging/hook'
 
 import {MESSAGING_EVENT} from '@/config'
@@ -17,9 +16,8 @@ import PromptList from './prompt-list'
 export default function PresetPanel() {
   const element = useRef<HTMLElement>()
   const [prompt, setPrompt] = useState({})
-  // const [disabled, setDisabled] = useState(false)
   const [selectPromptIndex, setSelectPromptIndex] = useState(-1)
-  const [inputPrompt, setInputPrompt] = useState('')
+  const [inputCommand, setInputCommand] = useState('')
   const [selectedText, setSelectedText] = useState('')
 
   const {ai, askAI} = useAI()
@@ -34,8 +32,9 @@ export default function PresetPanel() {
       setSelectedText(body)
       if (turboMode) {
         setSelectPromptIndex(latesPresetPromptIndex)
-        setPrompt(config.prompts[latesPresetPromptIndex])
-        askAIByPrompt()
+        const prompt = config.prompts[latesPresetPromptIndex]
+        setPrompt(prompt)
+        askAIByPrompt(prompt.command, selectedText)
       }
     }
 
@@ -47,21 +46,36 @@ export default function PresetPanel() {
   const cleanData = () => {
     setPrompt({})
     setSelectPromptIndex(-1)
-    setInputPrompt('')
+    setInputCommand('')
   }
 
   const handleUpdatePromptIndex = index => {
     setSelectPromptIndex(index)
 
-    if (inputPrompt) setInputPrompt('')
+    if (inputCommand) setInputCommand('')
 
-    setPrompt(prompts[index])
-    askAIByPrompt()
+    const prompt = prompts[index]
+
+    setPrompt(prompt)
+    askAIByPrompt(prompt.command, selectedText)
   }
 
-  const askAIByPrompt = () => {
-    const command = inputPrompt !== '' ? inputPrompt : prompt?.command
-    askAI({command})
+  const handleCommandChange = command => {
+    setInputCommand(command)
+  }
+
+  const handleConfirm = command => {
+    askAIByPrompt(command, selectedText)
+  }
+
+  useEffect(() => {
+    if (!!inputCommand && inputCommand !== '') {
+      setSelectPromptIndex(-1)
+    }
+  }, [inputCommand])
+
+  const askAIByPrompt = (command, text) => {
+    askAI({command, text})
   }
 
   return (
@@ -78,7 +92,8 @@ export default function PresetPanel() {
         disabled={ai.loading}
         placeholder={prompt?.command}
         command={prompt?.command}
-        onConfirm={askAIByPrompt}
+        onConfirm={handleConfirm}
+        onTextChange={handleCommandChange}
       />
       <PromptBoardResult />
       <style jsx>{styles}</style>

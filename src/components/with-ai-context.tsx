@@ -30,7 +30,7 @@ export function withAIContext(Component) {
     const askAI = async ({authKey, command, text = '', onlyCommand = false}) => {
       let selectedText = text.trim()
 
-      if (!onlyCommand || text) {
+      if (!onlyCommand && (!text || text === '')) {
         try {
           selectedText = await sendToContentScript({
             name: MESSAGING_EVENT.GET_SELECTED_TEXT,
