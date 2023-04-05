@@ -9,7 +9,7 @@ import {useMessage} from '@plasmohq/messaging/hook'
 import {Readability} from '@mozilla/readability'
 
 import {MESSAGING_EVENT, ROUTE} from '@/config'
-import {getSelectedText} from '@/utils'
+import {getSelectedText, getSelectedTextPosition} from '@/utils'
 
 import useConfig from '@/hooks/use-config'
 
@@ -129,12 +129,35 @@ export default function Index() {
       }, 200)
     }
 
+    const handleKeyUp = e => {
+      // Ctrl + A
+      if (e.ctrlKey && e.key === 'a') {
+        const selecteText = getSelectedText()
+        setSelectedText(selecteText)
+        sendToBackground({
+          name: MESSAGING_EVENT.SYNC_SELECTED_TEXT,
+          body: selecteText,
+        })
+
+        const {x, y} = getSelectedTextPosition()
+
+        setTimeout(() => {
+          setFloatingLogoVisible(true)
+          setFloatingPosition({clientX: x, clientY: y + 10})
+        })
+      }
+    }
+
     if (lockOverlay) {
       window.removeEventListener('mouseup', handleMouseUp)
     } else {
       window.addEventListener('mouseup', handleMouseUp)
     }
+
+    window.addEventListener('keyup', handleKeyUp)
+
     return () => {
+      window.removeEventListener('keyup', handleKeyUp)
       window.removeEventListener('mouseup', handleMouseUp)
     }
   }, [lockOverlay])

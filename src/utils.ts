@@ -28,6 +28,38 @@ export function getSelectedText() {
   return selected.toString().trim() || ''
 }
 
+export function getSelectedTextPosition() {
+  if (!window.getSelection) return undefined
+  const range = window.getSelection().getRangeAt(0)
+  const rangeRect = range.getBoundingClientRect()
+  const rects = range.getClientRects()
+
+  if (rects.length === 0) {
+    const input = range.commonAncestorContainer
+    if (input.nodeName === 'INPUT' || input.nodeName === 'TEXTAREA') {
+      const inputRect = input.getBoundingClientRect()
+      const x = inputRect.left + rangeRect.left + inputRect.width / 2
+      const y = inputRect.top + inputRect.height
+      return {x, y}
+    } else {
+      for (const node of input.childNodes) {
+        if (node.nodeName === 'TEXTAREA' || node.nodeName === 'INPUT') {
+          const inputRect = node.getBoundingClientRect()
+          const x = inputRect.left + inputRect.width / 2
+          const y = inputRect.top + inputRect.height
+          return {x, y}
+        }
+      }
+    }
+    return null
+  }
+
+  const lastRect = rects[rects.length - 1]
+  const x = lastRect.left
+  const y = lastRect.top + lastRect.height
+  return {x, y}
+}
+
 export function navToOptions() {
   const {openOptionsPage, getURL} = chrome?.runtime
 
