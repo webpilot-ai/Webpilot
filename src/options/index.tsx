@@ -3,12 +3,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
 
 import css from 'styled-jsx/css'
+import LogoTextIcon from 'data-base64:~assets/images/text-logo.svg'
 
 import useConfig from '@/hooks/use-config'
 
 import {withAIContext} from '@/components/with-ai-context'
-
-import LogoTextIcon from '../../../assets/images/text-logo.svg'
 
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'

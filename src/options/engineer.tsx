@@ -1,6 +1,6 @@
 import css from 'styled-jsx/css'
 
-import avatar from '../../../assets/images/avatar/avatar.svg'
+import avatar from 'data-base64:~assets/images/avatar/avatar.svg'
 
 export default function Engineer() {
   return (

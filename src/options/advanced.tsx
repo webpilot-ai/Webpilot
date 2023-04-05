@@ -2,7 +2,8 @@ import css from 'styled-jsx/css'
 
 import {useState} from 'react'
 
-import Logo from '../../../assets/images/advanced/logo.svg'
+// import Logo from '../../../assets/images/advanced/logo.svg'
+import Logo from 'data-base64:~assets/images/advanced/logo.svg'
 
 export default function Advanced() {
   const [inputValue, setInputValue] = useState('')
