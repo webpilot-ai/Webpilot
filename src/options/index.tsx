@@ -3,7 +3,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
 
 import css from 'styled-jsx/css'
-import LogoTextIcon from 'data-base64:~assets/images/text-logo.svg'
 
 import LogoTextIcon from 'react:@assets/images/text-logo.svg'
 
