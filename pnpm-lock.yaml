@@ -38,6 +38,7 @@ specifiers:
   react-draggable: 4.4.5
   react-router: 6.9.0
   react-router-dom: 6.9.0
+  react-tabs: 6.0.0
   react-toastify: 9.1.1
   sass: 1.59.3
   styled-jsx: 5.1.2
@@ -61,6 +62,7 @@ dependencies:
   react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
   react-router: 6.9.0_react@18.2.0
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
+  react-tabs: 6.0.0_react@18.2.0
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
   styled-jsx: 5.1.2_ogvc6ewgr3qq5z6tmbtquhqyui
 
@@ -7119,6 +7121,16 @@ packages:
       react: '>=16.8'
     dependencies:
       '@remix-run/router': 1.4.0
+      react: 18.2.0
+    dev: false
+
+  /react-tabs/6.0.0_react@18.2.0:
+    resolution: {integrity: sha512-8jKLKrlwxmn5/+xsa76yi27ZdB8E/WhlhQZw739O5UlOeUGtVoVeWnpqIewv/KbjTw7gQf/uA51zWUNt4IVygQ==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      clsx: 1.2.1
+      prop-types: 15.8.1
       react: 18.2.0
     dev: false
 
