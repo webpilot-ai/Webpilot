@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
   pull_request:
-    branches: [ "dev" ]
+    branches: ['dev']
 
 jobs:
   build:
@@ -29,9 +29,9 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 8
           run_install: false
-          
+
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
@@ -48,7 +48,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        
+
       - name: Building extension
         run: pnpm run build
 
