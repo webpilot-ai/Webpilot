@@ -9,7 +9,6 @@ export default function ConfirmInput({
   placeholder = '',
   loading = false,
   disabled = false,
-  focus = false,
   onTextChange = () => null,
   onConfirm = () => null,
 }) {
@@ -52,12 +51,6 @@ export default function ConfirmInput({
     onTextChange(value)
   }
 
-  useEffect(() => {
-    if (focus) {
-      inputRef.current.focus()
-    }
-  }, [focus])
-
   return (
     <section className={`confirm-input ${isActive && 'confirm-input--active'}`}>
       <input
@@ -65,6 +58,7 @@ export default function ConfirmInput({
         autoFocus
         disabled={disabled}
         placeholder={placeholder}
+        id="prompt-input"
         className="input"
         onChange={handleChangeInput}
         onFocus={addKeydownEventListener}
