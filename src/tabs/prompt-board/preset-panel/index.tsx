@@ -1,6 +1,7 @@
 import css from 'styled-jsx/css'
 import {useEffect, useRef, useState} from 'react'
 import {useMessage} from '@plasmohq/messaging/hook'
+import {sendToContentScript} from '@plasmohq/messaging'
 
 import {MESSAGING_EVENT} from '@/config'
 
@@ -25,6 +26,22 @@ export default function PresetPanel() {
   const {config} = useConfig()
   const {prompts} = config
   const {latesPresetPromptIndex = 0, turboMode} = config
+
+  useEffect(() => {
+    const handleKeyUp = e => {
+      if (e.key === 'Escape') {
+        sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
+      }
+    }
+
+    console.log('Add Key')
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      console.log('Remove Key')
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [])
 
   useMessage<string, string>(req => {
     const {name, body} = req
