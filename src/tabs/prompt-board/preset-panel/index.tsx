@@ -49,6 +49,7 @@ export default function PresetPanel() {
   })
 
   const cleanData = () => {
+    console.log('Clean Data:')
     setPrompt({})
     setSelectPromptIndex(-1)
     setInputCommand('')
@@ -67,6 +68,10 @@ export default function PresetPanel() {
 
   const handleCommandChange = command => {
     setInputCommand(command)
+    setPrompt({
+      ...prompt,
+      command,
+    })
   }
 
   const handleConfirm = command => {
