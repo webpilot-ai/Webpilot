@@ -209,6 +209,8 @@ export default function Index() {
     setOverlayVisible(true)
     setTimeout(() => {
       setFloatingLogoVisible(false)
+
+      sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
     }, 400)
   }
 

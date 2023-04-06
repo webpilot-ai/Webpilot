@@ -41,6 +41,11 @@ export default function PresetPanel() {
     if (name === MESSAGING_EVENT.CLEAN_DATA) {
       cleanData()
     }
+
+    if (req.name === MESSAGING_EVENT.INPUT_FOCUS) {
+      const input = document.getElementById('prompt-input')
+      input?.focus()
+    }
   })
 
   const cleanData = () => {
