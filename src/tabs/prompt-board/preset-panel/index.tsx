@@ -34,11 +34,9 @@ export default function PresetPanel() {
       }
     }
 
-    console.log('Add Key')
     window.addEventListener('keyup', handleKeyUp)
 
     return () => {
-      console.log('Remove Key')
       window.removeEventListener('keyup', handleKeyUp)
     }
   }, [])

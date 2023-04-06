@@ -1,5 +1,5 @@
 import css from 'styled-jsx/css'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {sendToContentScript} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
 
@@ -16,6 +16,20 @@ export default function AskPage() {
   const [askType, setAskType] = useState(ReferenceType.THIS_PAGE)
 
   const {ai, askAI} = useAI()
+
+  useEffect(() => {
+    const handleKeyUp = e => {
+      if (e.key === 'Escape') {
+        sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
+      }
+    }
+
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [])
 
   const handleCommandChange = text => {
     setCommand(text)
