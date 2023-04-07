@@ -2,7 +2,7 @@ import 'rc-tooltip/assets/bootstrap.css'
 import cssText from 'data-text:./index.scss'
 import Logo from 'data-base64:~assets/icon.png'
 
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import Draggable from 'react-draggable'
 import {sendToBackground} from '@plasmohq/messaging'
 import {useMessage} from '@plasmohq/messaging/hook'
@@ -320,6 +320,34 @@ export default function Index() {
       setFramePosition({x, y})
     }
   }, [mousePosition, overlayVisible])
+
+  const handleEscKey = useRef(e => {
+    if (e.key === 'Escape' && !e.repeat) {
+      if (isAskPage) {
+        closeAskPage()
+      } else {
+        setLockOverlay(false)
+        setFloatingLogoVisible(true)
+      }
+      setDragPosition({x: 0, y: 0})
+
+      hideOverLay()
+    }
+  })
+
+  useEffect(() => {
+    const handleKeyDown = handleEscKey.current
+
+    if (overlayVisible) {
+      document.addEventListener('keydown', handleKeyDown)
+    } else {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [overlayVisible])
 
   const popupURL = chrome?.runtime?.getURL('tabs/prompt-board.html')
   return (
