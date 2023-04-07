@@ -144,7 +144,7 @@ export default function Index() {
       if (
         (e.ctrlKey && e.key === 'a') ||
         (e.shiftKey &&
-          (e.keycode === 37 || e.keycode === 38 || e.keycode === 39 || e.keycode === 40))
+          (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40))
       ) {
         const selecteText = getSelectedText()
         setSelectedText(selecteText)
@@ -209,6 +209,8 @@ export default function Index() {
     setOverlayVisible(true)
     setTimeout(() => {
       setFloatingLogoVisible(false)
+
+      sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
     }, 400)
   }
 

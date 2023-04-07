@@ -1,6 +1,7 @@
 import css from 'styled-jsx/css'
 import {useEffect, useRef, useState} from 'react'
 import {useMessage} from '@plasmohq/messaging/hook'
+import {sendToContentScript} from '@plasmohq/messaging'
 
 import {MESSAGING_EVENT} from '@/config'
 
@@ -26,6 +27,20 @@ export default function PresetPanel() {
   const {prompts} = config
   const {latesPresetPromptIndex = 0, turboMode} = config
 
+  useEffect(() => {
+    const handleKeyUp = e => {
+      if (e.key === 'Escape') {
+        sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
+      }
+    }
+
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [])
+
   useMessage<string, string>(req => {
     const {name, body} = req
     if (name === MESSAGING_EVENT.SYNC_SELECTED_TEXT) {
@@ -41,9 +56,15 @@ export default function PresetPanel() {
     if (name === MESSAGING_EVENT.CLEAN_DATA) {
       cleanData()
     }
+
+    if (req.name === MESSAGING_EVENT.INPUT_FOCUS) {
+      const input = document.getElementById('prompt-input')
+      input?.focus()
+    }
   })
 
   const cleanData = () => {
+    console.log('Clean Data:')
     setPrompt({})
     setSelectPromptIndex(-1)
     setInputCommand('')
@@ -62,6 +83,10 @@ export default function PresetPanel() {
 
   const handleCommandChange = command => {
     setInputCommand(command)
+    setPrompt({
+      ...prompt,
+      command,
+    })
   }
 
   const handleConfirm = command => {
