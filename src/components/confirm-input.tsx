@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import CheckIcon from 'react:@assets/images/vector.svg'
 import LoadingIcon from 'react:@assets/images/loading.svg'
 
@@ -12,20 +12,8 @@ export default function ConfirmInput({
   onTextChange = () => null,
   onConfirm = () => null,
 }) {
-  const inputRef = useRef()
   const [isActive, setActive] = useState(false)
   const [value, setValue] = useState(command)
-
-  const keydownHandler = useCallback(
-    e => {
-      if ((e.key === 'Enter' || e.keyCode === 13) && !e.repeat) {
-        if (inputRef.current) {
-          onConfirm(inputRef.current.value)
-        }
-      }
-    },
-    [onConfirm]
-  )
 
   useEffect(() => {
     setValue(command)
@@ -33,12 +21,10 @@ export default function ConfirmInput({
 
   const addKeydownEventListener = () => {
     setActive(true)
-    document.addEventListener('keydown', keydownHandler)
   }
 
   const removeKeydownEventListener = () => {
     setActive(false)
-    document.removeEventListener('keydown', keydownHandler)
   }
 
   const handleChangeInput = e => {
@@ -47,16 +33,22 @@ export default function ConfirmInput({
     onTextChange(value)
   }
 
+  const handleKeyDown = e => {
+    if (e.code === 'Enter' && !e.repeat) {
+      onConfirm(value)
+    }
+  }
+
   return (
     <section className={`confirm-input ${isActive && 'confirm-input--active'}`}>
       <input
-        ref={inputRef}
         autoFocus
         disabled={disabled}
         placeholder={placeholder}
         id="prompt-input"
         className="input"
         onChange={handleChangeInput}
+        onKeyDown={handleKeyDown}
         onFocus={addKeydownEventListener}
         onBlur={removeKeydownEventListener}
         value={value}
