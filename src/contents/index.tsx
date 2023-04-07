@@ -210,6 +210,10 @@ export default function Index() {
   }, [selectedText, turboMode])
 
   const showOverlay = () => {
+    setConfig({
+      ...config,
+      latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL,
+    })
     setOverlayVisible(true)
     setTimeout(() => {
       setFloatingLogoVisible(false)
