@@ -28,10 +28,6 @@ export default function ConfirmInput({
   )
 
   useEffect(() => {
-    return document.removeEventListener('keydown', keydownHandler)
-  }, [keydownHandler])
-
-  useEffect(() => {
     setValue(command)
   }, [command])
 
