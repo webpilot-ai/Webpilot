@@ -83,10 +83,14 @@ export default function Index() {
       if (!config.isAuth) {
         setOverlayVisible(true)
       } else {
-        showAskPage()
-        setTimeout(() => {
-          sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
-        }, 100)
+        if (isAskPage) {
+          closeAskPage()
+        } else {
+          showAskPage()
+          setTimeout(() => {
+            sendToBackground({name: MESSAGING_EVENT.INPUT_FOCUS})
+          }, 100)
+        }
       }
       return
     }
