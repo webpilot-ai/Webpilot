@@ -1,5 +1,4 @@
 import css from 'styled-jsx/css'
-
 import avatar from 'data-base64:~assets/images/avatar/avatar.svg'
 
 export default function Engineer() {

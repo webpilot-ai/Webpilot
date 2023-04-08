@@ -44,6 +44,13 @@ export default function PromptBoardResult({placeholder = ''}) {
     setValue(ai.result)
   }, [ai.result])
 
+  useEffect(() => {
+    const resultTextarea = document.getElementById('resultTextarea')
+    if (resultTextarea) {
+      resultTextarea.scrollTop = resultTextarea.scrollHeight
+    }
+  }, [value])
+
   const copy = () => {
     const text = ai.result?.trim()
 
@@ -63,7 +70,13 @@ export default function PromptBoardResult({placeholder = ''}) {
         </section>
 
         <section className="result-container">
-          <textarea readOnly value={value} className="textarea" placeholder={placeholder} />
+          <textarea
+            readOnly
+            value={value}
+            className="textarea"
+            id="resultTextarea"
+            placeholder={placeholder}
+          />
 
           <section className="copy">
             <section className="share-extension" onClick={showRecommendationText}>
