@@ -80,7 +80,7 @@ export default function PromptBoardResult({placeholder = ''}) {
 
           <section className="copy">
             <section className="share-extension" onClick={showRecommendationText}>
-              {gettext('Amazing Fluentify, telling friends!')}
+              {gettext('Amazing Webpilot, telling friends!')}
             </section>
             <Button
               width="48px"
