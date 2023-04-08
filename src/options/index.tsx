@@ -4,7 +4,7 @@ import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
 
 import css from 'styled-jsx/css'
 
-import LogoTextIcon from 'react:@assets/images/text-logo.svg'
+import LogoTextIcon from 'data-base64:~assets/images/text-logo.svg'
 
 import useConfig from '@/hooks/use-config'
 
