@@ -121,9 +121,11 @@ const styles = css`
 
     .title {
       display: flex;
+
       img {
         margin-right: 10px;
       }
+
       font-weight: 400;
       font-size: 18px;
       line-height: 25px;
@@ -138,21 +140,21 @@ const styles = css`
 
     .person-info {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       margin-top: 7px;
     }
 
     .investors {
       margin-top: 32px;
     }
-    .donate{
+
+    .donate {
+      margin-top: 16px;
+      color: #4f5aff;
       font-weight: 400;
       font-size: 14px;
       line-height: 20px;
       text-decoration-line: underline;
-      color: #4F5AFF;
-      margin-top: 16px;
     }
   }
 `

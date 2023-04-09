@@ -23,9 +23,10 @@ const styles = css`
     height: 143px;
     margin-right: 16px;
     padding: 16px;
-    background-color: #ffffff;
-    box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.2);
+    background-color: #fff;
     border-radius: 20px;
+    box-shadow: 0 8px 24px rgb(149 157 165 / 20%);
+
     @media screen and (max-width: 800px) {
       &:not(:last-child) {
         margin-bottom: 20px;
