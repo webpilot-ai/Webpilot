@@ -21,9 +21,9 @@ export default function Advanced() {
   }, [config])
 
   const hideAuthKey = authKey => {
-    const firstFive = authKey.slice(0, 5) // 获取前5个字符
-    const lastFive = authKey.slice(-5) // 获取后5个字符
-    const middle = '*'.repeat(10) // 构造中间部分的*号
+    const firstFive = authKey.slice(0, 6) // 获取前5个字符
+    const lastFive = authKey.slice(-4) // 获取后5个字符
+    const middle = '*'.repeat(3) // 构造中间部分的*号
     return firstFive + middle + lastFive // 拼接字符串
   }
 
@@ -39,6 +39,16 @@ export default function Advanced() {
     setFrequencyPenalty(event.target.value)
   }
 
+  const inputOnfoucs = event => {
+    const labelId = event.target.name + '_label'
+    window.document.querySelector('#' + labelId).style.color = '#4F5AFF'
+  }
+
+  const inputOutfoucs = event => {
+    const labelId = event.target.name + '_label'
+    window.document.querySelector('#' + labelId).style.color = 'black'
+  }
+
   const saveSettings = () => {
     config.authKey = authKeyValue
     config.model.top_p = topP
@@ -49,6 +59,8 @@ export default function Advanced() {
 
   const [isEditing, setIsEditing] = useState(false)
 
+  const document = 'https://platform.openai.com/docs/'
+
   const cleanAuthKey = () => {
     setAuthKeyInputValue('')
     setIsEditing(true)
@@ -56,61 +68,75 @@ export default function Advanced() {
 
   return (
     <section className="advanced">
-      <section className="header">
-        <img src={Logo} alt="" />
-        <span className="title">gpt-3.5-turbo</span>
-        <a href="#">Document</a>
-      </section>
-
-      <section className="inputs">
-        <div className="input-group">
-          <label>Auth-key</label>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="Type something..."
-              value={isEditing ? authKeyValue : hideAuthKey(authKeyValue)}
-              onChange={handleAuthKeyInputChange}
-              readOnly={!isEditing}
-            />
-            <span className="delete_authKey">
-              <DeleteOutlineIcon className="delete_icon" onClick={cleanAuthKey} />
-            </span>
+      <div className="body">
+        <section className="header">
+          <img src={Logo} alt="" />
+          <span className="title">gpt-3.5-turbo</span>
+          <a href={document} target="_black">
+            Document
+          </a>
+        </section>
+        <section className="inputs">
+          <div className="input-group">
+            <label id="auth_key_label">Auth-key</label>
+            <div className="input-container">
+              <input
+                type="text"
+                placeholder="Type something..."
+                value={isEditing ? authKeyValue : hideAuthKey(authKeyValue)}
+                onChange={handleAuthKeyInputChange}
+                readOnly={!isEditing}
+                onFocus={inputOnfoucs}
+                onBlur={inputOutfoucs}
+                name="auth_key"
+              />
+              <span className="delete_authKey">
+                <DeleteOutlineIcon className="delete_icon" onClick={cleanAuthKey} />
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div className="input-group">
-          <label>Top p</label>
-          <input
-            type="text"
-            placeholder="Type something..."
-            value={topP}
-            onChange={handleTopPInputChange}
-          />
-          <span className="hint">0 ~ 1, default: 0.9</span>
-        </div>
+          <div className="input-group">
+            <label id="top_p_label">Top p</label>
+            <input
+              type="number"
+              value={topP}
+              onChange={handleTopPInputChange}
+              onFocus={inputOnfoucs}
+              onBlur={inputOutfoucs}
+              name="top_p"
+              min="0"
+              max="1"
+              step="0.1"
+            />
+            <span className="hint">0 ~ 1, default: 0.9</span>
+          </div>
 
-        <div className="input-group">
-          <label>frequency_penalty </label>
-          <input
-            type="text"
-            placeholder="Type something..."
-            value={frequencyPenalty}
-            onChange={handlFrequencyPenaltyInputChange}
-          />
-          <span className="hint">-2 ~ 2, default: 0</span>
-        </div>
-
-        <div className="input-group save">
-          <Button
-            width="143px"
-            height="36px"
-            type={BUTTON_TYPE.PRIMARY}
-            text={gettext('SAVE CHANGE')}
-            onClick={saveSettings}
-          />
-        </div>
-      </section>
+          <div className="input-group">
+            <label id="frequency_penalty_label">frequency_penalty</label>
+            <input
+              type="number"
+              value={frequencyPenalty}
+              onChange={handlFrequencyPenaltyInputChange}
+              onFocus={inputOnfoucs}
+              onBlur={inputOutfoucs}
+              name="frequency_penalty"
+              min="-2"
+              max="2"
+            />
+            <span className="hint">-2 ~ 2, default: 0</span>
+          </div>
+        </section>
+      </div>
+      <div className="footer">
+        <Button
+          width="143px"
+          height="36px"
+          type={BUTTON_TYPE.PRIMARY}
+          text={gettext('SAVE CHANGE')}
+          onClick={saveSettings}
+        />
+      </div>
       <style jsx>{styles}</style>
     </section>
   )
@@ -118,8 +144,12 @@ export default function Advanced() {
 
 const styles = css`
   .advanced {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 578px;
     margin-top: 28px;
-    padding: 22px 32px;
+    padding: 22px 16px 22px 32px;
     background-color: #fff;
     border-radius: 10px;
 
@@ -153,6 +183,7 @@ const styles = css`
       .input-group {
         display: flex;
         flex-direction: column;
+
         label {
           margin-bottom: 9px;
           color: #292929;
@@ -165,6 +196,9 @@ const styles = css`
           box-sizing: border-box;
           width: 280px;
           height: 36px;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
           background: #fff;
           border: 1px solid #dcdee1;
 
@@ -177,25 +211,28 @@ const styles = css`
           margin-left: -25px;
           cursor: pointer;
         }
+
         .delete_icon {
           vertical-align: middle;
         }
+
         .hint {
           margin-top: 8px;
+          color: #929497;
           font-weight: 500;
           font-size: 12px;
           line-height: 17px;
-          color: #929497;
         }
       }
 
       .input-group:not(:last-child) {
         margin-bottom: 38px;
       }
+    }
 
-      .input-group:last-child {
-        flex-direction: row-reverse;
-      }
+    .footer {
+      display: flex;
+      flex-direction: row-reverse;
     }
   }
 `

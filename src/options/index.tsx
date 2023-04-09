@@ -155,9 +155,11 @@ const styles = css`
     .header {
       display: flex;
       align-items: flex-end;
+      margin-bottom: 32px;
 
       .slogan {
         margin-left: 24px;
+        padding-bottom: 10px;
         color: #777;
         font-weight: 400;
         font-size: 18px;

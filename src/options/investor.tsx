@@ -1,21 +1,23 @@
 import css from 'styled-jsx/css'
-import Avatar from 'data-base64:~assets/images/avatar/avatar.svg'
 
-export default function Engineer(props) {
+export default function Investor(props) {
+  const fullName = props => {
+    return props.info.last_name + props.info.first_name
+  }
   return (
-    <section className="engineer">
-      <img src={Avatar} alt="" />
+    <section className="investor">
+      <span className="last-name">{props.info.last_name.slice(0, 1)}</span>
       <a className="name" href={props.info.page} target="_blank" rel="noreferrer">
-        {props.info.name}
+        {fullName(props)}
       </a>
-      <span className="title">{props.info.title}</span>
+      <span className="title">{props.info.company}</span>
       <style jsx>{styles}</style>
     </section>
   )
 }
 
 const styles = css`
-  .engineer {
+  .investor {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,10 +35,16 @@ const styles = css`
       }
     }
 
-    img {
+    .last-name {
       width: 48px;
       height: 48px;
-      margin-right: 16px;
+      color: white;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 48px;
+      text-align: center;
+      background-color: #4f5aff;
+      border-radius: 50%;
     }
 
     .name {
