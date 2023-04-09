@@ -114,8 +114,8 @@ export default function About() {
 
 const styles = css`
   .about {
-    margin-top: 28px;
-    padding: 16px;
+    margin-top: 32px;
+    padding: 4px;
     border-radius: 10px;
 
     .title {
@@ -142,11 +142,9 @@ const styles = css`
       flex-flow: row wrap;
       margin-top: 7px;
     }
-
     .investors {
       margin-top: 32px;
     }
-
     .donate {
       margin-top: 16px;
       color: #4f5aff;
