@@ -1,7 +1,6 @@
 import css from 'styled-jsx/css'
-
-import ContributorIcon from 'data-base64:~assets/images/about/contributors.svg'
-import InvestorSvg from 'data-base64:~assets/images/about/investor.svg'
+import ContributorIcon from 'data-base64:~assets/images/About/contributors.svg'
+import InvestorSvg from 'data-base64:~assets/images/About/investor.svg'
 import {useState, useEffect} from 'react'
 
 import Investor from './investor'
