@@ -62,6 +62,11 @@ export default withAIContext(function Options() {
       prompts,
     })
   }
+
+  const loseFocus = (event) => {
+    event.target.blur();
+  }
+
   return (
     <section className="container">
       <section className="body">
@@ -73,9 +78,9 @@ export default withAIContext(function Options() {
 
           <Tabs>
             <TabList className="custom-list">
-              <Tab className="custom-tab">Prompts</Tab>
-              <Tab className="custom-tab">Advanced</Tab>
-              <Tab className="custom-tab">About</Tab>
+              <Tab className="custom-tab" onClick={loseFocus}>Prompts</Tab>
+              <Tab className="custom-tab" onClick={loseFocus}>Advanced</Tab>
+              <Tab className="custom-tab" onClick={loseFocus}>About</Tab>
             </TabList>
 
             <TabPanel>
