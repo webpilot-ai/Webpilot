@@ -210,10 +210,6 @@ export default function Index() {
   }, [selectedText, turboMode])
 
   const showOverlay = () => {
-    setConfig({
-      ...config,
-      latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL,
-    })
     setOverlayVisible(true)
     setTimeout(() => {
       setFloatingLogoVisible(false)
@@ -235,6 +231,14 @@ export default function Index() {
     const {x, y} = data
     setScrollYOffset(0)
     setDragPosition({x, y})
+  }
+
+  const showSelectPopup = () => {
+    setConfig({
+      ...config,
+      latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL,
+    })
+    showOverlay()
   }
 
   /**
@@ -409,7 +413,7 @@ export default function Index() {
             top: `${logoPosition.y}px`,
             transform: `translate(0px, ${scrollYOffset}px)`,
           }}
-          onMouseOver={showOverlay}
+          onMouseOver={showSelectPopup}
         >
           <img src={Logo} className="floating-logo" />
         </section>
