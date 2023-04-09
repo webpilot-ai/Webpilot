@@ -99,27 +99,30 @@ export default function Advanced() {
           <div className="input-group">
             <label id="top_p_label">Top p</label>
             <input
-              type="text"
-              placeholder="Type something..."
+              type="number"
               value={topP}
               onChange={handleTopPInputChange}
               onFocus={inputOnfoucs}
               onBlur={inputOutfoucs}
               name="top_p"
+              min="0"
+              max="1"
+              step="0.1"
             />
             <span className="hint">0 ~ 1, default: 0.9</span>
           </div>
 
           <div className="input-group">
-            <label id="frequency_penalty_label">frequency_penalty </label>
+            <label id="frequency_penalty_label">frequency_penalty</label>
             <input
-              type="text"
-              placeholder="Type something..."
+              type="number"
               value={frequencyPenalty}
               onChange={handlFrequencyPenaltyInputChange}
               onFocus={inputOnfoucs}
               onBlur={inputOutfoucs}
               name="frequency_penalty"
+              min="-2"
+              max="2"
             />
             <span className="hint">-2 ~ 2, default: 0</span>
           </div>
@@ -141,14 +144,15 @@ export default function Advanced() {
 
 const styles = css`
   .advanced {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 578px;
     margin-top: 28px;
     padding: 22px 16px 22px 32px;
     background-color: #fff;
     border-radius: 10px;
-    min-height: 578px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+
     .header {
       display: flex;
 
@@ -179,6 +183,7 @@ const styles = css`
       .input-group {
         display: flex;
         flex-direction: column;
+
         label {
           margin-bottom: 9px;
           color: #292929;
@@ -191,11 +196,11 @@ const styles = css`
           box-sizing: border-box;
           width: 280px;
           height: 36px;
-          background: #fff;
-          border: 1px solid #dcdee1;
           font-weight: 400;
           font-size: 14px;
           line-height: 20px;
+          background: #fff;
+          border: 1px solid #dcdee1;
 
           &:focus-visible {
             border: 1px solid #dcdee1;
@@ -206,15 +211,17 @@ const styles = css`
           margin-left: -25px;
           cursor: pointer;
         }
+
         .delete_icon {
           vertical-align: middle;
         }
+
         .hint {
           margin-top: 8px;
+          color: #929497;
           font-weight: 500;
           font-size: 12px;
           line-height: 17px;
-          color: #929497;
         }
       }
 
@@ -222,6 +229,7 @@ const styles = css`
         margin-bottom: 38px;
       }
     }
+
     .footer {
       display: flex;
       flex-direction: row-reverse;
