@@ -155,6 +155,7 @@ const styles = css`
     .header {
       display: flex;
       align-items: flex-end;
+      margin-bottom: 32px;
 
       .slogan {
         margin-left: 24px;
@@ -162,6 +163,7 @@ const styles = css`
         font-weight: 400;
         font-size: 18px;
         line-height: 25px;
+        padding-bottom: 10px;
       }
     }
 
