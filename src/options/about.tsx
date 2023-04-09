@@ -142,9 +142,11 @@ const styles = css`
       flex-flow: row wrap;
       margin-top: 7px;
     }
+
     .investors {
       margin-top: 32px;
     }
+
     .donate {
       margin-top: 16px;
       color: #4f5aff;
