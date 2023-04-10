@@ -31,7 +31,7 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
   return (
     <section className="header">
       <img src={LogoIcon} className="logo" />
-      <h1 className="title">Working With Webpilot</h1>
+      <h1 className="title">Webpilot</h1>
       {isAuth ? (
         <ul role="list" className="header-settings">
           <li className="d-inline">{turboMode ? gettext('Turbo Mode: ON') : ''}</li>
@@ -94,11 +94,12 @@ const styles = css`
   .header {
     display: flex;
     align-items: center;
-    height: 19px;
+    height: 20px;
 
     .logo {
       width: 16px;
       height: 16px;
+      margin-right: 8px;
     }
 
     .header-settings {
@@ -115,10 +116,10 @@ const styles = css`
 
   .title {
     margin-right: auto;
-    margin-left: 8px;
     color: #000;
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
   }
 `
 

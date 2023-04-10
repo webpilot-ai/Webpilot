@@ -14,10 +14,11 @@ const styles = css`
   .preview {
     display: flex;
     align-items: flex-end;
-    margin-top: 13px;
-    color: #777;
-    font-size: 12px;
-    line-height: 17px;
+    margin-top: 14px;
+    color: #000;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
 
     .selected-text {
       display: inline-block;

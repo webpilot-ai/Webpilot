@@ -183,13 +183,17 @@ const styles = css`
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: 32px;
-      color: #929497;
       font-size: 18px;
+      line-height: 25px;
+
+      span {
+        margin-top: 32px;
+        color: #929497;
+      }
 
       a {
         color: #4f5aff;
-        font-weight: 400;
+        text-decoration: none;
       }
     }
   }
