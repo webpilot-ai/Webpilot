@@ -21,8 +21,8 @@ export default function EntryPanel() {
 
   const setAuthKey = authKey => {
     askAI({authKey, command: 'Say hi.', onlyCommand: true}).then(() => {
-      sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
       setConfig({...config, authKey, isAuth: true, latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL})
+      sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
     })
   }
 
