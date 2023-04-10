@@ -7,7 +7,7 @@ import {useState, useEffect} from 'react'
 import Investor from './investor'
 import Engineer from './engineer'
 
-const ABOUT_API = 'https://raw.githubusercontent.com/Fluentify-IO/Fluentify/main/assets/about.json'
+const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about.json'
 
 export default function About() {
   const [about, setAbout] = useState({})
