@@ -6,7 +6,7 @@ import css from 'styled-jsx/css'
 
 export default function ConfirmInput({
   command = '',
-  placeholder = '',
+  placeholder = 'Ask Webpilot to ...',
   loading = false,
   disabled = false,
   onTextChange = () => null,

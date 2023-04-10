@@ -128,8 +128,8 @@ export default function PresetPanel() {
 
 const styles = css`
   .preset-panel {
-    width: 450px;
-    padding: 12px;
+    width: 460px;
+    padding: 16px;
   }
 `
 
