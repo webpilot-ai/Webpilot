@@ -49,7 +49,15 @@ const styles = css`
 
   .item {
     & + .item {
-      margin-left: 10px;
+      margin-left: 8px;
+    }
+    button{
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 17px;
+      color: #4F5AFF;
+      padding: 4px 8px;
+      
     }
   }
 
