@@ -1,16 +1,17 @@
 import css from 'styled-jsx/css'
 
-export default function Investor(props) {
-  const fullName = props => {
-    return props.info.last_name + props.info.first_name
-  }
+export default function Investor({info}) {
   return (
     <section className="investor">
-      <span className="last-name">{props.info.last_name.slice(0, 1)}</span>
-      <a className="name" href={props.info.page} target="_blank" rel="noreferrer">
-        {fullName(props)}
-      </a>
-      <span className="title">{props.info.company}</span>
+      <span className="avatar">{info.avatar}</span>
+      {info.page ? (
+        <a className="name" href={info.page} target="_blank" rel="noreferrer">
+          {info.name}
+        </a>
+      ) : (
+        <span className="name">{info.name}</span>
+      )}
+      <span className="title">{info.company}</span>
       <style jsx>{styles}</style>
     </section>
   )
@@ -20,7 +21,6 @@ const styles = css`
   .investor {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     width: 155px;
     height: 143px;
     margin-right: 16px;
@@ -35,7 +35,7 @@ const styles = css`
       }
     }
 
-    .last-name {
+    .avatar {
       width: 48px;
       height: 48px;
       color: white;
@@ -51,6 +51,10 @@ const styles = css`
       font-weight: 400;
       font-size: 14px;
       line-height: 20px;
+    }
+
+    .title {
+      white-space: pre-wrap;
     }
   }
 `

@@ -1,83 +1,24 @@
 import css from 'styled-jsx/css'
 import ContributorIcon from 'data-base64:~assets/images/About/contributors.svg'
 import InvestorSvg from 'data-base64:~assets/images/About/investor.svg'
+
 import {useState, useEffect} from 'react'
 
 import Investor from './investor'
 import Engineer from './engineer'
 
+const ABOUT_API = 'https://raw.githubusercontent.com/Fluentify-IO/Fluentify/main/assets/about.json'
+
 export default function About() {
-  // dummy contributor here
-  const [contributors, setContributors] = useState([])
-  const [investors, setInvestors] = useState([])
+  const [about, setAbout] = useState({})
 
   useEffect(() => {
-    // fetch to get contributors
-    const data = {
-      contributor_group: {
-        frontend_engineer: {
-          en: 'Frontend Engineer',
-          zh_CN: '前端工程师',
-        },
-        ui_designer: {
-          en: 'UI Designer',
-          zh_CN: 'UI 设计师',
-        },
-      },
-      contributors: [
-        {
-          name: 'Noodles Z',
-          avatar: 'avatar.svg',
-          page: 'https://www.google.ca',
-          title: 'Web Developer',
-          desc: '介绍',
-          group: 'frontend_engineer',
-        },
-        {
-          name: 'Noodles Z',
-          avatar: 'avatar.svg',
-          page: 'https://www.google.ca',
-          title: 'Web Developer',
-          desc: '介绍',
-          group: 'frontend_engineer',
-        },
-        {
-          name: 'Noodles Z',
-          avatar: 'avatar.svg',
-          page: 'https://www.google.ca',
-          title: 'Web Developer',
-          desc: '介绍',
-          group: 'frontend_engineer',
-        },
-      ],
-      investors: [
-        {
-          first_name: 'Baba',
-          last_name: 'X',
-          page: 'https://www.google.ca',
-          company: '个人捐赠',
-          desc: '介绍',
-        },
-        {
-          first_name: 'Ayi',
-          last_name: '老',
-          page: 'https://www.google.ca',
-          company: '暴风城军情六处',
-          desc: '介绍',
-        },
-        {
-          first_name: 'Gandie',
-          last_name: 'Gan',
-          page: 'https://www.google.ca',
-          company: '奥格瑞玛大门老大爷对象的秧歌队',
-          desc: '介绍',
-        },
-      ],
-    }
-    setContributors(data.contributors)
-    setInvestors(data.investors)
+    fetch(ABOUT_API)
+      .then(res => res.json())
+      .then(setAbout)
   }, [])
 
+  const {contributors = [], investors = []} = about
   return (
     <section className="about">
       <div className="contributors">
