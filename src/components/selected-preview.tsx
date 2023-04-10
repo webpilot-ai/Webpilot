@@ -15,10 +15,11 @@ const styles = css`
     display: flex;
     align-items: flex-end;
     margin-top: 14px;
-    color: #000000;
+    color: #000;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+
     .selected-text {
       display: inline-block;
       max-width: 100px;

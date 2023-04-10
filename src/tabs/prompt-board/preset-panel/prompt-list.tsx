@@ -51,13 +51,13 @@ const styles = css`
     & + .item {
       margin-left: 8px;
     }
-    button{
+
+    button {
+      padding: 4px 8px;
+      color: #4f5aff;
       font-weight: 500;
       font-size: 12px;
       line-height: 17px;
-      color: #4F5AFF;
-      padding: 4px 8px;
-      
     }
   }
 

@@ -185,12 +185,14 @@ const styles = css`
       justify-content: center;
       font-size: 18px;
       line-height: 25px;
-      span{
+
+      span {
         margin-top: 32px;
         color: #929497;
       }
+
       a {
-        color: #4F5AFF;
+        color: #4f5aff;
         text-decoration: none;
       }
     }
