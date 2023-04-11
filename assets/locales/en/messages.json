@@ -130,5 +130,29 @@
   },
   "Other": {
     "message": "Other"
+  },
+  "Star_on_github": {
+    "message": "Star on Github"
+  },
+  "Webpilot_is_open_source": {
+    "message": "Webpilot is open source"
+  },
+  "Opensource_ai_assistant_on_all_websites": {
+    "message": "Opensource | AI Assistant on All Websites"
+  },
+  "Thanks_to_investors": {
+    "message": "Thanks to Investors"
+  },
+  "Contact_us_to_donate": {
+    "message": "Contact us to donate"
+  },
+  "Add_new_prompt": {
+    "message": "Add New Prompt"
+  },
+  "With_the_select_conntet": {
+    "message": "With the select conntet"
+  },
+  "What_do_you_want": {
+    "message": "what do you want?"
   }
 }

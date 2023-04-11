@@ -22,6 +22,7 @@ export default function ReferenceBtnGroup({
             disabled={disabled}
             active={type === ReferenceType.NONE}
             onClick={() => onChange(ReferenceType.NONE)}
+            height = "25px"
           >
             None
           </Button>
@@ -31,6 +32,7 @@ export default function ReferenceBtnGroup({
             disabled={disabled}
             active={type === ReferenceType.THE_SELECT}
             onClick={() => onChange(ReferenceType.THE_SELECT)}
+            height = "25px"
           >
             The Select
           </Button>
@@ -40,6 +42,7 @@ export default function ReferenceBtnGroup({
             disabled={disabled}
             active={type === ReferenceType.THIS_PAGE}
             onClick={() => onChange(ReferenceType.THIS_PAGE)}
+            height = "25px"
           >
             This Page
           </Button>
@@ -65,7 +68,10 @@ const styles = css`
       margin: 0;
       margin-left: 8px;
       padding: 0;
-
+      button{
+        height: 25px;
+        padding: 4px 8px;
+      }
       li + li {
         margin-left: 8px;
       }

@@ -5,15 +5,13 @@ import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
 import css from 'styled-jsx/css'
 
 import LogoTextIcon from 'data-base64:~assets/images/text-logo.svg'
-
 import useConfig from '@/hooks/use-config'
-
 import {withAIContext} from '@/components/with-ai-context'
-
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'
 import About from './about'
 import Advanced from './advanced'
+import {gettext} from '@/utils'
 
 export default withAIContext(function Options() {
   const {config, setConfig} = useConfig()
@@ -73,7 +71,7 @@ export default withAIContext(function Options() {
         <main>
           <section className="header">
             <img src={LogoTextIcon} alt="" />
-            <span className="slogan">Opensource | AI Assistant on All Websites</span>
+            <span className="slogan">{gettext('Opensource | AI Assistant on All Websites')}</span>
           </section>
 
           <Tabs>
@@ -115,9 +113,9 @@ export default withAIContext(function Options() {
           </Tabs>
         </main>
         <footer>
-          <span>Webpilot is open source</span>
+          <span>{gettext('Webpilot is open source')}</span>
           <a href="https://github.com/Fluentify-IO/Fluentify" target="_blank" rel="noreferrer">
-            Star on Github
+            {gettext('Star on Github')}
           </a>
         </footer>
       </section>

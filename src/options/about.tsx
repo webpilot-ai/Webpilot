@@ -8,6 +8,7 @@ import Investor from './investor'
 import Engineer from './engineer'
 
 const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about.json'
+import {gettext} from '@/utils'
 
 export default function About() {
   const [about, setAbout] = useState({})
@@ -36,7 +37,7 @@ export default function About() {
       <div className="investors">
         <div className="title">
           <img src={InvestorSvg} alt="" />
-          <span>Thanks to Investors</span>
+          <span>{gettext('Thanks to Investors')}</span>
         </div>
         <div className="person-info">
           {investors.map((info, index) => {

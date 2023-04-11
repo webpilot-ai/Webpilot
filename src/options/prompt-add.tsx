@@ -1,12 +1,13 @@
 import css from 'styled-jsx/css'
 
 import AddIcon from 'react:@assets/images/control-add.svg'
+import {gettext} from '@/utils'
 
 export default function PromptAdd({onClick = () => null}) {
   return (
     <section className="new-prompt" onClick={onClick}>
       <AddIcon />
-      <span className="add-label">Add New Prompt</span>
+      <span className="add-label">{gettext('Add New Prompt')}</span>
       <style jsx>{styles}</style>
     </section>
   )
