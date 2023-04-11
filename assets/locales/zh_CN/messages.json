@@ -134,10 +134,10 @@
   "Other": {
     "message": "其他"
   },
-<<<<<<< HEAD
   "Add_new_prompt": {
     "message": "增加新的"
-=======
+  },
+
   "Star_on_github": {
     "message": "Star on Github"
   },
@@ -152,9 +152,6 @@
   },
   "Contact_us_to_donate": {
     "message": "联系我们"
-  },
-  "Add_new_prompt": {
-    "message": "Add New Prompt"
   },
   "With_the_select_conntet": {
     "message": "对于所选文字"
@@ -179,7 +176,6 @@
   },
   "Webpilot": {
     "message": "Webpilot"
->>>>>>> e7c27a38d8261568a15a6eb000387b2729904c7a
   }
 }
 
