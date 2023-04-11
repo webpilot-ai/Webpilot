@@ -1,6 +1,7 @@
 import '@assets/styles/base.scss'
 import 'react-toastify/dist/ReactToastify.css'
 import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
+import {ToastContainer} from 'react-toastify'
 
 import css from 'styled-jsx/css'
 
@@ -122,6 +123,8 @@ export default withAIContext(function Options() {
           </a>
         </footer>
       </section>
+
+      <ToastContainer />
 
       <style jsx>{styles}</style>
       <style jsx global>

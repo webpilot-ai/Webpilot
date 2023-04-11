@@ -4,41 +4,15 @@ import {useState, useEffect} from 'react'
 import Logo from 'data-base64:~assets/images/advanced/logo.svg'
 import DeleteIcon from 'react:@assets/images/advanced/delete.svg'
 
+import {defaultConfig} from '@/config'
+import useAI from '@/hooks/use-ai'
 import useConfig from '@/hooks/use-config'
 import Button, {BUTTON_TYPE} from '@/components/button'
-import {gettext} from '@/utils'
+import {gettext, toast} from '@/utils'
+
+const DOCUMENT = 'https://platform.openai.com/docs/'
 
 export default function Advanced() {
-  const {config, setConfig} = useConfig()
-  const [authKeyValue, setAuthKeyInputValue] = useState('')
-  const [topP, setTopP] = useState(0.9)
-  const [frequencyPenalty, setFrequencyPenalty] = useState(0)
-
-  useEffect(() => {
-    setAuthKeyInputValue(config.authKey)
-    setTopP(config.model.top_p ?? 0.9)
-    setFrequencyPenalty(config.model.frequency_penalty ?? 0)
-  }, [config])
-
-  const hideAuthKey = authKey => {
-    const firstFive = authKey.slice(0, 6) // 获取前5个字符
-    const lastFive = authKey.slice(-4) // 获取后5个字符
-    const middle = '*'.repeat(3) // 构造中间部分的*号
-    return firstFive + middle + lastFive // 拼接字符串
-  }
-
-  const handleAuthKeyInputChange = event => {
-    setAuthKeyInputValue(event.target.value)
-  }
-
-  const handleTopPInputChange = event => {
-    setTopP(event.target.value)
-  }
-
-  const handlFrequencyPenaltyInputChange = event => {
-    setFrequencyPenalty(event.target.value)
-  }
-
   const inputOnfoucs = event => {
     const labelId = event.target.name + '_label'
     window.document.querySelector('#' + labelId).style.color = '#4F5AFF'
@@ -49,21 +23,65 @@ export default function Advanced() {
     window.document.querySelector('#' + labelId).style.color = 'black'
   }
 
-  const saveSettings = () => {
-    config.authKey = authKeyValue
-    config.model.top_p = topP
-    config.model.frequency_penalty = frequencyPenalty
-    setConfig({...config})
-    alert('Settings Saved.')
+  const {config, setConfig} = useConfig()
+
+  const [authKey, setAuthKey] = useState(config.authKey)
+  const [model, setModel] = useState(config.model)
+
+  const {askAI} = useAI()
+
+  useEffect(() => {
+    setAuthKey(config.authKey)
+    setModel(config.model)
+  }, [config])
+
+  const handleTopPInputChange = e => {
+    const {value} = e.target
+    setModel(model => ({...model, top_p: value}))
   }
 
-  const [isEditing, setIsEditing] = useState(false)
+  const handlFrequencyPenaltyInputChange = e => {
+    const {value} = e.target
+    setModel(model => ({...model, frequency_penalty: value}))
+  }
 
-  const document = 'https://platform.openai.com/docs/'
+  const save = () => {
+    const defaultModel = defaultConfig.model
+    const currentModel = {
+      ...model,
+    }
+
+    const mergedModel = {...defaultModel, ...currentModel}
+
+    askAI({authKey, command: 'Say Hi.', onlyCommand: true}).then(() => {
+      setConfig({...config, authKey, model: mergedModel, isAuth: true})
+      toast.success(gettext('Save succeeded'))
+    })
+  }
+
+  const maskText = (text = '') => {
+    let regexp = /^(.{5}).*(.{5})$/
+    if (text.length <= 10) {
+      regexp = /^(.{1}).*(.{1})$/
+    }
+
+    return String(text).replace(regexp, (m, p1, p2) => {
+      return `${p1}****${p2}`
+    })
+  }
+
+  const inputAuthKey = () => {
+    const value = window.prompt(gettext('Set auth key')) || ''
+    setAuthKey(value)
+  }
 
   const cleanAuthKey = () => {
-    setAuthKeyInputValue('')
-    setIsEditing(true)
+    const res = window.confirm(
+      gettext('About to clear the auth key and restore all preset functions')
+    )
+    if (res) {
+      setConfig({...defaultConfig})
+    }
   }
 
   return (
@@ -71,21 +89,21 @@ export default function Advanced() {
       <div className="body">
         <section className="header">
           <img src={Logo} alt="" />
-          <span className="title">gpt-3.5-turbo</span>
-          <a href={document} target="_black">
+          <span className="title">{model.model}</span>
+          <a href={DOCUMENT} target="_black">
             Document
           </a>
         </section>
         <section className="inputs">
           <div className="input-group">
-            <label id="auth_key_label">Auth-key</label>
+            <label id="auth_key_label">auth_key</label>
             <div className="input-container">
               <input
                 type="text"
-                placeholder="Type something..."
-                value={isEditing ? authKeyValue : hideAuthKey(authKeyValue)}
-                onChange={handleAuthKeyInputChange}
-                readOnly={!isEditing}
+                placeholder={gettext('Enter auth_key')}
+                onClick={inputAuthKey}
+                value={maskText(authKey)}
+                readOnly
                 onFocus={inputOnfoucs}
                 onBlur={inputOutfoucs}
                 name="auth_key"
@@ -97,10 +115,10 @@ export default function Advanced() {
           </div>
 
           <div className="input-group">
-            <label id="top_p_label">Top p</label>
+            <label id="top_p_label">top_p</label>
             <input
               type="number"
-              value={topP}
+              value={model.top_p}
               onChange={handleTopPInputChange}
               onFocus={inputOnfoucs}
               onBlur={inputOutfoucs}
@@ -116,13 +134,14 @@ export default function Advanced() {
             <label id="frequency_penalty_label">frequency_penalty</label>
             <input
               type="number"
-              value={frequencyPenalty}
+              value={model.frequency_penalty}
               onChange={handlFrequencyPenaltyInputChange}
               onFocus={inputOnfoucs}
               onBlur={inputOutfoucs}
               name="frequency_penalty"
               min="-2"
               max="2"
+              step="0.2"
             />
             <span className="hint">-2 ~ 2, default: 0</span>
           </div>
@@ -134,7 +153,7 @@ export default function Advanced() {
           height="36px"
           type={BUTTON_TYPE.PRIMARY}
           text={gettext('SAVE CHANGE')}
-          onClick={saveSettings}
+          onClick={save}
         />
       </div>
       <style jsx>{styles}</style>
