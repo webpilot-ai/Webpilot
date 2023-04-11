@@ -74,10 +74,10 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
           </li>
           <li>
             <section>
-            <Tooltip
+              <Tooltip
                 showArrow={false}
                 placement="bottom"
-                overlayClassName='overlay-panel'
+                overlayClassName="overlay-panel"
                 overlay={() => <span>{gettext('Shortcut: ESC')}</span>}
               >
                 <section className="setting-icon " onClick={closePopup}>
@@ -128,8 +128,6 @@ const styles = css`
     font-size: 14px;
     line-height: 20px;
   }
-
-  
 `
 
 const globalStyles = css.global`
@@ -155,7 +153,7 @@ const globalStyles = css.global`
   .camera-falsh {
     display: none;
   }
-  .overlay-panel{
+  .overlay-panel {
     left: 350px !important;
   }
 `

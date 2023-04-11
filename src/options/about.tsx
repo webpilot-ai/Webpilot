@@ -1,13 +1,7 @@
 import css from 'styled-jsx/css'
-import ContributorIcon from 'data-base64:~assets/images/About/contributors.svg'
-import InvestorSvg from 'data-base64:~assets/images/About/investor.svg'
-
 import {useState, useEffect} from 'react'
-
 import {gettext} from '@/utils'
-
-import Investor from './investor'
-import Engineer from './engineer'
+import Contributor from './contributor'
 
 const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about.json'
 
@@ -19,36 +13,35 @@ export default function About() {
       .then(res => res.json())
       .then(setAbout)
   }, [])
-
-  const {contributors = [], investors = []} = about
+  const {contributors = [], investors = [], donate={}} = about
   return (
     <section className="about">
       <div className="contributors">
         <div className="title">
-          <img src={ContributorIcon} alt="" />
           <span>Contributors</span>
         </div>
         <div className="person-info">
           {contributors.map((info, index) => {
-            return <Engineer key={index} info={info} />
+            return <Contributor key={index} info={info} />
           })}
         </div>
       </div>
 
       <div className="investors">
         <div className="title">
-          <img src={InvestorSvg} alt="" />
           <span>{gettext('Thanks to Investors')}</span>
         </div>
+
+
         <div className="person-info">
           {investors.map((info, index) => {
-            return <Investor key={index} info={info} />
+            return <Contributor key={index} info={info} />
           })}
         </div>
       </div>
 
       <div className="donate">
-        <a href="https://github.com/Fluentify-IO/Fluentify">Contact us to donate</a>
+        <a href={donate.link} target='_black'>{donate.text}</a>
       </div>
       <style jsx>{styles}</style>
     </section>
@@ -87,11 +80,10 @@ const styles = css`
     }
 
     .investors {
-      margin-top: 32px;
+      margin-top: 12px;
     }
 
     .donate {
-      margin-top: 16px;
       color: #4f5aff;
       font-weight: 400;
       font-size: 14px;

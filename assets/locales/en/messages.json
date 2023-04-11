@@ -175,5 +175,8 @@
   },
   "Webpilot": {
     "message": "Webpilot"
+  },
+  "Shortcut_Esc": {
+    "message": "Shortcut: ESC"
   }
 }

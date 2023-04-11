@@ -1,7 +1,8 @@
 import css from 'styled-jsx/css'
 
+import {gettext} from '@/utils'
+
 import Button from './button'
-import { gettext } from '@/utils'
 
 export const ReferenceType = {
   NONE: 'NONE',

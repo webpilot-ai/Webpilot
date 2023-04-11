@@ -133,5 +133,8 @@
   },
   "Other": {
     "message": "其他"
+  },
+  "Add_new_prompt": {
+    "message": "增加新的"
   }
 }
