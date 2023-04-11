@@ -2,7 +2,7 @@ import css from 'styled-jsx/css'
 
 import {useState, useEffect} from 'react'
 import Logo from 'data-base64:~assets/images/advanced/logo.svg'
-import DeleteOutlineIcon from 'react:@assets/images/delete-outline.svg'
+import DeleteIcon from 'react:@assets/images/advanced/delete.svg'
 
 import useConfig from '@/hooks/use-config'
 import Button, {BUTTON_TYPE} from '@/components/button'
@@ -91,7 +91,7 @@ export default function Advanced() {
                 name="auth_key"
               />
               <span className="delete_authKey">
-                <DeleteOutlineIcon className="delete_icon" onClick={cleanAuthKey} />
+                <DeleteIcon className="delete_icon" onClick={cleanAuthKey} />
               </span>
             </div>
           </div>
@@ -158,6 +158,9 @@ const styles = css`
 
       img {
         margin-right: 8px;
+        margin-top: 3px;
+        height: 22px;
+        width: 22px;
       }
 
       .title {
@@ -171,7 +174,10 @@ const styles = css`
       a {
         font-weight: 400;
         font-size: 14px;
-        line-height: 20px;
+        line-height: 18px;
+        padding-top: 4px;
+        text-decoration-line: underline;
+        color: #4F5AFF;
       }
     }
 
@@ -208,7 +214,10 @@ const styles = css`
         }
 
         .delete_authKey {
-          margin-left: -25px;
+         
+          position: relative;
+          top: 5px;
+          left: -30px;
           cursor: pointer;
         }
 
@@ -233,6 +242,9 @@ const styles = css`
     .footer {
       display: flex;
       flex-direction: row-reverse;
+      @media screen and (max-width: 500px){
+        flex-direction: row;
+      }
     }
   }
 `
