@@ -13,6 +13,9 @@ dependencies:
   copy-to-clipboard:
     specifier: 3.3.3
     version: 3.3.3
+  gpt-3-encoder:
+    specifier: 1.1.4
+    version: 1.1.4
   plasmo:
     specifier: 0.67.3
     version: 0.67.3(postcss@8.4.21)(react-dom@18.2.0)(react@18.2.0)
@@ -4736,6 +4739,10 @@ packages:
       lowercase-keys: 3.0.0
       p-cancelable: 3.0.0
       responselike: 3.0.0
+    dev: false
+
+  /gpt-3-encoder@1.1.4:
+    resolution: {integrity: sha512-fSQRePV+HUAhCn7+7HL7lNIXNm6eaFWFbNLOOGtmSJ0qJycyQvj60OvRlH7mee8xAMjBDNRdMXlMwjAbMTDjkg==}
     dev: false
 
   /graceful-fs@4.2.10:

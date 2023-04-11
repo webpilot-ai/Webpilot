@@ -71,7 +71,7 @@ export default function AskPage() {
 
       // FIXME: article maybe too long for ask, need token calculator
       if (command) {
-        askAI({command: `${command}:\n\n${article}\n\n`, onlyCommand: true})
+        askAI({command, text: article})
       }
     }
   }

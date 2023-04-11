@@ -18,6 +18,7 @@
     "@plasmohq/messaging": "0.1.6",
     "@plasmohq/storage": "1.2.3",
     "copy-to-clipboard": "3.3.3",
+    "gpt-3-encoder": "1.1.4",
     "plasmo": "0.67.3",
     "rc-dialog": "9.1.0",
     "rc-tooltip": "6.0.1",
