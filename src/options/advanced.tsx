@@ -157,10 +157,10 @@ const styles = css`
       display: flex;
 
       img {
-        margin-right: 8px;
-        margin-top: 3px;
-        height: 22px;
         width: 22px;
+        height: 22px;
+        margin-top: 3px;
+        margin-right: 8px;
       }
 
       .title {
@@ -172,12 +172,12 @@ const styles = css`
       }
 
       a {
+        padding-top: 4px;
+        color: #4f5aff;
         font-weight: 400;
         font-size: 14px;
         line-height: 18px;
-        padding-top: 4px;
         text-decoration-line: underline;
-        color: #4F5AFF;
       }
     }
 
@@ -214,7 +214,6 @@ const styles = css`
         }
 
         .delete_authKey {
-         
           position: relative;
           top: 5px;
           left: -30px;
@@ -242,7 +241,8 @@ const styles = css`
     .footer {
       display: flex;
       flex-direction: row-reverse;
-      @media screen and (max-width: 500px){
+
+      @media screen and (max-width: 500px) {
         flex-direction: row;
       }
     }

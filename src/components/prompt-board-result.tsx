@@ -13,6 +13,8 @@ import {AI_REDUCER_ACTION_TYPE} from '@/components/with-ai-context'
 
 import {MESSAGING_EVENT} from '@/config'
 
+import Confirmation from 'data-base64:~assets/images//confirmation.svg'
+
 export default function PromptBoardResult({placeholder = ''}) {
   const [value, setValue] = useState('')
 
@@ -53,10 +55,14 @@ export default function PromptBoardResult({placeholder = ''}) {
 
   const copy = () => {
     const text = ai.result?.trim()
-
+    const notification = document.querySelector('.copied');
     if (text.length) {
       if (copyToClipboard(text, {format: 'text/plain'})) {
-        toast.success(gettext('Copy succeeded'), {position: 'bottom-center', autoClose: 600})
+        // toast.success(gettext('Copy succeeded'), {position: 'bottom-center', autoClose: 600})
+        notification.style.display = 'flex'
+        setTimeout(() => {
+          notification.style.display = 'none'
+        }, 3000)
       }
     }
   }
@@ -82,6 +88,9 @@ export default function PromptBoardResult({placeholder = ''}) {
             <section className="share-extension" onClick={showRecommendationText}>
               {gettext('Amazing Webpilot, telling friends!')}
             </section>
+            <span className='copied'>
+              <img src={Confirmation} alt="" />
+              {gettext('Copied')}</span>
             <Button
               width="48px"
               height="24px"
@@ -155,11 +164,24 @@ const styles = css`
       margin-right: auto;
       text-decoration: underline;
       cursor: pointer;
+      color: #929497;
 
       &:visited {
         color: #777;
       }
     }
+  }
+
+  .copied{
+    display: none;
+    img{
+      margin-right: 4px;
+    }
+    font-size: 12px;
+    font-weight: 500;
+    color: #292929;
+    margin-right: 8px;
+    line-height: 22px;
   }
 
   .coustom {
