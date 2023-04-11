@@ -5,13 +5,16 @@ import {Tabs, TabList, Tab, TabPanel} from 'react-tabs'
 import css from 'styled-jsx/css'
 
 import LogoTextIcon from 'data-base64:~assets/images/text-logo.svg'
+
 import useConfig from '@/hooks/use-config'
 import {withAIContext} from '@/components/with-ai-context'
+
+import {gettext} from '@/utils'
+
 import PromptSetting from './prompt-setting'
 import PromptAdd from './prompt-add'
 import About from './about'
 import Advanced from './advanced'
-import {gettext} from '@/utils'
 
 export default withAIContext(function Options() {
   const {config, setConfig} = useConfig()

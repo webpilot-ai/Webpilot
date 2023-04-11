@@ -1,10 +1,12 @@
 import css from 'styled-jsx/css'
-import { gettext } from '@/utils'
+
+import {gettext} from '@/utils'
 
 export default function SelectedPreview({selectedText = ''}) {
   return (
     <p className="preview">
-      {gettext('With the select conntet')} "<span className="selected-text">{selectedText}</span>", {gettext('what do you want?')}
+      {gettext('With the select conntet')} "<span className="selected-text">{selectedText}</span>",{' '}
+      {gettext('what do you want?')}
       <style jsx> {styles}</style>
     </p>
   )

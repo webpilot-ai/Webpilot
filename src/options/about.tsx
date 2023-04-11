@@ -4,11 +4,12 @@ import InvestorSvg from 'data-base64:~assets/images/About/investor.svg'
 
 import {useState, useEffect} from 'react'
 
+import {gettext} from '@/utils'
+
 import Investor from './investor'
 import Engineer from './engineer'
 
 const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about.json'
-import {gettext} from '@/utils'
 
 export default function About() {
   const [about, setAbout] = useState({})

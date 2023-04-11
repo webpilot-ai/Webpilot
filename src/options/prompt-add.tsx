@@ -1,6 +1,7 @@
 import css from 'styled-jsx/css'
 
 import AddIcon from 'react:@assets/images/control-add.svg'
+
 import {gettext} from '@/utils'
 
 export default function PromptAdd({onClick = () => null}) {
