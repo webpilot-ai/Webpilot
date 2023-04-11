@@ -26,6 +26,9 @@
   "Copy": {
     "message": "Copy"
   },
+  "Copied": {
+    "message": "Copied"
+  },
   "Remember_to_select_text__If_using_for_the_first_time__refresh_the_page": {
     "message": "Remember to select text. If using for the first time, refresh the page"
   },
@@ -154,5 +157,23 @@
   },
   "What_do_you_want": {
     "message": "what do you want?"
+  },
+  "Webpilot_says": {
+    "message": "Webpilot Says:"
+  },
+  "None": {
+    "message": "None"
+  },
+  "The_select": {
+    "message": "The Select"
+  },
+  "The_page": {
+    "message": "This Page"
+  },
+  "Reference": {
+    "message": "Reference:"
+  },
+  "Webpilot": {
+    "message": "Webpilot"
   }
 }

@@ -31,7 +31,7 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
   return (
     <section className="header">
       <img src={LogoIcon} className="logo" />
-      <h1 className="title">Webpilot</h1>
+      <h1 className="title">{gettext('Webpilot')}</h1>
       {isAuth ? (
         <ul role="list" className="header-settings">
           <li className="d-inline">{turboMode ? gettext('Turbo Mode: ON') : ''}</li>
@@ -63,7 +63,7 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
             <section>
               <Tooltip
                 showArrow={false}
-                placement="left"
+                placement="bottom"
                 overlay={() => <span>{gettext('Settings')}</span>}
               >
                 <section className="setting-icon " onClick={openSettings}>
@@ -74,9 +74,16 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
           </li>
           <li>
             <section>
-              <section className="setting-icon " onClick={closePopup}>
-                <RemoveIcon />
-              </section>
+            <Tooltip
+                showArrow={false}
+                placement="bottom"
+                overlayClassName='overlay-panel'
+                overlay={() => <span>{gettext('Shortcut: ESC')}</span>}
+              >
+                <section className="setting-icon " onClick={closePopup}>
+                  <RemoveIcon />
+                </section>
+              </Tooltip>
             </section>
           </li>
         </ul>
@@ -121,6 +128,8 @@ const styles = css`
     font-size: 14px;
     line-height: 20px;
   }
+
+  
 `
 
 const globalStyles = css.global`
@@ -145,5 +154,8 @@ const globalStyles = css.global`
   }
   .camera-falsh {
     display: none;
+  }
+  .overlay-panel{
+    left: 350px !important;
   }
 `

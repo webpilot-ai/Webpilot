@@ -28,6 +28,7 @@ export default function PromptList({
       {prompts.map((prompt, index) => (
         <div key={index} className="item">
           <Button
+            height='25px'
             text={prompt.title}
             disabled={ai?.loading}
             selected={index === selectIndex}

@@ -1,6 +1,7 @@
 import css from 'styled-jsx/css'
 
 import Button from './button'
+import { gettext } from '@/utils'
 
 export const ReferenceType = {
   NONE: 'NONE',
@@ -15,7 +16,7 @@ export default function ReferenceBtnGroup({
 }) {
   return (
     <section className="reference-btn-group">
-      <span>Reference:</span>
+      <span>{gettext('Reference:')}</span>
       <ul role="list" className="btn-list">
         <li>
           <Button
@@ -24,7 +25,7 @@ export default function ReferenceBtnGroup({
             onClick={() => onChange(ReferenceType.NONE)}
             height="25px"
           >
-            None
+            {gettext('None')}
           </Button>
         </li>
         <li>
@@ -34,7 +35,7 @@ export default function ReferenceBtnGroup({
             onClick={() => onChange(ReferenceType.THE_SELECT)}
             height="25px"
           >
-            The Select
+            {gettext('The Select')}
           </Button>
         </li>
         <li>
@@ -44,7 +45,7 @@ export default function ReferenceBtnGroup({
             onClick={() => onChange(ReferenceType.THIS_PAGE)}
             height="25px"
           >
-            This Page
+            {gettext('This Page')}
           </Button>
         </li>
       </ul>
