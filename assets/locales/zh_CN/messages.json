@@ -21,7 +21,7 @@
     "message": "有个贼6能拿来干活的AI, 比 ChatGPT 都好用，而且既开源又免费，没有wait list，现在就能用！\n\n 在这里：http://webpilot.ai/"
   },
   "Amazing_Webpilot__telling_friends_": {
-    "message": "Webpilot 🐮！ 我要安利小伙伴！"
+    "message": "Webpilot 牛啊！ 我要安利小伙伴！"
   },
   "Copy": {
     "message": "复制"
@@ -153,10 +153,10 @@
     "message": "Add New Prompt"
   },
   "With_the_select_conntet": {
-    "message": "With the select conntet"
+    "message": "对于所选文字"
   },
   "What_do_you_want": {
-    "message": "what do you want?"
+    "message": "你希望问点什么?"
   },
   "Webpilot_says": {
     "message": "Webpilot:"
