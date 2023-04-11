@@ -143,4 +143,7 @@ const globalStyles = css.global`
       stroke: #777777;
     }
   }
+  .camera-falsh{
+    display: none;
+  }
 `
