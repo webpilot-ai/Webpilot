@@ -11,7 +11,7 @@ export default function Contributor({info}) {
       ) : (
         <span className="name">{info.name}</span>
       )}
-      <span className="title">{ info.bio }</span>
+      <span className="title">{info.bio}</span>
       <style jsx>{styles}</style>
     </section>
   )
@@ -25,12 +25,12 @@ const styles = css`
     width: 155px;
     height: 143px;
     margin-right: 16px;
+    margin-bottom: 20px;
     padding: 16px;
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 0 8px 24px rgb(149 157 165 / 20%);
-    margin-bottom: 20px;
-    
+
     img {
       width: 48px;
       height: 48px;

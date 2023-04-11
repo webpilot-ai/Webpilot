@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Fluentify 用起来超简单。简单在文字上划一下，一切就都搞定了！"
+    "message": "Web copilot for all，免费且开源，贼好用！"
   },
   "Settings": {
     "message": "设置"
@@ -18,22 +18,22 @@
     "message": "划词即问: 关"
   },
   "Let_me_tell_you_about_this_crazy_useful_AI_tool_called_Fluentify__All_you_gotta_do_is_swipe_on_the_task__and_it_gets_done_automatically__It_s_way_better_than_ChatGPT__trust_me___Install__https___bit_ly_3mAJ9I7_GitHub__https___github_com_Fluentify_IO_Fluentify": {
-    "message": "我说个极其离谱的AI，叫 Fluentify。只要在任务上划一下，就能自动干活，比 ChatGPT 好用多了！\n\n插件安装：http://bit.ly/3YGLmyS\n开源地址：https://github.com/Fluentify-IO/Fluentify"
-  },
-  "Copy_succeeded": {
-    "message": "已复制"
+    "message": "有个贼6能拿来干活的AI, 比 ChatGPT 都好用，而且既开源又免费，没有wait list，现在就能用！\n\n 在这里：http://webpilot.ai/"
   },
   "Amazing_Webpilot__telling_friends_": {
-    "message": "Webpilot 🐮！ 我要安利小伙伴！"
+    "message": "Webpilot 牛啊！ 我要安利小伙伴！"
   },
   "Copy": {
     "message": "复制"
+  },
+  "Copied": {
+    "message": "已复制"
   },
   "Remember_to_select_text__If_using_for_the_first_time__refresh_the_page": {
     "message": "请先选择文字。如果首次使用，请先刷新页面"
   },
   "Auth_key_not_available__please_reset": {
-    "message": "auth key 不可用，请重新设置"
+    "message": "无效key。请尝试其他key, 或联系key的提供方。"
   },
   "Generating_content__takes_about_a_few_seconds": {
     "message": "内容生成中，需要约几秒钟"
@@ -54,7 +54,7 @@
     "message": "抬杠"
   },
   "Identify_any_logical_or_factual_errors_in_these_texts_and_provide_a_rebuttal__At_the_same_time__present_the_opposite_viewpoint_with_supporting_evidence": {
-    "message": "找出这些文本的逻辑错误或事实错误，并进行反驳。同时，给出相反观点，并加以事实依据"
+    "message": "用数据和事实反驳这个观点，客观礼貌，限1段"
   },
   "Restored_to_default_settings": {
     "message": "已恢复为默认设置"
@@ -134,7 +134,52 @@
   "Other": {
     "message": "其他"
   },
+<<<<<<< HEAD
   "Add_new_prompt": {
     "message": "增加新的"
+=======
+  "Star_on_github": {
+    "message": "Star on Github"
+  },
+  "Webpilot_is_open_source": {
+    "message": "Webpilot 是开源的"
+  },
+  "Opensource_ai_assistant_on_all_websites": {
+    "message": "Web copilot for all，免费且开源，贼好用！"
+  },
+  "Thanks_to_investors": {
+    "message": "赞助人"
+  },
+  "Contact_us_to_donate": {
+    "message": "联系我们"
+  },
+  "Add_new_prompt": {
+    "message": "Add New Prompt"
+  },
+  "With_the_select_conntet": {
+    "message": "对于所选文字"
+  },
+  "What_do_you_want": {
+    "message": "你希望问点什么?"
+  },
+  "Webpilot_says": {
+    "message": "Webpilot:"
+  },
+  "None": {
+    "message": "无"
+  },
+  "The_select": {
+    "message": "所选文字"
+  },
+  "The_page": {
+    "message": "当前网页"
+  },
+  "Reference": {
+    "message": "参考依据:"
+  },
+  "Webpilot": {
+    "message": "Webpilot"
+>>>>>>> e7c27a38d8261568a15a6eb000387b2729904c7a
   }
 }
+
