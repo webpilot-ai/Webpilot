@@ -1,8 +1,18 @@
 import {OPEN_AI_API} from '@/config'
 
+let prevAbortController = null
+
 export async function askOpenAI({authKey, model, prompt}) {
   model.messages = [{role: 'user', content: prompt}]
   model.stream = true
+
+  const abortController = new AbortController()
+
+  if (prevAbortController) {
+    prevAbortController.abort()
+  }
+
+  prevAbortController = abortController
 
   return fetch(OPEN_AI_API, {
     method: 'POST',
@@ -11,6 +21,7 @@ export async function askOpenAI({authKey, model, prompt}) {
       Authorization: `Bearer ${authKey}`,
     },
     body: JSON.stringify(model),
+    signal: abortController.signal,
   }).then(async response => {
     const streamReader = response.body.getReader()
 

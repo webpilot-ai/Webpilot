@@ -64,10 +64,19 @@ export function withAIContext(Component) {
           })
         })
         .catch(err => {
+          if (err instanceof DOMException && /aborted/.test(err.message)) {
+            return
+          }
+
           aiDispatch({type: AI_REDUCER_ACTION_TYPE.FAILURE, payload: err})
 
           if (err.response && err.response.status === 401) {
-            setConfig({...config, latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL, isAuth: false})
+            setConfig({
+              ...config,
+              authKey: '',
+              latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL,
+              isAuth: false,
+            })
             toast.error(gettext('Auth key not available, please reset'))
           } else {
             let errorMsg = err.message || ''
