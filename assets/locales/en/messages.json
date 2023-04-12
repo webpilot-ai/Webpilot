@@ -190,5 +190,8 @@
   },
   "Please_review_these_codes_and_provide_feedback": {
     "message": "Please review these codes and provide feedback."
+  },
+  "Contributor": {
+    "message": "Contributors"
   }
 }

@@ -20,7 +20,7 @@ export default function About() {
     <section className="about">
       <div className="contributors">
         <div className="title">
-          <span>Contributors</span>
+          <span>{gettext('Contributors')}</span>
         </div>
         <div className="person-info">
           {contributors.map((info, index) => {
