@@ -6,10 +6,10 @@
     "message": "Settings"
   },
   "closeTooltip": {
-    "message": "快捷键：Esc"
+    "message": "Shortcut：Esc"
   },
   "inputPlaceholder": {
-    "message": "向 Webpilot 提个问题 ..."
+    "message": "Ask Webpilot..."
   },
   "Auto_Pop__ON": {
     "message": "Auto Pop: ON"
