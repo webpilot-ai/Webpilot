@@ -2,20 +2,17 @@ import css from 'styled-jsx/css'
 import {useState, useEffect} from 'react'
 
 import {gettext} from '@/utils'
-
 import Contributor from './contributor'
-
 const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about.json'
 
 export default function About() {
   const [about, setAbout] = useState({})
-
   useEffect(() => {
     fetch(ABOUT_API)
       .then(res => res.json())
       .then(setAbout)
   }, [])
-  const {contributors = [], investors = [], donate = {}} = about
+  const {contributors = [], sponsors = [], donate = {}} = about
   return (
     <section className="about">
       <div className="contributors">
@@ -31,11 +28,11 @@ export default function About() {
 
       <div className="investors">
         <div className="title">
-          <span>{gettext('Thanks to Investors')}</span>
+          <span>{gettext('Thanks to Sponsors')}</span>
         </div>
 
         <div className="person-info">
-          {investors.map((info, index) => {
+          {sponsors.map((info, index) => {
             return <Contributor key={index} info={info} />
           })}
         </div>
