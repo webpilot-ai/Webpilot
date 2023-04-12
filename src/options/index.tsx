@@ -148,7 +148,7 @@ const styles = css`
     flex-direction: column;
     width: calc(100vw - 18px);
     max-width: 1438px;
-    height: calc(100vh - 18px);
+    min-height: calc(100vh - 18px);
     padding: 24px 16px 16px;
     background: rgb(255 255 255 / 60%);
     border: 1px solid #fff;
