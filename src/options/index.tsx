@@ -153,6 +153,7 @@ const styles = css`
     background: rgb(255 255 255 / 60%);
     border: 1px solid #fff;
     border-radius: 20px 20px 0 0;
+    overflow-y: scroll;
 
     &::-webkit-scrollbar {
       width: 4px;
