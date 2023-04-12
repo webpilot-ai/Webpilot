@@ -2,6 +2,7 @@ import css from 'styled-jsx/css'
 import {useState, useEffect} from 'react'
 
 import {gettext} from '@/utils'
+
 import Contributor from './contributor'
 const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about.json'
 

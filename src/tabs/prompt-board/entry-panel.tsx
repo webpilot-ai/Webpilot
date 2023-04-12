@@ -97,7 +97,7 @@ const styles = css`
     flex-direction: column;
     height: 68px;
     padding: 0 8px;
-    color: #c4c4c4;
+    color: #4F5AFF;
     font-size: 12px;
     line-height: 16.8px;
 
