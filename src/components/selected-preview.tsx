@@ -5,8 +5,8 @@ import {gettext} from '@/utils'
 export default function SelectedPreview({selectedText = ''}) {
   return (
     <p className="preview">
-      {gettext('With the select conntet')} "<span className="selected-text">{selectedText}</span>",{' '}
-      {gettext('what do you want?')}
+      {gettext('With_the_select_conntet')} "<span className="selected-text">{selectedText}</span>",{' '}
+      {gettext('What_do_you_want')}
       <style jsx> {styles}</style>
     </p>
   )

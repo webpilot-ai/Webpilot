@@ -71,7 +71,7 @@ export default function PromptBoardResult({placeholder = ''}) {
       <section className="prompt-board-result">
         <section>
           {/* FIXME */}
-          {gettext('Webpilot Says:')}
+          Webpilot:
         </section>
 
         <section className="result-container">
