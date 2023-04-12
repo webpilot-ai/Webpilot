@@ -148,12 +148,12 @@ const styles = css`
     flex-direction: column;
     width: calc(100vw - 18px);
     max-width: 1438px;
-    min-height: calc(100vh - 18px);
+    height: calc(100vh - 18px);
     padding: 24px 16px 16px;
+    overflow-y: scroll;
     background: rgb(255 255 255 / 60%);
     border: 1px solid #fff;
     border-radius: 20px 20px 0 0;
-    overflow-y: scroll;
 
     &::-webkit-scrollbar {
       width: 4px;
