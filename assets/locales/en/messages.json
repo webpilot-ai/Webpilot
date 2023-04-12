@@ -184,5 +184,11 @@
   },
   "Shortcut_Esc": {
     "message": "Shortcut: ESC"
+  },
+  "Code_review": {
+    "message": "Code Review"
+  },
+  "Please_review_these_codes_and_provide_feedback": {
+    "message": "Please review these codes and provide feedback."
   }
 }

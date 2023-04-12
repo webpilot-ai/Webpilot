@@ -35,8 +35,8 @@ export default withAIContext(function Options() {
       prompts: [
         ...config.prompts,
         {
-          title: '',
-          command: '',
+          title: gettext('Code Review'),
+          command: gettext('Please review these codes and provide feedback.'),
         },
       ],
     })
