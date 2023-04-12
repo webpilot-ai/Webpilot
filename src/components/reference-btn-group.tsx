@@ -17,7 +17,7 @@ export default function ReferenceBtnGroup({
 }) {
   return (
     <section className="reference-btn-group">
-      <span>{gettext('Reference:')}</span>
+      <span>{gettext('Reference')}</span>
       <ul role="list" className="btn-list">
         <li>
           <Button
