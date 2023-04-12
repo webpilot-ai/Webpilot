@@ -31,7 +31,6 @@ export default function About() {
         <div className="title">
           <span>{gettext('Thanks to Sponsors')}</span>
         </div>
-
         <div className="person-info">
           {sponsors.map((info, index) => {
             return <Contributor key={index} info={info} />

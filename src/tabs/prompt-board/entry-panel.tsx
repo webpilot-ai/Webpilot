@@ -97,7 +97,7 @@ const styles = css`
     flex-direction: column;
     height: 68px;
     padding: 0 8px;
-    color: #4F5AFF;
+    color: #c4c4c4;
     font-size: 12px;
     line-height: 16.8px;
 
@@ -107,7 +107,7 @@ const styles = css`
   }
 
   .link {
-    color: #dec194;
+    color: #4F5AFF;
   }
 
   .guide {
