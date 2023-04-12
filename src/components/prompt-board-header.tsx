@@ -78,7 +78,7 @@ export default function PromptBoardHeader({hideTurboMode = false}) {
                 showArrow={false}
                 placement="bottom"
                 overlayClassName="overlay-panel"
-                overlay={() => <span>{gettext('Shortcut: ESC')}</span>}
+                overlay={() => <span>{gettext('closeTooltip')}</span>}
               >
                 <section className="setting-icon " onClick={closePopup}>
                   <RemoveIcon />

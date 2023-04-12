@@ -75,7 +75,7 @@ export default withAIContext(function Options() {
         <main>
           <section className="header">
             <img src={LogoTextIcon} alt="" />
-            <span className="slogan">{gettext('Opensource | AI Assistant on All Websites')}</span>
+            <span className="slogan">{gettext('Opensource_ai_assistant_on_all_websites')}</span>
           </section>
 
           <Tabs>

@@ -46,7 +46,7 @@ export default function ReferenceBtnGroup({
             onClick={() => onChange(ReferenceType.THIS_PAGE)}
             height="25px"
           >
-            {gettext('This Page')}
+            {gettext('The_page')}
           </Button>
         </li>
       </ul>
