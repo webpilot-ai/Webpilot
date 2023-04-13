@@ -2,17 +2,17 @@
 
 
 
-# Fluentify
+# Webpilot
 
-Fluentify is a free and open-source  "Copilot for the web".Unlike ChatGPT, there's no need to chat or switch pages, and you don't have to copy and paste. Just select the text and everything else is done automatically.
+Webpilot is a free and open-source  "Copilot for the web".Unlike ChatGPT, there's no need to chat or switch pages, and you don't have to copy and paste. Just select the text and everything else is done automatically.
  
-The current version of Fluentify is developed based on gpt-3.5-turbo, which binds some common prompts with shortcut commands, requests API, and displays results to manipulate the selected text on the webpage.
+The current version of Webpilot is developed based on gpt-3.5-turbo, which binds some common prompts with shortcut commands, requests API, and displays results to manipulate the selected text on the webpage.
 
-Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
+Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/Webpilot/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
-Official Website: [HomePage](https://www.fluentify.io/)
+Official Website: [HomePage](https://www.Webpilot.ai/)
 
-Note: Fluentify is a project code name and currently in demo version. It will be renamed and officially launched within the next month (we will remain open source and free).
+Note: Webpilot is a project code name and currently in demo version. It will be renamed and officially launched within the next month (we will remain open source and free).
 
 ## Getting Started
 
@@ -35,25 +35,16 @@ Open your Chrome browser and load the appropriate development build：
 5. Pin this extension to your Chrome toolbar.
 6. After installation, please refresh the page where you want to select text before using this extension.
 
-## Welcome to Contribute Code
-Welcome to contribute code for the following aspects:
-1. Multi-language support. You can refer to the locals file to perform more language adaptation.
-2. Add the "Fluentify" button to more websites. For example: https://github.com/Fluentify-IO/Fluentify/issues/new
-- The button name is "Fluentify", and it uses the native design of the page. It is located next to buttons such as "Send", "Publish", "Submit", etc.
-- The placeholder for the input box is "Write prompt here, click Fluentify, get your content", and it can be adapted for multiple languages.
-3. If you find that Fluentify isn't working on some websites, please help us investigate the issue and submit the fix code.
-4. Other interesting features.
+# Webpilot
+Webpilot是一个免费、开源的“Copilot for web”。与ChatGPT不同，无需聊天或切换页面，也无需复制和粘贴。只需选择文本，一切其他工作都会自动完成。
 
-# Fluentify
-Fluentify是一个免费、开源的“Copilot for web”。与ChatGPT不同，无需聊天或切换页面，也无需复制和粘贴。只需选择文本，一切其他工作都会自动完成。
+当前版本的 Webpilot 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
 
-当前版本的 Fluentify 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
+Chrome 插件：[获取](https://chrome.google.com/webstore/detail/Webpilot/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
-Chrome 插件：[获取](https://chrome.google.com/webstore/detail/fluentify/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
+Webpilot 官网：[访问](https://www.Webpilot.ai/)
 
-Fluentify 官网：[访问](https://www.fluentify.io/)
-
-注意：Fluentify 是项目代号，目前仍处是Demo版本，会在最近1个月内改名并推出正式版（我们会保持开源&免费）。
+注意：Webpilot 是项目代号，目前仍处是Demo版本，会在最近1个月内改名并推出正式版（我们会保持开源&免费）。
 
 
 ## 入门指南
@@ -78,27 +69,11 @@ yarn dev
 6. 安装完成后，请先刷新要选中文字的页面，再使用本插件。
 
 
-
-## 欢迎贡献代码
-欢迎贡献以下方面的代码：
-1. 多语言支持。可以参考 locals 文件，进行更多的语言适配。
-2. 给更多的网站，加上【Fluentify】按钮。举个栗子： https://github.com/Fluentify-IO/Fluentify/issues/new
-- 按钮名称为【Fluentify】，使用页面原生的设计，位置在“发送”、“发布”、“提交”等按钮的旁边
-- 输入框的 placeholder 为“Write prompt here, click Fluentify, get your content”，可进行多语言适配
-3. 如果你发现Fluentify在一些网站上用不了，欢迎帮助查找下原因并提交修复代码
-4. 其他有趣的Feature
-
-
 ## 其他
 
-希望 Fluentify 这个项目可以成为 GPT Coplit for X，一个傻瓜的、免费的生产力工具，AI for All。
+希望 Webpilot 这个项目可以成为 GPT Coplit for X，一个傻瓜的、免费的生产力工具，AI for All。
 
-这几天我会完善出产品规划，及近期的迭代文档，感兴趣的朋友非常欢迎加入。无论是产品、设计、技术，都非常欢迎！
-
-这个项目正在参加即刻的 hackathon，我是里面的「葬花达人鲁智深」。非常希望能把提交 PR 的小伙伴写进 Contributors，如果你不介意。
-https://docs.qq.com/sheet/DTUJZSWVkTlBxY0ds
-
-感兴趣的话，可以加个微信（加的时候记得备注一下：Git来的，并附上一些必要的信息，比如身份、岗位啥的）
+欢迎各位大佬（尤其是精通 React 的大佬）一起来完善这个项目，感兴趣的话，可以加个微信（加的时候记得备注一下：Git来的，并附上一些必要的信息，比如身份、岗位啥的）
 
 ![image](https://user-images.githubusercontent.com/6043666/224199335-55b16eee-1c04-43cd-985c-27ccec9ab731.png)
 
