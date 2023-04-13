@@ -1,7 +1,8 @@
 import {createContext, useReducer} from 'react'
 import {sendToContentScript} from '@plasmohq/messaging'
+import {encode, decode} from 'gpt-3-encoder'
 
-import {askOpenAI} from '@/io'
+import {askOpenAI, parseStream} from '@/io'
 import {gettext, toast} from '@/utils'
 import {MESSAGING_EVENT, ROUTE} from '@/config'
 
@@ -30,7 +31,7 @@ export function withAIContext(Component) {
     const askAI = async ({authKey, command, text = '', onlyCommand = false}) => {
       let selectedText = text.trim()
 
-      if (!onlyCommand || text) {
+      if (!onlyCommand && (!text || text === '')) {
         try {
           selectedText = await sendToContentScript({
             name: MESSAGING_EVENT.GET_SELECTED_TEXT,
@@ -46,21 +47,36 @@ export function withAIContext(Component) {
 
       aiDispatch({type: AI_REDUCER_ACTION_TYPE.REQUEST})
 
+      // due to ChatGPT3.5 max token limit, srhink all content to 3600 token.
+      let prompt = onlyCommand ? command : `${command}:\n\n${selectedText}\n\n`
+
+      const encoded = encode(prompt)
+      if (encoded.length > 3600) prompt = decode(encoded.slice(0, 3600))
+
       return askOpenAI({
         authKey: authKey || config.authKey,
         model: config.model,
-        prompt: `${command}:\n\n${selectedText}\n\n`,
+        prompt,
       })
-        .then(res => {
-          const result = onlyCommand ? '' : res
-          aiDispatch({type: AI_REDUCER_ACTION_TYPE.SUCCESS, payload: {result}})
-          return result
+        .then(streamReader => {
+          return parseStream(streamReader, result => {
+            aiDispatch({type: AI_REDUCER_ACTION_TYPE.SUCCESS, payload: {result}})
+          })
         })
         .catch(err => {
+          if (err instanceof DOMException && /aborted/.test(err.message)) {
+            return
+          }
+
           aiDispatch({type: AI_REDUCER_ACTION_TYPE.FAILURE, payload: err})
 
           if (err.response && err.response.status === 401) {
-            setConfig({...config, latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL, isAuth: false})
+            setConfig({
+              ...config,
+              authKey: '',
+              latestRoute: ROUTE.PROMPT_BOARD_ENTRY_PANEL,
+              isAuth: false,
+            })
             toast.error(gettext('Auth key not available, please reset'))
           } else {
             let errorMsg = err.message || ''
@@ -93,7 +109,7 @@ function reducer(state, action) {
         ...state,
         loading: true,
         error: null,
-        result: gettext('Generating content, takes about a few seconds'),
+        result: null,
       }
 
     case AI_REDUCER_ACTION_TYPE.SUCCESS:

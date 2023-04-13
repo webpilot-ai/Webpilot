@@ -6,24 +6,44 @@
 .container {
   position: fixed !important;
   top: 80px;
-  right: -500px;
   z-index: 99999999999;
-  width: 400px;
-  height: 594px;
   overflow: hidden;
+  border-radius: 10px;
   box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
-  transition: all 0.3s ease;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &.entry {
+    top: 4px;
+    right: 25px;
+    width: 360px;
+  }
 }
 
 .container-visible {
   right: 0;
+  width: 460px;
+  opacity: 1;
+}
+
+.drag-handle {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  width: 66%;
+  height: 40px;
+  cursor: move;
+  opacity: 0.8;
 }
 
 .iframe {
-  width: 400px;
-  height: 594px;
+  width: 100%;
   overflow: hidden;
+  background-color: white;
   border: none;
+  transition: all 0.3s;
 }
 
 .floating-logo-container {

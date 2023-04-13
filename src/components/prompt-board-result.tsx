@@ -1,26 +1,36 @@
-import TurboOnIcon from 'react:@assets/images/turbo-on.svg'
-import TurboOffIcon from 'react:@assets/images/turbo-off.svg'
-
 import {useEffect, useState} from 'react'
-import Tooltip from 'rc-tooltip/es'
 import copyToClipboard from 'copy-to-clipboard'
 
 import css from 'styled-jsx/css'
+import {useMessage} from '@plasmohq/messaging/hook'
 
-import {gettext, toast} from '@/utils'
+import Confirmation from 'data-base64:~assets/images//confirmation.svg'
+
+import {gettext} from '@/utils'
 
 import useAI from '@/hooks/use-ai'
-import useConfig from '@/hooks/use-config'
 
 import Button, {BUTTON_TYPE} from '@/components/button'
 import {AI_REDUCER_ACTION_TYPE} from '@/components/with-ai-context'
 
+import {MESSAGING_EVENT} from '@/config'
+
 export default function PromptBoardResult({placeholder = ''}) {
-  const [value, setValue] = useState()
+  const [value, setValue] = useState('')
 
   const {ai, aiDispatch} = useAI()
-  const {config, setConfig} = useConfig()
-  const {turboMode} = config
+
+  useMessage(req => {
+    const {name} = req
+    if (name === MESSAGING_EVENT.CLEAN_DATA) {
+      cleanData()
+    }
+  })
+
+  const cleanData = () => {
+    ai.result = ''
+    setValue('')
+  }
 
   const showRecommendationText = () => {
     const result = gettext(
@@ -33,111 +43,146 @@ export default function PromptBoardResult({placeholder = ''}) {
   }
 
   useEffect(() => {
-    setValue(ai.result || '')
+    setValue(ai.result)
   }, [ai.result])
 
-  const toggleTurboMode = () => {
-    setConfig({...config, turboMode: !turboMode})
-  }
+  useEffect(() => {
+    const resultTextarea = document.getElementById('resultTextarea')
+    if (resultTextarea) {
+      resultTextarea.scrollTop = resultTextarea.scrollHeight
+    }
+  }, [value])
 
   const copy = () => {
     const text = ai.result?.trim()
-
+    const notification = document.querySelector('.copied')
     if (text.length) {
       if (copyToClipboard(text, {format: 'text/plain'})) {
-        toast.success(gettext('Copy succeeded'), {position: 'bottom-center', autoClose: 600})
+        notification.style.display = 'flex'
+        setTimeout(() => {
+          notification.style.display = 'none'
+        }, 3000)
       }
     }
   }
 
-  return (
-    <section className="prompt-board-result">
-      <section onClick={showRecommendationText} className="recommendation">
-        {gettext('Amazing Fluentify, telling friends!')}
-      </section>
-
-      <section className="result-container">
-        <Tooltip
-          placement="left"
-          trigger="hover"
-          showArrow={false}
-          overlay={
-            <span>{turboMode ? gettext('Turbo Mode: ON') : gettext('Turbo Mode: OFF')}</span>
-          }
-        >
-          <section onClick={toggleTurboMode} className="turbo-mode">
-            {turboMode ? <TurboOnIcon /> : <TurboOffIcon />}
-          </section>
-        </Tooltip>
-
-        <textarea value={value} className="textarea" placeholder={placeholder} />
-
-        <section className="copy">
-          <Button type={BUTTON_TYPE.PRIMARY} text={gettext('Copy')} onClick={copy} />
+  if (value) {
+    return (
+      <section className="prompt-board-result">
+        <section>
+          {/* FIXME */}
+          Webpilot:
         </section>
+
+        <section className="result-container">
+          <textarea
+            readOnly
+            value={value}
+            className="textarea"
+            id="resultTextarea"
+            placeholder={placeholder}
+          />
+
+          <section className="copy">
+            <section className="share-extension" onClick={showRecommendationText}>
+              {gettext('Amazing Webpilot, telling friends!')}
+            </section>
+            <span className="copied">
+              <img src={Confirmation} alt="" />
+              {gettext('Copied')}
+            </span>
+            <Button
+              width="48px"
+              height="24px"
+              type={BUTTON_TYPE.PRIMARY}
+              text={gettext('Copy')}
+              onClick={copy}
+            />
+          </section>
+        </section>
+        <style jsx>{styles}</style>
       </section>
-      <style jsx>{styles}</style>
-    </section>
-  )
+    )
+  }
+
+  return <></>
 }
 
 const styles = css`
   .prompt-board-result {
-    margin-top: 6px;
-  }
-
-  .recommendation {
-    margin-bottom: 14px;
-    color: #c4c4c4;
-    font-size: 16px;
-    text-decoration-line: underline;
-    line-height: 22px;
-    text-align: center;
-    cursor: pointer;
+    margin-top: 12px;
   }
 
   .result-container {
     position: relative;
     box-sizing: border-box;
-    height: 340px;
-    padding: 32px 0 14px;
     background-color: #fff;
-    border-radius: 10px;
-  }
 
-  .turbo-mode {
-    position: absolute;
-    top: 8px;
-    right: 14px;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+    .title {
+      color: #777;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 17px;
+    }
   }
 
   .textarea {
-    display: block;
     width: 100%;
-    height: 236px;
-    padding: 0 20px;
-    color: #777;
-    font-size: 16px;
-    line-height: 24px;
-    border: none;
-    outline: none;
+    height: 104px;
+    margin-top: 4px;
+    padding: 10px 12px;
+    color: #000;
+    border: 1px solid #dadada;
+    border-radius: 5px;
     resize: none;
 
-    &::placeholder {
-      color: #c4c4c4;
+    &:focus-visible {
+      outline: none;
     }
 
     &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-button {
       display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: lightgray;
+      border-radius: 4px;
     }
   }
 
   .copy {
-    width: 160px;
-    margin: 18px auto 0;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: 8px;
+
+    .share-extension {
+      margin-right: auto;
+      color: #929497;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:visited {
+        color: #777;
+      }
+    }
+  }
+
+  .copied {
+    display: none;
+    margin-right: 8px;
+    color: #292929;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 22px;
+
+    img {
+      margin-right: 4px;
+    }
   }
 
   .coustom {

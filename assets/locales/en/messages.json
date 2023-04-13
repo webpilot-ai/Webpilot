@@ -1,9 +1,15 @@
 {
   "extensionDescription": {
-    "message": "Fluentify is extremely easy to use. Simply swipe the text and everything will be done."
+    "message": "Web copilot for all, free & open-source!"
   },
   "Settings": {
     "message": "Settings"
+  },
+  "closeTooltip": {
+    "message": "Shortcut：Esc"
+  },
+  "inputPlaceholder": {
+    "message": "Ask Webpilot..."
   },
   "Auto_Pop__ON": {
     "message": "Auto Pop: ON"
@@ -18,19 +24,22 @@
     "message": "Turbo Mode: OFF"
   },
   "Let_me_tell_you_about_this_crazy_useful_AI_tool_called_Fluentify__All_you_gotta_do_is_swipe_on_the_task__and_it_gets_done_automatically__It_s_way_better_than_ChatGPT__trust_me___Install__https___bit_ly_3mAJ9I7_GitHub__https___github_com_Fluentify_IO_Fluentify": {
-    "message": "Let me tell you about this crazy useful AI tool called Fluentify. All you gotta do is swipe on the task, and it gets done automatically. It's way better than ChatGPT, trust me!\n\nInstall: https://bit.ly/3yvNS0h\nGitHub: https://github.com/Fluentify-IO/Fluentify"
+    "message": "Hey man, there's this sick new browser-based AI called Webpilot that can do everything automatically, way better than ChatGPT. Plus, it's open source and totally free with no wait list. \nYou can start using it right now over at http://webpilot.ai/."
   },
-  "Amazing_Fluentify__telling_friends_": {
-    "message": "Amazing Fluentify, telling friends!"
+  "Amazing_Webpilot__telling_friends_": {
+    "message": "Amazing Webpilot, telling friends!"
   },
   "Copy": {
     "message": "Copy"
+  },
+  "Copied": {
+    "message": "Copied"
   },
   "Remember_to_select_text__If_using_for_the_first_time__refresh_the_page": {
     "message": "Remember to select text. If using for the first time, refresh the page"
   },
   "Auth_key_not_available__please_reset": {
-    "message": "Auth key not available, please reset"
+    "message": "Invalid key. Try another or contact the key provider."
   },
   "Generating_content__takes_about_a_few_seconds": {
     "message": "Generating content, takes about a few seconds"
@@ -51,7 +60,7 @@
     "message": "Disagree"
   },
   "Identify_any_logical_or_factual_errors_in_these_texts_and_provide_a_rebuttal__At_the_same_time__present_the_opposite_viewpoint_with_supporting_evidence": {
-    "message": "Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence"
+    "message": "Refute this viewpoint with data and facts, objectively and politely, limited to one paragraph."
   },
   "Restored_to_default_settings": {
     "message": "Restored to default settings"
@@ -130,5 +139,62 @@
   },
   "Other": {
     "message": "Other"
+  },
+  "Star_on_github": {
+    "message": "Star on Github"
+  },
+  "Webpilot_is_open_source": {
+    "message": "Webpilot is open source"
+  },
+  "Opensource_ai_assistant_on_all_websites": {
+    "message": "Web copilot for all, free & open-source!"
+  },
+  "Thanks_to_investors": {
+    "message": "Sponsors"
+  },
+  "Contact_us_to_donate": {
+    "message": "Contact Us"
+  },
+  "Add_new_prompt": {
+    "message": "Add New Prompt"
+  },
+  "With_the_select_conntet": {
+    "message": "With the select conntet"
+  },
+  "What_do_you_want": {
+    "message": "what do you want?"
+  },
+  "Webpilot_says": {
+    "message": "Webpilot:"
+  },
+  "None": {
+    "message": "None"
+  },
+  "The_select": {
+    "message": "The Selected"
+  },
+  "The_page": {
+    "message": "This Page"
+  },
+  "Reference": {
+    "message": "Reference:"
+  },
+  "Webpilot": {
+    "message": "Webpilot"
+  },
+  "Shortcut_Esc": {
+    "message": "Shortcut: ESC"
+  },
+  "Code_review": {
+    "message": "Code Review"
+  },
+  "Please_review_these_codes_and_provide_feedback": {
+    "message": "Please review these codes and provide feedback."
+  },
+  "Contributor": {
+    "message": "Contributors"
+  },
+  "Thanks_to_sponsors": {
+    "message": "Thanks to Sponsors"
   }
 }

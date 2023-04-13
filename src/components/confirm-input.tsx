@@ -1,62 +1,68 @@
-import {useCallback, useEffect} from 'react'
-import CheckIcon from 'react:@assets/images/check.svg'
+import {useEffect, useState} from 'react'
+import CheckIcon from 'react:@assets/images/vector.svg'
+import LoadingIcon from 'react:@assets/images/loading.svg'
 
 import css from 'styled-jsx/css'
 
-import Button from './button'
-
 export default function ConfirmInput({
-  value = '',
-  placeholder = '',
+  command = '',
+  placeholder = 'Ask Webpilot to ...',
   loading = false,
   disabled = false,
-  handleChangeInput = () => null,
+  onTextChange = () => null,
   onConfirm = () => null,
 }) {
-  const keydownHandler = useCallback(
-    e => {
-      if (e.key === 'Enter' || e.keyCode === 13) {
-        onConfirm(value)
-      }
-    },
-    [onConfirm, value]
-  )
+  const [isActive, setActive] = useState(false)
+  const [value, setValue] = useState(command)
 
   useEffect(() => {
-    return document.removeEventListener('keydown', keydownHandler)
-  }, [keydownHandler])
+    setValue(command)
+  }, [command])
 
   const addKeydownEventListener = () => {
-    document.addEventListener('keydown', keydownHandler)
+    setActive(true)
   }
 
   const removeKeydownEventListener = () => {
-    document.removeEventListener('keydown', keydownHandler)
+    setActive(false)
+  }
+
+  const handleChangeInput = e => {
+    const {value} = e.target
+    setValue(value)
+    onTextChange(value)
+  }
+
+  const handleKeyDown = e => {
+    if (e.code === 'Enter' && !e.repeat) {
+      onConfirm(value)
+    }
   }
 
   return (
-    <section className="confirm-input">
+    <section className={`confirm-input ${isActive && 'confirm-input--active'}`}>
       <input
+        autoFocus
+        disabled={disabled}
         placeholder={placeholder}
+        id="prompt-input"
         className="input"
         onChange={handleChangeInput}
+        onKeyDown={handleKeyDown}
         onFocus={addKeydownEventListener}
         onBlur={removeKeydownEventListener}
         value={value}
       />
-
       <div className="confirm">
-        <Button
-          compact
-          type="primary"
-          loading={loading}
+        <button
           disabled={disabled}
+          className={`send-btn ${isActive && (value !== '' || placeholder !== '') && 'active'} ${
+            loading && 'loading'
+          }`}
           onClick={() => onConfirm(value)}
         >
-          <div className="icon">
-            <CheckIcon />
-          </div>
-        </Button>
+          {loading ? <LoadingIcon className="loading" /> : <CheckIcon className="icon" />}
+        </button>
       </div>
 
       <style jsx>{styles}</style>
@@ -66,37 +72,74 @@ export default function ConfirmInput({
 
 const styles = css`
   .confirm-input {
+    position: relative;
     display: flex;
+    height: 32px;
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+  }
+
+  /* TODO: Bug fix */
+  .confirm-input--active {
+    border-bottom: 1px solid #2d5eae;
   }
 
   .input {
     display: block;
     width: 100%;
-    height: 40px;
     padding: 0 12px;
     color: #777;
     font-size: 16px;
+    font-size: 12px;
     line-height: 40px;
     border: none;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     outline: none;
 
     &::placeholder {
-      color: #c4c4c4;
+      color: #777;
+      font-size: 12px;
     }
   }
 
   .confirm {
     flex: none;
-    width: 60px;
+    width: 40px;
+
+    .send-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(0 0 0 / 0%);
+      border: 0;
+      cursor: pointer;
+      fill: #dadada;
+
+      &.active {
+        fill: #2d5eae;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &.loading {
+        cursor: not-allowed;
+        animation: rotation 1s infinite linear;
+      }
+    }
   }
 
-  .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(359deg);
+    }
   }
 `

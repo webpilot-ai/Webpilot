@@ -6,8 +6,14 @@ export const FLUENTIFY_CONFIG_STORAGE_KEY = 'FLUENTIFY_CONFIG'
 
 export const ROUTE = {
   PROMPT_BOARD_ENTRY_PANEL: '/',
+  PROMPT_ASK_PAGE_PANEL: '/ask-page',
   PROMPT_BOARD_PRESET_PANEL: '/preset-panel',
   PROMPT_BOARD_CUSTOM_PANEL: '/custom-panel',
+}
+
+export interface Prompt {
+  title: string
+  command: string
 }
 
 export const defaultConfig = {
@@ -37,7 +43,7 @@ export const defaultConfig = {
         'Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence'
       ),
     },
-  ],
+  ] as Prompt[],
 
   model: {
     model: 'gpt-3.5-turbo',
@@ -51,6 +57,13 @@ export const defaultConfig = {
 
 export const MESSAGING_EVENT = {
   GET_SELECTED_TEXT: 'GET_SELECTED_TEXT',
+  EXTNEION_ICON_CLICK: 'EXTNEION_ICON_CLICK',
   SET_AUTO_POPUP: 'SET_AUTO_POPUP',
   INVOKE_ASK_AI: 'INVOKE_ASK_AI',
+  SYNC_FRAME_SIZE: 'SYNC_FRAME_SIZE',
+  SYNC_SELECTED_TEXT: 'SYNC_SELECTED_TEXT',
+  CLICK_CLOSE: 'CLICK_CLOSE',
+  CLEAN_DATA: 'CLEAN_DATA',
+  GET_DOCUMENT: 'GET_DOCUMENT',
+  INPUT_FOCUS: 'INPUT_FOCUS',
 }

@@ -1,5 +1,6 @@
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import css from 'styled-jsx/css'
+import {sendToContentScript} from '@plasmohq/messaging'
 
 import {gettext} from '@/utils'
 
@@ -8,24 +9,20 @@ import useAI from '@/hooks/use-ai'
 
 import PromptBoardHeader from '@/components/prompt-board-header'
 import ConfirmInput from '@/components/confirm-input'
-import {ROUTE} from '@/config'
+import {MESSAGING_EVENT, ROUTE} from '@/config'
 
 import getAuthKeyImage from '~assets/images/get-auth-key.gif'
 
 export default function EntryPanel() {
   const [inputValue, setInputValue] = useState('')
-  const [disabled, setDisabled] = useState(false)
 
   const {config, setConfig} = useConfig()
   const {ai, askAI} = useAI()
 
-  useEffect(() => {
-    setDisabled(!inputValue || ai.loading)
-  }, [inputValue, ai.loading])
-
   const setAuthKey = authKey => {
     askAI({authKey, command: 'Say hi.', onlyCommand: true}).then(() => {
       setConfig({...config, authKey, isAuth: true, latestRoute: ROUTE.PROMPT_BOARD_PRESET_PANEL})
+      sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
     })
   }
 
@@ -40,8 +37,9 @@ export default function EntryPanel() {
 
       <section className="confirm-input">
         <ConfirmInput
+          autoFocus
           value={inputValue}
-          disabled={disabled}
+          disabled={ai.loading}
           loading={ai.loading}
           onConfirm={setAuthKey}
           handleChangeInput={handleChangeInput}
@@ -49,67 +47,76 @@ export default function EntryPanel() {
         />
       </section>
 
-      <section>
-        <div className="tips">
-          {gettext('You can find your auth key on the OpenAI website:')}{' '}
-          <a
-            className="link"
-            href="https://platform.openai.com/account/api-keys"
-            target="_blank"
-            rel="noreferrer"
-          >
-            https://platform.openai.com/account/api-keys
-          </a>{' '}
-          <div>{gettext('You can also follow the instructions below to get started:')}</div>
-        </div>
-
-        {ai.loading ? (
-          <div className="loader-container">
-            <span className="loader" />
-          </div>
-        ) : (
-          <div className="guide">
-            <a href={getAuthKeyImage} target="_blank" rel="noreferrer">
-              <img src={getAuthKeyImage} />
+      {ai.loading ? null : (
+        <section>
+          <div className="tips">
+            {gettext('You can find your auth key on the OpenAI website:')}{' '}
+            <a
+              className="link"
+              href="https://platform.openai.com/account/api-keys"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://platform.openai.com/account/api-keys
             </a>
+            <div>{gettext('You can also follow the instructions below to get started:')}</div>
           </div>
-        )}
-      </section>
+
+          {ai.loading ? (
+            <div className="loader-container">
+              <span className="loader" />
+            </div>
+          ) : (
+            <div className="guide">
+              <a href={getAuthKeyImage} target="_blank" rel="noreferrer">
+                <img src={getAuthKeyImage} />
+              </a>
+            </div>
+          )}
+        </section>
+      )}
 
       <style jsx>{styles}</style>
+      <style jsx>{globalStyles}</style>
     </section>
   )
 }
 
 const styles = css`
   .entry-panel {
-    width: 100%;
-    height: 554px;
+    width: 360px;
+    padding: 10px;
   }
 
   .confirm-input {
-    margin: 28px 0;
+    margin: 12px 0;
   }
 
   .tips {
-    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    height: 68px;
+    padding: 0 8px;
     color: #c4c4c4;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 12px;
+    line-height: 16.8px;
 
     div {
-      margin-top: 12px;
+      margin-top: auto;
     }
   }
 
   .link {
-    color: #dec194;
+    color: #4F5AFF;
   }
 
   .guide {
-    height: 202px;
-    margin-top: 20px;
-    background: #ddd;
+    width: 320px;
+    height: 180px;
+    margin: 0 8px;
+    margin-top: 15px;
+
+    /* background: #ddd; */
     border-radius: 10px;
   }
 
@@ -138,5 +145,11 @@ const styles = css`
     100% {
       transform: rotate(360deg);
     }
+  }
+`
+
+const globalStyles = css.global`
+  body {
+    overflow: hidden;
   }
 `

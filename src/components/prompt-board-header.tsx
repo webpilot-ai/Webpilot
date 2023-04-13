@@ -1,62 +1,92 @@
-import SettingsIcon from 'react:@assets/images/settings.svg'
-import ArrowLeftIcon from 'react:@assets/images/arrow-left.svg'
-import AutoPopupIcon from 'react:@assets/images/auto-popup.svg'
+import CameraFlashIcon from 'react:@assets/images/camera-flash.svg'
+import PreferencesIcon from 'react:@assets/images/preferences.svg'
+import RemoveIcon from 'react:@assets/images/e-remove.svg'
+import LogoIcon from 'data-base64:~assets/images/logo.png'
 
+import {sendToContentScript} from '@plasmohq/messaging'
 import Tooltip from 'rc-tooltip/es'
 import css from 'styled-jsx/css'
 
-import {gettext, navToOptions} from '@/utils'
+import {gettext} from '@/utils'
 import useConfig from '@/hooks/use-config'
 
-export default function PromptBoardHeader({children = null, back = null}) {
-  const {config, setConfig} = useConfig()
-  const {autoPopup, isAuth} = config
+import {MESSAGING_EVENT} from '@/config'
 
-  const toggleAutoPopup = () => {
-    setConfig({...config, autoPopup: !autoPopup})
+export default function PromptBoardHeader({hideTurboMode = false}) {
+  const {config, setConfig} = useConfig()
+  const {turboMode, isAuth} = config
+
+  const toggleTurboMode = () => {
+    setConfig({...config, turboMode: !turboMode})
+  }
+
+  const openSettings = () => {
+    window.open('/options.html')
+  }
+
+  const closePopup = () => {
+    sendToContentScript({name: MESSAGING_EVENT.CLICK_CLOSE})
   }
 
   return (
     <section className="header">
-      {back ? (
-        <div onClick={back} className="back">
-          <ArrowLeftIcon />
-        </div>
-      ) : (
-        children || (
-          <section className="header-left">
-            <h1 className="title">Fluentify</h1>
-
-            <Tooltip
-              showArrow={false}
-              placement="right"
-              overlay={() => <span>{gettext('Settings')}</span>}
-            >
-              <div onClick={navToOptions} className="settings svg-icon">
-                <SettingsIcon />
-              </div>
-            </Tooltip>
-          </section>
-        )
-      )}
+      <img src={LogoIcon} className="logo" />
+      <h1 className="title">{gettext('Webpilot')}</h1>
       {isAuth ? (
-        <section>
-          <Tooltip
-            showArrow={false}
-            placement="left"
-            overlay={() => (
-              <span>{autoPopup ? gettext('Auto Pop: ON') : gettext('Auto Pop: OFF')}</span>
-            )}
-          >
-            <section className="auto-popup" onClick={toggleAutoPopup}>
-              <AutoPopupIcon
-                className={`auto-popup-icon ${
-                  autoPopup ? 'auto-popup-icon--on' : 'auto-popup-icon--off'
-                }`}
-              />
+        <ul role="list" className="header-settings">
+          <li className="d-inline">{turboMode ? gettext('Turbo Mode: ON') : ''}</li>
+          {hideTurboMode ? undefined : (
+            <li>
+              <section>
+                <Tooltip
+                  showArrow={false}
+                  placement="left"
+                  overlay={() => (
+                    <span>
+                      {turboMode ? gettext('Turbo Mode: ON') : gettext('Turbo Mode: OFF')}
+                    </span>
+                  )}
+                >
+                  <section className="setting-icon camera-falsh" onClick={toggleTurboMode}>
+                    <CameraFlashIcon
+                      className={`settings  ${
+                        turboMode ? 'setting-icon--on' : 'setting-icon--off'
+                      }`}
+                    />
+                  </section>
+                </Tooltip>
+              </section>
+            </li>
+          )}
+
+          <li>
+            <section>
+              <Tooltip
+                showArrow={false}
+                placement="bottom"
+                overlay={() => <span>{gettext('Settings')}</span>}
+              >
+                <section className="setting-icon " onClick={openSettings}>
+                  <PreferencesIcon />
+                </section>
+              </Tooltip>
             </section>
-          </Tooltip>
-        </section>
+          </li>
+          <li>
+            <section>
+              <Tooltip
+                showArrow={false}
+                placement="bottom"
+                overlayClassName="overlay-panel"
+                overlay={() => <span>{gettext('closeTooltip')}</span>}
+              >
+                <section className="setting-icon " onClick={closePopup}>
+                  <RemoveIcon />
+                </section>
+              </Tooltip>
+            </section>
+          </li>
+        </ul>
       ) : null}
 
       <style jsx>{styles}</style>
@@ -71,55 +101,59 @@ const styles = css`
   .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 44px;
-  }
+    height: 20px;
 
-  .header-left {
-    display: flex;
-    align-items: center;
+    .logo {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+
+    .header-settings {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+
+      li + li {
+        margin-left: 14px;
+      }
+    }
   }
 
   .title {
+    margin-right: auto;
     color: #000;
-    font-weight: 600;
-    font-size: 36px;
-  }
-
-  .settings {
-    width: 24px;
-    height: 24px;
-    margin-left: 12px;
-    font-size: 0;
-    cursor: pointer;
-  }
-
-  .back {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-
-  .auto-popup {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
   }
 `
 
 const globalStyles = css.global`
-  .auto-popup-icon--on {
+  .header-settings {
+    .setting-icon {
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+    }
+  }
+  .setting-icon--on {
     path {
-      fill: #dec194;
+      fill: #2d5eae;
+      stroke: #2d5eae;
     }
   }
 
-  .auto-popup-icon--off {
+  .setting-icon--off {
     path {
-      fill: #c4c4c4;
+      stroke: #777777;
     }
+  }
+  .camera-falsh {
+    display: none;
+  }
+  .overlay-panel {
+    left: 350px !important;
   }
 `
