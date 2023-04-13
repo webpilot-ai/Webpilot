@@ -34,6 +34,6 @@ At this point, it's our turn; if you've done everything well, we may just thank 
 
 **Q:** How can I get write access to the Git repository?
 
-**A:** For simplicity purposes, we keep the direct write access to the main repository within a small group of core contributors. Since git forks , merges and pull requests are very easy and simple, this was not an obstacle so far. If you believe you really, really need write access to main repo, please contact the project maintainers at github@fluentify.io.
+**A:** For simplicity purposes, we keep the direct write access to the main repository within a small group of core contributors. Since git forks , merges and pull requests are very easy and simple, this was not an obstacle so far. If you believe you really, really need write access to main repo, please contact the project maintainers at dsong@webpilot.ai.
 
 ---
