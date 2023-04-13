@@ -26,7 +26,7 @@ At this point, it's our turn; if you've done everything well, we may just thank 
 
 ## Contributing Mini-FAQ
 ---
-**Q:** Is there any type of contributing license agreement that I have to sign to contribute new features to Fluentify?
+**Q:** Is there any type of contributing license agreement that I have to sign to contribute new features to Webpilot?
 
 **A:** Currently, you are not required to sign a contributing license agreement. What we require is that you put all your contributions under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html). Also, you are requested, for reasons of maintaining consistency, to assign the copyright to **"Webpilot.ai"**, by putting the corresponding license header in your source file (see the existing source files). 
 
