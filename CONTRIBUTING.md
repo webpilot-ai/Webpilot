@@ -8,7 +8,7 @@ Before writing any code, please read the
 
 [Pull requests](https://help.github.com/articles/using-pull-requests/) are our favorite channel for code contributions and the quickest way to get your fix or feature upstreamed and released. Here's a quick guide.
 
-1. [Fork](https://help.github.com/articles/fork-a-repo/) the [Fluentify](https://github.com/Fluentify-IO/Fluentify) repo
+1. [Fork](https://help.github.com/articles/fork-a-repo/) the [Webpilot](https://github.com/webpilot-ai/Webpilot) repo
 
 2. Keep your repo [synced](https://help.github.com/articles/syncing-a-fork/) with the upstream to ensure smooth progress (i.e. that your changes do not interfere or conflict with someone elses's work). For new features or libraries, create a new branch with a descriptive name. See the mentioned [branching model](http://nvie.com/posts/a-successful-git-branching-model/) for details.
 
@@ -28,7 +28,7 @@ At this point, it's our turn; if you've done everything well, we may just thank 
 ---
 **Q:** Is there any type of contributing license agreement that I have to sign to contribute new features to Fluentify?
 
-**A:** Currently, you are not required to sign a contributing license agreement. What we require is that you put all your contributions under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html). Also, you are requested, for reasons of maintaining consistency, to assign the copyright to **"Fluentify.IO"**, by putting the corresponding license header in your source file (see the existing source files). 
+**A:** Currently, you are not required to sign a contributing license agreement. What we require is that you put all your contributions under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html). Also, you are requested, for reasons of maintaining consistency, to assign the copyright to **"Webpilot.ai"**, by putting the corresponding license header in your source file (see the existing source files). 
 
 ---
 
