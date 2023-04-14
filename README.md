@@ -4,8 +4,8 @@
 
 # Webpilot
 
-Webpilot is a free and open-source  "Copilot for the web".Unlike ChatGPT, there's no need to chat or switch pages, and you don't have to copy and paste. Just select the text and everything else is done automatically.
- 
+Webpilot is a free, open-source "Copilot for web" that allows you to have free-form conversations with web pages or engage in automatic arguments with other users. Unlike ChatGPT, there is no need to chat or switch pages, and no need to constantly copy and paste back and forth. 
+
 The current version of Webpilot is developed based on gpt-3.5-turbo, which binds some common prompts with shortcut commands, requests API, and displays results to manipulate the selected text on the webpage.
 
 Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/Webpilot/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
@@ -36,7 +36,7 @@ Open your Chrome browser and load the appropriate development build：
 6. After installation, please refresh the page where you want to select text before using this extension.
 
 # Webpilot
-Webpilot是一个免费、开源的“Copilot for web”。与ChatGPT不同，无需聊天或切换页面，也无需复制和粘贴。只需选择文本，一切其他工作都会自动完成。
+Webpilot是一个免费、开源的“Copilot for web”。可以让你和网页自由对话，或者和网友自动吵架。与ChatGPT不同，无需聊天或切换页面，也无需来回的复制和粘贴。
 
 当前版本的 Webpilot 是基于 gpt-3.5-turbo 开发的，它将一些常见的提示语句与快捷指令绑定，通过 API 请求并展示结果来实现对网页中选中文本的操作。
 
