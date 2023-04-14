@@ -12,7 +12,7 @@ Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/Webp
 
 Official Website: [HomePage](https://www.Webpilot.ai/)
 
-Note: Webpilot is a project code name and currently in demo version. It will be renamed and officially launched within the next month (we will remain open source and free).
+Note: Webpilot is currently in pre-release version and will be officially released within the next month.
 
 ## Getting Started
 
@@ -44,7 +44,7 @@ Chrome 插件：[获取](https://chrome.google.com/webstore/detail/Webpilot/biag
 
 Webpilot 官网：[访问](https://www.Webpilot.ai/)
 
-注意：Webpilot 是项目代号，目前仍处是Demo版本，会在最近1个月内改名并推出正式版（我们会保持开源&免费）。
+注意：Webpilot 目前处于 Pre-Release 版本，会在最近1个月内推出正式版。
 
 
 ## 入门指南
