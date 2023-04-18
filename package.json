@@ -1,0 +1,61 @@
+{
+  "name": "webpilot",
+  "version": "0.0.0",
+  "author": "webpilot.ai",
+  "displayName": "Webpilot - Copilot for All, Free & Open",
+  "description": "__MSG_extensionDescription__",
+  "packageManager": "pnpm@8.2.0",
+  "engines": {
+    "node": ">16.14"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package",
+    "lint": "pnpm lint:eslint && pnpm lint:stylelint",
+    "lint:eslint": "eslint './src/**/*.{vue,ts,tsx,js}' --cache --fix",
+    "lint:stylelint": "stylelint './src/**/*.{vue,scss,css}' --cache --fix"
+  },
+  "lint-staged": {
+    "*.{vue,ts,tsx,js}": "eslint --cache --fix",
+    "*.{vue,scss,css}": "stylelint --cache --fix"
+  },
+  "dependencies": {
+    "plasmo": "0.68.3",
+    "vue": "3.2.47"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@types/chrome": "0.0.231",
+    "@types/node": "18.15.11",
+    "eslint": "^8.38.0",
+    "eslint-config-standard-one": "^0.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "2.8.7",
+    "prettier-config-standard-one": "^0.0.1",
+    "stylelint": "^15.5.0",
+    "stylelint-config-standard-one": "^0.0.1",
+    "typescript": "5.0.4"
+  },
+  "manifest": {
+    "default_locale": "en",
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "permissions": [
+      "storage",
+      "clipboardWrite"
+    ],
+    "web_accessible_resources": [
+      {
+        "matches": [
+          "<all_urls>"
+        ],
+        "resources": []
+      }
+    ]
+  }
+}
