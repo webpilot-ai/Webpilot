@@ -1,12 +1,12 @@
 <template>
-  <div class="container">Options</div>
+  <div :class="$style.container">Options</div>
 </template>
 
 <script setup>
 import '@assets/styles/reset.scss'
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" module>
 .container {
   color: #f00;
 }

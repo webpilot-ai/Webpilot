@@ -13,13 +13,15 @@
     "dev": "plasmo dev",
     "build": "plasmo build",
     "package": "plasmo package",
-    "lint": "pnpm lint:eslint && pnpm lint:stylelint",
-    "lint:eslint": "eslint './src/**/*.{vue,ts,tsx,js}' --cache --fix",
-    "lint:stylelint": "stylelint './src/**/*.{vue,scss,css}' --cache --fix"
+    "lint": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:prettier",
+    "lint:eslint": "eslint './**/*.{vue,ts,tsx,js}' --cache --fix",
+    "lint:stylelint": "stylelint './{src,assets}/**/*.{vue,scss,css}' --cache --fix",
+    "lint:prettier": "prettier './*.{json,md}' './{src,assets}/**/*.{json,md}' --cache --write"
   },
   "lint-staged": {
     "*.{vue,ts,tsx,js}": "eslint --cache --fix",
-    "*.{vue,scss,css}": "stylelint --cache --fix"
+    "*.{vue,scss,css}": "stylelint --cache --fix",
+    "*.{json,md}": "prettier --cache --write"
   },
   "dependencies": {
     "plasmo": "0.68.3",

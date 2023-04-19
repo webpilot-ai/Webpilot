@@ -5,10 +5,10 @@
 <script setup>
 import {ref} from 'vue'
 
-const name = ref('Webpilot')
+const name = ref('Webpilot sidebar')
 </script>
 
-<style module lang="scss">
+<style lang="scss" module>
 .container {
   color: #fff;
   font-size: 24px;
