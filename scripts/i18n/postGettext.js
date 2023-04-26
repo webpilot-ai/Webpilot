@@ -51,7 +51,7 @@ function genCnMessages(resource, transformedMessages) {
   return Object.keys(resource).reduce((acc, key) => {
     const messageKey = getMessageKey(key)
     acc[messageKey] = {
-      message: transformedMessages[key]?.message ?? '',
+      message: transformedMessages[key]?.message || key,
     }
 
     return acc
