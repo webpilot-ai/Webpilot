@@ -16,7 +16,11 @@
     "lint": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:prettier",
     "lint:eslint": "eslint './**/*.{vue,ts,tsx,js}' --cache --fix",
     "lint:stylelint": "stylelint './{src,assets}/**/*.{vue,scss,css}' --cache --fix",
-    "lint:prettier": "prettier './*.{json,md}' './{src,assets}/**/*.{json,md}' --cache --write"
+    "lint:prettier": "prettier './*.{json,md}' './{src,assets}/**/*.{json,md}' --cache --write",
+    "gettext": "pnpm gettext:extract && pnpm gettext:compile && pnpm post-gettext",
+    "gettext:extract": "vue-gettext-extract",
+    "gettext:compile": "vue-gettext-compile",
+    "post-gettext": "node ./scripts/i18n/postGettext.js"
   },
   "lint-staged": {
     "*.{vue,ts,tsx,js}": "eslint --cache --fix",
@@ -24,6 +28,7 @@
     "*.{json,md}": "prettier --cache --write"
   },
   "dependencies": {
+    "jsonfile": "^6.1.0",
     "plasmo": "0.68.3",
     "vue": "3.2.47"
   },
@@ -40,7 +45,8 @@
     "prettier-config-standard-one": "^0.0.1",
     "stylelint": "^15.5.0",
     "stylelint-config-standard-one": "^0.0.1",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "vue3-gettext": "2.5.0-alpha.1"
   },
   "manifest": {
     "default_locale": "en",

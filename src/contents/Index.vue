@@ -1,6 +1,8 @@
 <script>
 import {createApp} from 'vue'
 
+import {i18nPlugin} from '@/utils/i18n'
+
 import App from '@/csui/Index/TheEntry.vue'
 
 export default {
@@ -15,6 +17,9 @@ async function render({createRootContainer}) {
   const rootContainer = await createRootContainer()
 
   const app = createApp(App)
+
+  app.use(i18nPlugin)
+
   app.mount(rootContainer)
 }
 
