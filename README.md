@@ -1,7 +1,3 @@
-# [致谢:感谢大哥们的打赏](#%E6%84%9F%E8%B0%A2%E5%A4%A7%E5%93%A5)
-
-
-
 # Webpilot
 
 Webpilot is a free, open-source "Copilot for web" that allows you to have free-form conversations with web pages or engage in automatic arguments with other users. Unlike ChatGPT, there is no need to chat or switch pages, and no need to constantly copy and paste back and forth. 
@@ -73,14 +69,4 @@ yarn dev
 
 希望 Webpilot 这个项目可以成为 GPT Coplit for X，一个傻瓜的、免费的生产力工具，AI for All。
 
-欢迎各位大佬（尤其是精通 React 的大佬）一起来完善这个项目，感兴趣的话，可以加个微信（加的时候记得备注一下：Git来的，并附上一些必要的信息，比如身份、岗位啥的）
-
-![image](https://user-images.githubusercontent.com/6043666/224199335-55b16eee-1c04-43cd-985c-27ccec9ab731.png)
-
-
-# 感谢大哥！
-千想，万想，千万没想到，在仍处于pre-release的阶段时，这个项目便收到了大哥们的关注，并给了巨额打赏：
-- f.chen，10000元
-- 崔传荣，10000元
-- 硅基未来，10000元
-
+欢迎各位大佬（尤其是精通前端的大佬）一起来完善这个项目，感兴趣的话，可以加个微信: CocoSgt
