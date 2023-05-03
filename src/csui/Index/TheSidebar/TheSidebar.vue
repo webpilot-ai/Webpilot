@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.container">{{ name }}</section>
+  <section :class="$style.container">{{ name }} hi?</section>
 </template>
 
 <script setup>
@@ -10,7 +10,6 @@ const name = ref('Webpilot sidebar')
 
 <style lang="scss" module>
 .container {
-  color: #fff;
   font-size: 24px;
 }
 </style>
