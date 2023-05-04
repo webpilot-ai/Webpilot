@@ -1,14 +1,15 @@
 <template>
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
-      <span :class="advanced.title"> API Settings </span>
-      <label for="provider">Active API Provider</label>
+      <span :class="advanced.title">API Settings</span>
+      <label :class="advanced.subtitle" for="provider">Active API Provider</label>
       <select id="provider" name="provider">
-        <option selected value="open_ai_3.5">OpenAI gpt-3.5-terbo</option>
+        <option :class="advanced.iconLogo" selected value="open_ai_3.5">
+          OpenAI gpt-3.5-terbo
+        </option>
         <option value="open_ai_4.0">OpenAI gpt-4.0-terbo</option>
         <option value="baidu_wenxin">百度文心</option>
       </select>
-
       <label for="keys">Your API Key</label>
       <input id="keys" name="keys" :placeholder="placeholder" type="text" />
 
@@ -30,7 +31,25 @@
     </div>
 
     <div :class="[advanced.extension, advanced.panel]">
-      <span :class="advanced.title"> Extension Settings </span>
+      <span :class="advanced.title">Extension Settings</span>
+
+      <span :class="advanced.subtitle">Display mode</span>
+      <div :class="advanced.mode">
+        <div :class="advanced.radioGroup">
+          <input id="sideBar" checked name="mode" type="radio" value="sideBar" />
+          <label for="sideBar"
+            >Side Bar <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg"
+          /></label>
+        </div>
+        <div :class="advanced.radioGroup">
+          <input id="popUp" name="mode" type="radio" value="popUp" />
+          <label for="popUp"
+            >Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg"
+          /></label>
+        </div>
+      </div>
+
+      <span :class="advanced.subtitle">Active Webpilot</span>
     </div>
   </div>
 </template>
@@ -50,7 +69,6 @@ const save = () => {
 .openAiLogo {
   width: 22px;
   height: 22px;
-  background-image: url('./images/openAiLogo.png');
 }
 
 .main {
@@ -77,7 +95,7 @@ const save = () => {
     line-height: 34px;
   }
 
-  label {
+  .subtitle {
     margin-top: 24px;
     color: #292929;
     font-weight: 400;
@@ -86,7 +104,7 @@ const save = () => {
   }
 
   select,
-  input {
+  input[type='text'] {
     width: 360px;
     height: 36px;
     margin-top: 8px;
@@ -144,8 +162,37 @@ const save = () => {
 
   .question_mark {
     background-color: #4f5aff;
-    background-image: url('./images/question_mark.svg');
     background-size: cover;
+  }
+}
+
+.mode {
+  display: flex;
+  margin-top: 10px;
+}
+
+.radioGroup {
+  display: flex;
+
+  &:first-child {
+    margin-right: 33px;
+  }
+
+  input {
+    margin-top: 0;
+    margin-right: 11px;
+  }
+
+  label {
+    display: flex;
+    color: #585b58;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 64px;
+  }
+
+  .modeImg {
+    margin-left: 9px;
   }
 }
 
