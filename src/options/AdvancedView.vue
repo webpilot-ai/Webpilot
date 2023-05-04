@@ -44,7 +44,7 @@
         <div :class="advanced.radioGroup">
           <input id="popUp" name="mode" type="radio" value="popUp" />
           <label for="popUp"
-            >Side Bar <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg"
+            >Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg"
           /></label>
         </div>
       </div>
