@@ -50,6 +50,16 @@
       </div>
 
       <span :class="advanced.subtitle">Active Webpilot</span>
+      <div :class="advanced.activeWebpilot">
+        <SwitchButton />
+        <div>Display Webpilot 888 when text is selected</div>
+      </div>
+
+      <span :class="advanced.subtitle">Change Shortcut</span>
+      <div :class="advanced.shortcut">
+        <input name="shortcut" placeholder="Ctrl+M" type="text" />
+        <span @click="resetShortcut">Reset</span>
+      </div>
     </div>
   </div>
 </template>
@@ -57,11 +67,17 @@
 <script setup>
 import {ref} from 'vue'
 
+import SwitchButton from './components/SwitchButton.vue'
+
 const placeholder = ref('Enter your API Key from OpenAI')
 const links = ref('https://platform.openai.com/account/api-keys')
 
 const save = () => {
   console.log(' form saved !')
+}
+
+const resetShortcut = () => {
+  console.log('reset shortcut')
 }
 </script>
 
@@ -195,7 +211,6 @@ const save = () => {
     margin-left: 9px;
   }
 }
-
 .saveButton {
   margin-top: 100px;
   padding: 8px 16px;
@@ -212,5 +227,33 @@ const save = () => {
 
 .extension {
   color: yellow;
+}
+
+.activeWebpilot {
+  margin-top: 9px;
+  display: flex;
+  div {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #585b58;
+    vertical-align: middle;
+    padding-left: 6px;
+  }
+}
+.shortcut {
+  margin-bottom: 30px;
+  input {
+    width: 140px !important;
+  }
+  span {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #585b58;
+    text-decoration: underline;
+    margin-left: 8px;
+    cursor: pointer;
+  }
 }
 </style>
