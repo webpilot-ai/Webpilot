@@ -5,7 +5,7 @@
       [$style.showProptEditor]: showEditor,
     }"
   >
-    <HeaderPanel />
+    <HeaderPanel @on-close="handleClosePopup" />
     <PromptList
       :prompts="storeConfig.config.prompts"
       :selected-index="selectedPrompt.index"
@@ -17,7 +17,7 @@
     <!-- <TipsGroup /> -->
     <PromptResult />
     <PromptEditor
-      :disable-delete="disableDelete"
+      :disable-delete="disableDeletePropmt"
       :prompt="selectedPrompt.prompt"
       :show-editor="showEditor"
       @on-delete="handleDeletePrompt"
@@ -43,8 +43,10 @@ import useConfigStore from '@/stores/config'
 
 const storeConfig = useConfigStore()
 
-const showEditor = ref(false)
+const emits = defineEmits(['closePopup'])
 
+const showEditor = ref(false)
+const inputCommand = ref()
 const selectedPrompt = reactive({
   index: -1,
   prompt: {
@@ -52,8 +54,6 @@ const selectedPrompt = reactive({
     command: '',
   },
 })
-
-const inputCommand = ref()
 
 watch(
   () => selectedPrompt.prompt.command,
@@ -106,9 +106,13 @@ const handleAddPrompt = () => {
   handleShowEditor()
 }
 
-const disableDelete = computed(() => {
+const disableDeletePropmt = computed(() => {
   return storeConfig.config.prompts.length === 1
 })
+
+const handleClosePopup = () => {
+  emits('closePopup')
+}
 </script>
 
 <style lang="scss" module>

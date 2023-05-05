@@ -5,9 +5,8 @@
       <section>Webpilot</section>
     </section>
     <section :class="$style.headerIcons">
-      <HeaderSwitch />
       <IconGear :class="$style.icon" @click="openSettingPage" />
-      <IconClose :class="$style.icon" />
+      <IconClose :class="$style.icon" @click="closePopup" />
     </section>
   </section>
 </template>
@@ -20,10 +19,14 @@ import WebpilotLogo from '../../assets/icon.png'
 import IconClose from './icon/IconClose.vue'
 import IconGear from './icon/IconGear.vue'
 
-import HeaderSwitch from './HeaderSwitch.vue'
+const emits = defineEmits(['onClose'])
 
 const openSettingPage = () => {
   sendToBackground({name: 'openSetting'})
+}
+
+const closePopup = () => {
+  emits('onClose')
 }
 </script>
 
