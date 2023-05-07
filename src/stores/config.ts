@@ -48,7 +48,15 @@ const useConfigStore = defineStore('config', () => {
     saveToLocalStorage(defaultConfig)
   }
 
-  return {config, ___debuResetConfig, initConfig, setConfig, updatePrompt, deletePrompt, addPrompt}
+  return {
+    config,
+    ___debuResetConfig,
+    initConfig,
+    setConfig,
+    updatePrompt,
+    deletePrompt,
+    addPrompt,
+  }
 })
 
 export default useConfigStore

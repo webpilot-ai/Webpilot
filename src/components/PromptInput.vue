@@ -3,20 +3,21 @@
     <input
       v-model="localModelValue"
       :class="$style.input"
-      :placeholder="placeholder"
+      :placeholder="placeholderText"
       type="text"
       @input="updateInputValue"
+      @keydown.enter="handleSend"
     />
-    <IconSend :class="$style.actionIcon" />
+    <IconSend :class="$style.actionIcon" @click="handleSend" />
   </section>
 </template>
 
 <script setup>
-import {watch, ref} from 'vue'
+import {watch, ref, computed} from 'vue'
 
 import IconSend from './icon/IconSend.vue'
 
-const emits = defineEmits(['update:modelValue', 'onChange'])
+const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit'])
 
 const props = defineProps({
   modelValue: {
@@ -27,9 +28,25 @@ const props = defineProps({
     type: String,
     default: 'Ask a question about this webpage or anything',
   },
+  selectedText: {
+    type: String,
+    default: '',
+  },
 })
 
 const localModelValue = ref(props.modelValue)
+
+const placeholderText = computed(() => {
+  if (props.selectedText === '') {
+    return props.placeholder
+  }
+
+  return `Or ask a question about “${props.selectedText}”`
+})
+
+const handleSend = () => {
+  emits('onSubmit')
+}
 
 watch(
   () => props.modelValue,
@@ -70,6 +87,10 @@ const updateInputValue = () => {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+  }
+
+  &:placeholder-shown {
+    text-overflow: ellipsis;
   }
 }
 

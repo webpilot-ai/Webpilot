@@ -13,9 +13,14 @@
       @on-change="handleChanegPrompt"
       @on-edit-prompt="handleEditPrompt"
     />
-    <PromptInput v-model="inputCommand" @on-change="handeInputCommandChnage" />
+    <PromptInput
+      v-model="inputCommand"
+      :selected-text="store.selectedText"
+      @on-change="handeInputCommandChnage"
+      @on-submit="handleAskAI"
+    />
     <!-- <TipsGroup /> -->
-    <PromptResult />
+    <PromptResult :result="store.result" />
     <PromptEditor
       :disable-delete="disableDeletePropmt"
       :prompt="selectedPrompt.prompt"
@@ -40,13 +45,15 @@ import PromptList from '@/components/PromptList.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 
 const storeConfig = useConfigStore()
+const store = useStore()
 
 const emits = defineEmits(['closePopup'])
 
 const showEditor = ref(false)
-const inputCommand = ref()
+const inputCommand = ref('')
 const selectedPrompt = reactive({
   index: -1,
   prompt: {
@@ -61,6 +68,11 @@ watch(
     inputCommand.value = newValue
   }
 )
+
+const handleAskAI = () => {
+  const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
+  store.askAi({command})
+}
 
 const handleCloseEditor = () => {
   showEditor.value = false

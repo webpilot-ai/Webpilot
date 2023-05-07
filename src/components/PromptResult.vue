@@ -1,7 +1,7 @@
 <template>
-  <section :class="$style.promptResultWrap">
+  <section v-show="showResult" :class="$style.promptResultWrap">
     <section>Webpilot says</section>
-    <textarea v-model="resultText" :class="$style.textarea" />
+    <textarea ref="refTextarea" :class="$style.textarea" readonly :value="result" />
     <section :class="$style.btnArea">
       <section :class="$style.tips">Amazing Webpilot, telling friends!</section>
       <WebpilotButton :class="$style.copyBtn" value="COPY" @click="handleCopy" />
@@ -10,15 +10,33 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {ref, watch, computed} from 'vue'
+
 import copyToClipboard from 'copy-to-clipboard'
 
 import WebpilotButton from './WebpilotButton.vue'
 
-const resultText = ref('')
+const refTextarea = ref(null)
+
+const props = defineProps({
+  result: {
+    type: String,
+    default: '',
+  },
+})
+
+const showResult = computed(() => {
+  return props.result !== ''
+})
+
+const result = computed(() => props.result)
+
+watch(result, () => {
+  refTextarea.value.scrollTop = refTextarea.value.scrollHeight
+})
 
 const handleCopy = () => {
-  const text = resultText.value
+  const text = props.result
   copyToClipboard(text)
 }
 </script>
