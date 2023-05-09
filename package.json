@@ -5,9 +5,6 @@
   "displayName": "Webpilot - Copilot for All, Free & Open",
   "description": "__MSG_extensionDescription__",
   "packageManager": "pnpm@8.2.0",
-  "engines": {
-    "node": ">16.14"
-  },
   "scripts": {
     "prepare": "husky install",
     "dev": "plasmo dev",
