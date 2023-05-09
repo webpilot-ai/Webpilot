@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: ['dev']
+    branches: ['dev','vue3']
   pull_request:
-    branches: ['dev']
+    branches: ['dev', 'vue3']
 
 jobs:
   build:
