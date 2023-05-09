@@ -36,13 +36,25 @@
       <span :class="advanced.subtitle">Display mode</span>
       <div :class="advanced.mode">
         <div :class="advanced.radioGroup">
-          <input id="sideBar" checked name="mode" type="radio" value="sideBar" />
+          <input
+            id="sideBar"
+            :checked="displayMode == 'siderBar'"
+            name="mode"
+            type="radio"
+            @input="changeMode('sideBar')"
+          />
           <label for="sideBar"
             >Side Bar <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg"
           /></label>
         </div>
         <div :class="advanced.radioGroup">
-          <input id="popUp" name="mode" type="radio" value="popUp" />
+          <input
+            id="popUp"
+            :checked="displayMode == 'popUp'"
+            name="mode"
+            type="radio"
+            @input="changeMode('popUp')"
+          />
           <label for="popUp"
             >Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg"
           /></label>
@@ -57,8 +69,13 @@
 
       <span :class="advanced.subtitle">Change Shortcut</span>
       <div :class="advanced.shortcut">
-        <input name="shortcut" placeholder="Ctrl+M" type="text" />
-        <span @click="resetShortcut">Reset</span>
+        <input
+          name="shortcut"
+          placeholder="Ctrl+M"
+          type="text"
+          @input="saveShortcut($event.target.value)"
+        />
+        <span @click="shortCut = store.config.customCommand">Reset</span>
       </div>
     </div>
   </div>
@@ -67,17 +84,27 @@
 <script setup>
 import {ref} from 'vue'
 
+import useConfigStore from '@/stores/config'
+
 import SwitchButton from './components/SwitchButton.vue'
 
 const placeholder = ref('Enter your API Key from OpenAI')
 const links = ref('https://platform.openai.com/account/api-keys')
 
-const save = () => {
-  console.log(' form saved !')
+const store = useConfigStore()
+const displayMode = ref(store.config.displayMode)
+const shortCut = ref(store.config.customCommand)
+
+const changeMode = str => {
+  store.config.displayMode = str
+  store.setConfig(store.config)
 }
 
-const resetShortcut = () => {
-  console.log('reset shortcut')
+const save = () => {}
+
+const saveShortcut = value => {
+  store.config.customCommand = value
+  store.setConfig(store.config)
 }
 </script>
 
@@ -211,6 +238,7 @@ const resetShortcut = () => {
     margin-left: 9px;
   }
 }
+
 .saveButton {
   margin-top: 100px;
   padding: 8px 16px;
@@ -230,29 +258,33 @@ const resetShortcut = () => {
 }
 
 .activeWebpilot {
-  margin-top: 9px;
   display: flex;
+  margin-top: 9px;
+
   div {
+    padding-left: 6px;
+    color: #585b58;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
-    color: #585b58;
     vertical-align: middle;
-    padding-left: 6px;
   }
 }
+
 .shortcut {
   margin-bottom: 30px;
+
   input {
     width: 140px !important;
   }
+
   span {
+    margin-left: 8px;
+    color: #585b58;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
-    color: #585b58;
     text-decoration: underline;
-    margin-left: 8px;
     cursor: pointer;
   }
 }

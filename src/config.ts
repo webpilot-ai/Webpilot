@@ -10,6 +10,7 @@ export const defaultConfig = {
   autoPopup: false,
   turboMode: false,
   customCommand: '',
+  displayMode: 'popUp',
   latestPresetPromptIndex: 0,
 
   prompts: [

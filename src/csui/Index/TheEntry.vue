@@ -34,7 +34,6 @@
 
 <script setup>
 import {computed, ref, watch} from 'vue'
-
 import '@assets/styles/csui-reset.scss'
 
 import useSelectedText from '@/hooks/useSelecctedText'
