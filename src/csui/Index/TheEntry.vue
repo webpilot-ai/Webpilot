@@ -13,10 +13,12 @@
   </section>
 
   <section
+    ref="refPropupWrap"
     :class="$style.popupBoxContainer"
     :style="{
       top: `${popupPosition.y}px`,
       left: `${popupPosition.x}px`,
+      transform: `translate(${dragOffsetX}px, ${dragOffsetY}px)`,
     }"
   >
     <ThePopupBox
@@ -25,6 +27,7 @@
       ref="refPopup"
       @close-popup="handleClosePopup"
     />
+    <section ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
 
   <!-- <section :class="$style.sidebarContainer">
@@ -36,9 +39,11 @@
 import {computed, ref, watch} from 'vue'
 import '@assets/styles/csui-reset.scss'
 
+import {onClickOutside} from '@vueuse/core'
+
 import useSelectedText from '@/hooks/useSelecctedText'
-import useClickOutside from '@/hooks/useClickoutside'
 import useScroll from '@/hooks/useScroll'
+import useDraggable from '@/hooks/useDraggable'
 import useStore from '@/stores/store'
 
 import WebpilotLogo from '../../../assets/icon.png'
@@ -47,19 +52,26 @@ import ThePopupBox from './ThePopupBox/ThePopupBox.vue'
 
 const refTail = ref(null)
 const refPopup = ref(null)
+const refPropupWrap = ref(null)
+const refDragHandle = ref(null)
 const showWebpilotPopup = ref(false)
 
 const store = useStore()
 const {selectedText, mouseUpPosition} = useSelectedText(showWebpilotPopup)
 const {scrollYOffset: popupScrollYOffset} = useScroll(refPopup)
 const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
+const {
+  offsetX: dragOffsetX,
+  offsetY: dragOffsetY,
+  resetDrag,
+} = useDraggable(refDragHandle, showWebpilotPopup)
 
 const onClickPopupOutside = () => {
   selectedText.value = ''
   handleClosePopup()
 }
 
-useClickOutside(refPopup, onClickPopupOutside)
+onClickOutside(refPropupWrap, onClickPopupOutside)
 
 const showWebpilotTail = computed(() => {
   return selectedText.value !== '' && !showWebpilotPopup.value
@@ -72,6 +84,10 @@ watch(selectedText, newValue => {
 const handleClosePopup = () => {
   showWebpilotPopup.value = false
   store.cleanResult()
+  // remove tail
+  selectedText.value = ''
+  // clean drag position
+  resetDrag()
 }
 
 const handleMouseOverTail = () => {
@@ -163,5 +179,15 @@ const popupPosition = computed(() => {
   display: block;
   width: 24px;
   height: 24px;
+}
+
+.dragHandle {
+  position: absolute;
+  top: 0;
+  left: 140px;
+  width: 200px;
+  height: 36px;
+  cursor: move;
+  user-select: none;
 }
 </style>

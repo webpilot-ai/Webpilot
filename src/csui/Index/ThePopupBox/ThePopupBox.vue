@@ -15,9 +15,10 @@
     />
     <PromptInput
       v-model="inputCommand"
+      :disabled="store.loading"
       :selected-text="store.selectedText"
       @on-change="handeInputCommandChnage"
-      @on-submit="handleAskAI"
+      @on-submit="askIA"
     />
     <!-- <TipsGroup /> -->
     <PromptResult :result="store.result" />
@@ -36,7 +37,9 @@
 </template>
 
 <script setup>
-import {computed, reactive, ref, watch} from 'vue'
+import {computed, onMounted, reactive, ref, watch} from 'vue'
+
+import {useMagicKeys} from '@vueuse/core'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import PromptInput from '@/components/PromptInput.vue'
@@ -62,6 +65,23 @@ const selectedPrompt = reactive({
   },
 })
 
+// keyboard
+const {Escape} = useMagicKeys()
+watch(Escape, v => {
+  if (v) {
+    emits('closePopup')
+  }
+})
+
+onMounted(() => {
+  // init selected prompt
+  const index = storeConfig.config.latestPresetPromptIndex
+  if (index >= 0 && storeConfig.config.prompts[index]) {
+    selectedPrompt.index = index
+    selectedPrompt.prompt = storeConfig.config.prompts[index]
+  }
+})
+
 watch(
   () => selectedPrompt.prompt.command,
   newValue => {
@@ -69,7 +89,7 @@ watch(
   }
 )
 
-const handleAskAI = () => {
+const askIA = () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
   store.askAi({command})
 }
@@ -87,6 +107,9 @@ const handleChanegPrompt = promptInfo => {
   selectedPrompt.index = index
   selectedPrompt.prompt = prompt
   inputCommand.value = prompt.command
+  storeConfig.setLatestPromptIndex(index)
+
+  askIA()
 }
 
 const handeInputCommandChnage = () => {
@@ -104,11 +127,13 @@ const handleEditPrompt = promptInfo => {
 const handleSavePrompt = prompt => {
   selectedPrompt.prompt = prompt
   storeConfig.updatePrompt(selectedPrompt.index, prompt)
+  storeConfig.setLatestPromptIndex(selectedPrompt.index)
   handleCloseEditor()
 }
 
 const handleDeletePrompt = () => {
   storeConfig.deletePrompt(selectedPrompt.index)
+  inputCommand.value = ''
   handleCloseEditor()
 }
 

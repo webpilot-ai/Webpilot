@@ -1,21 +1,30 @@
 <template>
-  <section :class="$style.promptInput">
+  <section :class="{[$style.promptInput]: true}">
     <input
+      ref="refInput"
       v-model="localModelValue"
-      :class="$style.input"
+      :class="{[$style.input]: true, [$style.promptInputDisabled]: disabled}"
+      :disabled="disabled"
       :placeholder="placeholderText"
       type="text"
       @input="updateInputValue"
       @keydown.enter="handleSend"
     />
-    <IconSend :class="$style.actionIcon" @click="handleSend" />
+    <section
+      :class="{[$style.actionIcon]: true, [$style.promptInputDisabled]: disabled}"
+      @click="handleSend"
+    >
+      <IconSend v-if="modelValue == ''" />
+      <IconSendFill v-else />
+    </section>
   </section>
 </template>
 
 <script setup>
-import {watch, ref, computed} from 'vue'
+import {watch, ref, computed, onMounted} from 'vue'
 
 import IconSend from './icon/IconSend.vue'
+import IconSendFill from './icon/IconSendFill.vue'
 
 const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit'])
 
@@ -28,13 +37,23 @@ const props = defineProps({
     type: String,
     default: 'Ask a question about this webpage or anything',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   selectedText: {
     type: String,
     default: '',
   },
 })
 
+const refInput = ref(null)
+
 const localModelValue = ref(props.modelValue)
+
+onMounted(() => {
+  refInput.value.focus()
+})
 
 const placeholderText = computed(() => {
   if (props.selectedText === '') {
@@ -45,6 +64,7 @@ const placeholderText = computed(() => {
 })
 
 const handleSend = () => {
+  if (props.disabled) return
   emits('onSubmit')
 }
 
@@ -68,6 +88,7 @@ const updateInputValue = () => {
   align-items: center;
   box-sizing: border-box;
   height: 36px;
+  padding: 8px;
   border: 1px solid #dcdee1;
   border-radius: 5px;
 }
@@ -75,7 +96,6 @@ const updateInputValue = () => {
 .input {
   flex: 1;
   height: 20px;
-  margin-left: 4px;
   font-weight: 400;
   font-size: 14px !important;
   font-style: normal;
@@ -92,6 +112,10 @@ const updateInputValue = () => {
   &:placeholder-shown {
     text-overflow: ellipsis;
   }
+
+  &:disabled {
+    background-color: #fff;
+  }
 }
 
 .input:focus {
@@ -99,7 +123,10 @@ const updateInputValue = () => {
 }
 
 .actionIcon {
-  margin-right: 8px;
   cursor: pointer;
+}
+
+.promptInputDisabled {
+  cursor: not-allowed;
 }
 </style>

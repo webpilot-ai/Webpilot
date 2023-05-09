@@ -38,9 +38,14 @@ const useConfigStore = defineStore('config', () => {
     saveToLocalStorage(config.value)
   }
 
-  function addPrompt(index, prompt) {
+  function addPrompt(prompt) {
     const {prompts} = config.value
     prompts.push(prompt)
+    saveToLocalStorage(config.value)
+  }
+
+  function setLatestPromptIndex(index) {
+    config.value.latestPresetPromptIndex = index
     saveToLocalStorage(config.value)
   }
 
@@ -57,6 +62,7 @@ const useConfigStore = defineStore('config', () => {
     updatePrompt,
     deletePrompt,
     addPrompt,
+    setLatestPromptIndex,
   }
 })
 
