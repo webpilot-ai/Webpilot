@@ -34,11 +34,14 @@ const useStore = defineStore('store', () => {
       prompt,
     })
       .then(streamReader => {
+        loading.value = false
         parseStream(streamReader, reqResult => {
           result.value = reqResult
         })
       })
       .catch(err => {
+        loading.value = false
+
         if (err instanceof DOMException && /aborted/.test(err.message)) return
 
         if (err.response && err.response.status === 401) {
@@ -68,6 +71,7 @@ const useStore = defineStore('store', () => {
 
   return {
     result,
+    loading,
     selectedText,
     askAi,
     cleanResult,
