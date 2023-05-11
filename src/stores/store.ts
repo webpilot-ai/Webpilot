@@ -24,8 +24,8 @@ const useStore = defineStore('store', () => {
     result.value = ''
 
     // process config
-    const text = selectedText.value.trim()
-    const prompt = selectedText.value === '' ? selectedText : `${command}:\n\n${text}\n\n`
+    const trimedText = selectedText.value.trim()
+    const prompt = trimedText === '' ? command : `${command}:\n\n${trimedText}\n\n`
 
     loading.value = true
     askOpenAI({

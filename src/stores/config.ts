@@ -51,6 +51,11 @@ const useConfigStore = defineStore('config', () => {
     saveToLocalStorage(config.value)
   }
 
+  function setShowShortcutTips(value) {
+    config.value.showShortcutTips = value
+    saveToLocalStorage(config.value)
+  }
+
   function ___debuResetConfig() {
     config.value = defaultConfig
     saveToLocalStorage(defaultConfig)
@@ -64,6 +69,7 @@ const useConfigStore = defineStore('config', () => {
     updatePrompt,
     deletePrompt,
     addPrompt,
+    setShowShortcutTips,
     setLatestPromptIndex,
   }
 })

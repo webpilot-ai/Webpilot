@@ -22,9 +22,10 @@
     }"
   >
     <ThePopupBox
-      v-if="showWebpilotPopup"
+      v-if="showWebpilotPopup || isShowAskPage"
       id="webpilot_popup"
       ref="refPopup"
+      :is-ask-page="isShowAskPage"
       @close-popup="handleClosePopup"
     />
     <section ref="refDragHandle" :class="$style.dragHandle"></section>
@@ -39,12 +40,13 @@
 import {computed, ref, watch} from 'vue'
 import '@assets/styles/csui-reset.scss'
 
-import {onClickOutside} from '@vueuse/core'
+import {onClickOutside, useMagicKeys} from '@vueuse/core'
 
 import useSelectedText from '@/hooks/useSelecctedText'
 import useScroll from '@/hooks/useScroll'
 import useDraggable from '@/hooks/useDraggable'
 import useStore from '@/stores/store'
+import useConfigStore from '@/stores/config'
 
 import WebpilotLogo from '../../../assets/icon.png'
 
@@ -54,9 +56,12 @@ const refTail = ref(null)
 const refPopup = ref(null)
 const refPropupWrap = ref(null)
 const refDragHandle = ref(null)
+
+const isShowAskPage = ref(false)
 const showWebpilotPopup = ref(false)
 
 const store = useStore()
+const storeConfig = useConfigStore()
 const {selectedText, mouseUpPosition} = useSelectedText(showWebpilotPopup)
 const {scrollYOffset: popupScrollYOffset} = useScroll(refPopup)
 const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
@@ -65,6 +70,24 @@ const {
   offsetY: dragOffsetY,
   resetDrag,
 } = useDraggable(refDragHandle, showWebpilotPopup)
+
+// keyboard
+const keys = useMagicKeys()
+const shortcut = keys['Ctrl+M']
+watch(shortcut, v => {
+  if (v && !showWebpilotPopup.value) {
+    showAskPage()
+
+    // show popup by shortcut remove shortkey tips
+    if (storeConfig.config.showShortcutTips) {
+      storeConfig.setShowShortcutTips(false)
+    }
+  }
+})
+
+const showAskPage = () => {
+  isShowAskPage.value = true
+}
 
 const onClickPopupOutside = () => {
   selectedText.value = ''
@@ -82,6 +105,7 @@ watch(selectedText, newValue => {
 })
 
 const handleClosePopup = () => {
+  isShowAskPage.value = false
   showWebpilotPopup.value = false
   store.cleanResult()
   // remove tail
@@ -110,6 +134,12 @@ const tailPosition = computed(() => {
 })
 
 const popupPosition = computed(() => {
+  if (isShowAskPage.value) {
+    const x = window.innerWidth / 2 - 480 / 2
+    const y = window.innerHeight / 2 - 325 / 2
+    return {x, y}
+  }
+
   const POPUP_X_MIDDLE = 240
   const POPUP_Y_OFFSET = 0
   const EDGE_OFFSET = 20

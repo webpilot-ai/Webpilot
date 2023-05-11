@@ -14,8 +14,11 @@
       :class="{[$style.actionIcon]: true, [$style.promptInputDisabled]: disabled}"
       @click="handleSend"
     >
-      <IconSend v-if="modelValue == ''" />
-      <IconSendFill v-else />
+      <template v-if="!loading">
+        <IconSend v-if="modelValue == ''" />
+        <IconSendFill v-else />
+      </template>
+      <IconLoading v-else :class="$style.loading" />
     </section>
   </section>
 </template>
@@ -25,6 +28,7 @@ import {watch, ref, computed, onMounted} from 'vue'
 
 import IconSend from './icon/IconSend.vue'
 import IconSendFill from './icon/IconSendFill.vue'
+import IconLoading from './icon/IconLoading.vue'
 
 const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit'])
 
@@ -44,6 +48,10 @@ const props = defineProps({
   selectedText: {
     type: String,
     default: '',
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -128,5 +136,20 @@ const updateInputValue = () => {
 
 .promptInputDisabled {
   cursor: not-allowed;
+}
+
+.loading {
+  cursor: not-allowed;
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
 }
 </style>

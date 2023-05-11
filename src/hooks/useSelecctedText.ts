@@ -10,7 +10,7 @@ export default function useSelectedText(stopUpdate) {
     if (stopUpdate.value) return
 
     setTimeout(() => {
-      selectedText.value = window.getSelection().toString()
+      selectedText.value = window.getSelection().toString()?.trim()
 
       if (selectedText.value === '') return
 

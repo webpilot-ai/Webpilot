@@ -7,6 +7,7 @@
   >
     <HeaderPanel @on-close="handleClosePopup" />
     <PromptList
+      v-if="!isAskPage"
       :prompts="storeConfig.config.prompts"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
@@ -16,11 +17,16 @@
     <PromptInput
       v-model="inputCommand"
       :disabled="store.loading"
+      :loading="store.loading"
       :selected-text="store.selectedText"
       @on-change="handeInputCommandChnage"
       @on-submit="askIA"
     />
-    <!-- <TipsGroup /> -->
+    <ShortcutTips
+      v-if="storeConfig.config.showShortcutTips"
+      :show-text-tips="true"
+      tips-text="hello?"
+    />
     <PromptResult :result="store.result" />
     <PromptEditor
       :disable-delete="disableDeletePropmt"
@@ -43,7 +49,7 @@ import {useMagicKeys} from '@vueuse/core'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import PromptInput from '@/components/PromptInput.vue'
-// import TipsGroup from '@/components/TipsGroup.vue'
+import ShortcutTips from '@/components/ShortcutTips.vue'
 import PromptList from '@/components/PromptList.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
@@ -54,6 +60,12 @@ const storeConfig = useConfigStore()
 const store = useStore()
 
 const emits = defineEmits(['closePopup'])
+const props = defineProps({
+  isAskPage: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const showEditor = ref(false)
 const inputCommand = ref('')
@@ -74,6 +86,8 @@ watch(Escape, v => {
 })
 
 onMounted(() => {
+  if (props.isAskPage) return
+
   // init selected prompt
   const index = storeConfig.config.latestPresetPromptIndex
   if (index >= 0 && storeConfig.config.prompts[index]) {

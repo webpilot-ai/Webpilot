@@ -23,7 +23,6 @@ const props = defineProps({
   flex-direction: row;
   gap: 10px;
   align-items: flex-start;
-  width: 254px;
   height: 27px;
   padding: 5px 8px 5px 6px;
   color: #585b58;

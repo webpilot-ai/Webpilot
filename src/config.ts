@@ -12,7 +12,7 @@ export const defaultConfig = {
   customCommand: '',
   displayMode: 'popUp',
   latestPresetPromptIndex: 0,
-
+  showShortcutTips: true,
   prompts: [
     {
       title: gettext('Summarize'),
