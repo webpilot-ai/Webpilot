@@ -10,6 +10,7 @@
         <option value="open_ai_4.0">OpenAI gpt-4.0-terbo</option>
         <option value="baidu_wenxin">百度文心</option>
       </select>
+      <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       <label for="keys">Your API Key</label>
       <input id="keys" name="keys" :placeholder="placeholder" type="text" />
 
@@ -106,6 +107,10 @@ const saveShortcut = value => {
   store.config.customCommand = value
   store.setConfig(store.config)
 }
+
+const openSelect = () => {
+  console.log('select open')
+}
 </script>
 
 <style module="advanced" lang="scss">
@@ -156,6 +161,22 @@ const saveShortcut = value => {
     line-height: 20px;
     border: 1px solid #dcdee1;
     border-radius: 5px;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url('./images/edit.svg') no-repeat;
+    background-size: 22px 22px;
+    background-position: 10px center;
+    padding-left: 38px;
+  }
+  .dropdown {
+    position: relative;
+    top: -20px;
+    left: 340px;
+    width: 10px;
+    height: 6px;
   }
 
   option {
