@@ -31,9 +31,7 @@ onBeforeMount(async () => {
     name: 'popupCheck',
   })
 
-  console.log('IsKeepOpen:', isKeepOpen)
-
-  // if (!isKeepOpen) window.close()
+  if (!isKeepOpen) window.close()
 })
 
 const closeWindow = () => {

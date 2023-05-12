@@ -7,7 +7,12 @@ const handler = async (req, res) => {
   const [tab] = await chrome.tabs.query(queryOptions)
   const {url} = tab
 
-  const keepPopupOpen = url?.startsWith('chrome:') || url?.startsWith('chrome-extension:')
+  let keepPopupOpen = true
+
+  if (url) {
+    keepPopupOpen = url.startsWith('chrome:') || url.startsWith('chrome-extension:')
+  }
+
   res.send(keepPopupOpen)
 
   if (!keepPopupOpen) {
