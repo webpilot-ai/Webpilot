@@ -42,9 +42,13 @@ import '@assets/styles/csui-reset.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
 
+import {MESSAGING_EVENT} from '@/config'
+
 import useSelectedText from '@/hooks/useSelecctedText'
 import useScroll from '@/hooks/useScroll'
 import useDraggable from '@/hooks/useDraggable'
+import useMessage from '@/hooks/useMessage'
+
 import useStore from '@/stores/store'
 import useConfigStore from '@/stores/config'
 
@@ -82,6 +86,13 @@ watch(shortcut, v => {
     if (storeConfig.config.showShortcutTips) {
       storeConfig.setShowShortcutTips(false)
     }
+  }
+})
+
+// Messaging
+useMessage(req => {
+  if (req.name === MESSAGING_EVENT.SHOW_POPUP) {
+    showAskPage()
   }
 })
 

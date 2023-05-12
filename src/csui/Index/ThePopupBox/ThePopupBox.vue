@@ -44,6 +44,7 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from 'vue'
+import {Readability} from '@mozilla/readability'
 
 import {useMagicKeys} from '@vueuse/core'
 
@@ -105,7 +106,14 @@ watch(
 
 const askIA = () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
-  store.askAi({command})
+
+  if (props.isAskPage) {
+    const cloneNode = document.cloneNode(true)
+    const article = new Readability(cloneNode).parse()
+    store.askAi({referenceText: article.textContent, command})
+  } else {
+    store.askAi({command})
+  }
 }
 
 const handleCloseEditor = () => {

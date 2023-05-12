@@ -1,6 +1,13 @@
 <template>
-  <section :class="$style.operationTips">
-    <IconTips />
+  <section
+    :class="$style.operationTips"
+    :style="{
+      color: color,
+    }"
+  >
+    <slot name="icon">
+      <IconTips />
+    </slot>
     {{ tips }}
   </section>
 </template>
@@ -14,6 +21,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  color: {
+    type: String,
+    default: '#585b58',
+  },
 })
 </script>
 
@@ -23,9 +34,10 @@ const props = defineProps({
   flex-direction: row;
   gap: 10px;
   align-items: flex-start;
+  width: fit-content;
   height: 27px;
+  max-height: 27px;
   padding: 5px 8px 5px 6px;
-  color: #585b58;
   font-weight: 500;
   font-size: 12px;
   line-height: 17px;

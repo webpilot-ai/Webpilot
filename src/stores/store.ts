@@ -5,6 +5,23 @@ import {askOpenAI, parseStream} from '@/io'
 
 import useConfigStore from './config'
 
+const getSelectPropmtTemplate = (text, command) => {
+  return [
+    {role: 'user', content: text},
+    {
+      role: 'system',
+      content:
+        "The user has selected these texts on the webpage. You need to further process these texts based on the user's requirements, or engage in related question and answer activities.",
+    },
+    {
+      role: 'system',
+      content:
+        'Please try to use the language used in the following content as much as possible in your response.',
+    },
+    {role: 'user', content: command},
+  ]
+}
+
 const useStore = defineStore('store', () => {
   // selected text
   const selectedText = ref('')
@@ -19,19 +36,19 @@ const useStore = defineStore('store', () => {
     selectedText.value = text
   }
 
-  const askAi = async ({command}) => {
+  const askAi = async ({referenceText = '', command}) => {
     // clean
     result.value = ''
 
-    // process config
-    const trimedText = selectedText.value.trim()
-    const prompt = trimedText === '' ? command : `${command}:\n\n${trimedText}\n\n`
+    let text = referenceText === '' ? selectedText.value : referenceText
+    text = text.trim()
+    const message = getSelectPropmtTemplate(text, command)
 
     loading.value = true
     askOpenAI({
-      authKey: configStore.config.authKey,
+      authKey: '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',
       model: toRaw(configStore.config.model),
-      prompt,
+      message,
     })
       .then(streamReader => {
         loading.value = false

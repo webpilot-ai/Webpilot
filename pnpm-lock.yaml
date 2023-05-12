@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@mozilla/readability':
+    specifier: ^0.4.4
+    version: 0.4.4
   '@plasmohq/messaging':
     specifier: ^0.2.1
     version: 0.2.1
@@ -1043,6 +1046,11 @@ packages:
       '@lezer/common': 0.15.12
       '@lezer/lr': 0.15.8
       json5: 2.2.3
+    dev: false
+
+  /@mozilla/readability@0.4.4:
+    resolution: {integrity: sha512-MCgZyANpJ6msfvVMi6+A0UAsvZj//4OHREYUB9f2087uXHVoU+H+SWhuihvb1beKpM323bReQPRio0WNk2+V6g==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@mrmlnc/readdir-enhanced@2.2.1:

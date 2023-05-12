@@ -108,13 +108,18 @@ const updateInputValue = () => {
   font-size: 14px !important;
   font-style: normal;
   line-height: 20px;
-  border: none;
+  border: none !important;
 
   &::placeholder {
     color: #929497;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
 
   &:placeholder-shown {
@@ -124,10 +129,6 @@ const updateInputValue = () => {
   &:disabled {
     background-color: #fff;
   }
-}
-
-.input:focus {
-  outline: none;
 }
 
 .actionIcon {

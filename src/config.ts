@@ -41,3 +41,7 @@ export const defaultConfig = {
     stop: '<|endoftext|>',
   },
 }
+
+export const MESSAGING_EVENT = {
+  SHOW_POPUP: 'MESSAGING_EVENT',
+}

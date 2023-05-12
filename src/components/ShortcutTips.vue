@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import TipsOperation from './TipsOperation.vue'
+import TipsOperation from './TipsNormal.vue'
 import TipsShortcut from './TipsShortcut.vue'
 </script>
 

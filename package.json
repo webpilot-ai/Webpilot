@@ -25,6 +25,7 @@
     "*.{json,md}": "prettier --cache --write"
   },
   "dependencies": {
+    "@mozilla/readability": "^0.4.4",
     "@plasmohq/messaging": "^0.2.1",
     "@plasmohq/storage": "^1.5.0",
     "@vueuse/core": "^10.1.2",
