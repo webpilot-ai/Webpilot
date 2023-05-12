@@ -18,6 +18,8 @@
 </template>
 
 <script setup>
+import '@assets/styles/reset.scss'
+
 import {onBeforeMount} from 'vue'
 import {sendToBackground} from '@plasmohq/messaging'
 
@@ -39,8 +41,6 @@ const closeWindow = () => {
 }
 </script>
 <style module lang="scss">
-@import '@assets/styles/reset.scss';
-
 .notSupportPaeg {
   position: relative;
   box-sizing: border-box;
