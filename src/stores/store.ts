@@ -46,7 +46,7 @@ const useStore = defineStore('store', () => {
 
     loading.value = true
     askOpenAI({
-      authKey: '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',
+      authKey: '',
       model: toRaw(configStore.config.model),
       message,
     })
