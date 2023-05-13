@@ -54,7 +54,6 @@ const active = ref('advanced')
   align-items: flex-end;
   justify-content: center;
   width: 100%;
-  height: 100vh;
   background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
 }
 
@@ -64,7 +63,7 @@ const active = ref('advanced')
   justify-content: space-between;
   width: calc(100vw - 18px);
   max-width: 1438px;
-  height: calc(100vh - 18px);
+  margin-top: 18px;
   padding: 24px 16px 16px;
   overflow-y: scroll;
   background: rgb(255 255 255 / 60%);
@@ -81,7 +80,7 @@ const active = ref('advanced')
 
   .body {
     justify-content: flex-start;
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - 276px);
   }
 }
 
