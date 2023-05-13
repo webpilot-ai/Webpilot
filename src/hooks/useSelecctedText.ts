@@ -1,6 +1,6 @@
 import {ref, onMounted, onUnmounted, reactive} from 'vue'
 
-export default function useSelectedText(stopUpdate) {
+export default function useSelectedText(stopUpdate, updateText) {
   const selectedText = ref('')
   const mouseUpPosition = reactive({
     x: null,
@@ -12,6 +12,7 @@ export default function useSelectedText(stopUpdate) {
     setTimeout(() => {
       selectedText.value = window.getSelection().toString()?.trim()
 
+      updateText(selectedText.value)
       if (selectedText.value === '') return
 
       mouseUpPosition.x = event.clientX

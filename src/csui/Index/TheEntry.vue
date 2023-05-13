@@ -13,6 +13,7 @@
   </section>
 
   <section
+    v-if="showWebpilotPopup || isShowAskPage"
     ref="refPropupWrap"
     :class="$style.popupBoxContainer"
     :style="{
@@ -22,7 +23,6 @@
     }"
   >
     <ThePopupBox
-      v-if="showWebpilotPopup || isShowAskPage"
       id="webpilot_popup"
       ref="refPopup"
       :is-ask-page="isShowAskPage"
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from 'vue'
+import {computed, reactive, ref, watch} from 'vue'
 import '@assets/styles/csui-reset.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
@@ -48,6 +48,7 @@ import useSelectedText from '@/hooks/useSelecctedText'
 import useScroll from '@/hooks/useScroll'
 import useDraggable from '@/hooks/useDraggable'
 import useMessage from '@/hooks/useMessage'
+import useKeyboardSelectText from '@/hooks/useKeyboardSelectText'
 
 import useStore from '@/stores/store'
 import useConfigStore from '@/stores/config'
@@ -62,18 +63,31 @@ const refPropupWrap = ref(null)
 const refDragHandle = ref(null)
 
 const isShowAskPage = ref(false)
+const isKeyboardSelect = ref(false)
 const showWebpilotPopup = ref(false)
+
+const selectedText = ref('')
+// synct to store
+watch(selectedText, v => store.setSelectedText(v))
+
+const keyboardSelectedPosition = reactive({x: 0, y: 0})
 
 const store = useStore()
 const storeConfig = useConfigStore()
-const {selectedText, mouseUpPosition} = useSelectedText(showWebpilotPopup)
+
+const updateSelectedText = text => {
+  if (showWebpilotPopup.value || selectedText.value === text) return
+  selectedText.value = text
+}
+
+// mouse select text
+const {mouseUpPosition} = useSelectedText(showWebpilotPopup, updateSelectedText)
+// keyboard select text
+const {position: keyboardSelectPosition} = useKeyboardSelectText(updateSelectedText)
+
 const {scrollYOffset: popupScrollYOffset} = useScroll(refPopup)
 const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
-const {
-  offsetX: dragOffsetX,
-  offsetY: dragOffsetY,
-  resetDrag,
-} = useDraggable(refDragHandle, showWebpilotPopup)
+const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
 
 // keyboard
 const keys = useMagicKeys()
@@ -129,11 +143,27 @@ const handleMouseOverTail = () => {
   showWebpilotPopup.value = true
 }
 
+/** Tail postion have two different source. Mouse and Keybaord Select */
+const position = computed(() => {
+  const {x: keyX, y: keyY} = keyboardSelectPosition
+  const {x: mouseX, y: mouseY} = mouseUpPosition
+
+  if (keyX !== 0 && keyY !== 0) return {x: keyX, y: keyY}
+
+  return {x: mouseX, y: mouseY}
+})
+
 const tailPosition = computed(() => {
   const TAIL_X_OFFEST = 25
   const TAIL_Y_OFFSET = 0
+  const KEYBOARD_TAIL_Y_OFFSET = 10
 
-  let {x, y} = mouseUpPosition
+  if (isKeyboardSelect.value) {
+    const {x, y} = keyboardSelectedPosition
+    return {x, y: y + KEYBOARD_TAIL_Y_OFFSET}
+  }
+
+  let {x, y} = position.value
 
   // scroll offset
   y = y + tailScrollYOffset.value
@@ -155,7 +185,7 @@ const popupPosition = computed(() => {
   const POPUP_Y_OFFSET = 0
   const EDGE_OFFSET = 20
 
-  let {x, y} = mouseUpPosition
+  let {x, y} = position.value
 
   // check left
   const minX = POPUP_X_MIDDLE + EDGE_OFFSET

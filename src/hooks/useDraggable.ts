@@ -1,6 +1,6 @@
-import {ref, watch, onMounted, onUnmounted} from 'vue'
+import {ref, watch, onUnmounted} from 'vue'
 
-export default function useDraggable(element, stopListen) {
+export default function useDraggable(element) {
   const originPosition = {x: 0, y: 0}
   const lastOffset = {x: 0, y: 0}
   const offsetX = ref(0)
@@ -27,18 +27,16 @@ export default function useDraggable(element, stopListen) {
     })
   }
 
-  onMounted(() => {
-    element.value.addEventListener('mousedown', startListenMove)
+  watch(element, v => {
+    if (v) {
+      element.value.addEventListener('mousedown', startListenMove)
+    } else {
+      element.value?.removeEventListener('mousedown', startListenMove)
+    }
   })
 
   onUnmounted(() => {
     element.value.removeEventListener('mousedown', startListenMove)
-  })
-
-  watch(stopListen, newValue => {
-    if (!newValue) {
-      document.removeEventListener('mousemove', handleMousemove)
-    }
   })
 
   const resetDrag = () => {
