@@ -23,7 +23,9 @@
             >Self Host</label
           >
         </div>
-        <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
+        <div :class="advanced.more">
+          <img :class="advanced.question_mark" src="./images/help.png" /> More help
+        </div>
       </div>
 
       <div>
@@ -65,7 +67,9 @@
       <span :class="advanced.subtitle">Active Webpilot</span>
       <div :class="advanced.activeWebpilot">
         <SwitchButton />
-        <div>Display Webpilot 888 when text is selected</div>
+        <div :class="advanced.hints">
+          Display Webpilot <img alt="" src="./images/default.png" /> when text is selected
+        </div>
       </div>
 
       <span :class="advanced.subtitle">Change Shortcut</span>
@@ -218,6 +222,7 @@ const openSelect = () => {
 
 .more {
   /* identical to box height */
+  display: inline;
   color: #585b58;
   font-size: 14px;
   line-height: 20px;
@@ -225,8 +230,11 @@ const openSelect = () => {
   text-decoration-line: underline;
 
   .question_mark {
-    background-color: #4f5aff;
-    background-size: cover;
+    display: inline;
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+    margin-right: 6px;
   }
 }
 
@@ -283,11 +291,17 @@ const openSelect = () => {
   margin-top: 9px;
 
   div {
+    display: inline;
     padding-left: 6px;
     color: #585b58;
     font-weight: 400;
     font-size: 14px;
-    line-height: 22px;
+    line-height: 20px;
+  }
+  img {
+    display: inline;
+    height: 16px;
+    width: 16px;
     vertical-align: middle;
   }
 }
