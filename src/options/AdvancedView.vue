@@ -41,7 +41,7 @@
         <div :class="advanced.radioGroup">
           <input
             id="sideBar"
-            :checked="displayMode == 'siderBar'"
+            :checked="displayMode == 'sideBar'"
             name="mode"
             type="radio"
             @input="changeMode('sideBar')"
