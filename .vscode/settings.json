@@ -1,3 +1,4 @@
 {
-  "prettier.endOfLine": "cr"
+  "prettier.endOfLine": "cr",
+  "files.eol": "\n"
 }

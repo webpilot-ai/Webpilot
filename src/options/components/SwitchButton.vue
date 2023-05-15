@@ -10,12 +10,22 @@
 <script setup>
 import {ref} from 'vue'
 
-const switchOn = ref(false)
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const switchOn = ref(props.modelValue)
 const onText = 'ON'
 const offText = 'OFF'
 
+const emits = defineEmits(['onChange'])
+
 function toggleSwitch() {
   switchOn.value = !switchOn.value
+  emits('onChange', switchOn.value)
 }
 </script>
 
@@ -61,6 +71,7 @@ function toggleSwitch() {
   font-size: 12px;
   line-height: 17px;
   transform: translate(-50%, -50%);
+  user-select: none;
 }
 
 .off {

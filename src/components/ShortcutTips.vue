@@ -1,12 +1,12 @@
 <template>
   <section :class="$style.tipsGroup">
-    <TipsOperation tips="Tips: You can also customize quick prompts" />
+    <WebpilotAlert tips="Tips: You can also customize quick prompts" />
     <TipsShortcut :class="$style.tipsShortcut" />
   </section>
 </template>
 
 <script setup>
-import TipsOperation from './TipsNormal.vue'
+import WebpilotAlert from './WebpilotAlert.vue'
 import TipsShortcut from './TipsShortcut.vue'
 </script>
 

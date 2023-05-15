@@ -22,6 +22,12 @@ const getSelectPropmtTemplate = (text, command) => {
   ]
 }
 
+export const REQUEST_STATE = {
+  SUCCESS: 'SUCCESS',
+  LOADING: 'LOADING',
+  ERROR: 'ERROR',
+}
+
 const useStore = defineStore('store', () => {
   // selected text
   const selectedText = ref('')
@@ -30,13 +36,15 @@ const useStore = defineStore('store', () => {
   // loading state
   const loading = ref(false)
 
+  const requestState = ref(null)
+
   const configStore = useConfigStore()
 
   const setSelectedText = text => {
     selectedText.value = text
   }
 
-  const askAi = async ({referenceText = '', command}) => {
+  const askAi = async ({referenceText = '', command, authKey = '', url = null}) => {
     // clean
     result.value = ''
 
@@ -45,19 +53,23 @@ const useStore = defineStore('store', () => {
     const message = getSelectPropmtTemplate(text, command)
 
     loading.value = true
-    askOpenAI({
-      authKey: '',
+    requestState.value = REQUEST_STATE.LOADING
+    return askOpenAI({
+      authKey: authKey === '' ? configStore.config.authKey : authKey,
       model: toRaw(configStore.config.model),
       message,
+      url,
     })
       .then(streamReader => {
         loading.value = false
+        requestState.value = REQUEST_STATE.SUCCESS
         parseStream(streamReader, reqResult => {
           result.value = reqResult
         })
       })
       .catch(err => {
         loading.value = false
+        requestState.value = REQUEST_STATE.ERROR
 
         if (err instanceof DOMException && /aborted/.test(err.message)) return
 
@@ -67,7 +79,8 @@ const useStore = defineStore('store', () => {
             authKey: '',
             isAuth: false,
           })
-          // TODO: add toast
+
+          throw err
         } else {
           let errorMsg = err.message || ''
 
@@ -90,6 +103,7 @@ const useStore = defineStore('store', () => {
     result,
     loading,
     selectedText,
+    requestState,
     askAi,
     cleanResult,
     setSelectedText,

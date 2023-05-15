@@ -2,9 +2,7 @@
   <section :class="$style.notSupportPaeg">
     <HeaderPanel @on-close="closeWindow" />
     <section :class="$style.tipsWrap">
-      <TipsNormal color="#CC0000" :tips="'Webpage not supported'">
-        <template #icon> <IconError /> </template>
-      </TipsNormal>
+      <WebpilotAlert color="#CC0000" :tips="'Webpage not supported'" type="error"> </WebpilotAlert>
     </section>
     <section :class="$style.explain">
       Due to Chrome constrains, Webpilot can not be active on the following webpages:
@@ -24,8 +22,7 @@ import {onBeforeMount} from 'vue'
 import {sendToBackground} from '@plasmohq/messaging'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
-import TipsNormal from '@/components/TipsNormal.vue'
-import IconError from '@/components/icon/IconError.vue'
+import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import TipsShortcut from '@/components/TipsShortcut.vue'
 
 onBeforeMount(async () => {

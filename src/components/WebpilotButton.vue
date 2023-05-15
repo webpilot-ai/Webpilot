@@ -68,7 +68,8 @@ const handleClick = () => {
 }
 
 .disabled {
+  color: #fff;
+  background-color: #929497;
   cursor: not-allowed;
-  filter: brightness(0.5);
 }
 </style>

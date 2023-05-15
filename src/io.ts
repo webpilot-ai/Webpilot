@@ -2,7 +2,7 @@ import {OPEN_AI_API} from '@/config'
 
 let prevAbortController = null
 
-export async function askOpenAI({authKey, model, message}) {
+export async function askOpenAI({authKey, model, message, url = null}) {
   const requestModel = model
   requestModel.messages = message
   requestModel.stream = true
@@ -15,7 +15,7 @@ export async function askOpenAI({authKey, model, message}) {
 
   prevAbortController = abortController
 
-  return fetch(OPEN_AI_API, {
+  return fetch(url || OPEN_AI_API, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

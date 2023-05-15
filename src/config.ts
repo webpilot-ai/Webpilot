@@ -5,14 +5,25 @@ export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 export const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions'
 
 export const defaultConfig = {
+  /** Open AI or selfhost api key */
   authKey: '',
+  /** Is auth successed */
   isAuth: false,
-  autoPopup: false,
-  turboMode: false,
-  customCommand: '',
+  /** When select text (by mouse or keyboard) show popup */
+  autoPopup: true,
+  /** Self host url */
+  selfHostUrl: '',
+  /** Custom shortcut for show popup (akspage) */
+  customShortcut: '',
+  /** Chose display mode
+   * popUp
+   * sideBar */
   displayMode: 'popUp',
+  /** Last select preset prompt index. For auto select at popup. */
   latestPresetPromptIndex: 0,
+  /** Show shortcut state, once trigger popup by shortcut set to false */
   showShortcutTips: true,
+  /** Constom preset prompts */
   prompts: [
     {
       title: gettext('Summarize'),
@@ -31,7 +42,7 @@ export const defaultConfig = {
       ),
     },
   ],
-
+  /* Model type, for now use open ai template */
   model: {
     model: 'gpt-3.5-turbo',
     temperature: 1,

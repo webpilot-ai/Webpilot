@@ -2,110 +2,211 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">API Settings</span>
-      <label :class="advanced.subtitle" for="provider">Active API Provider</label>
-      <select id="provider" name="provider">
-        <option :class="advanced.iconLogo" selected value="open_ai_3.5">
-          OpenAI gpt-3.5-terbo
-        </option>
-        <option value="open_ai_4.0">OpenAI gpt-4.0-terbo</option>
-        <option value="baidu_wenxin">百度文心</option>
-      </select>
-      <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
-      <label for="keys">Your API Key</label>
-      <input id="keys" name="keys" :placeholder="placeholder" type="text" />
+      <div :class="advanced.apiItem">
+        <label :class="advanced.subtitle" for="provider">Active API Provider</label>
+        <select id="provider" name="provider">
+          <option :class="advanced.iconLogo" selected value="open_ai_3.5">
+            OpenAI gpt-3.5-terbo
+          </option>
+          <option value="open_ai_4.0">OpenAI gpt-4.0-terbo</option>
+          <!-- <option value="baidu_wenxin">百度文心</option> -->
+        </select>
+        <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
+      </div>
+      <div :class="advanced.apiItem">
+        <label :class="advanced.subtitle" for="keys">Your API Key</label>
+        <input
+          id="keys"
+          v-model="authKey"
+          :class="{[advanced.haveAuthKey]: storeConfig.authKey !== ''}"
+          name="keys"
+          :placeholder="authKeyPlaceHolder"
+          role="authkey"
+          type="text"
+          @blur="onBlurSetAuthkey"
+          @change="onApiKeyChange"
+          @focus="onEditAuthKey"
+        />
+        <WebpilotAlert v-if="alertInfo.type !== ''" :tips="alertInfo.tips" :type="alertInfo.type" />
 
-      <span :class="advanced.links"
-        >Visit: <a :href="links" target="_blank">{{ links }}</a></span
-      >
-      <div :class="advanced.host">
-        <div :class="advanced.selfHost">
-          <input id="self_host" name="self_host" type="checkbox" /><label for="self_host"
-            >Self Host</label
-          >
+        <span :class="advanced.links">
+          Visit: <a :href="links" target="_blank">{{ links }}</a>
+        </span>
+        <div :class="advanced.host">
+          <div :class="advanced.selfHost">
+            <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
+            <label for="self_host">Self Host</label>
+          </div>
+          <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
         </div>
-        <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
+        <div v-if="isSelfHost" :class="advanced.selfHostInput">
+          <input v-model="selfHostUrl" placeholder="Enter your base address" />
+        </div>
       </div>
 
-      <div>
-        <button :class="advanced.saveButton" @click="save()">SAVE CHANGES</button>
-      </div>
+      <button :class="advanced.saveButton" @click="save()">SAVE CHANGES</button>
     </div>
 
     <div :class="[advanced.extension, advanced.panel]">
       <span :class="advanced.title">Extension Settings</span>
-
       <span :class="advanced.subtitle">Display mode</span>
       <div :class="advanced.mode">
-        <div :class="advanced.radioGroup">
+        <!-- Sider bar under development -->
+        <div v-if="false" :class="advanced.radioGroup">
           <input
             id="sideBar"
-            :checked="displayMode == 'siderBar'"
+            :checked="storeConfig.config.displayMode == 'siderBar'"
             name="mode"
             type="radio"
-            @input="changeMode('sideBar')"
+            @input="changeMode('siderBar')"
           />
-          <label for="sideBar"
-            >Side Bar <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg"
-          /></label>
+          <label for="sideBar">
+            Side Bar <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg" />
+          </label>
         </div>
         <div :class="advanced.radioGroup">
           <input
             id="popUp"
-            :checked="displayMode == 'popUp'"
+            :checked="storeConfig.config.displayMode == 'popUp'"
             name="mode"
             type="radio"
             @input="changeMode('popUp')"
           />
-          <label for="popUp"
-            >Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg"
-          /></label>
+          <label for="popUp">
+            Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg" />
+          </label>
         </div>
       </div>
 
       <span :class="advanced.subtitle">Active Webpilot</span>
       <div :class="advanced.activeWebpilot">
-        <SwitchButton />
-        <div>Display Webpilot 888 when text is selected</div>
+        <SwitchButton v-model="storeConfig.config.autoPopup" @on-change="onAutoPopupChange" />
+        <div :class="advanced.activeWebpilotDesc">
+          Display Webpilot <img :src="WebpilotLogo" /> when text is selected
+        </div>
       </div>
 
       <span :class="advanced.subtitle">Change Shortcut</span>
       <div :class="advanced.shortcut">
         <input
+          maskText="hello"
           name="shortcut"
           placeholder="Ctrl+M"
           type="text"
+          @blur="onBlurShortcutInput"
+          @focus="onFocusShortcutInput"
           @input="saveShortcut($event.target.value)"
         />
-        <span @click="shortCut = store.config.customCommand">Reset</span>
+        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">Press key</div>
+        <span @click="shortCut = storeConfig.config.customShortcut">Reset</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {computed, ref, watch} from 'vue'
+import {useMagicKeys} from '@vueuse/core'
+import {storeToRefs} from 'pinia'
 
 import useConfigStore from '@/stores/config'
+import useStore, {REQUEST_STATE} from '@/stores/store'
+
+import WebpilotAlert from '@/components/WebpilotAlert.vue'
+
+import WebpilotLogo from '../../assets/icon.png'
 
 import SwitchButton from './components/SwitchButton.vue'
 
-const placeholder = ref('Enter your API Key from OpenAI')
 const links = ref('https://platform.openai.com/account/api-keys')
 
-const store = useConfigStore()
-const displayMode = ref(store.config.displayMode)
-const shortCut = ref(store.config.customCommand)
+const storeConfig = useConfigStore()
+const store = useStore()
 
-const changeMode = str => {
-  store.config.displayMode = str
-  store.setConfig(store.config)
+const {config} = storeToRefs(storeConfig)
+
+/** Edit Auth Key */
+const authKey = ref('')
+const validatedKey = ref(false)
+
+const authKeyPlaceHolder = computed(() => {
+  const {authKey} = storeConfig.config
+  if (authKey === '' || !authKey) return 'Enter your API Key from OpenAI'
+
+  const startText = authKey.substring(0, 3)
+  const endText = authKey.substring(authKey.length - 4, authKey.length)
+  return `${startText}...${endText}`
+})
+
+const onEditAuthKey = () => {
+  const {authKey: configKey} = storeConfig.config
+  if (configKey === '' || !configKey) return
+  authKey.value = configKey
 }
+
+const onBlurSetAuthkey = () => {
+  if (authKey.value !== '') authKey.value = ''
+}
+
+const onApiKeyChange = async () => {
+  await store.askAi({authKey: authKey.value, command: 'Say hi.'})
+  validatedKey.value = true
+}
+
+const alertInfo = computed(() => {
+  if (store.requestState === REQUEST_STATE.ERROR) {
+    return {
+      type: 'error',
+      tips: 'Incorrect API Key. Please check with the provider',
+    }
+  }
+  if (store.requestState === REQUEST_STATE.SUCCESS) {
+    return {
+      type: 'success',
+      tips: 'Successfully added',
+    }
+  }
+
+  return {
+    type: '',
+    tips: '',
+  }
+})
+
+// Self Host
+const isSelfHost = ref(!!config.value.selfHostUrl)
+const selfHostUrl = ref(config.value.selfHostUrl)
 
 const save = () => {}
 
+// Display Mode
+const changeMode = str => {
+  storeConfig.config.displayMode = str
+  storeConfig.setConfig(storeConfig.config)
+}
+
+// Active Select popup
+const onAutoPopupChange = value => {
+  storeConfig.config.autoPopup = value
+  storeConfig.setConfig(storeConfig.config)
+}
+
+// Shortcut
+const isFocusShortcut = ref(false)
+const onFocusShortcutInput = () => (isFocusShortcut.value = true)
+const onBlurShortcutInput = () => (isFocusShortcut.value = false)
+const {current: currentKeys} = useMagicKeys()
+watch(currentKeys, v => {
+  if (!v) return
+
+  const keys = Array.from(v)
+
+  console.log('Keys:', keys)
+})
+
 const saveShortcut = value => {
-  store.config.customCommand = value
-  store.setConfig(store.config)
+  storeConfig.config.customShortcut = value
+  storeConfig.setConfig(storeConfig.config)
 }
 
 const openSelect = () => {
@@ -152,7 +253,7 @@ const openSelect = () => {
   }
 
   select,
-  input[type='text'] {
+  input[type='text'][role='authkey'] {
     width: 360px;
     height: 36px;
     margin-top: 8px;
@@ -162,15 +263,17 @@ const openSelect = () => {
     border: 1px solid #dcdee1;
     border-radius: 5px;
   }
+
   select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: url('./images/edit.svg') no-repeat;
-    background-size: 22px 22px;
-    background-position: 10px center;
     padding-left: 38px;
+    background: url('./images/edit.svg') no-repeat;
+    background-position: 10px center;
+    background-size: 22px 22px;
+    appearance: none;
+    appearance: none;
+    appearance: none;
   }
+
   .dropdown {
     position: relative;
     top: -20px;
@@ -191,6 +294,21 @@ const openSelect = () => {
   }
 }
 
+.api {
+  display: flex;
+  flex-direction: column;
+  height: 426px;
+}
+
+.apiItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.haveAuthKey::placeholder {
+  color: #292929;
+}
+
 .host {
   display: flex;
   flex-direction: row;
@@ -202,17 +320,40 @@ const openSelect = () => {
 .selfHost {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+  * {
+    cursor: pointer;
+  }
 
   input {
     width: 16px;
     height: 16px;
-    margin-top: 0;
+    margin: 0;
+    margin-right: 8px;
   }
 
   label {
     margin-top: 0;
     font-size: 14px;
     line-height: 20px;
+    user-select: none;
+  }
+}
+
+.selfHostInput {
+  margin-top: 8px;
+
+  input {
+    width: 360px;
+    height: 36px;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #dcdee1;
+    border-radius: 5px;
   }
 }
 
@@ -230,6 +371,21 @@ const openSelect = () => {
   }
 }
 
+.saveButton {
+  width: 143px;
+  margin-top: auto;
+  padding: 8px 16px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: 'PingFang SC', Helvetica, Arial, sans-serif;
+  line-height: 20px;
+  background-color: #929497;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .mode {
   display: flex;
   margin-top: 10px;
@@ -237,6 +393,10 @@ const openSelect = () => {
 
 .radioGroup {
   display: flex;
+
+  * {
+    cursor: pointer;
+  }
 
   &:first-child {
     margin-right: 33px;
@@ -260,20 +420,6 @@ const openSelect = () => {
   }
 }
 
-.saveButton {
-  margin-top: 100px;
-  padding: 8px 16px;
-  color: white;
-  font-weight: 500;
-  font-size: 14px;
-  font-family: 'PingFang SC', Helvetica, Arial, sans-serif;
-  line-height: 20px;
-  background-color: #929497;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .extension {
   color: yellow;
 }
@@ -290,17 +436,42 @@ const openSelect = () => {
     line-height: 22px;
     vertical-align: middle;
   }
+
+  img {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0 4px;
+  }
+}
+
+.activeWebpilotDesc {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .shortcut {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-top: 8px;
   margin-bottom: 30px;
 
   input {
-    width: 140px !important;
+    width: 140px;
+    height: 36px;
+    margin-right: 8px;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #929497;
+    border-radius: 5px;
   }
 
   span {
-    margin-left: 8px;
     color: #585b58;
     font-weight: 400;
     font-size: 14px;
@@ -308,5 +479,19 @@ const openSelect = () => {
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.shortcutMask {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 124px;
+  height: 20px;
+  color: #585b58;
+  font-weight: 400;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 20px;
+  background-color: #fff;
 }
 </style>
