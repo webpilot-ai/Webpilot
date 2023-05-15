@@ -4,6 +4,8 @@ let prevAbortController = null
 
 export async function askOpenAI({authKey, model, message, url = null}) {
   const requestModel = model
+
+  console.log('Model:', model)
   requestModel.messages = message
   requestModel.stream = true
 

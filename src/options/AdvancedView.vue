@@ -40,11 +40,20 @@
           <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
         </div>
         <div v-if="isSelfHost" :class="advanced.selfHostInput">
-          <input v-model="selfHostUrl" placeholder="Enter your base address" />
+          <input
+            v-model="selfHostUrl"
+            placeholder="Enter your base address"
+            @change="onChangeHostUrl"
+          />
         </div>
       </div>
 
-      <button :class="advanced.saveButton" @click="save()">SAVE CHANGES</button>
+      <WebpilotButton
+        :disalbed="!validatedKey"
+        style="width: 143px; margin-top: auto"
+        value="SAVE CHANGES"
+        @click="save()"
+      />
     </div>
 
     <div :class="[advanced.extension, advanced.panel]">
@@ -113,6 +122,7 @@ import useConfigStore from '@/stores/config'
 import useStore, {REQUEST_STATE} from '@/stores/store'
 
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
+import WebpilotButton from '@/components/WebpilotButton.vue'
 
 import WebpilotLogo from '../../assets/icon.png'
 
@@ -125,23 +135,33 @@ const store = useStore()
 
 const {config} = storeToRefs(storeConfig)
 
+const saveAuthKey = ref('')
 /** Edit Auth Key */
 const authKey = ref('')
 const validatedKey = ref(false)
 
 const authKeyPlaceHolder = computed(() => {
-  const {authKey} = storeConfig.config
-  if (authKey === '' || !authKey) return 'Enter your API Key from OpenAI'
+  const key = saveAuthKey.value === '' ? storeConfig.config.authKey : saveAuthKey.value
 
-  const startText = authKey.substring(0, 3)
-  const endText = authKey.substring(authKey.length - 4, authKey.length)
+  if (key === '' || !key) return 'Enter your API Key from OpenAI'
+
+  const startText = key.substring(0, 3)
+  const endText = key.substring(key.length - 4, key.length)
   return `${startText}...${endText}`
 })
 
 const onEditAuthKey = () => {
-  const {authKey: configKey} = storeConfig.config
-  if (configKey === '' || !configKey) return
-  authKey.value = configKey
+  // use saved temp key first
+  if (saveAuthKey.value !== '') {
+    authKey.value = saveAuthKey.value
+    return
+  }
+
+  // if cna't find local save auhtkey use storeconfig authkey
+  const {authKey: key} = config.value
+  if (key === '' || !key) return
+  saveAuthKey.value = key
+  authKey.value = key
 }
 
 const onBlurSetAuthkey = () => {
@@ -149,6 +169,7 @@ const onBlurSetAuthkey = () => {
 }
 
 const onApiKeyChange = async () => {
+  saveAuthKey.value = authKey.value
   await store.askAi({authKey: authKey.value, command: 'Say hi.'})
   validatedKey.value = true
 }
@@ -177,7 +198,18 @@ const alertInfo = computed(() => {
 const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
-const save = () => {}
+const onChangeHostUrl = async () => {
+  await store.askAi({authKey: saveAuthKey.value, command: 'Say hi.', url: selfHostUrl.value})
+  validatedKey.value = true
+}
+
+const save = () => {
+  storeConfig.setConfig({
+    ...storeConfig.config,
+    authKey: saveAuthKey.value,
+    selfHostUrl: selfHostUrl.value,
+  })
+}
 
 // Display Mode
 const changeMode = str => {
@@ -271,7 +303,6 @@ const openSelect = () => {
     background-size: 22px 22px;
     appearance: none;
     appearance: none;
-    appearance: none;
   }
 
   .dropdown {
@@ -359,6 +390,7 @@ const openSelect = () => {
 
 .more {
   /* identical to box height */
+  display: inline;
   color: #585b58;
   font-size: 14px;
   line-height: 20px;
@@ -366,8 +398,11 @@ const openSelect = () => {
   text-decoration-line: underline;
 
   .question_mark {
-    background-color: #4f5aff;
-    background-size: cover;
+    display: inline;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    vertical-align: middle;
   }
 }
 
@@ -429,12 +464,12 @@ const openSelect = () => {
   margin-top: 9px;
 
   div {
+    display: inline;
     padding-left: 6px;
     color: #585b58;
     font-weight: 400;
     font-size: 14px;
-    line-height: 22px;
-    vertical-align: middle;
+    line-height: 20px;
   }
 
   img {
