@@ -14,7 +14,7 @@
         <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       </div>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="keys">Your API Key</label>
+        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">Your API Key</label>
         <input
           id="keys"
           v-model="authKey"
@@ -24,10 +24,14 @@
           role="authkey"
           type="text"
           @blur="onBlurSetAuthkey"
-          @change="onApiKeyChange"
           @focus="onEditAuthKey"
         />
-        <WebpilotAlert v-if="alertInfo.type !== ''" :tips="alertInfo.tips" :type="alertInfo.type" />
+        <WebpilotAlert
+          v-if="(error || success) && !isSelfHost"
+          style="margin-top: 8px"
+          :tips="alertInfo.tips"
+          :type="alertInfo.type"
+        />
 
         <span :class="advanced.links">
           Visit: <a :href="links" target="_blank">{{ links }}</a>
@@ -45,11 +49,18 @@
             placeholder="Enter your base address"
             @change="onChangeHostUrl"
           />
+          {{ success }}
+          <WebpilotAlert
+            v-if="(error || success) && isSelfHost"
+            style="margin-top: 8px"
+            :tips="alertInfo.tips"
+            :type="alertInfo.type"
+          />
         </div>
       </div>
 
       <WebpilotButton
-        :disalbed="!validatedKey"
+        :loading="loading"
         style="width: 143px; margin-top: auto"
         value="SAVE CHANGES"
         @click="save()"
@@ -119,8 +130,8 @@ import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 
 import useConfigStore from '@/stores/config'
-import useStore, {REQUEST_STATE} from '@/stores/store'
 
+import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
 
@@ -131,14 +142,14 @@ import SwitchButton from './components/SwitchButton.vue'
 const links = ref('https://platform.openai.com/account/api-keys')
 
 const storeConfig = useConfigStore()
-const store = useStore()
+
+const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(storeConfig)
 
 const saveAuthKey = ref('')
 /** Edit Auth Key */
 const authKey = ref('')
-const validatedKey = ref(false)
 
 const authKeyPlaceHolder = computed(() => {
   const key = saveAuthKey.value === '' ? storeConfig.config.authKey : saveAuthKey.value
@@ -165,28 +176,21 @@ const onEditAuthKey = () => {
 }
 
 const onBlurSetAuthkey = () => {
+  saveAuthKey.value = authKey.value
+
   if (authKey.value !== '') authKey.value = ''
 }
 
-const onApiKeyChange = async () => {
-  saveAuthKey.value = authKey.value
-  await store.askAi({authKey: authKey.value, command: 'Say hi.'})
-  validatedKey.value = true
-}
-
 const alertInfo = computed(() => {
-  if (store.requestState === REQUEST_STATE.ERROR) {
-    return {
-      type: 'error',
-      tips: 'Incorrect API Key. Please check with the provider',
-    }
+  // Alet info for token
+  if (!isSelfHost.value) {
+    if (success.value) return {type: 'success', tips: 'Successfully added'}
+    if (error.value)
+      return {type: 'error', tips: 'Incorrect API Key. Please check with the provider'}
   }
-  if (store.requestState === REQUEST_STATE.SUCCESS) {
-    return {
-      type: 'success',
-      tips: 'Successfully added',
-    }
-  }
+
+  if (success.value) return {type: 'success', tips: 'Successfully added '}
+  if (error.value) return {type: 'error', tips: "Can't add this address"}
 
   return {
     type: '',
@@ -198,16 +202,18 @@ const alertInfo = computed(() => {
 const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
-const onChangeHostUrl = async () => {
-  await store.askAi({authKey: saveAuthKey.value, command: 'Say hi.', url: selfHostUrl.value})
-  validatedKey.value = true
-}
+const save = async () => {
+  // Check Toekn validation
+  await askAi({
+    authKey: saveAuthKey.value,
+    command: 'Say hi.',
+    url: isSelfHost.value ? selfHostUrl.value : null,
+  })
 
-const save = () => {
   storeConfig.setConfig({
     ...storeConfig.config,
     authKey: saveAuthKey.value,
-    selfHostUrl: selfHostUrl.value,
+    selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
   })
 }
 
@@ -302,7 +308,6 @@ const openSelect = () => {
     background-position: 10px center;
     background-size: 22px 22px;
     appearance: none;
-    appearance: none;
   }
 
   .dropdown {
@@ -329,6 +334,7 @@ const openSelect = () => {
   display: flex;
   flex-direction: column;
   height: 426px;
+  padding: 16px 24px;
 }
 
 .apiItem {
