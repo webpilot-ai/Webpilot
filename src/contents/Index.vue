@@ -5,6 +5,7 @@ import {createPinia} from 'pinia'
 import {i18nPlugin} from '@/utils/i18n'
 
 import App from '@/csui/Index/TheEntry.vue'
+import useConfigStore from '@/stores/config'
 
 export default {
   plasmo: {render, getRootContainer},
@@ -23,6 +24,9 @@ async function render({createRootContainer}) {
   app.use(i18nPlugin)
   app.use(pinia)
 
+  // init pinia data
+  const storeConfig = useConfigStore()
+  await storeConfig.initConfig()
   app.mount(rootContainer)
 }
 

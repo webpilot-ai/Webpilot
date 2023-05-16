@@ -23,7 +23,6 @@ const useConfigStore = defineStore('config', () => {
   }
 
   function setConfig(newConfig) {
-    console.log('CONFIG:', JSON.stringify(newConfig))
     config.value = newConfig
     saveToLocalStorage(config.value)
   }

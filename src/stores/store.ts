@@ -45,7 +45,6 @@ const useStore = defineStore('store', () => {
   }
 
   const askAi = async ({referenceText = '', command, authKey = '', url = null}) => {
-    // clean
     result.value = ''
 
     let text = referenceText === '' ? selectedText.value : referenceText
@@ -54,6 +53,7 @@ const useStore = defineStore('store', () => {
 
     loading.value = true
     requestState.value = REQUEST_STATE.LOADING
+
     return askOpenAI({
       authKey: authKey === '' ? configStore.config.authKey : authKey,
       model: toRaw(configStore.config.model),
