@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
@@ -8,11 +8,25 @@ import IllustrationSelectText from '@/components/icon/IllustrationSelectText.vue
 import DisplayMode from '@/components/DisplayMode.vue'
 import useConfigStore from '@/stores/config'
 
+import ShortcutInput from '@/components/ShortcutInput.vue'
+
+import {formatShortcut} from '@/utils/index'
+
 const storeConfig = useConfigStore()
+
 const {config} = storeToRefs(storeConfig)
+
+const {customShortcut} = config.value
 
 const autoPopup = ref(config.value.autoPopup)
 const mode = ref(config.value.displayMode)
+
+const onShotcutChange = customShortcut => {
+  storeConfig.setConfig({
+    ...storeConfig.config,
+    customShortcut,
+  })
+}
 
 const onAutoPopupChange = value => {
   storeConfig.setConfig({
@@ -27,16 +41,20 @@ const osDisplayModeChange = value => {
     displayMode: value,
   })
 }
+
+const shotcut = computed(() => {
+  return formatShortcut(storeConfig.config.customShortcut)
+})
 </script>
 
 <template>
   <div>
     <h2 :class="stepTwo.shortcutGuideTitle">
-      Select text, and press <span>Ctrl + L</span> to ask Webpilot
+      Select text, and press <span>{{ shotcut }}</span> to ask Webpilot
     </h2>
     <div :class="stepTwo.changeShorcut">
       <span>Change Shortcut</span>
-      <input type="text" />
+      <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShotcutChange" />
     </div>
     <WebpilotCheckbox
       v-model="autoPopup"

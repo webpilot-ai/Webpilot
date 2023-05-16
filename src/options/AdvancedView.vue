@@ -49,7 +49,6 @@
             placeholder="Enter your base address"
             @change="onChangeHostUrl"
           />
-          {{ success }}
           <WebpilotAlert
             v-if="(error || success) && isSelfHost"
             style="margin-top: 8px"
@@ -108,25 +107,18 @@
 
       <span :class="advanced.subtitle">Change Shortcut</span>
       <div :class="advanced.shortcut">
-        <input
-          maskText="hello"
-          name="shortcut"
-          placeholder="Ctrl+M"
-          type="text"
-          @blur="onBlurShortcutInput"
-          @focus="onFocusShortcutInput"
-          @input="saveShortcut($event.target.value)"
+        <ShortcutInput
+          v-model="shortcutKeys"
+          style="margin-top: 8px; margin-bottom: 22px"
+          @change="onChangeShortcut"
         />
-        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">Press key</div>
-        <span @click="shortCut = storeConfig.config.customShortcut">Reset</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {computed, ref, watch} from 'vue'
-import {useMagicKeys} from '@vueuse/core'
+import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import useConfigStore from '@/stores/config'
@@ -134,6 +126,7 @@ import useConfigStore from '@/stores/config'
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
+import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import WebpilotLogo from '../../assets/icon.png'
 
@@ -230,25 +223,13 @@ const onAutoPopupChange = value => {
 }
 
 // Shortcut
-const isFocusShortcut = ref(false)
-const onFocusShortcutInput = () => (isFocusShortcut.value = true)
-const onBlurShortcutInput = () => (isFocusShortcut.value = false)
-const {current: currentKeys} = useMagicKeys()
-watch(currentKeys, v => {
-  if (!v) return
+const shortcutKeys = ref(config.value.customShortcut)
 
-  const keys = Array.from(v)
-
-  console.log('Keys:', keys)
-})
-
-const saveShortcut = value => {
-  storeConfig.config.customShortcut = value
-  storeConfig.setConfig(storeConfig.config)
-}
-
-const openSelect = () => {
-  console.log('select open')
+const onChangeShortcut = customShortcut => {
+  storeConfig.setConfig({
+    ...storeConfig.config,
+    customShortcut,
+  })
 }
 </script>
 
@@ -490,49 +471,5 @@ const openSelect = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.shortcut {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-top: 8px;
-  margin-bottom: 30px;
-
-  input {
-    width: 140px;
-    height: 36px;
-    margin-right: 8px;
-    padding: 8px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    border: 1px solid #929497;
-    border-radius: 5px;
-  }
-
-  span {
-    color: #585b58;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-}
-
-.shortcutMask {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 124px;
-  height: 20px;
-  color: #585b58;
-  font-weight: 400;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 20px;
-  background-color: #fff;
 }
 </style>

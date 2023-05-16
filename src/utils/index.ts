@@ -20,3 +20,13 @@ export function getOS() {
 
   return os
 }
+
+export function formatShortcut(keys) {
+  let keyList = keys
+  keyList = keyList.map(item => {
+    if (item === 'Control') return 'Ctrl'
+    return item.length === 1 ? item.toUpperCase() : item
+  })
+
+  return keyList.join('+')
+}

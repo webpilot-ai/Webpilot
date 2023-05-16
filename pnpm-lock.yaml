@@ -28,6 +28,9 @@ dependencies:
   vue:
     specifier: 3.2.47
     version: 3.2.47
+  vue-toast-notification:
+    specifier: ^3.1.1
+    version: 3.1.1(vue@3.2.47)
 
 devDependencies:
   '@commitlint/cli':
@@ -9765,6 +9768,15 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-toast-notification@3.1.1(vue@3.2.47):
+    resolution: {integrity: sha512-DXEE38NxXFCNinKI+MyZBMWsaqE9Lwxg9GkMVkzKXY1ACCeNztBXuUiSvKMe36dnnYd1qnlP+cWNSvHlkt5xNA==}
+    engines: {node: '>=12.15.0'}
+    peerDependencies:
+      vue: ^3.0
+    dependencies:
+      vue: 3.2.47
+    dev: false
 
   /vue3-gettext@2.5.0-alpha.1(@vue/compiler-sfc@3.2.47)(vue@3.2.47):
     resolution: {integrity: sha512-hHTzUBsCISRes58f2b47pEVsQQg0yZMiTsNtDHaJTmQlwRhsxsLbuacSdv82qtw+jW1jPUHnnvQ+9xXzbYBmfg==}

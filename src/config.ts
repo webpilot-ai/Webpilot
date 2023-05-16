@@ -14,7 +14,7 @@ export const defaultConfig = {
   /** Self host url */
   selfHostUrl: '',
   /** Custom shortcut for show popup (akspage) */
-  customShortcut: '',
+  customShortcut: ['Control', 'i'],
   /** Chose display mode
    * popUp
    * sideBar */

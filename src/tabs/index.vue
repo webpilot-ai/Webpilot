@@ -7,6 +7,7 @@ import {i18nPlugin} from '@/utils/i18n'
 import useConfigStore from '@/stores/config'
 
 import WelcomePage from './components/WelcomePage.vue'
+import 'vue-toast-notification/dist/theme-bootstrap.css'
 
 const app = createApp(WelcomePage)
 const pinia = createPinia()
