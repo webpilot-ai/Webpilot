@@ -16,18 +16,18 @@
     />
     <PromptInput
       v-model="inputCommand"
-      :disabled="store.loading"
-      :loading="store.loading"
+      :disabled="aiThinking"
+      :loading="aiThinking"
       :selected-text="store.selectedText"
       @on-change="handeInputCommandChnage"
-      @on-submit="askIA"
+      @on-submit="popUpAskIA"
     />
     <ShortcutTips
       v-if="storeConfig.config.showShortcutTips"
       :show-text-tips="true"
       tips-text="hello?"
     />
-    <PromptResult :result="store.result" />
+    <PromptResult v-model="result" />
     <PromptEditor
       :disable-delete="disableDeletePropmt"
       :prompt="selectedPrompt.prompt"
@@ -36,15 +36,13 @@
       @on-hide="handleCloseEditor"
       @on-save="handleSavePrompt"
     />
-
-    <!-- Debug Tools -->
-    <!-- <button @click="storeConfig.___debuResetConfig">Reset Config</button> -->
   </section>
 </template>
 
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from 'vue'
 import {Readability} from '@mozilla/readability'
+import {useToast} from 'vue-toast-notification'
 
 import {useMagicKeys} from '@vueuse/core'
 
@@ -56,9 +54,13 @@ import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useConfigStore from '@/stores/config'
 import useStore from '@/stores/store'
+import useAskAi from '@/hooks/useAskAi'
 
 const storeConfig = useConfigStore()
 const store = useStore()
+const toast = useToast()
+
+const {loading: aiThinking, result, errorMessage, askAi} = useAskAi()
 
 const emits = defineEmits(['closePopup'])
 const props = defineProps({
@@ -104,15 +106,26 @@ watch(
   }
 )
 
-const askIA = () => {
+const popUpAskIA = async () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
 
+  let article = ''
   if (props.isAskPage) {
     const cloneNode = document.cloneNode(true)
-    const article = new Readability(cloneNode).parse()
-    store.askAi({referenceText: article.textContent, command})
-  } else {
-    store.askAi({command})
+    article = new Readability(cloneNode).parse()
+  }
+
+  try {
+    await askAi({
+      referenceText: props.isAskPage ? article.textContent : store.selectedText,
+      command,
+    })
+  } catch {
+    toast.open({
+      message: errorMessage.value,
+      type: 'error',
+      position: 'top',
+    })
   }
 }
 
@@ -131,7 +144,7 @@ const handleChanegPrompt = promptInfo => {
   inputCommand.value = prompt.command
   storeConfig.setLatestPromptIndex(index)
 
-  askIA()
+  popUpAskIA()
 }
 
 const handeInputCommandChnage = () => {

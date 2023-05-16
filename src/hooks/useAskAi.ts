@@ -26,6 +26,7 @@ export default function useAskAi() {
   const success = ref(false)
   const error = ref(false)
   const result = ref('')
+  const errorMessage = ref('')
 
   const store = useStore()
   const configStore = useConfigStore()
@@ -67,6 +68,8 @@ export default function useAskAi() {
         if (err instanceof DOMException && /aborted/.test(err.message)) return
 
         if (err.response && err.response.status === 401) {
+          errorMessage.value = err.response?.data?.error?.message
+
           configStore.setConfig({
             ...configStore.config,
             authKey: '',
@@ -93,6 +96,7 @@ export default function useAskAi() {
     loading,
     success,
     error,
+    errorMessage,
     askAi,
   }
 }

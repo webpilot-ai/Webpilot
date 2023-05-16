@@ -2,15 +2,22 @@
   <section :class="$style.shortcutWrap">
     <span :class="$style.shortcutText">Shortcut:</span>
     <section :class="$style.shortcutKeys">
-      {{ isMacOS ? '⌘+M' : 'Ctrl+M' }}
+      {{ shortcut }}
     </section>
   </section>
 </template>
 
 <script setup>
-import {getOS} from '@/utils/index'
+import {computed} from 'vue'
 
-const isMacOS = getOS() === 'Mac OS'
+import useConfigStore from '@/stores/config'
+import {formatShortcut} from '@/utils'
+
+const configStore = useConfigStore()
+
+const shortcut = computed(() => {
+  return formatShortcut(configStore.config.customShortcut)
+})
 </script>
 
 <style lang="scss" module>

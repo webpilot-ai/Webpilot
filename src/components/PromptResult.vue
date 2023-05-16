@@ -3,7 +3,9 @@
     <section>Webpilot says</section>
     <textarea ref="refTextarea" :class="$style.textarea" readonly :value="result" />
     <section :class="$style.btnArea">
-      <section :class="$style.tips">Amazing Webpilot, telling friends!</section>
+      <section :class="$style.tips" @click="showShareInfo">
+        Amazing Webpilot, telling friends!
+      </section>
       <WebpilotButton :class="$style.copyBtn" value="COPY" @click="handleCopy" />
     </section>
   </section>
@@ -19,17 +21,27 @@ import WebpilotButton from './WebpilotButton.vue'
 const refTextarea = ref(null)
 
 const props = defineProps({
-  result: {
+  modelValue: {
     type: String,
     default: '',
   },
 })
 
+const emits = defineEmits(['update:modelValue'])
+
 const showResult = computed(() => {
-  return props.result !== ''
+  return !!props.modelValue && props.modelValue !== ''
 })
 
-const result = computed(() => props.result)
+const result = computed(() => props.modelValue)
+
+const showShareInfo = () => {
+  emits(
+    'update:modelValue',
+    `Let me tell you about this crazy useful AI tool called Webpilot. All you gotta do is swipe on the task, and it gets done automatically. It's way better than ChatGPT, trust me!\n\nInstall: https://bit.ly/3mAJ9I7\nGitHub: https://github.com/webpilot-ai/Webpilot`
+  )
+  refTextarea.value.scrollTop = refTextarea.value.scrollHeight
+}
 
 watch(result, () => {
   refTextarea.value.scrollTop = refTextarea.value.scrollHeight

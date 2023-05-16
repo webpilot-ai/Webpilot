@@ -6,6 +6,7 @@ import {i18nPlugin} from '@/utils/i18n'
 
 import App from '@/csui/Index/TheEntry.vue'
 import useConfigStore from '@/stores/config'
+import 'vue-toast-notification/dist/theme-bootstrap.css'
 
 export default {
   plasmo: {render, getRootContainer},
