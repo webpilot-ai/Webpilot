@@ -14,7 +14,7 @@
 
   <section
     v-if="showWebpilotPopup || isShowAskPage"
-    ref="refPropupWrap"
+    ref="refPopupWrap"
     :class="$style.popupBoxContainer"
     :style="{
       top: `${popupPosition.y}px`,
@@ -22,12 +22,7 @@
       transform: `translate(${dragOffsetX}px, ${dragOffsetY}px)`,
     }"
   >
-    <ThePopupBox
-      id="webpilot_popup"
-      ref="refPopup"
-      :is-ask-page="isShowAskPage"
-      @close-popup="handleClosePopup"
-    />
+    <ThePopupBox id="webpilot_popup" :is-ask-page="isShowAskPage" @close-popup="handleClosePopup" />
     <section ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
 
@@ -57,23 +52,29 @@ import WebpilotLogo from '../../../assets/icon.png'
 
 import ThePopupBox from './ThePopupBox/ThePopupBox.vue'
 
+/** For listen scroll Y offset */
 const refTail = ref(null)
-const refPopup = ref(null)
-const refPropupWrap = ref(null)
+
+/** For listen scrolll Y offset */
+const refPopupWrap = ref(null)
+
+/** For listen drag  X Y offset */
 const refDragHandle = ref(null)
 
 const isShowAskPage = ref(false)
 const isKeyboardSelect = ref(false)
 const showWebpilotPopup = ref(false)
 
-const selectedText = ref('')
-// synct to store
-watch(selectedText, v => store.setSelectedText(v))
-
+/** Get select position from keyboard select */
 const keyboardSelectedPosition = reactive({x: 0, y: 0})
 
 const store = useStore()
 const storeConfig = useConfigStore()
+
+/** Select selct by keyboard or mouse */
+const selectedText = ref('')
+// synct to store
+watch(selectedText, v => store.setSelectedText(v))
 
 const updateSelectedText = text => {
   if (showWebpilotPopup.value || selectedText.value === text) return
@@ -84,8 +85,7 @@ const updateSelectedText = text => {
 const {mouseUpPosition} = useSelectedText(showWebpilotPopup, updateSelectedText)
 // keyboard select text
 const {position: keyboardSelectPosition} = useKeyboardSelectText(updateSelectedText)
-
-const {scrollYOffset: popupScrollYOffset} = useScroll(refPopup)
+const {scrollYOffset: popupScrollYOffset} = useScroll(refPopupWrap)
 const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
 const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
 
@@ -119,14 +119,11 @@ const onClickPopupOutside = () => {
   handleClosePopup()
 }
 
-onClickOutside(refPropupWrap, onClickPopupOutside)
+onClickOutside(refPopupWrap, onClickPopupOutside)
 
 const showWebpilotTail = computed(() => {
+  if (!storeConfig.config.autoPopup) return false
   return selectedText.value !== '' && !showWebpilotPopup.value
-})
-
-watch(selectedText, newValue => {
-  store.setSelectedText(newValue)
 })
 
 const handleClosePopup = () => {
