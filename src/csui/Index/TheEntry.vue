@@ -1,6 +1,6 @@
 <template>
   <section
-    v-if="showWebpilotTail"
+    v-if="showWebpilotTail && storeConfig.config.autoPopup"
     ref="refTail"
     :class="$style.webpilotTail"
     :style="{
