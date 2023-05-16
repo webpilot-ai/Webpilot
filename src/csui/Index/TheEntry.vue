@@ -48,6 +48,8 @@ import useKeyboardSelectText from '@/hooks/useKeyboardSelectText'
 import useStore from '@/stores/store'
 import useConfigStore from '@/stores/config'
 
+import {formatShortcut} from '@/utils'
+
 import WebpilotLogo from '../../../assets/icon.png'
 
 import ThePopupBox from './ThePopupBox/ThePopupBox.vue'
@@ -91,7 +93,7 @@ const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(ref
 
 // keyboard
 const keys = useMagicKeys()
-const shortcut = keys['Ctrl+M']
+const shortcut = keys[formatShortcut(storeConfig.config.customShortcut)]
 watch(shortcut, v => {
   if (v && !showWebpilotPopup.value) {
     showAskPage()
