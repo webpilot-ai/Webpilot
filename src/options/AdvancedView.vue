@@ -4,11 +4,11 @@
       <span :class="advanced.title">API Settings</span>
       <div :class="advanced.apiItem">
         <label :class="advanced.subtitle" for="provider">Active API Provider</label>
-        <select id="provider" name="provider">
-          <option :class="advanced.iconLogo" selected value="open_ai_3.5">
-            OpenAI gpt-3.5-terbo
+        <select id="provider" v-model="llmModel" name="provider">
+          <option :class="advanced.iconLogo" selected value="gpt-3.5-turbo">
+            OpenAI gpt-3.5-turbo
           </option>
-          <option value="open_ai_4.0">OpenAI gpt-4.0-terbo</option>
+          <option value="gpt-4">OpenAI gpt-4</option>
           <!-- <option value="baidu_wenxin">百度文心</option> -->
         </select>
         <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
@@ -140,7 +140,7 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(storeConfig)
 
-const saveAuthKey = ref('')
+const saveAuthKey = ref(config.value.authKey)
 /** Edit Auth Key */
 const authKey = ref('')
 
@@ -191,11 +191,27 @@ const alertInfo = computed(() => {
   }
 })
 
+// Model Type
+const llmModel = ref(config.value.model.model)
+
 // Self Host
 const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
 const save = async () => {
+  if (
+    saveAuthKey.value === storeConfig.config.authKey &&
+    selfHostUrl.value === storeConfig.config.selfHostUrl
+  ) {
+    storeConfig.setConfig({
+      ...storeConfig.config,
+      model: {
+        ...storeConfig.config.model,
+        model: llmModel.value,
+      },
+    })
+    return
+  }
   // Check Toekn validation
   await askAi({
     authKey: saveAuthKey.value,
