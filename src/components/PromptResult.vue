@@ -15,8 +15,11 @@
 import {ref, watch, computed} from 'vue'
 
 import copyToClipboard from 'copy-to-clipboard'
+import {useToast} from 'vue-toast-notification'
 
 import WebpilotButton from './WebpilotButton.vue'
+
+const toast = useToast()
 
 const refTextarea = ref(null)
 
@@ -48,8 +51,13 @@ watch(result, () => {
 })
 
 const handleCopy = () => {
-  const text = props.result
-  copyToClipboard(text)
+  const text = props.modelValue
+  const isSuccessCopy = copyToClipboard(text)
+  toast.open({
+    message: isSuccessCopy ? 'Copy success!' : 'Copy Failed',
+    type: isSuccessCopy ? 'success' : 'error',
+    position: 'top',
+  })
 }
 </script>
 
