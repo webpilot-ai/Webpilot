@@ -80,6 +80,8 @@ export default function useAskAi() {
         } else {
           let errorMsg = err.message || ''
 
+          errorMessage.value = `OpenAI: ${errorMsg}`
+
           if (err?.response?.data?.error?.message) {
             // eslint-disable-next-line
             errorMsg = `OpenAI: ${err.response.data.error.message}`
