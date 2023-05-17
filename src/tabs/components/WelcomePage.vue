@@ -161,9 +161,18 @@ const handleGoBackBtn = () => {
   width: 100%;
   margin-top: 24px;
   padding-top: 32px;
+  overflow-y: scroll;
   background: rgb(255 255 255 / 60%);
   border: 1px solid #fff;
   border-radius: 20px 20px 0 0;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 30%);
+  }
 }
 
 .steps {

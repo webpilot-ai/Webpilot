@@ -133,6 +133,8 @@ const showAskPage = () => {
 }
 
 const onClickPopupOutside = () => {
+  if (isShowAskPage.value) return
+
   selectedText.value = ''
   handleClosePopup()
 }

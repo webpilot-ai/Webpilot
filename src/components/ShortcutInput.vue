@@ -1,6 +1,8 @@
 <script setup>
 import {computed, ref} from 'vue'
 
+import {formatShortcut} from '@/utils/index'
+
 import {defaultConfig} from '@/config'
 
 const props = defineProps({
@@ -23,16 +25,10 @@ const keys = ref(props.modelValue)
 let isKeydown = false
 
 const formatedShortcut = computed(() => {
-  let shortuctKeys = keys.value
+  const shortuctKeys = keys.value
   if (shortuctKeys.length === 0) return ''
 
-  // optimize for diplay
-  shortuctKeys = shortuctKeys.map(item => {
-    if (item === 'Control') return 'Ctrl'
-    return item.length === 1 ? item.toUpperCase() : item
-  })
-
-  return shortuctKeys.join('+')
+  return formatShortcut(shortuctKeys)
 })
 
 const addKeys = e => {
