@@ -73,15 +73,3 @@ const closeWindow = () => {
   bottom: 16px;
 }
 </style>
-
-<style>
-/* * {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'PingFang SC';
-  padding: 0px;
-  margin: 0px;
-} */
-</style>
