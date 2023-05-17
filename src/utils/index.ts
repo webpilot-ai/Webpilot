@@ -25,6 +25,7 @@ export function formatShortcut(keys) {
   let keyList = keys
   keyList = keyList.map(item => {
     if (item === 'Control') return 'Ctrl'
+    if (item === 'Meta') return '⌘'
     return item.length === 1 ? item.toUpperCase() : item
   })
 

@@ -15,10 +15,12 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['change', 'update:modelValue'])
-
+const refInput = ref(null)
 const text = ref('')
 const isFocus = ref(false)
 const keys = ref(props.modelValue)
+
+let isKeydown = false
 
 const formatedShortcut = computed(() => {
   let shortuctKeys = keys.value
@@ -33,12 +35,34 @@ const formatedShortcut = computed(() => {
   return shortuctKeys.join('+')
 })
 
+const addKeys = e => {
+  if (!isKeydown) {
+    keys.value = []
+  }
+
+  isKeydown = true
+  if (e.repeat) return
+  keys.value.push(e.key)
+}
+
+const onKeyUp = () => {
+  isKeydown = false
+  refInput.value.addEventListener('keyup', onKeyUp)
+}
+
 const onFocus = () => {
   isFocus.value = true
   keys.value = []
+
+  refInput.value.addEventListener('keydown', addKeys)
+  refInput.value.addEventListener('keyup', onKeyUp)
 }
 
 const onBlur = () => {
+  refInput.value.removeEventListener('keydown', addKeys)
+  refInput.value.addEventListener('keyup', onKeyUp)
+  isKeydown = false
+
   if (keys.value.length === 0) keys.value = props.modelValue
 
   text.value = ''
@@ -47,11 +71,6 @@ const onBlur = () => {
   if (props.modelValue.toString() === keys.value.toString) return
   emits('update:modelValue', keys.value)
   emits('change', keys.value)
-}
-
-const onPressShortcut = e => {
-  if (e.repeat) return
-  keys.value.push(e.key)
 }
 
 const resetShortCut = () => {
@@ -64,6 +83,7 @@ const resetShortCut = () => {
 <template>
   <section :class="$style.shortcutWrap">
     <input
+      ref="refInput"
       v-model="text"
       :class="$style.shortcut"
       name="shortcut"

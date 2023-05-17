@@ -38,7 +38,13 @@
         </span>
         <div :class="advanced.host">
           <div :class="advanced.selfHost">
-            <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
+            <input
+              id="self_host"
+              v-model="isSelfHost"
+              name="self_host"
+              type="checkbox"
+              @change="chekcCloseSelfHost"
+            />
             <label for="self_host">Self Host</label>
           </div>
           <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
@@ -199,24 +205,25 @@ const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
 const save = async () => {
+  storeConfig.setConfig({
+    ...storeConfig.config,
+    model: {
+      ...storeConfig.config.model,
+      model: llmModel.value,
+    },
+  })
+
   if (
     saveAuthKey.value === storeConfig.config.authKey &&
     selfHostUrl.value === storeConfig.config.selfHostUrl
   ) {
-    storeConfig.setConfig({
-      ...storeConfig.config,
-      model: {
-        ...storeConfig.config.model,
-        model: llmModel.value,
-      },
-    })
     return
   }
   // Check Toekn validation
   await askAi({
     authKey: saveAuthKey.value,
     command: 'Say hi.',
-    url: isSelfHost.value ? selfHostUrl.value : null,
+    url: isSelfHost.value ? selfHostUrl.value : '',
   })
 
   storeConfig.setConfig({
@@ -224,6 +231,12 @@ const save = async () => {
     authKey: saveAuthKey.value,
     selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
   })
+}
+
+const chekcCloseSelfHost = () => {
+  if (!isSelfHost.value) {
+    selfHostUrl.value = ''
+  }
 }
 
 // Display Mode
