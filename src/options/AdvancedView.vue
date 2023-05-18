@@ -1,9 +1,9 @@
 <template>
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
-      <span :class="advanced.title">API Settings</span>
+      <span :class="advanced.title">{{ gettext('aPISettings') }}</span>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="provider">Active API Provider</label>
+        <label :class="advanced.subtitle" for="provider">{{ gettext('activeAPIProvider') }}</label>
         <select id="provider" name="provider">
           <option :class="advanced.iconLogo" selected value="open_ai_3.5">
             OpenAI gpt-3.5-terbo
@@ -30,14 +30,16 @@
         <WebpilotAlert v-if="alertInfo.type !== ''" :tips="alertInfo.tips" :type="alertInfo.type" />
 
         <span :class="advanced.links">
-          Visit: <a :href="links" target="_blank">{{ links }}</a>
+          {{ gettext('visit') }}: <a :href="links" target="_blank">{{ links }}</a>
         </span>
         <div :class="advanced.host">
           <div :class="advanced.selfHost">
             <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-            <label for="self_host">Self Host</label>
+            <label for="self_host">{{ gettext('seftHost') }}</label>
           </div>
-          <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
+          <div :class="advanced.more">
+            <span :class="advanced.question_mark"></span>{{ gettext('moreHelp') }}
+          </div>
         </div>
         <div v-if="isSelfHost" :class="advanced.selfHostInput">
           <input
@@ -51,14 +53,14 @@
       <WebpilotButton
         :disalbed="!validatedKey"
         style="width: 143px; margin-top: auto"
-        value="SAVE CHANGES"
+        :value="saveChange"
         @click="save()"
       />
     </div>
 
     <div :class="[advanced.extension, advanced.panel]">
-      <span :class="advanced.title">Extension Settings</span>
-      <span :class="advanced.subtitle">Display mode</span>
+      <span :class="advanced.title">{{ gettext('extensionSettings') }}</span>
+      <span :class="advanced.subtitle">{{ gettext('displayMode') }}</span>
       <div :class="advanced.mode">
         <!-- Sider bar under development -->
         <div v-if="false" :class="advanced.radioGroup">
@@ -70,7 +72,8 @@
             @input="changeMode('siderBar')"
           />
           <label for="sideBar">
-            Side Bar <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg" />
+            {{ gettext('sideBar') }}
+            <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg" />
           </label>
         </div>
         <div :class="advanced.radioGroup">
@@ -82,12 +85,13 @@
             @input="changeMode('popUp')"
           />
           <label for="popUp">
-            Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg" />
+            {{ gettext('popUp') }}
+            <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg" />
           </label>
         </div>
       </div>
 
-      <span :class="advanced.subtitle">Active Webpilot</span>
+      <span :class="advanced.subtitle">{{ gettext('activeWebpilot') }}</span>
       <div :class="advanced.activeWebpilot">
         <SwitchButton v-model="storeConfig.config.autoPopup" @on-change="onAutoPopupChange" />
         <div :class="advanced.activeWebpilotDesc">
@@ -95,7 +99,7 @@
         </div>
       </div>
 
-      <span :class="advanced.subtitle">Change Shortcut</span>
+      <span :class="advanced.subtitle">{{ gettext('changeShortcut') }}</span>
       <div :class="advanced.shortcut">
         <input
           maskText="hello"
@@ -106,8 +110,8 @@
           @focus="onFocusShortcutInput"
           @input="saveShortcut($event.target.value)"
         />
-        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">Press key</div>
-        <span @click="shortCut = storeConfig.config.customShortcut">Reset</span>
+        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">{{ gettext('presskey') }}</div>
+        <span @click="shortCut = storeConfig.config.customShortcut">{{ gettext('reset') }}</span>
       </div>
     </div>
   </div>
@@ -118,6 +122,7 @@ import {computed, ref, watch} from 'vue'
 import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 
+import {$gettext as gettext} from '@/utils/i18n'
 import useConfigStore from '@/stores/config'
 import useStore, {REQUEST_STATE} from '@/stores/store'
 
@@ -134,7 +139,6 @@ const storeConfig = useConfigStore()
 const store = useStore()
 
 const {config} = storeToRefs(storeConfig)
-
 const saveAuthKey = ref('')
 /** Edit Auth Key */
 const authKey = ref('')
@@ -202,6 +206,7 @@ const onChangeHostUrl = async () => {
   await store.askAi({authKey: saveAuthKey.value, command: 'Say hi.', url: selfHostUrl.value})
   validatedKey.value = true
 }
+const saveChange = gettext('saveChanges')
 
 const save = () => {
   storeConfig.setConfig({
@@ -301,7 +306,6 @@ const openSelect = () => {
     background: url('./images/edit.svg') no-repeat;
     background-position: 10px center;
     background-size: 22px 22px;
-    appearance: none;
     appearance: none;
   }
 

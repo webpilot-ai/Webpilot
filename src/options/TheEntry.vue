@@ -5,17 +5,17 @@
       <div :class="index.header">
         <div :class="index.logo">
           <img alt=" logog" src="./images/Text+Logo.svg" />
-          <span :class="index.slogan">Opensource_ai_assistant_on_all_websites</span>
+          <span :class="index.slogan">{{ gettext('extensionDescription') }} </span>
         </div>
         <ul :class="index.tabs">
           <li
             :class="[index.tab, active == 'advanced' ? index.active : '']"
             @click="active = 'advanced'"
           >
-            Advanced
+            {{ gettext('advanced') }}
           </li>
           <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
-            About
+            {{ gettext('about') }}
           </li>
         </ul>
       </div>
@@ -29,9 +29,9 @@
 
       <!-- footer -->
       <div :class="index.footer">
-        <span>Webpilot is open source</span>
+        <span>{{ gettext('webpilotIsOpenSource') }}</span>
         <a href="https://github.com/Fluentify-IO/Fluentify" rel="noreferrer" target="_blank">
-          Star on Github
+          {{ gettext('starOnGithub') }}
         </a>
       </div>
     </div>
@@ -42,9 +42,12 @@
 import '@assets/styles/reset.scss'
 import {ref} from 'vue'
 
+import {$gettext as gettext} from '../utils/i18n'
+
 import AdvancedView from './AdvancedView.vue'
 import AboutView from './AboutView.vue'
 
+console.log(gettext('extensionDescription'))
 const active = ref('advanced')
 </script>
 

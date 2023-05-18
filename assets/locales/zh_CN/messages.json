@@ -1,5 +1,65 @@
 {
   "extensionDescription": {
     "message": "Web copilot for all，免费且开源，贼好用！"
+  },
+  "starOnGithub": {
+    "message": "Star on Github"
+  },
+  "advanced": {
+    "message": "Advanced"
+  },
+  "about": {
+    "message": "About"
+  },
+  "aPISettings": {
+    "message": "API Settings"
+  },
+  "activeAPIProvider": {
+    "message": "Active API Provider"
+  },
+  "yourAPIKey": {
+    "message": "Your API Key"
+  },
+  "visit": {
+    "message": "Visit"
+  },
+  "selfHost": {
+    "message": "Self Host"
+  },
+  "moreHelp": {
+    "message": "More Help"
+  },
+  "saveChanges": {
+    "message": "SAVE CHANGES"
+  },
+  "extensionSettings": {
+    "message": "Extension Settings"
+  },
+  "displayMode": {
+    "message": "Display mode"
+  },
+  "activeWebpilot": {
+    "message": "Active Webpilot"
+  },
+  "changeShortcut": {
+    "message": "Change Shortcut"
+  },
+  "reset": {
+    "message": "Reset"
+  },
+  "displayWebpilotWhenTextIsSelected": {
+    "message": "Display Webpilot  when text is selected"
+  },
+  "webpilotIsOpenSource": {
+    "message": "Webpilot is open source"
+  },
+  "presskey": {
+    "message": "Press key"
+  },
+  "popUp": {
+    "message": "Pop Up"
+  },
+  "sideBar": {
+    "message": "Side Bar"
   }
 }
