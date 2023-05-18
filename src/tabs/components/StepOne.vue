@@ -1,53 +1,32 @@
 <script setup>
-import {ref} from 'vue'
-import {storeToRefs} from 'pinia'
+import {onMounted, ref} from 'vue'
 
 import IconOpenAi from '@/components/icon/IconOpenAi.vue'
 import HelpTips from '@/components/HelpTips.vue'
-import useStore from '@/stores/store'
-import useConfigStore from '@/stores/config'
 
-defineProps({
+const props = defineProps({
   modelValue: {
-    type: Boolean,
-    default: false,
+    type: Object,
     required: true,
   },
 })
 
-const store = useStore()
-const storeConfig = useConfigStore()
+const emits = defineEmits(['update:modelValue', 'change'])
 
-const emits = defineEmits(['update:modelValue'])
+const authKey = ref(props.modelValue.authKey)
+const isSelfHost = ref(false)
+const selfHostUrl = ref(props.modelValue.selfHostUrl)
 
-const {config} = storeToRefs(storeConfig)
+onMounted(() => {
+  if (props.modelValue.selfHostUrl !== '') {
+    isSelfHost.value = true
+  }
+})
 
-const authKey = ref(config.value.authKey)
-const hostUrl = ref(config.value.selfHostUrl)
-const isSelfHost = ref(!!config.value.selfHostUrl)
-
-const onAuthKeyChange = async () => {
-  await store.askAi({authKey: authKey.value, command: 'Say hi.'})
-
-  emits('update:modelValue', true)
-
-  storeConfig.setConfig({
-    ...storeConfig.config,
-    isAuth: true,
-    authKey,
-  })
-}
-
-const onSelfHostUrlChange = async () => {
-  await store.askAi({authKey: authKey.value, command: 'Say hi.', url: hostUrl.value})
-
-  emits('update:modelValue', true)
-
-  storeConfig.setConfig({
-    ...storeConfig.config,
-    authKey,
-    isAuth: true,
-    selfHostUrl: hostUrl.value,
+const onChange = () => {
+  emits('update:modelValue', {
+    authKey: authKey.value,
+    selfHostUrl: selfHostUrl.value,
   })
 }
 </script>
@@ -67,7 +46,7 @@ const onSelfHostUrlChange = async () => {
       :class="stepOne.input"
       placeholder="Enter your API Key from OpenAI"
       type="text"
-      @change="onAuthKeyChange"
+      @change="onChange"
     />
     <div :class="stepOne.selfHost">
       <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
@@ -76,11 +55,11 @@ const onSelfHostUrlChange = async () => {
 
     <template v-if="isSelfHost">
       <input
-        v-model="hostUrl"
+        v-model="selfHostUrl"
         :class="stepOne.input"
         placeholder="Enter your base address"
         type="text"
-        @change="onSelfHostUrlChange"
+        @change="onChange"
       />
       <HelpTips value="How to self host API?" />
     </template>

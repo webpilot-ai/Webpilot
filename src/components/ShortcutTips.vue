@@ -1,6 +1,6 @@
 <template>
   <section :class="$style.tipsGroup">
-    <WebpilotAlert tips="Tips: You can also customize quick prompts" />
+    <WebpilotAlert tips="Tips: You can also customize quick prompts" type="info" />
     <TipsShortcut :class="$style.tipsShortcut" />
   </section>
 </template>

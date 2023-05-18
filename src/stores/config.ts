@@ -16,14 +16,11 @@ const useConfigStore = defineStore('config', () => {
     }
   }
 
-  // initConfig() // call initconfig when init store
-
   function saveToLocalStorage(config) {
     storage.set(WEBPILOT_CONFIG_STORAGE_KEY, config)
   }
 
   function setConfig(newConfig) {
-    console.log('CONFIG:', JSON.stringify(newConfig))
     config.value = newConfig
     saveToLocalStorage(config.value)
   }
@@ -56,14 +53,8 @@ const useConfigStore = defineStore('config', () => {
     saveToLocalStorage(config.value)
   }
 
-  function ___debuResetConfig() {
-    config.value = defaultConfig
-    saveToLocalStorage(defaultConfig)
-  }
-
   return {
     config,
-    ___debuResetConfig,
     /** Init value before anything elase */
     initConfig,
     setConfig,

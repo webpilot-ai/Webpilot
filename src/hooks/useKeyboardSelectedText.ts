@@ -1,7 +1,7 @@
 import {reactive, ref, watch} from 'vue'
 import {useMagicKeys} from '@vueuse/core'
 
-export default function useKeyboardSelectText(updateText) {
+export default function useKeyboardSelectText(onChange) {
   const selectedText = ref('')
   const position = reactive({x: 0, y: 0})
 
@@ -31,6 +31,7 @@ export default function useKeyboardSelectText(updateText) {
         const {selectionEnd, selectionStart} = node
 
         const hiddenSpan = document.createElement('span')
+        // copy style
         hiddenSpan.textContent = text
         hiddenSpan.style.whiteSpace = 'pre-wrap'
         hiddenSpan.style.visibility = 'hidden'
@@ -67,8 +68,15 @@ export default function useKeyboardSelectText(updateText) {
 
         position.x = rect.left + rect.width / 2
         position.y = rect.bottom
+
         selectedText.value = text
-        updateText(text)
+        onChange({
+          position: {
+            x: position.x,
+            y: position.y,
+          },
+          selectedText: selectedText.value,
+        })
       }
     })
   })

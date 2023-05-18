@@ -3,20 +3,18 @@
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="provider">{{
-          $gettext('Active API Provider')
-        }}</label>
-        <select id="provider" name="provider">
-          <option :class="advanced.iconLogo" selected value="open_ai_3.5">
-            {{ $gettext('OpenAI gpt-3.5-terbo') }}
+        <label :class="advanced.subtitle" for="provider">Active API Provider</label>
+        <select id="provider" v-model="llmModel" name="provider">
+          <option :class="advanced.iconLogo" selected value="gpt-3.5-turbo">
+            OpenAI gpt-3.5-turbo
           </option>
-          <option value="open_ai_4.0">{{ $gettext('OpenAI gpt-4.0-terbo') }}</option>
+          <option value="gpt-4">OpenAI gpt-4</option>
           <!-- <option value="baidu_wenxin">百度文心</option> -->
         </select>
         <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       </div>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="keys">{{ $gettext('Your API Key') }}</label>
+        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">Your API Key</label>
         <input
           id="keys"
           v-model="authKey"
@@ -26,21 +24,28 @@
           role="authkey"
           type="text"
           @blur="onBlurSetAuthkey"
-          @change="onApiKeyChange"
           @focus="onEditAuthKey"
         />
-        <WebpilotAlert v-if="alertInfo.type !== ''" :tips="alertInfo.tips" :type="alertInfo.type" />
+        <WebpilotAlert
+          v-if="(error || success) && !isSelfHost"
+          style="margin-top: 8px"
+          :tips="alertInfo.tips"
+          :type="alertInfo.type"
+        />
 
         <span :class="advanced.links">
           {{ $gettext('Visit') }}: <a :href="links" target="_blank">{{ links }}</a>
         </span>
         <div :class="advanced.host">
           <div :class="advanced.selfHost">
-            <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-            <label for="self_host">{{ $gettext('Seft Host') }}</label>
-          </div>
-          <div :class="advanced.more">
-            <span :class="advanced.question_mark"></span>{{ $gettext('More Help') }}
+            <input
+              id="self_host"
+              v-model="isSelfHost"
+              name="self_host"
+              type="checkbox"
+              @change="chekcCloseSelfHost"
+            />
+            <label for="self_host">Self Host</label>
           </div>
         </div>
         <div v-if="isSelfHost" :class="advanced.selfHostInput">
@@ -49,11 +54,17 @@
             placeholder="Enter your base address"
             @change="onChangeHostUrl"
           />
+          <WebpilotAlert
+            v-if="(error || success) && isSelfHost"
+            style="margin-top: 8px"
+            :tips="alertInfo.tips"
+            :type="alertInfo.type"
+          />
         </div>
       </div>
 
       <WebpilotButton
-        :disalbed="!validatedKey"
+        :loading="loading"
         style="width: 143px; margin-top: auto"
         :value="saveChange"
         @click="save()"
@@ -104,31 +115,26 @@
 
       <span :class="advanced.subtitle">{{ $gettext('Change Shortcut') }}</span>
       <div :class="advanced.shortcut">
-        <input
-          maskText="hello"
-          name="shortcut"
-          placeholder="Ctrl+M"
-          type="text"
-          @blur="onBlurShortcutInput"
-          @focus="onFocusShortcutInput"
-          @input="saveShortcut($event.target.value)"
+        <ShortcutInput
+          v-model="shortcutKeys"
+          style="margin-top: 8px; margin-bottom: 22px"
+          @change="onChangeShortcut"
         />
-        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">{{ $gettext('Press key') }}</div>
-        <span @click="shortCut = storeConfig.config.customShortcut">{{ $gettext('Reset') }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {computed, ref, watch} from 'vue'
-import {useMagicKeys} from '@vueuse/core'
+import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import useConfigStore from '@/stores/config'
-import useStore, {REQUEST_STATE} from '@/stores/store'
+
+import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
+import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import WebpilotLogo from '../../assets/icon.png'
 
@@ -137,13 +143,14 @@ import SwitchButton from './components/SwitchButton.vue'
 const links = ref('https://platform.openai.com/account/api-keys')
 
 const storeConfig = useConfigStore()
-const store = useStore()
+
+const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(storeConfig)
-const saveAuthKey = ref('')
+
+const saveAuthKey = ref(config.value.authKey)
 /** Edit Auth Key */
 const authKey = ref('')
-const validatedKey = ref(false)
 
 const authKeyPlaceHolder = computed(() => {
   const key = saveAuthKey.value === '' ? storeConfig.config.authKey : saveAuthKey.value
@@ -170,28 +177,21 @@ const onEditAuthKey = () => {
 }
 
 const onBlurSetAuthkey = () => {
+  saveAuthKey.value = authKey.value
+
   if (authKey.value !== '') authKey.value = ''
 }
 
-const onApiKeyChange = async () => {
-  saveAuthKey.value = authKey.value
-  await store.askAi({authKey: authKey.value, command: 'Say hi.'})
-  validatedKey.value = true
-}
-
 const alertInfo = computed(() => {
-  if (store.requestState === REQUEST_STATE.ERROR) {
-    return {
-      type: 'error',
-      tips: 'Incorrect API Key. Please check with the provider',
-    }
+  // Alet info for token
+  if (!isSelfHost.value) {
+    if (success.value) return {type: 'success', tips: 'Successfully added'}
+    if (error.value)
+      return {type: 'error', tips: 'Incorrect API Key. Please check with the provider'}
   }
-  if (store.requestState === REQUEST_STATE.SUCCESS) {
-    return {
-      type: 'success',
-      tips: 'Successfully added',
-    }
-  }
+
+  if (success.value) return {type: 'success', tips: 'Successfully added '}
+  if (error.value) return {type: 'error', tips: "Can't add this address"}
 
   return {
     type: '',
@@ -199,21 +199,46 @@ const alertInfo = computed(() => {
   }
 })
 
+// Model Type
+const llmModel = ref(config.value.model.model)
+
 // Self Host
 const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
-const onChangeHostUrl = async () => {
-  await store.askAi({authKey: saveAuthKey.value, command: 'Say hi.', url: selfHostUrl.value})
-  validatedKey.value = true
-}
+const save = async () => {
+  storeConfig.setConfig({
+    ...storeConfig.config,
+    model: {
+      ...storeConfig.config.model,
+      model: llmModel.value,
+    },
+  })
 
-const save = () => {
+  if (
+    saveAuthKey.value === storeConfig.config.authKey &&
+    selfHostUrl.value === storeConfig.config.selfHostUrl
+  ) {
+    return
+  }
+  // Check Toekn validation
+  await askAi({
+    authKey: saveAuthKey.value,
+    command: 'Say hi.',
+    url: isSelfHost.value ? selfHostUrl.value : '',
+  })
+
   storeConfig.setConfig({
     ...storeConfig.config,
     authKey: saveAuthKey.value,
-    selfHostUrl: selfHostUrl.value,
+    selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
   })
+}
+
+const chekcCloseSelfHost = () => {
+  if (!isSelfHost.value) {
+    selfHostUrl.value = ''
+  }
 }
 
 // Display Mode
@@ -229,25 +254,13 @@ const onAutoPopupChange = value => {
 }
 
 // Shortcut
-const isFocusShortcut = ref(false)
-const onFocusShortcutInput = () => (isFocusShortcut.value = true)
-const onBlurShortcutInput = () => (isFocusShortcut.value = false)
-const {current: currentKeys} = useMagicKeys()
-watch(currentKeys, v => {
-  if (!v) return
+const shortcutKeys = ref(config.value.customShortcut)
 
-  const keys = Array.from(v)
-
-  console.log('Keys:', keys)
-})
-
-const saveShortcut = value => {
-  storeConfig.config.customShortcut = value
-  storeConfig.setConfig(storeConfig.config)
-}
-
-const openSelect = () => {
-  console.log('select open')
+const onChangeShortcut = customShortcut => {
+  storeConfig.setConfig({
+    ...storeConfig.config,
+    customShortcut,
+  })
 }
 </script>
 
@@ -333,6 +346,7 @@ const openSelect = () => {
   display: flex;
   flex-direction: column;
   height: 426px;
+  padding: 16px 24px;
 }
 
 .apiItem {
@@ -488,49 +502,5 @@ const openSelect = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.shortcut {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-top: 8px;
-  margin-bottom: 30px;
-
-  input {
-    width: 140px;
-    height: 36px;
-    margin-right: 8px;
-    padding: 8px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    border: 1px solid #929497;
-    border-radius: 5px;
-  }
-
-  span {
-    color: #585b58;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-}
-
-.shortcutMask {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 124px;
-  height: 20px;
-  color: #585b58;
-  font-weight: 400;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 20px;
-  background-color: #fff;
 }
 </style>

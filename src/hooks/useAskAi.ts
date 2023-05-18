@@ -1,11 +1,10 @@
-import {defineStore} from 'pinia'
 import {ref, toRaw} from 'vue'
 
+import useStore from '@/stores/store'
 import {askOpenAI, parseStream} from '@/io'
+import useConfigStore from '@/stores/config'
 
-import useConfigStore from './config'
-
-const getSelectPropmtTemplate = (text, command) => {
+const getPropmtTemplate = (text, command) => {
   return [
     {role: 'user', content: text},
     {
@@ -22,37 +21,32 @@ const getSelectPropmtTemplate = (text, command) => {
   ]
 }
 
-export const REQUEST_STATE = {
-  SUCCESS: 'SUCCESS',
-  LOADING: 'LOADING',
-  ERROR: 'ERROR',
-}
-
-const useStore = defineStore('store', () => {
-  // selected text
-  const selectedText = ref('')
-  // ai response text
-  const result = ref('')
-  // loading state
+export default function useAskAi() {
   const loading = ref(false)
+  const success = ref(false)
+  const error = ref(false)
+  const result = ref('')
+  const errorMessage = ref('')
 
-  const requestState = ref(null)
-
+  const store = useStore()
   const configStore = useConfigStore()
 
-  const setSelectedText = text => {
-    selectedText.value = text
+  const resetState = () => {
+    loading.value = false
+    success.value = false
+    error.value = false
+    result.value = ''
   }
 
   const askAi = async ({referenceText = '', command, authKey = '', url = null}) => {
-    result.value = ''
+    // clean result
+    resetState()
 
-    let text = referenceText === '' ? selectedText.value : referenceText
+    let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
-    const message = getSelectPropmtTemplate(text, command)
+    const message = getPropmtTemplate(text, command)
 
     loading.value = true
-    requestState.value = REQUEST_STATE.LOADING
 
     return askOpenAI({
       authKey: authKey === '' ? configStore.config.authKey : authKey,
@@ -62,18 +56,20 @@ const useStore = defineStore('store', () => {
     })
       .then(streamReader => {
         loading.value = false
-        requestState.value = REQUEST_STATE.SUCCESS
+        success.value = true
         parseStream(streamReader, reqResult => {
           result.value = reqResult
         })
       })
       .catch(err => {
         loading.value = false
-        requestState.value = REQUEST_STATE.ERROR
+        error.value = true
 
         if (err instanceof DOMException && /aborted/.test(err.message)) return
 
         if (err.response && err.response.status === 401) {
+          errorMessage.value = err.response?.data?.error?.message
+
           configStore.setConfig({
             ...configStore.config,
             authKey: '',
@@ -83,6 +79,8 @@ const useStore = defineStore('store', () => {
           throw err
         } else {
           let errorMsg = err.message || ''
+
+          errorMessage.value = `OpenAI: ${errorMsg}`
 
           if (err?.response?.data?.error?.message) {
             // eslint-disable-next-line
@@ -95,19 +93,12 @@ const useStore = defineStore('store', () => {
       })
   }
 
-  const cleanResult = () => {
-    result.value = ''
-  }
-
   return {
     result,
     loading,
-    selectedText,
-    requestState,
+    success,
+    error,
+    errorMessage,
     askAi,
-    cleanResult,
-    setSelectedText,
   }
-})
-
-export default useStore
+}

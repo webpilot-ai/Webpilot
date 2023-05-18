@@ -1,6 +1,6 @@
 <template>
   <section
-    v-if="showWebpilotTail"
+    v-if="showWebpilotTail && storeConfig.config.autoPopup"
     ref="refTail"
     :class="$style.webpilotTail"
     :style="{
@@ -13,8 +13,8 @@
   </section>
 
   <section
-    v-if="showWebpilotPopup || isShowAskPage"
-    ref="refPropupWrap"
+    v-if="isShowWebpilotPopup"
+    ref="refPopupWrap"
     :class="$style.popupBoxContainer"
     :style="{
       top: `${popupPosition.y}px`,
@@ -22,12 +22,7 @@
       transform: `translate(${dragOffsetX}px, ${dragOffsetY}px)`,
     }"
   >
-    <ThePopupBox
-      id="webpilot_popup"
-      ref="refPopup"
-      :is-ask-page="isShowAskPage"
-      @close-popup="handleClosePopup"
-    />
+    <ThePopupBox id="webpilot_popup" :is-ask-page="isShowAskPage" @close-popup="handleClosePopup" />
     <section ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
 
@@ -37,18 +32,18 @@
 </template>
 
 <script setup>
-import {computed, reactive, ref, watch} from 'vue'
+import {computed, ref, watch} from 'vue'
 import '@assets/styles/csui-reset.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
 
 import {MESSAGING_EVENT} from '@/config'
 
-import useSelectedText from '@/hooks/useSelecctedText'
 import useScroll from '@/hooks/useScroll'
 import useDraggable from '@/hooks/useDraggable'
 import useMessage from '@/hooks/useMessage'
-import useKeyboardSelectText from '@/hooks/useKeyboardSelectText'
+import useMouseSelectedText from '@/hooks/useMouseSelectedText'
+import useKeyboardSelectedText from '@/hooks/useKeyboardSelectedText'
 
 import useStore from '@/stores/store'
 import useConfigStore from '@/stores/config'
@@ -57,43 +52,66 @@ import WebpilotLogo from '../../../assets/icon.png'
 
 import ThePopupBox from './ThePopupBox/ThePopupBox.vue'
 
+/** For listen scroll Y offset */
 const refTail = ref(null)
-const refPopup = ref(null)
-const refPropupWrap = ref(null)
+
+/** For listen scrolll Y offset */
+const refPopupWrap = ref(null)
+
+/** For listen drag  X Y offset */
 const refDragHandle = ref(null)
 
+/** Identify popup type */
 const isShowAskPage = ref(false)
-const isKeyboardSelect = ref(false)
+
+/** Popup state trigger by mouse over logo(tail) */
 const showWebpilotPopup = ref(false)
 
-const selectedText = ref('')
-// synct to store
-watch(selectedText, v => store.setSelectedText(v))
-
-const keyboardSelectedPosition = reactive({x: 0, y: 0})
-
+/** Store for not config */
 const store = useStore()
+
+/** Store for config */
 const storeConfig = useConfigStore()
 
-const updateSelectedText = text => {
-  if (showWebpilotPopup.value || selectedText.value === text) return
+/** Mouse up and Ctrl+A text position */
+const position = ref({x: 0, y: 0})
+
+/** Select selct by keyboard or mouse */
+const selectedText = ref('')
+
+/** Show popup or not */
+const isShowWebpilotPopup = computed(() => {
+  return showWebpilotPopup.value || isShowAskPage.value
+})
+
+/** Get text and position from mouse and keybaord select text */
+const updateTextAndPosition = textAndPosition => {
+  if (isShowWebpilotPopup.value) return
+
+  const {selectedText: text, position: currentPosition} = textAndPosition
   selectedText.value = text
+  store.setSelectedText(text)
+  position.value = currentPosition
 }
 
-// mouse select text
-const {mouseUpPosition} = useSelectedText(showWebpilotPopup, updateSelectedText)
-// keyboard select text
-const {position: keyboardSelectPosition} = useKeyboardSelectText(updateSelectedText)
+useMouseSelectedText(updateTextAndPosition)
+useKeyboardSelectedText(updateTextAndPosition)
 
-const {scrollYOffset: popupScrollYOffset} = useScroll(refPopup)
+const {scrollYOffset: popupScrollYOffset} = useScroll(refPopupWrap)
 const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
 const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
 
 // keyboard
 const keys = useMagicKeys()
-const shortcut = keys['Ctrl+M']
+const shortcut = keys[storeConfig.config.customShortcut.join('+')]
 watch(shortcut, v => {
   if (v && !showWebpilotPopup.value) {
+    // Hit shortcut twice close popup
+    if (isShowAskPage.value) {
+      handleClosePopup()
+      return
+    }
+
     showAskPage()
 
     // show popup by shortcut remove shortkey tips
@@ -115,18 +133,17 @@ const showAskPage = () => {
 }
 
 const onClickPopupOutside = () => {
+  if (isShowAskPage.value) return
+
   selectedText.value = ''
   handleClosePopup()
 }
 
-onClickOutside(refPropupWrap, onClickPopupOutside)
+onClickOutside(refPopupWrap, onClickPopupOutside)
 
 const showWebpilotTail = computed(() => {
+  if (!storeConfig.config.autoPopup) return false
   return selectedText.value !== '' && !showWebpilotPopup.value
-})
-
-watch(selectedText, newValue => {
-  store.setSelectedText(newValue)
 })
 
 const handleClosePopup = () => {
@@ -143,25 +160,9 @@ const handleMouseOverTail = () => {
   showWebpilotPopup.value = true
 }
 
-/** Tail postion have two different source. Mouse and Keybaord Select */
-const position = computed(() => {
-  const {x: keyX, y: keyY} = keyboardSelectPosition
-  const {x: mouseX, y: mouseY} = mouseUpPosition
-
-  if (keyX !== 0 && keyY !== 0) return {x: keyX, y: keyY}
-
-  return {x: mouseX, y: mouseY}
-})
-
 const tailPosition = computed(() => {
   const TAIL_X_OFFEST = 25
   const TAIL_Y_OFFSET = 0
-  const KEYBOARD_TAIL_Y_OFFSET = 10
-
-  if (isKeyboardSelect.value) {
-    const {x, y} = keyboardSelectedPosition
-    return {x, y: y + KEYBOARD_TAIL_Y_OFFSET}
-  }
 
   let {x, y} = position.value
 
@@ -177,7 +178,7 @@ const tailPosition = computed(() => {
 const popupPosition = computed(() => {
   if (isShowAskPage.value) {
     const x = window.innerWidth / 2 - 480 / 2
-    const y = window.innerHeight / 2 - 325 / 2
+    const y = 50
     return {x, y}
   }
 

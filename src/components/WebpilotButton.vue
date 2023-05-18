@@ -4,16 +4,19 @@
       [$style.button]: true,
       [$style.primary]: type === ButtonType.PRIMARY,
       [$style.ghost]: type === ButtonType.GHOST,
-      [$style.disabled]: disalbed,
+      [$style.disabled]: disalbed || loading,
     }"
     :disabled="disalbed"
     @click="handleClick"
   >
-    {{ value }}
+    <IconLoading v-if="loading" :class="$style.loading" />
+    <template v-else>{{ value }}</template>
   </button>
 </template>
 
 <script setup>
+import IconLoading from './icon/IconLoading.vue'
+
 const ButtonType = {
   PRIMARY: 'primary',
   GHOST: 'ghost',
@@ -25,6 +28,10 @@ const props = defineProps({
   type: {
     type: String,
     default: 'primary',
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
   value: {
     type: String,
@@ -71,5 +78,20 @@ const handleClick = () => {
   color: #fff;
   background-color: #929497;
   cursor: not-allowed;
+}
+
+.loading {
+  cursor: not-allowed;
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
 }
 </style>

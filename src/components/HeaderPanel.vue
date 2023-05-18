@@ -62,6 +62,10 @@ const closePopup = () => {
   width: 24px;
   height: 24px;
   cursor: pointer;
+
+  &:hover {
+    filter: brightness(2);
+  }
 }
 
 .icon + .icon {

@@ -1,4 +1,4 @@
-import {ref, watch} from 'vue'
+import {onUnmounted, ref, watch} from 'vue'
 
 export default function useScroll(element) {
   const originScrollY = ref(0)
@@ -17,6 +17,10 @@ export default function useScroll(element) {
       originScrollY.value = 0
       document.removeEventListener('scroll', getScrollY)
     }
+  })
+
+  onUnmounted(() => {
+    document?.removeEventListener('scroll', getScrollY)
   })
 
   return {scrollYOffset}

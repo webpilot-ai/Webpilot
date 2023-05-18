@@ -5,16 +5,16 @@
       <h1>Opensource | AI Assistant on All Websites</h1>
     </div>
     <main :class="setup.main">
-      <ul :class="setup.steps">
-        <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 1}">1</li>
-        <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 2}">2</li>
-        <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 3}">3</li>
-      </ul>
       <div :class="setup.form">
+        <ul :class="setup.steps">
+          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 1}">1</li>
+          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 2}">2</li>
+          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 3}">3</li>
+        </ul>
         <h2 :class="setup.formTitle">Set up your API Key</h2>
         <div :class="setup.infoInputArea">
           <!-- Step One -->
-          <StepOne v-if="stepIndex === 1" v-model="authSuccess" />
+          <StepOne v-if="stepIndex === 1" v-model="authInfo" />
           <!-- Setp Two -->
           <StepTwo v-else-if="stepIndex === 2" />
           <!-- Setp Three -->
@@ -28,7 +28,7 @@
               @click="handleGoBackBtn"
             />
             <WebpilotButton
-              :disalbed="isNexBtnDisabled"
+              :loading="loading"
               :value="stepIndex === 3 ? 'DONE' : 'NEXT'"
               @click="handleNextBtn"
             />
@@ -46,35 +46,67 @@
 <script setup>
 import '@assets/styles/reset.scss'
 
-import {computed, ref} from 'vue'
-import {storeToRefs} from 'pinia'
+import {ref} from 'vue'
+import {useToast} from 'vue-toast-notification'
 
 import useConfigStore from '@/stores/config'
 
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
+import useAskAi from '@/hooks/useAskAi'
 
 import StepOne from './StepOne.vue'
 import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
 
+const toast = useToast()
 const storeConfig = useConfigStore()
-const {config} = storeToRefs(storeConfig)
+
+const {loading, askAi} = useAskAi()
 
 /** Step Index */
 const stepIndex = ref(1)
-/** Auth Status */
-const authSuccess = ref(config.value.isAuth)
-
-const isNexBtnDisabled = computed(() => {
-  if (stepIndex.value === 1) return !authSuccess.value
-
-  return false
+/** AuthInfo */
+const authInfo = ref({
+  authKey: '',
+  selfHostUrl: '',
 })
 
-const handleNextBtn = () => {
-  if (stepIndex.value === 1 && authSuccess.value) {
+const checkAuthKey = async () => {
+  const {authKey, selfHostUrl} = authInfo.value
+
+  // check toekn and self host change
+  if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
     stepIndex.value = 2
+    return
+  }
+
+  try {
+    await askAi({
+      authKey,
+      command: 'Say hi.',
+      url: selfHostUrl === '' ? null : selfHostUrl,
+    })
+
+    storeConfig.setConfig({
+      ...storeConfig.config,
+      isAuth: true,
+      authKey,
+      selfHostUrl: selfHostUrl !== '' ? selfHostUrl : '',
+    })
+    stepIndex.value = 2
+  } catch (error) {
+    toast.open({
+      message: 'Incorrect API Key. Please check with the provider',
+      type: 'error',
+      position: 'top',
+    })
+  }
+}
+
+const handleNextBtn = async () => {
+  if (stepIndex.value === 1) {
+    await checkAuthKey()
   } else if (stepIndex.value === 2) {
     stepIndex.value = 3
   } else if (stepIndex.value === 3) {
@@ -129,15 +161,25 @@ const handleGoBackBtn = () => {
   width: 100%;
   margin-top: 24px;
   padding-top: 32px;
+  overflow-y: scroll;
   background: rgb(255 255 255 / 60%);
   border: 1px solid #fff;
   border-radius: 20px 20px 0 0;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 30%);
+  }
 }
 
 .steps {
   display: flex;
   flex-direction: row;
   margin: 0;
+  margin-bottom: 32px;
   padding: 0;
   list-style-type: none;
 }
