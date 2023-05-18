@@ -7,7 +7,7 @@
       top: `${tailPosition.y}px`,
       left: `${tailPosition.x}px`,
     }"
-    @mouseover="handleMouseOverTail"
+    @click="handleMouseOverTail"
   >
     <img :class="$style.webpilotLogo" :src="WebpilotLogo" />
   </section>
