@@ -1,20 +1,22 @@
 <template>
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
-      <span :class="advanced.title">{{ gettext('aPISettings') }}</span>
+      <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="provider">{{ gettext('activeAPIProvider') }}</label>
+        <label :class="advanced.subtitle" for="provider">{{
+          $gettext('Active API Provider')
+        }}</label>
         <select id="provider" name="provider">
           <option :class="advanced.iconLogo" selected value="open_ai_3.5">
-            OpenAI gpt-3.5-terbo
+            {{ $gettext('OpenAI gpt-3.5-terbo') }}
           </option>
-          <option value="open_ai_4.0">OpenAI gpt-4.0-terbo</option>
+          <option value="open_ai_4.0">{{ $gettext('OpenAI gpt-4.0-terbo') }}</option>
           <!-- <option value="baidu_wenxin">百度文心</option> -->
         </select>
         <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       </div>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="keys">Your API Key</label>
+        <label :class="advanced.subtitle" for="keys">{{ $gettext('Your API Key') }}</label>
         <input
           id="keys"
           v-model="authKey"
@@ -30,15 +32,15 @@
         <WebpilotAlert v-if="alertInfo.type !== ''" :tips="alertInfo.tips" :type="alertInfo.type" />
 
         <span :class="advanced.links">
-          {{ gettext('visit') }}: <a :href="links" target="_blank">{{ links }}</a>
+          {{ $gettext('Visit') }}: <a :href="links" target="_blank">{{ links }}</a>
         </span>
         <div :class="advanced.host">
           <div :class="advanced.selfHost">
             <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-            <label for="self_host">{{ gettext('seftHost') }}</label>
+            <label for="self_host">{{ $gettext('Seft Host') }}</label>
           </div>
           <div :class="advanced.more">
-            <span :class="advanced.question_mark"></span>{{ gettext('moreHelp') }}
+            <span :class="advanced.question_mark"></span>{{ $gettext('More Help') }}
           </div>
         </div>
         <div v-if="isSelfHost" :class="advanced.selfHostInput">
@@ -59,8 +61,8 @@
     </div>
 
     <div :class="[advanced.extension, advanced.panel]">
-      <span :class="advanced.title">{{ gettext('extensionSettings') }}</span>
-      <span :class="advanced.subtitle">{{ gettext('displayMode') }}</span>
+      <span :class="advanced.title">{{ $gettext('Extension Settings') }}</span>
+      <span :class="advanced.subtitle">{{ $gettext('Display Mode') }}</span>
       <div :class="advanced.mode">
         <!-- Sider bar under development -->
         <div v-if="false" :class="advanced.radioGroup">
@@ -72,7 +74,7 @@
             @input="changeMode('siderBar')"
           />
           <label for="sideBar">
-            {{ gettext('sideBar') }}
+            {{ $gettext('Side Bar') }}
             <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg" />
           </label>
         </div>
@@ -85,21 +87,22 @@
             @input="changeMode('popUp')"
           />
           <label for="popUp">
-            {{ gettext('popUp') }}
+            {{ $gettext('Pop Up') }}
             <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg" />
           </label>
         </div>
       </div>
 
-      <span :class="advanced.subtitle">{{ gettext('activeWebpilot') }}</span>
+      <span :class="advanced.subtitle">{{ $gettext('Active Webpilot') }}</span>
       <div :class="advanced.activeWebpilot">
         <SwitchButton v-model="storeConfig.config.autoPopup" @on-change="onAutoPopupChange" />
         <div :class="advanced.activeWebpilotDesc">
-          Display Webpilot <img :src="WebpilotLogo" /> when text is selected
+          {{ $gettext('Display Webpilot') }} <img :src="WebpilotLogo" />
+          {{ $gettext('when text is selected') }}
         </div>
       </div>
 
-      <span :class="advanced.subtitle">{{ gettext('changeShortcut') }}</span>
+      <span :class="advanced.subtitle">{{ $gettext('Change Shortcut') }}</span>
       <div :class="advanced.shortcut">
         <input
           maskText="hello"
@@ -110,8 +113,8 @@
           @focus="onFocusShortcutInput"
           @input="saveShortcut($event.target.value)"
         />
-        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">{{ gettext('presskey') }}</div>
-        <span @click="shortCut = storeConfig.config.customShortcut">{{ gettext('reset') }}</span>
+        <div v-if="isFocusShortcut" :class="advanced.shortcutMask">{{ $gettext('Press key') }}</div>
+        <span @click="shortCut = storeConfig.config.customShortcut">{{ $gettext('Reset') }}</span>
       </div>
     </div>
   </div>
@@ -122,10 +125,8 @@ import {computed, ref, watch} from 'vue'
 import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 
-import {$gettext as gettext} from '@/utils/i18n'
 import useConfigStore from '@/stores/config'
 import useStore, {REQUEST_STATE} from '@/stores/store'
-
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
 
@@ -206,7 +207,6 @@ const onChangeHostUrl = async () => {
   await store.askAi({authKey: saveAuthKey.value, command: 'Say hi.', url: selfHostUrl.value})
   validatedKey.value = true
 }
-const saveChange = gettext('saveChanges')
 
 const save = () => {
   storeConfig.setConfig({

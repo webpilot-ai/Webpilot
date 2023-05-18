@@ -1,1 +1,26 @@
-{}
+{
+  "en": {
+    "About": "About",
+    "Active API Provider": "Active API Provider",
+    "Active Webpilot": "Active Webpilot",
+    "Advanced": "Advanced",
+    "API Settings": "API Settings",
+    "Change Shortcut": "Change Shortcut",
+    "Display Mode": "Display Mode",
+    "Display Webpilot": "Display Webpilot",
+    "Extension Settings": "Extension Settings",
+    "OpenAI gpt-3.5-terbo": "OpenAI gpt-3.5-terbo",
+    "OpenAI gpt-4.0-terbo": "OpenAI gpt-4.0-terbo",
+    "Opensource AI Assistant On All Websites": "Opensource AI Assistant On All Websites",
+    "Pop Up": "Pop Up",
+    "Press key": "Press key",
+    "Reset": "Reset",
+    "Seft Host": "Seft Host",
+    "Side Bar": "Side Bar",
+    "Star on Github": "Star on Github",
+    "Visit": "Visit",
+    "Webpilot is open source": "Webpilot is open source",
+    "when text is selected": "when text is selected",
+    "Your API Key": "Your API Key"
+  }
+}

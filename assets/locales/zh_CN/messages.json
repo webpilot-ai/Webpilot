@@ -2,64 +2,70 @@
   "extensionDescription": {
     "message": "Web copilot for all，免费且开源，贼好用！"
   },
-  "starOnGithub": {
-    "message": "Star on Github"
-  },
-  "advanced": {
-    "message": "Advanced"
-  },
-  "about": {
+  "About": {
     "message": "About"
   },
-  "aPISettings": {
-    "message": "API Settings"
-  },
-  "activeAPIProvider": {
+  "Active_API_Provider": {
     "message": "Active API Provider"
   },
-  "yourAPIKey": {
-    "message": "Your API Key"
-  },
-  "visit": {
-    "message": "Visit"
-  },
-  "selfHost": {
-    "message": "Self Host"
-  },
-  "moreHelp": {
-    "message": "More Help"
-  },
-  "saveChanges": {
-    "message": "SAVE CHANGES"
-  },
-  "extensionSettings": {
-    "message": "Extension Settings"
-  },
-  "displayMode": {
-    "message": "Display mode"
-  },
-  "activeWebpilot": {
+  "Active_Webpilot": {
     "message": "Active Webpilot"
   },
-  "changeShortcut": {
+  "Advanced": {
+    "message": "Advanced"
+  },
+  "API_Settings": {
+    "message": "API Settings"
+  },
+  "Change_Shortcut": {
     "message": "Change Shortcut"
   },
-  "reset": {
-    "message": "Reset"
+  "Display_Mode": {
+    "message": "Display Mode"
   },
-  "displayWebpilotWhenTextIsSelected": {
-    "message": "Display Webpilot  when text is selected"
+  "Display_Webpilot": {
+    "message": "Display Webpilot"
   },
-  "webpilotIsOpenSource": {
-    "message": "Webpilot is open source"
+  "Extension_Settings": {
+    "message": "Extension Settings"
   },
-  "presskey": {
-    "message": "Press key"
+  "OpenAI_gpt_3_5_terbo": {
+    "message": "OpenAI gpt-3.5-terbo"
   },
-  "popUp": {
+  "OpenAI_gpt_4_0_terbo": {
+    "message": "OpenAI gpt-4.0-terbo"
+  },
+  "Opensource_AI_Assistant_On_All_Websites": {
+    "message": "Opensource AI Assistant On All Websites"
+  },
+  "Pop_Up": {
     "message": "Pop Up"
   },
-  "sideBar": {
+  "Press_key": {
+    "message": "Press key"
+  },
+  "Reset": {
+    "message": "Reset"
+  },
+  "Seft_Host": {
+    "message": "Seft Host"
+  },
+  "Side_Bar": {
     "message": "Side Bar"
+  },
+  "Star_on_Github": {
+    "message": "Star on Github"
+  },
+  "Visit": {
+    "message": "Visit"
+  },
+  "Webpilot_is_open_source": {
+    "message": "Webpilot is open source"
+  },
+  "when_text_is_selected": {
+    "message": "when text is selected"
+  },
+  "Your_API_Key": {
+    "message": "Your API Key"
   }
 }

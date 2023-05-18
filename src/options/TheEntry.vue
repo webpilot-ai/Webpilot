@@ -5,17 +5,19 @@
       <div :class="index.header">
         <div :class="index.logo">
           <img alt=" logog" src="./images/Text+Logo.svg" />
-          <span :class="index.slogan">{{ gettext('extensionDescription') }} </span>
+          <span :class="index.slogan">{{
+            $gettext('Opensource AI Assistant On All Websites')
+          }}</span>
         </div>
         <ul :class="index.tabs">
           <li
             :class="[index.tab, active == 'advanced' ? index.active : '']"
             @click="active = 'advanced'"
           >
-            {{ gettext('advanced') }}
+            {{ $gettext('Advanced') }}
           </li>
           <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
-            {{ gettext('about') }}
+            {{ $gettext('About') }}
           </li>
         </ul>
       </div>
@@ -29,9 +31,9 @@
 
       <!-- footer -->
       <div :class="index.footer">
-        <span>{{ gettext('webpilotIsOpenSource') }}</span>
+        <span>{{ $gettext('Webpilot is open source') }}</span>
         <a href="https://github.com/Fluentify-IO/Fluentify" rel="noreferrer" target="_blank">
-          {{ gettext('starOnGithub') }}
+          {{ $gettext('Star on Github') }}
         </a>
       </div>
     </div>
@@ -42,12 +44,11 @@
 import '@assets/styles/reset.scss'
 import {ref} from 'vue'
 
-import {$gettext as gettext} from '../utils/i18n'
-
 import AdvancedView from './AdvancedView.vue'
 import AboutView from './AboutView.vue'
 
-console.log(gettext('extensionDescription'))
+const {$gettext} = require('@/utils/i18n')
+
 const active = ref('advanced')
 </script>
 
