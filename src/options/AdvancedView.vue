@@ -3,7 +3,7 @@
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="provider">{{
+        <label :class="[advanced.subtitle, advanced.apiProvider]" for="provider">{{
           $gettext('Active API Provider')
         }}</label>
         <select id="provider" v-model="llmModel" name="provider">
@@ -77,7 +77,7 @@
 
     <div :class="[advanced.extension, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('Extension Settings') }}</span>
-      <span :class="advanced.subtitle">{{ $gettext('Display Mode') }}</span>
+      <span :class="[advanced.subtitle, advanced.displayMode]">{{ $gettext('Display Mode') }}</span>
       <div :class="advanced.mode">
         <!-- Sider bar under development -->
         <div v-if="false" :class="advanced.radioGroup">
@@ -108,7 +108,9 @@
         </div>
       </div>
 
-      <span :class="advanced.subtitle">{{ $gettext('Active Webpilot') }}</span>
+      <span :class="[advanced.subtitle, advanced.activeWebpilotTitle]">{{
+        $gettext('Active Webpilot')
+      }}</span>
       <div :class="advanced.activeWebpilot">
         <SwitchButton v-model="storeConfig.config.autoPopup" @on-change="onAutoPopupChange" />
         <div :class="advanced.activeWebpilotDesc">
@@ -275,8 +277,8 @@ const onChangeShortcut = customShortcut => {
 }
 
 .main {
-  margin-top: 20px;
-  padding: 24px 16px;
+  padding: 24px 0;
+  padding-top: 15px;
   font-family: 'PingFang SC', Helvetica, Arial, sans-serif;
 }
 
@@ -304,6 +306,14 @@ const onChangeShortcut = customShortcut => {
     font-weight: 400;
     font-size: 18px;
     line-height: 25px;
+  }
+
+  .displayMode {
+    margin-top: 15px;
+  }
+
+  .apiProvider {
+    margin-top: 16px;
   }
 
   select,
@@ -445,7 +455,6 @@ const onChangeShortcut = customShortcut => {
 
 .mode {
   display: flex;
-  margin-top: 10px;
 }
 
 .radioGroup {
@@ -478,6 +487,7 @@ const onChangeShortcut = customShortcut => {
 }
 
 .extension {
+  margin-top: 20px !important;
   color: yellow;
 }
 
@@ -506,5 +516,9 @@ const onChangeShortcut = customShortcut => {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.activeWebpilotTitle {
+  margin-top: 12px !important;
 }
 </style>

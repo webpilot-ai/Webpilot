@@ -56,6 +56,7 @@ const active = ref('advanced')
   align-items: flex-end;
   justify-content: center;
   width: 100%;
+  height: 100vh;
   background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
 }
 
@@ -66,7 +67,7 @@ const active = ref('advanced')
   width: calc(100vw - 18px);
   max-width: 1438px;
   margin-top: 18px;
-  padding: 24px 16px 16px;
+  padding: 24px;
   overflow-y: scroll;
   background: rgb(255 255 255 / 60%);
   border: 1px solid #fff;
@@ -97,6 +98,7 @@ const active = ref('advanced')
   .slogan {
     display: flex;
     align-items: center;
+    margin-top: 7px;
     color: #777;
     font-weight: 400;
     font-size: 18px;
@@ -133,6 +135,9 @@ const active = ref('advanced')
 .tabs {
   display: flex;
   flex-direction: row;
+  margin-top: 33px;
+  margin-bottom: 0;
+  padding-left: 20px;
   font-weight: 600;
   font-size: 24px;
   line-height: 34px;
@@ -150,6 +155,7 @@ li + li {
 }
 
 .active {
+  color: #4f5aff;
   border-bottom: 4px solid #4f5aff;
 }
 </style>
