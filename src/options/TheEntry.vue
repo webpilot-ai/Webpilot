@@ -5,17 +5,19 @@
       <div :class="index.header">
         <div :class="index.logo">
           <img alt=" logog" src="./images/Text+Logo.svg" />
-          <span :class="index.slogan">Opensource_ai_assistant_on_all_websites</span>
+          <span :class="index.slogan">{{
+            $gettext('Opensource AI Assistant On All Websites')
+          }}</span>
         </div>
         <ul :class="index.tabs">
           <li
             :class="[index.tab, active == 'advanced' ? index.active : '']"
             @click="active = 'advanced'"
           >
-            Advanced
+            {{ $gettext('Advanced') }}
           </li>
           <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
-            About
+            {{ $gettext('About') }}
           </li>
         </ul>
       </div>
@@ -29,9 +31,9 @@
 
       <!-- footer -->
       <div :class="index.footer">
-        <span>Webpilot is open source</span>
+        <span>{{ $gettext('Webpilot is open source') }}</span>
         <a href="https://github.com/Fluentify-IO/Fluentify" rel="noreferrer" target="_blank">
-          Star on Github
+          {{ $gettext('Star on Github') }}
         </a>
       </div>
     </div>

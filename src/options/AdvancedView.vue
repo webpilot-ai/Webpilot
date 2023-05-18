@@ -1,20 +1,24 @@
 <template>
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
-      <span :class="advanced.title">API Settings</span>
+      <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="provider">Active API Provider</label>
+        <label :class="advanced.subtitle" for="provider">{{
+          $gettext('Active API Provider')
+        }}</label>
         <select id="provider" v-model="llmModel" name="provider">
           <option :class="advanced.iconLogo" selected value="gpt-3.5-turbo">
-            OpenAI gpt-3.5-turbo
+            {{ $gettext('OpenAI gpt-3.5-turbo') }}
           </option>
-          <option value="gpt-4">OpenAI gpt-4</option>
+          <option value="gpt-4">{{ $gettext('OpenAI gpt-4') }}</option>
           <!-- <option value="baidu_wenxin">百度文心</option> -->
         </select>
         <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       </div>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">Your API Key</label>
+        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">{{
+          $gettext('Your API Key')
+        }}</label>
         <input
           id="keys"
           v-model="authKey"
@@ -34,7 +38,7 @@
         />
 
         <span :class="advanced.links">
-          Visit: <a :href="links" target="_blank">{{ links }}</a>
+          {{ $gettext('Visit') }}: <a :href="links" target="_blank">{{ links }}</a>
         </span>
         <div :class="advanced.host">
           <div :class="advanced.selfHost">
@@ -47,7 +51,6 @@
             />
             <label for="self_host">Self Host</label>
           </div>
-          <div :class="advanced.more"><span :class="advanced.question_mark"></span> More help</div>
         </div>
         <div v-if="isSelfHost" :class="advanced.selfHostInput">
           <input
@@ -67,14 +70,14 @@
       <WebpilotButton
         :loading="loading"
         style="width: 143px; margin-top: auto"
-        value="SAVE CHANGES"
+        :value="$gettext('Save Changes')"
         @click="save()"
       />
     </div>
 
     <div :class="[advanced.extension, advanced.panel]">
-      <span :class="advanced.title">Extension Settings</span>
-      <span :class="advanced.subtitle">Display mode</span>
+      <span :class="advanced.title">{{ $gettext('Extension Settings') }}</span>
+      <span :class="advanced.subtitle">{{ $gettext('Display Mode') }}</span>
       <div :class="advanced.mode">
         <!-- Sider bar under development -->
         <div v-if="false" :class="advanced.radioGroup">
@@ -86,7 +89,8 @@
             @input="changeMode('siderBar')"
           />
           <label for="sideBar">
-            Side Bar <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg" />
+            {{ $gettext('Side Bar') }}
+            <img alt="sideBar" :class="advanced.modeImg" src="./images/Side_bar.svg" />
           </label>
         </div>
         <div :class="advanced.radioGroup">
@@ -98,20 +102,22 @@
             @input="changeMode('popUp')"
           />
           <label for="popUp">
-            Pop Up <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg" />
+            {{ $gettext('Pop Up') }}
+            <img alt="popUp" :class="advanced.modeImg" src="./images/Pop_up.svg" />
           </label>
         </div>
       </div>
 
-      <span :class="advanced.subtitle">Active Webpilot</span>
+      <span :class="advanced.subtitle">{{ $gettext('Active Webpilot') }}</span>
       <div :class="advanced.activeWebpilot">
         <SwitchButton v-model="storeConfig.config.autoPopup" @on-change="onAutoPopupChange" />
         <div :class="advanced.activeWebpilotDesc">
-          Display Webpilot <img :src="WebpilotLogo" /> when text is selected
+          {{ $gettext('Display Webpilot') }} <img :src="WebpilotLogo" />
+          {{ $gettext('when text is selected') }}
         </div>
       </div>
 
-      <span :class="advanced.subtitle">Change Shortcut</span>
+      <span :class="advanced.subtitle">{{ $gettext('Change Shortcut') }}</span>
       <div :class="advanced.shortcut">
         <ShortcutInput
           v-model="shortcutKeys"
@@ -128,11 +134,12 @@ import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import useConfigStore from '@/stores/config'
-
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
 import ShortcutInput from '@/components/ShortcutInput.vue'
+
+import {$gettext} from '@/utils/i18n'
 
 import WebpilotLogo from '../../assets/icon.png'
 
@@ -149,7 +156,6 @@ const {config} = storeToRefs(storeConfig)
 const saveAuthKey = ref(config.value.authKey)
 /** Edit Auth Key */
 const authKey = ref('')
-
 const authKeyPlaceHolder = computed(() => {
   const key = saveAuthKey.value === '' ? storeConfig.config.authKey : saveAuthKey.value
 

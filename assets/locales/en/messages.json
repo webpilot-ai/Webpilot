@@ -1,5 +1,65 @@
 {
   "extensionDescription": {
     "message": "Web copilot for all, free & open-source!"
+  },
+  "About": {
+    "message": "About"
+  },
+  "Active_API_Provider": {
+    "message": "Active API Provider"
+  },
+  "Active_Webpilot": {
+    "message": "Active Webpilot"
+  },
+  "Advanced": {
+    "message": "Advanced"
+  },
+  "API_Settings": {
+    "message": "API Settings"
+  },
+  "Change_Shortcut": {
+    "message": "Change Shortcut"
+  },
+  "Display_Mode": {
+    "message": "Display Mode"
+  },
+  "Display_Webpilot": {
+    "message": "Display Webpilot"
+  },
+  "Extension_Settings": {
+    "message": "Extension Settings"
+  },
+  "OpenAI_gpt_3_5_turbo": {
+    "message": "OpenAI gpt-3.5-turbo"
+  },
+  "OpenAI_gpt_4": {
+    "message": "OpenAI gpt-4"
+  },
+  "Opensource_AI_Assistant_On_All_Websites": {
+    "message": "Opensource AI Assistant On All Websites"
+  },
+  "Pop_Up": {
+    "message": "Pop Up"
+  },
+  "Save_Changes": {
+    "message": "Save Changes"
+  },
+  "Side_Bar": {
+    "message": "Side Bar"
+  },
+  "Star_on_Github": {
+    "message": "Star on Github"
+  },
+  "Visit": {
+    "message": "Visit"
+  },
+  "Webpilot_is_open_source": {
+    "message": "Webpilot is open source"
+  },
+  "when_text_is_selected": {
+    "message": "when text is selected"
+  },
+  "Your_API_Key": {
+    "message": "Your API Key"
   }
 }

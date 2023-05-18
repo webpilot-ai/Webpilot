@@ -1,3 +1,113 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
+
+#: src/options/TheEntry.vue:16
+#: src/options/TheEntry.vue:17
+#: src/options/TheEntry.vue:20
+msgid "About"
+msgstr ""
+
+#: src/options/AdvancedView.vue:6
+msgid "Active API Provider"
+msgstr ""
+
+#: src/options/AdvancedView.vue:107
+#: src/options/AdvancedView.vue:59
+#: src/options/AdvancedView.vue:60
+#: src/options/AdvancedView.vue:95
+msgid "Active Webpilot"
+msgstr ""
+
+#: src/options/TheEntry.vue:13
+#: src/options/TheEntry.vue:14
+msgid "Advanced"
+msgstr ""
+
+#: src/options/AdvancedView.vue:3
+#: src/options/AdvancedView.vue:4
+msgid "API Settings"
+msgstr ""
+
+#: src/options/AdvancedView.vue:104
+#: src/options/AdvancedView.vue:116
+#: src/options/AdvancedView.vue:68
+#: src/options/AdvancedView.vue:69
+msgid "Change Shortcut"
+msgstr ""
+
+#: src/options/AdvancedView.vue:40
+#: src/options/AdvancedView.vue:41
+#: src/options/AdvancedView.vue:76
+msgid "Display Mode"
+msgstr ""
+
+#: src/options/AdvancedView.vue:111
+#: src/options/AdvancedView.vue:63
+#: src/options/AdvancedView.vue:64
+#: src/options/AdvancedView.vue:99
+msgid "Display Webpilot"
+msgstr ""
+
+#: src/options/AdvancedView.vue:39
+#: src/options/AdvancedView.vue:40
+#: src/options/AdvancedView.vue:75
+msgid "Extension Settings"
+msgstr ""
+
+#: src/options/AdvancedView.vue:8
+#: src/options/AdvancedView.vue:9
+msgid "OpenAI gpt-3.5-turbo"
+msgstr ""
+
+#: src/options/AdvancedView.vue:10
+#: src/options/AdvancedView.vue:11
+msgid "OpenAI gpt-4"
+msgstr ""
+
+#: src/options/TheEntry.vue:8
+#: src/options/TheEntry.vue:9
+msgid "Opensource AI Assistant On All Websites"
+msgstr ""
+
+#: src/options/AdvancedView.vue:101
+msgid "Pop Up"
+msgstr ""
+
+#: src/options/AdvancedView.vue:69
+msgid "Save Changes"
+msgstr ""
+
+#: src/options/AdvancedView.vue:88
+msgid "Side Bar"
+msgstr ""
+
+#: src/options/TheEntry.vue:32
+#: src/options/TheEntry.vue:33
+#: src/options/TheEntry.vue:36
+msgid "Star on Github"
+msgstr ""
+
+#: src/options/AdvancedView.vue:21
+#: src/options/AdvancedView.vue:22
+#: src/options/AdvancedView.vue:32
+#: src/options/AdvancedView.vue:37
+msgid "Visit"
+msgstr ""
+
+#: src/options/TheEntry.vue:30
+#: src/options/TheEntry.vue:31
+#: src/options/TheEntry.vue:34
+msgid "Webpilot is open source"
+msgstr ""
+
+#: src/options/AdvancedView.vue:100
+#: src/options/AdvancedView.vue:112
+#: src/options/AdvancedView.vue:64
+#: src/options/AdvancedView.vue:65
+msgid "when text is selected"
+msgstr ""
+
+#: src/options/AdvancedView.vue:17
+msgid "Your API Key"
+msgstr ""
