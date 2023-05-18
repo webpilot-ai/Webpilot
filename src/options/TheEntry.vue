@@ -47,8 +47,6 @@ import {ref} from 'vue'
 import AdvancedView from './AdvancedView.vue'
 import AboutView from './AboutView.vue'
 
-const {$gettext} = require('@/utils/i18n')
-
 const active = ref('advanced')
 </script>
 

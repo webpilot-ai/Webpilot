@@ -29,11 +29,11 @@
   "Extension_Settings": {
     "message": "Extension Settings"
   },
-  "OpenAI_gpt_3_5_terbo": {
-    "message": "OpenAI gpt-3.5-terbo"
+  "OpenAI_gpt_3_5_turbo": {
+    "message": "OpenAI gpt-3.5-turbo"
   },
-  "OpenAI_gpt_4_0_terbo": {
-    "message": "OpenAI gpt-4.0-terbo"
+  "OpenAI_gpt_4": {
+    "message": "OpenAI gpt-4"
   },
   "Opensource_AI_Assistant_On_All_Websites": {
     "message": "Opensource AI Assistant On All Websites"
@@ -41,14 +41,8 @@
   "Pop_Up": {
     "message": "Pop Up"
   },
-  "Press_key": {
-    "message": "Press key"
-  },
-  "Reset": {
-    "message": "Reset"
-  },
-  "Seft_Host": {
-    "message": "Seft Host"
+  "Save_Changes": {
+    "message": "Save Changes"
   },
   "Side_Bar": {
     "message": "Side Bar"

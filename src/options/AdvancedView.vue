@@ -3,18 +3,22 @@
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="provider">Active API Provider</label>
+        <label :class="advanced.subtitle" for="provider">{{
+          $gettext('Active API Provider')
+        }}</label>
         <select id="provider" v-model="llmModel" name="provider">
           <option :class="advanced.iconLogo" selected value="gpt-3.5-turbo">
-            OpenAI gpt-3.5-turbo
+            {{ $gettext('OpenAI gpt-3.5-turbo') }}
           </option>
-          <option value="gpt-4">OpenAI gpt-4</option>
+          <option value="gpt-4">{{ $gettext('OpenAI gpt-4') }}</option>
           <!-- <option value="baidu_wenxin">百度文心</option> -->
         </select>
         <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       </div>
       <div :class="advanced.apiItem">
-        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">Your API Key</label>
+        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">{{
+          $gettext('Your API Key')
+        }}</label>
         <input
           id="keys"
           v-model="authKey"
@@ -66,7 +70,7 @@
       <WebpilotButton
         :loading="loading"
         style="width: 143px; margin-top: auto"
-        :value="saveChange"
+        :value="$gettext('Save Changes')"
         @click="save()"
       />
     </div>
@@ -130,11 +134,12 @@ import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import useConfigStore from '@/stores/config'
-
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
 import ShortcutInput from '@/components/ShortcutInput.vue'
+
+import {$gettext} from '@/utils/i18n'
 
 import WebpilotLogo from '../../assets/icon.png'
 
@@ -151,7 +156,6 @@ const {config} = storeToRefs(storeConfig)
 const saveAuthKey = ref(config.value.authKey)
 /** Edit Auth Key */
 const authKey = ref('')
-
 const authKeyPlaceHolder = computed(() => {
   const key = saveAuthKey.value === '' ? storeConfig.config.authKey : saveAuthKey.value
 
