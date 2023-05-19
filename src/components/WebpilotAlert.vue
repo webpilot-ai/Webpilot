@@ -1,5 +1,6 @@
 <template>
   <section
+    ref="refAlert"
     :class="{
       [$style.tips]: true,
       [$style.tipsError]: type === ALERT_TYPE.ERROR,
@@ -19,17 +20,13 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import {onClickOutside} from '@vueuse/core'
+
 import IconInfo from './icon/IconAlertInfo.vue'
 import IconError from './icon/IconAlertError.vue'
 import IconSuccess from './icon/IconAlertSuccess.vue'
 
-const ALERT_TYPE = {
-  INFO: 'info',
-  ERROR: 'error',
-  SUCCESS: 'success',
-}
-
-// eslint-disable-next-line
 const props = defineProps({
   type: {
     type: String,
@@ -44,7 +41,27 @@ const props = defineProps({
     type: String,
     default: '#585b58',
   },
+  autoHide: {
+    type: Boolean,
+    default: false,
+  },
 })
+
+const emits = defineEmits(['onHide'])
+
+const refAlert = ref(null)
+
+onClickOutside(refAlert, () => {
+  if (props.autoHide) emits('onHide')
+})
+
+const ALERT_TYPE = {
+  INFO: 'info',
+  ERROR: 'error',
+  SUCCESS: 'success',
+}
+
+// eslint-disable-next-line
 </script>
 
 <style lang="scss" module>

@@ -32,9 +32,11 @@
         />
         <WebpilotAlert
           v-if="(error || success) && !isSelfHost"
+          :auto-hide="true"
           style="margin-top: 8px"
           :tips="alertInfo.tips"
           :type="alertInfo.type"
+          @on-hide="hideAlert"
         />
 
         <span :class="advanced.links">
@@ -68,10 +70,12 @@
       </div>
 
       <WebpilotButton
+        :auto-hide="true"
         :loading="loading"
         style="width: 143px; margin-top: auto"
         :value="$gettext('Save Changes')"
         @click="save()"
+        @on-hide="hideAlert"
       />
     </div>
 
@@ -268,6 +272,12 @@ const onChangeShortcut = customShortcut => {
     ...storeConfig.config,
     customShortcut,
   })
+}
+
+// alert
+const hideAlert = () => {
+  error.value = false
+  success.value = false
 }
 </script>
 
