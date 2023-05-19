@@ -53,7 +53,6 @@ const active = ref('advanced')
 <style module="index" lang="scss">
 .container {
   display: flex;
-  align-items: flex-end;
   justify-content: center;
   width: 100%;
   height: 100vh;
@@ -83,7 +82,6 @@ const active = ref('advanced')
 
   .body {
     justify-content: flex-start;
-    min-height: calc(100vh - 276px);
   }
 }
 
