@@ -236,6 +236,7 @@ const save = async () => {
 
   storeConfig.setConfig({
     ...storeConfig.config,
+    isAuth: true,
     authKey: saveAuthKey.value,
     selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
   })
