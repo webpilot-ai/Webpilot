@@ -116,6 +116,7 @@ const active = ref('advanced')
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
   font-size: 18px;
   line-height: 25px;
 
