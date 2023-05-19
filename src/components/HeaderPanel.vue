@@ -5,14 +5,25 @@
       <section>Webpilot</section>
     </section>
     <section :class="$style.headerIcons">
-      <IconGear :class="$style.icon" @click="openSettingPage" />
-      <IconClose :class="$style.icon" @click="closePopup" />
+      <Popper :class="$style.popover" hover :offset-distance="8" placement="top">
+        <IconGear :class="$style.icon" @click="openSettingPage" />
+        <template #content>
+          <span :class="$style.popoverText">Settings</span>
+        </template>
+      </Popper>
+      <Popper :class="$style.popover" hover :offset-distance="8" placement="top">
+        <IconClose :class="$style.icon" @click="closePopup" />
+        <template #content>
+          <span :class="$style.popoverText">Close</span>
+        </template>
+      </Popper>
     </section>
   </section>
 </template>
 
 <script setup>
 import {sendToBackground} from '@plasmohq/messaging'
+import Popper from 'vue3-popper'
 
 import WebpilotLogo from '../../assets/icon.png'
 
@@ -70,5 +81,24 @@ const closePopup = () => {
 
 .icon + .icon {
   margin-left: 15px;
+}
+
+.popoverText {
+  padding: 4px 8px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 17px;
+  background-color: black;
+  border-radius: 5px;
+}
+
+.popover {
+  max-height: 24px;
+  line-height: 24px;
+}
+
+.popover + .popover {
+  padding-left: 17px;
 }
 </style>

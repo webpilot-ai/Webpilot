@@ -34,7 +34,8 @@
     "pinia": "^2.0.36",
     "plasmo": "0.68.3",
     "vue": "3.2.47",
-    "vue-toast-notification": "^3.1.1"
+    "vue-toast-notification": "^3.1.1",
+    "vue3-popper": "^1.5.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",

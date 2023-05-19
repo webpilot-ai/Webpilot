@@ -216,7 +216,6 @@ const popupPosition = computed(() => {
 @mixin popup {
   position: fixed;
   z-index: 99999999999;
-  overflow: hidden;
   text-align: center;
   background-color: #fff;
   border-radius: 10px;
