@@ -1,6 +1,6 @@
 <template>
   <section
-    v-if="showWebpilotTail && storeConfig.config.autoPopup"
+    v-if="isShowWebpilotTail"
     ref="refTail"
     :class="$style.webpilotTail"
     :style="{
@@ -82,6 +82,11 @@ const selectedText = ref('')
 /** Show popup or not */
 const isShowWebpilotPopup = computed(() => {
   return showWebpilotPopup.value || isShowAskPage.value
+})
+
+const isShowWebpilotTail = computed(() => {
+  if (!storeConfig.config.isAuth) return false
+  return showWebpilotTail.value && storeConfig.config.autoPopup
 })
 
 /** Get text and position from mouse and keybaord select text */
