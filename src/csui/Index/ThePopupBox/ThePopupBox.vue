@@ -22,6 +22,7 @@
       @on-change="handeInputCommandChnage"
       @on-submit="popUpAskIA"
     />
+    <WebpilotAlert v-if="showError" style="margin-top: 8px" :tips="errorMessage" type="error" />
     <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" />
     <PromptResult v-model="result" />
     <PromptEditor
@@ -38,7 +39,6 @@
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from 'vue'
 import {Readability} from '@mozilla/readability'
-import {useToast} from 'vue-toast-notification'
 
 import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
@@ -51,9 +51,9 @@ import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useStore from '@/stores/store'
 import useAskAi from '@/hooks/useAskAi'
+import WebpilotAlert from '@/components/WebpilotAlert.vue'
 
 const store = useStore()
-const toast = useToast()
 
 const {config} = storeToRefs(store)
 
@@ -103,6 +103,8 @@ watch(
   }
 )
 
+const showError = ref(false)
+
 const popUpAskIA = async () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
 
@@ -117,12 +119,9 @@ const popUpAskIA = async () => {
       referenceText: props.isAskPage ? article.textContent : store.selectedText,
       command,
     })
+    showError.value = false
   } catch {
-    toast.open({
-      message: errorMessage.value,
-      type: 'error',
-      position: 'top',
-    })
+    showError.value = true
   }
 }
 

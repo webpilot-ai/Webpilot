@@ -2,7 +2,7 @@
   <section :class="$style.notSupportPaeg">
     <HeaderPanel @on-close="closeWindow" />
     <section :class="$style.tipsWrap">
-      <WebpilotAlert color="#CC0000" :tips="'Webpage not supported'" type="error"> </WebpilotAlert>
+      <WebpilotAlert :tips="'Webpage not supported'" type="error"> </WebpilotAlert>
     </section>
     <section :class="$style.explain">
       Due to Chrome constrains, Webpilot can not be active on the following webpages:

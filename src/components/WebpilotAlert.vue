@@ -6,14 +6,13 @@
       [$style.tipsError]: type === ALERT_TYPE.ERROR,
       [$style.tipsSuccess]: type === ALERT_TYPE.SUCCESS,
     }"
-    :style="{
-      color: color,
-    }"
   >
     <slot name="icon">
-      <IconInfo v-if="type === ALERT_TYPE.INFO" />
-      <IconSuccess v-if="type === ALERT_TYPE.SUCCESS" />
-      <IconError v-if="type === ALERT_TYPE.ERROR" />
+      <section :style="$style.icon">
+        <IconInfo v-if="type === ALERT_TYPE.INFO" />
+        <IconSuccess v-if="type === ALERT_TYPE.SUCCESS" />
+        <IconError v-if="type === ALERT_TYPE.ERROR" />
+      </section>
     </slot>
     {{ tips }}
   </section>
@@ -78,6 +77,11 @@ const ALERT_TYPE = {
   line-height: 17px;
   background: linear-gradient(0deg, rgb(79 90 255 / 10%), rgb(79 90 255 / 10%)), #fff;
   border-radius: 4px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
 }
 
 .tipsSuccess {
