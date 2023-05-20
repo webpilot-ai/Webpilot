@@ -243,6 +243,7 @@ const save = async () => {
     ...store.config,
     isAuth: true,
     authKey: saveAuthKey.value,
+    isFinishSetup: true,
     selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
   })
 }

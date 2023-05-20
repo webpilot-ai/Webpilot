@@ -26,11 +26,37 @@ import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import TipsShortcut from '@/components/TipsShortcut.vue'
 import useStore from '@/stores/store'
 
-const storeConfig = useStore()
+const store = useStore()
 
 onBeforeMount(async () => {
+  // check welcode guide
+  if (!store.config.isFinishSetup) {
+    let result = await chrome?.tabs?.query({
+      active: true,
+      currentWindow: true,
+    })
+
+    result = Array.isArray(result) ? result[0] : result
+    const {url: currentUrl} = result
+
+    // can't get current open page url
+    if (currentUrl === undefined) return
+
+    const welcomeUrl = chrome?.runtime?.getURL('tabs/index.html')
+
+    // aready in welcome page
+    if (currentUrl === welcomeUrl) {
+      closeWindow()
+      return
+    }
+
+    window.open(welcomeUrl)
+    closeWindow()
+    return
+  }
+
   // check auth state
-  if (!storeConfig.config.isAuth) {
+  if (!store.config.isAuth) {
     sendToBackground({name: 'openSetting'})
     closeWindow()
     return

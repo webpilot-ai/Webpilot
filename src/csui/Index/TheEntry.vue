@@ -106,7 +106,12 @@ const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(ref
 const keys = useMagicKeys()
 const shortcut = keys[store.config.customShortcut.join('+')]
 watch(shortcut, v => {
-  if (v && !showWebpilotPopup.value) {
+  if (!v) return
+
+  // Not key not popup
+  if (!store.config.isAuth) return
+
+  if (!showWebpilotPopup.value) {
     // Hit shortcut twice close popup
     if (isShowAskPage.value) {
       handleClosePopup()

@@ -59,6 +59,7 @@
       "<all_urls>"
     ],
     "permissions": [
+      "tabs",
       "storage",
       "clipboardWrite"
     ],

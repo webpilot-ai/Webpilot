@@ -92,6 +92,7 @@ const checkAuthKey = async () => {
       ...storeConfig.config,
       isAuth: true,
       authKey,
+      isFinishSetup: true,
       selfHostUrl: selfHostUrl !== '' ? selfHostUrl : '',
     })
     stepIndex.value = 2

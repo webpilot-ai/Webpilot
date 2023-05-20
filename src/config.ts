@@ -9,6 +9,8 @@ export const defaultConfig = {
   authKey: '',
   /** Is auth successed */
   isAuth: false,
+  /** If user not set token at welcome page set false */
+  isFinishSetup: false,
   /** When select text (by mouse or keyboard) show popup */
   autoPopup: true,
   /** Self host url */
