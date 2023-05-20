@@ -1,7 +1,13 @@
 <template>
   <section v-show="showResult" :class="$style.promptResultWrap">
     <section>Webpilot says</section>
-    <textarea ref="refTextarea" :class="$style.textarea" readonly :value="result" />
+    <textarea
+      ref="refTextarea"
+      :class="$style.textarea"
+      readonly
+      :value="result"
+      @scroll="onScroll"
+    />
     <section :class="$style.btnArea">
       <section :class="$style.tips" @click="showShareInfo">
         Amazing Webpilot, telling friends!
@@ -19,9 +25,10 @@ import {useToast} from 'vue-toast-notification'
 
 import WebpilotButton from './WebpilotButton.vue'
 
-const toast = useToast()
-
 const refTextarea = ref(null)
+const isAutoScroll = ref(true)
+
+const toast = useToast()
 
 const props = defineProps({
   modelValue: {
@@ -32,8 +39,41 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue'])
 
+let oldScrollTop = null
+let textareaLineHeight = null
+
+const onScroll = () => {
+  if (textareaLineHeight === null) {
+    const styleLineHeight = window.getComputedStyle(refTextarea.value)?.lineHeight
+    textareaLineHeight = parseFloat(styleLineHeight)
+  }
+
+  const {scrollTop: currentScrollTop, scrollHeight, clientHeight} = refTextarea.value
+
+  // scroll up stop auto scroll
+  if (isAutoScroll.value && oldScrollTop !== null && currentScrollTop < oldScrollTop) {
+    isAutoScroll.value = false
+  }
+
+  // scroll to bottom start auto scroll
+  if (
+    !isAutoScroll.value &&
+    !isAutoScroll.value &&
+    scrollHeight - (currentScrollTop + clientHeight) <= textareaLineHeight / 2
+  ) {
+    isAutoScroll.value = true
+  }
+
+  oldScrollTop = currentScrollTop
+}
+
 const showResult = computed(() => {
   return !!props.modelValue && props.modelValue !== ''
+})
+
+watch(showResult, v => {
+  /** Reset auto scroll */
+  if (!v) isAutoScroll.value = true
 })
 
 const result = computed(() => props.modelValue)
@@ -47,6 +87,8 @@ const showShareInfo = () => {
 }
 
 watch(result, () => {
+  if (!isAutoScroll.value) return
+
   refTextarea.value.scrollTop = refTextarea.value.scrollHeight
 })
 
