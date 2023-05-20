@@ -16,7 +16,7 @@ export async function askOpenAI({authKey, model, message, url = null}) {
 
   prevAbortController = abortController
 
-  return fetch(!url || url === '' ? OPEN_AI_API : url, {
+  return fetch(!!url && url !== '' ? url : OPEN_AI_API, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

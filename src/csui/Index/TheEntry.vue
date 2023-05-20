@@ -46,7 +46,6 @@ import useMouseSelectedText from '@/hooks/useMouseSelectedText'
 import useKeyboardSelectedText from '@/hooks/useKeyboardSelectedText'
 
 import useStore from '@/stores/store'
-import useConfigStore from '@/stores/config'
 
 import WebpilotLogo from '../../../assets/icon.png'
 
@@ -70,9 +69,6 @@ const showWebpilotPopup = ref(false)
 /** Store for not config */
 const store = useStore()
 
-/** Store for config */
-const storeConfig = useConfigStore()
-
 /** Mouse up and Ctrl+A text position */
 const position = ref({x: 0, y: 0})
 
@@ -85,8 +81,8 @@ const isShowWebpilotPopup = computed(() => {
 })
 
 const isShowWebpilotTail = computed(() => {
-  if (!storeConfig.config.isAuth) return false
-  return showWebpilotTail.value && storeConfig.config.autoPopup
+  if (!store.config.isAuth) return false
+  return showWebpilotTail.value && store.config.autoPopup
 })
 
 /** Get text and position from mouse and keybaord select text */
@@ -108,7 +104,7 @@ const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(ref
 
 // keyboard
 const keys = useMagicKeys()
-const shortcut = keys[storeConfig.config.customShortcut.join('+')]
+const shortcut = keys[store.config.customShortcut.join('+')]
 watch(shortcut, v => {
   if (v && !showWebpilotPopup.value) {
     // Hit shortcut twice close popup
@@ -120,8 +116,11 @@ watch(shortcut, v => {
     showAskPage()
 
     // show popup by shortcut remove shortkey tips
-    if (storeConfig.config.showShortcutTips) {
-      storeConfig.setShowShortcutTips(false)
+    if (store.config.showShortcutTips) {
+      store.setConfig({
+        ...store.config,
+        showShortcutTips: false,
+      })
     }
   }
 })
@@ -147,14 +146,14 @@ const onClickPopupOutside = () => {
 onClickOutside(refPopupWrap, onClickPopupOutside)
 
 const showWebpilotTail = computed(() => {
-  if (!storeConfig.config.autoPopup) return false
+  if (!store.config.autoPopup) return false
   return selectedText.value !== '' && !showWebpilotPopup.value
 })
 
 const handleClosePopup = () => {
   isShowAskPage.value = false
   showWebpilotPopup.value = false
-  store.cleanResult()
+  store.$patch({selectedText: ''})
   // remove tail
   selectedText.value = ''
   // clean drag position

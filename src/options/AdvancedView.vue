@@ -22,7 +22,7 @@
         <input
           id="keys"
           v-model="authKey"
-          :class="{[advanced.haveAuthKey]: storeConfig.authKey !== ''}"
+          :class="{[advanced.haveAuthKey]: store.config.authKey !== ''}"
           name="keys"
           :placeholder="authKeyPlaceHolder"
           role="authkey"
@@ -87,7 +87,7 @@
         <div v-if="false" :class="advanced.radioGroup">
           <input
             id="sideBar"
-            :checked="storeConfig.config.displayMode == 'siderBar'"
+            :checked="store.config.displayMode == 'siderBar'"
             name="mode"
             type="radio"
             @input="changeMode('siderBar')"
@@ -100,7 +100,7 @@
         <div :class="advanced.radioGroup">
           <input
             id="popUp"
-            :checked="storeConfig.config.displayMode == 'popUp'"
+            :checked="store.config.displayMode == 'popUp'"
             name="mode"
             type="radio"
             @input="changeMode('popUp')"
@@ -116,7 +116,7 @@
         $gettext('Active Webpilot')
       }}</span>
       <div :class="advanced.activeWebpilot">
-        <SwitchButton v-model="storeConfig.config.autoPopup" @on-change="onAutoPopupChange" />
+        <SwitchButton v-model="store.config.autoPopup" @on-change="onAutoPopupChange" />
         <div :class="advanced.activeWebpilotDesc">
           {{ $gettext('Display Webpilot') }} <img :src="WebpilotLogo" />
           {{ $gettext('when text is selected') }}
@@ -139,7 +139,7 @@
 import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
@@ -153,17 +153,17 @@ import SwitchButton from './components/SwitchButton.vue'
 
 const links = ref('https://platform.openai.com/account/api-keys')
 
-const storeConfig = useConfigStore()
+const store = useStore()
 
 const {loading, success, error, askAi} = useAskAi()
 
-const {config} = storeToRefs(storeConfig)
+const {config} = storeToRefs(store)
 
 const saveAuthKey = ref(config.value.authKey)
 /** Edit Auth Key */
 const authKey = ref('')
 const authKeyPlaceHolder = computed(() => {
-  const key = saveAuthKey.value === '' ? storeConfig.config.authKey : saveAuthKey.value
+  const key = saveAuthKey.value === '' ? store.config.authKey : saveAuthKey.value
 
   if (key === '' || !key) return 'Enter your API Key from OpenAI'
 
@@ -217,29 +217,30 @@ const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
 const save = async () => {
-  storeConfig.setConfig({
-    ...storeConfig.config,
+  store.setConfig({
+    ...store.config,
     model: {
-      ...storeConfig.config.model,
+      ...store.config.model,
       model: llmModel.value,
     },
   })
 
   if (
-    saveAuthKey.value === storeConfig.config.authKey &&
-    selfHostUrl.value === storeConfig.config.selfHostUrl
+    saveAuthKey.value === store.config.authKey &&
+    selfHostUrl.value === store.config.selfHostUrl
   ) {
     return
   }
+
   // Check Toekn validation
   await askAi({
     authKey: saveAuthKey.value,
     command: 'Say hi.',
-    url: isSelfHost.value ? selfHostUrl.value : '',
+    url: selfHostUrl.value,
   })
 
-  storeConfig.setConfig({
-    ...storeConfig.config,
+  store.setConfig({
+    ...store.config,
     isAuth: true,
     authKey: saveAuthKey.value,
     selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
@@ -247,29 +248,27 @@ const save = async () => {
 }
 
 const chekcCloseSelfHost = () => {
-  if (!isSelfHost.value) {
-    selfHostUrl.value = ''
-  }
+  if (!isSelfHost.value) selfHostUrl.value = ''
 }
 
 // Display Mode
 const changeMode = str => {
-  storeConfig.config.displayMode = str
-  storeConfig.setConfig(storeConfig.config)
+  store.config.displayMode = str
+  store.setConfig(store.config)
 }
 
 // Active Select popup
 const onAutoPopupChange = value => {
-  storeConfig.config.autoPopup = value
-  storeConfig.setConfig(storeConfig.config)
+  store.config.autoPopup = value
+  store.setConfig(store.config)
 }
 
 // Shortcut
 const shortcutKeys = ref(config.value.customShortcut)
 
 const onChangeShortcut = customShortcut => {
-  storeConfig.setConfig({
-    ...storeConfig.config,
+  store.setConfig({
+    ...store.config,
     customShortcut,
   })
 }

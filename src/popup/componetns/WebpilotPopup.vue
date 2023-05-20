@@ -24,9 +24,9 @@ import {sendToBackground} from '@plasmohq/messaging'
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import TipsShortcut from '@/components/TipsShortcut.vue'
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 
-const storeConfig = useConfigStore()
+const storeConfig = useStore()
 
 onBeforeMount(async () => {
   // check auth state

@@ -4,7 +4,7 @@ import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
 import {i18nPlugin} from '@/utils/i18n'
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 
 import WebpilotPopup from './componetns/WebpilotPopup.vue'
 import 'vue-toast-notification/dist/theme-bootstrap.css'
@@ -14,7 +14,7 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(i18nPlugin)
 
-const soterConfig = useConfigStore()
+const soterConfig = useStore()
 soterConfig.initConfig().then(() => {
   app.mount('#webpilot-popup-page')
 })

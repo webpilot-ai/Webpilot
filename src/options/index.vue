@@ -4,7 +4,7 @@ import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
 import {i18nPlugin} from '@/utils/i18n'
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 
 import TheEntry from './TheEntry.vue'
 
@@ -13,8 +13,8 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(i18nPlugin)
 
-const soterConfig = useConfigStore()
-soterConfig.initConfig().then(() => {
+const store = useStore()
+store.initConfig().then(() => {
   app.mount('#webpilot-options-page')
 })
 </script>

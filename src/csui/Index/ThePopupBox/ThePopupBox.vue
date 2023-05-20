@@ -8,7 +8,7 @@
     <HeaderPanel @on-close="handleClosePopup" />
     <PromptList
       v-if="!isAskPage"
-      :prompts="storeConfig.config.prompts"
+      :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
       @on-change="handleChanegPrompt"
@@ -22,11 +22,7 @@
       @on-change="handeInputCommandChnage"
       @on-submit="popUpAskIA"
     />
-    <ShortcutTips
-      v-if="storeConfig.config.showShortcutTips"
-      :show-text-tips="true"
-      tips-text="hello?"
-    />
+    <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" />
     <PromptResult v-model="result" />
     <PromptEditor
       :disable-delete="disableDeletePropmt"
@@ -45,6 +41,7 @@ import {Readability} from '@mozilla/readability'
 import {useToast} from 'vue-toast-notification'
 
 import {useMagicKeys} from '@vueuse/core'
+import {storeToRefs} from 'pinia'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import PromptInput from '@/components/PromptInput.vue'
@@ -52,13 +49,13 @@ import ShortcutTips from '@/components/ShortcutTips.vue'
 import PromptList from '@/components/PromptList.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
-import useConfigStore from '@/stores/config'
 import useStore from '@/stores/store'
 import useAskAi from '@/hooks/useAskAi'
 
-const storeConfig = useConfigStore()
 const store = useStore()
 const toast = useToast()
+
+const {config} = storeToRefs(store)
 
 const {loading: aiThinking, result, errorMessage, askAi} = useAskAi()
 
@@ -92,10 +89,10 @@ onMounted(() => {
   if (props.isAskPage) return
 
   // init selected prompt
-  const index = storeConfig.config.latestPresetPromptIndex
-  if (index >= 0 && storeConfig.config.prompts[index]) {
+  const index = store.config.latestPresetPromptIndex
+  if (index >= 0 && store.config.prompts[index]) {
     selectedPrompt.index = index
-    selectedPrompt.prompt = storeConfig.config.prompts[index]
+    selectedPrompt.prompt = store.config.prompts[index]
   }
 })
 
@@ -142,7 +139,11 @@ const handleChanegPrompt = promptInfo => {
   selectedPrompt.index = index
   selectedPrompt.prompt = prompt
   inputCommand.value = prompt.command
-  storeConfig.setLatestPromptIndex(index)
+
+  store.setConfig({
+    ...store.config,
+    latestPresetPromptIndex: index,
+  })
 
   popUpAskIA()
 }
@@ -161,25 +162,35 @@ const handleEditPrompt = promptInfo => {
 
 const handleSavePrompt = prompt => {
   selectedPrompt.prompt = prompt
-  storeConfig.updatePrompt(selectedPrompt.index, prompt)
-  storeConfig.setLatestPromptIndex(selectedPrompt.index)
+
+  const {prompts} = config.value
+  prompts[selectedPrompt.index] = prompt
+
+  store.setConfig({
+    ...store.config,
+    prompts,
+    latestPresetPromptIndex: selectedPrompt.index,
+  })
   handleCloseEditor()
 }
 
 const handleDeletePrompt = () => {
-  storeConfig.deletePrompt(selectedPrompt.index)
+  const {prompts} = config.value
+  prompts.splice(selectedPrompt.index, 1)
+  store.setPrompts(prompts)
+
   inputCommand.value = ''
   handleCloseEditor()
 }
 
 const handleAddPrompt = () => {
-  selectedPrompt.index = storeConfig.config.prompts.length
+  selectedPrompt.index = store.config.prompts.length
   selectedPrompt.prompt = {title: '', command: ''}
   handleShowEditor()
 }
 
 const disableDeletePropmt = computed(() => {
-  return storeConfig.config.prompts.length === 1
+  return store.config.prompts.length === 1
 })
 
 const handleClosePopup = () => {

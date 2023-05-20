@@ -49,7 +49,7 @@ import '@assets/styles/reset.scss'
 import {ref} from 'vue'
 import {useToast} from 'vue-toast-notification'
 
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
@@ -60,7 +60,7 @@ import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
 
 const toast = useToast()
-const storeConfig = useConfigStore()
+const storeConfig = useStore()
 
 const {loading, askAi} = useAskAi()
 

@@ -5,13 +5,13 @@
       <section>Webpilot</section>
     </section>
     <section :class="$style.headerIcons">
-      <Popper :class="$style.popover" hover :offset-distance="8" placement="top">
+      <Popper :class="$style.popover" hover offset-distance="8" placement="top">
         <IconGear :class="$style.icon" @click="openSettingPage" />
         <template #content>
           <span :class="$style.popoverText">Settings</span>
         </template>
       </Popper>
-      <Popper :class="$style.popover" hover :offset-distance="8" placement="top">
+      <Popper :class="$style.popover" hover offset-distance="8" placement="top">
         <IconClose :class="$style.icon" @click="closePopup" />
         <template #content>
           <span :class="$style.popoverText">Close</span>
@@ -44,6 +44,7 @@ const closePopup = () => {
 <style lang="scss" module>
 .headerPanel {
   display: flex;
+  height: 24px;
   margin-bottom: 8px !important;
 }
 

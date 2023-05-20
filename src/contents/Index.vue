@@ -5,7 +5,7 @@ import {createPinia} from 'pinia'
 import {i18nPlugin} from '@/utils/i18n'
 
 import App from '@/csui/Index/TheEntry.vue'
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 import 'vue-toast-notification/dist/theme-bootstrap.css'
 
 export default {
@@ -26,8 +26,9 @@ async function render({createRootContainer}) {
   app.use(pinia)
 
   // init pinia data
-  const storeConfig = useConfigStore()
-  await storeConfig.initConfig()
+  const store = useStore()
+  await store.initConfig()
+
   app.mount(rootContainer)
 }
 

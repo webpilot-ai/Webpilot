@@ -2,7 +2,6 @@ import {ref, toRaw} from 'vue'
 
 import useStore from '@/stores/store'
 import {askOpenAI, parseStream} from '@/io'
-import useConfigStore from '@/stores/config'
 
 const getPropmtTemplate = (text, command) => {
   return [
@@ -29,7 +28,6 @@ export default function useAskAi() {
   const errorMessage = ref('')
 
   const store = useStore()
-  const configStore = useConfigStore()
 
   const resetState = () => {
     loading.value = false
@@ -49,10 +47,10 @@ export default function useAskAi() {
     loading.value = true
 
     return askOpenAI({
-      authKey: authKey === '' ? configStore.config.authKey : authKey,
-      model: toRaw(configStore.config.model),
+      authKey: authKey === '' ? store.config.authKey : authKey,
+      model: toRaw(store.config.model),
       message,
-      url,
+      url: url === null || url === undefined ? store.config.selfHostUrl : url,
     })
       .then(streamReader => {
         loading.value = false
@@ -70,8 +68,8 @@ export default function useAskAi() {
         if (err.response && err.response.status === 401) {
           errorMessage.value = err.response?.data?.error?.message
 
-          configStore.setConfig({
-            ...configStore.config,
+          store.setConfig({
+            ...store.config,
             authKey: '',
             isAuth: false,
           })

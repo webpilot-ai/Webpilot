@@ -6,15 +6,15 @@ import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import IllustrationSelectText from '@/components/icon/IllustrationSelectText.vue'
 import DisplayMode from '@/components/DisplayMode.vue'
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 
 import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import {formatShortcut} from '@/utils/index'
 
-const storeConfig = useConfigStore()
+const store = useStore()
 
-const {config} = storeToRefs(storeConfig)
+const {config} = storeToRefs(store)
 
 const {customShortcut} = config.value
 
@@ -22,28 +22,28 @@ const autoPopup = ref(config.value.autoPopup)
 const mode = ref(config.value.displayMode)
 
 const onShotcutChange = customShortcut => {
-  storeConfig.setConfig({
-    ...storeConfig.config,
+  store.setConfig({
+    ...store.config,
     customShortcut,
   })
 }
 
 const onAutoPopupChange = value => {
-  storeConfig.setConfig({
-    ...storeConfig.config,
+  store.setConfig({
+    ...store.config,
     autoPopup: value,
   })
 }
 
 const osDisplayModeChange = value => {
-  storeConfig.setConfig({
-    ...storeConfig.config,
+  store.setConfig({
+    ...store.config,
     displayMode: value,
   })
 }
 
 const shotcut = computed(() => {
-  return formatShortcut(storeConfig.config.customShortcut)
+  return formatShortcut(store.config.customShortcut)
 })
 </script>
 

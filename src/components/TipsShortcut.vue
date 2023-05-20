@@ -10,13 +10,13 @@
 <script setup>
 import {computed} from 'vue'
 
-import useConfigStore from '@/stores/config'
+import useStore from '@/stores/store'
 import {formatShortcut} from '@/utils'
 
-const configStore = useConfigStore()
+const store = useStore()
 
 const shortcut = computed(() => {
-  return formatShortcut(configStore.config.customShortcut)
+  return formatShortcut(store.config.customShortcut)
 })
 </script>
 
