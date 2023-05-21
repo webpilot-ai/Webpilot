@@ -54,7 +54,7 @@ import ThePopupBox from './ThePopupBox/ThePopupBox.vue'
 /** For listen scroll Y offset */
 const refTail = ref(null)
 
-/** For listen scrolll Y offset */
+/** For listen click outside */
 const refPopupWrap = ref(null)
 
 /** For listen drag  X Y offset */
@@ -98,7 +98,6 @@ const updateTextAndPosition = textAndPosition => {
 useMouseSelectedText(updateTextAndPosition)
 useKeyboardSelectedText(updateTextAndPosition)
 
-const {scrollYOffset: popupScrollYOffset} = useScroll(refPopupWrap)
 const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
 const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
 
@@ -185,33 +184,8 @@ const tailPosition = computed(() => {
 })
 
 const popupPosition = computed(() => {
-  if (isShowAskPage.value) {
-    const x = window.innerWidth / 2 - 480 / 2
-    const y = 50
-    return {x, y}
-  }
-
-  const POPUP_X_MIDDLE = 240
-  const POPUP_Y_OFFSET = 0
-  const EDGE_OFFSET = 20
-
-  let {x, y} = position.value
-
-  // check left
-  const minX = POPUP_X_MIDDLE + EDGE_OFFSET
-  if (x < minX) x = minX
-
-  // check right
-  const maxX = window.innerWidth - POPUP_X_MIDDLE - EDGE_OFFSET
-  if (x > maxX) x = maxX
-
-  // scroll offset
-  y = y + popupScrollYOffset.value + tailScrollYOffset.value
-
-  // move to center offset
-  x = x - POPUP_X_MIDDLE
-  y = y + POPUP_Y_OFFSET
-
+  const x = window.innerWidth / 2 - 480 / 2
+  const y = 50
   return {x, y}
 })
 </script>

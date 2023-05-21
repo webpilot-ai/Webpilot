@@ -18,6 +18,7 @@ figure,
 blockquote,
 dl,
 dd,
+input,
 section {
   margin: 0;
 }
@@ -58,4 +59,10 @@ textarea,
 select {
   box-sizing: border-box;
   font: inherit;
+}
+
+/* Textarea default style */
+textarea {
+  cursor: text;
+  background-color: #fff;
 }

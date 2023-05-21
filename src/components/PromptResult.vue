@@ -131,6 +131,11 @@ const handleCopy = () => {
   &:focus-visible {
     outline: none;
   }
+
+  &:focus {
+    border-color: #dcdee1;
+    outline: none;
+  }
 }
 
 .btnArea {
