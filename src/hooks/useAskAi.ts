@@ -3,19 +3,14 @@ import {ref, toRaw} from 'vue'
 import useStore from '@/stores/store'
 import {askOpenAI, parseStream} from '@/io'
 
-const getPropmtTemplate = (text, command) => {
+const getPropmtTemplate = (referenceText, command) => {
   return [
-    {role: 'user', content: text},
     {
       role: 'system',
       content:
-        "The user has selected these texts on the webpage. You need to further process these texts based on the user's requirements, or engage in related question and answer activities.",
+        "You are WebPilot, an advanced AI provided by WebPilot.AI. Please follow the user's instructions carefully.",
     },
-    {
-      role: 'system',
-      content:
-        'Please try to use the language used in the following content as much as possible in your response.',
-    },
+    {role: 'user', content: referenceText},
     {role: 'user', content: command},
   ]
 }
