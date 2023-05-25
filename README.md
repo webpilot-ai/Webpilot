@@ -8,6 +8,8 @@ Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/Webp
 
 Official Website: [HomePage](https://www.Webpilot.ai/)
 
+Dev Team: dev@webpilot.ai
+
 Note: Webpilot is currently in Pre-Release version and will be officially released within the next month. It will continue to iterate (and remain open source and free).
 
 ## Getting Started
