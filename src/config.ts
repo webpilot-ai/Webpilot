@@ -1,4 +1,4 @@
-import {$gettext as gettext} from './utils/i18n'
+import {$gettext} from './utils/i18n'
 
 export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 
@@ -28,18 +28,18 @@ export const defaultConfig = {
   /** Constom preset prompts */
   prompts: [
     {
-      title: gettext('Summarize'),
-      command: gettext('Summarize and express these words concisely'),
+      title: $gettext('Summarize'),
+      command: $gettext('Summarize and express these words concisely'),
     },
     {
-      title: gettext('Refine'),
-      command: gettext(
+      title: $gettext('Refine'),
+      command: $gettext(
         'Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure'
       ),
     },
     {
-      title: gettext('Disagree'),
-      command: gettext(
+      title: $gettext('Disagree'),
+      command: $gettext(
         'Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence'
       ),
     },
@@ -57,4 +57,10 @@ export const defaultConfig = {
 
 export const MESSAGING_EVENT = {
   SHOW_POPUP: 'MESSAGING_EVENT',
+}
+
+export const SUPER_BUTTON_STATUS = {
+  pending: 'pending',
+  generating: 'generating',
+  done: 'done',
 }

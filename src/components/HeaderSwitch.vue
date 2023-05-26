@@ -79,6 +79,18 @@ function updateParent() {
   cursor: pointer;
 }
 
+.switch::after {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  background-color: #585b58;
+  border-radius: 8px;
+  transition: 0.3s;
+  content: '';
+}
+
 .switch:active::after {
   width: 48px;
 }
@@ -92,18 +104,6 @@ function updateParent() {
   left: calc(100% - 2px);
   background-color: #fff;
   transform: translateX(-100%);
-}
-
-.switch::after {
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 16px;
-  height: 16px;
-  background-color: #585b58;
-  border-radius: 8px;
-  transition: 0.3s;
-  content: '';
 }
 
 .switchText {

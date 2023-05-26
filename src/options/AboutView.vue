@@ -39,27 +39,31 @@ onMounted(() => {
 .main {
   margin-top: 20px;
   padding: 24px 16px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgb(255 255 255 / 60%);
   border-radius: 10px;
 }
+
 .title {
+  margin-bottom: 8px;
+  color: #292929;
   font-size: 18px;
   line-height: 25px;
-  color: #292929;
-  margin-bottom: 8px;
 }
+
 .persons {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
+
 .donate {
+  margin-top: -20px;
   color: #4f5aff;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   text-decoration-line: underline;
-  margin-top: -20px;
+
   a:visited {
     color: #4f5aff;
   }

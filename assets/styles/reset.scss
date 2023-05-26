@@ -7,22 +7,6 @@
     'Microsoft Yahei', Tahoma, Simsun, sans-serif;
 }
 
-/* Remove default margin */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd,
-input,
-section {
-  margin: 0;
-}
-
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 ul[role='list'],
 ol[role='list'] {
@@ -36,6 +20,7 @@ html:focus-within {
 
 /* Set core body defaults */
 body {
+  margin: 0;
   text-rendering: optimizespeed;
   line-height: 1.5;
 }
@@ -57,12 +42,11 @@ input,
 button,
 textarea,
 select {
-  box-sizing: border-box;
   font: inherit;
 }
 
 /* Textarea default style */
 textarea {
-  cursor: text;
   background-color: #fff;
+  cursor: text;
 }

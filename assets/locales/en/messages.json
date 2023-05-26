@@ -20,6 +20,9 @@
   "Change_Shortcut": {
     "message": "Change Shortcut"
   },
+  "Disagree": {
+    "message": "Disagree"
+  },
   "Display_Mode": {
     "message": "Display Mode"
   },
@@ -28,6 +31,9 @@
   },
   "Extension_Settings": {
     "message": "Extension Settings"
+  },
+  "Identify_any_logical_or_factual_errors_in_these_texts_and_provide_a_rebuttal__At_the_same_time__present_the_opposite_viewpoint_with_supporting_evidence": {
+    "message": "Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence"
   },
   "OpenAI_gpt_3_5_turbo": {
     "message": "OpenAI gpt-3.5-turbo"
@@ -41,6 +47,12 @@
   "Pop_Up": {
     "message": "Pop Up"
   },
+  "Refine": {
+    "message": "Refine"
+  },
+  "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
+    "message": "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
+  },
   "Save_Changes": {
     "message": "Save Changes"
   },
@@ -49,6 +61,12 @@
   },
   "Star_on_Github": {
     "message": "Star on Github"
+  },
+  "Summarize": {
+    "message": "Summarize"
+  },
+  "Summarize_and_express_these_words_concisely": {
+    "message": "Summarize and express these words concisely"
   },
   "Visit": {
     "message": "Visit"

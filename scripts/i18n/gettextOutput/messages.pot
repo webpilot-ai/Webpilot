@@ -8,14 +8,14 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: src/options/AdvancedView.vue:6
+#: src/options/AdvancedView.vue:7
 msgid "Active API Provider"
 msgstr ""
 
-#: src/options/AdvancedView.vue:107
-#: src/options/AdvancedView.vue:59
-#: src/options/AdvancedView.vue:60
-#: src/options/AdvancedView.vue:95
+#: src/options/AdvancedView.vue:104
+#: src/options/AdvancedView.vue:116
+#: src/options/AdvancedView.vue:64
+#: src/options/AdvancedView.vue:65
 msgid "Active Webpilot"
 msgstr ""
 
@@ -29,39 +29,47 @@ msgstr ""
 msgid "API Settings"
 msgstr ""
 
-#: src/options/AdvancedView.vue:104
-#: src/options/AdvancedView.vue:116
-#: src/options/AdvancedView.vue:68
-#: src/options/AdvancedView.vue:69
+#: src/options/AdvancedView.vue:114
+#: src/options/AdvancedView.vue:126
+#: src/options/AdvancedView.vue:74
+#: src/options/AdvancedView.vue:75
 msgid "Change Shortcut"
 msgstr ""
 
-#: src/options/AdvancedView.vue:40
-#: src/options/AdvancedView.vue:41
-#: src/options/AdvancedView.vue:76
+#: src/config.ts:41
+msgid "Disagree"
+msgstr ""
+
+#: src/options/AdvancedView.vue:44
+#: src/options/AdvancedView.vue:45
+#: src/options/AdvancedView.vue:84
 msgid "Display Mode"
 msgstr ""
 
-#: src/options/AdvancedView.vue:111
-#: src/options/AdvancedView.vue:63
-#: src/options/AdvancedView.vue:64
-#: src/options/AdvancedView.vue:99
+#: src/options/AdvancedView.vue:109
+#: src/options/AdvancedView.vue:121
+#: src/options/AdvancedView.vue:69
+#: src/options/AdvancedView.vue:70
 msgid "Display Webpilot"
 msgstr ""
 
-#: src/options/AdvancedView.vue:39
-#: src/options/AdvancedView.vue:40
-#: src/options/AdvancedView.vue:75
+#: src/options/AdvancedView.vue:43
+#: src/options/AdvancedView.vue:44
+#: src/options/AdvancedView.vue:83
 msgid "Extension Settings"
 msgstr ""
 
-#: src/options/AdvancedView.vue:8
-#: src/options/AdvancedView.vue:9
-msgid "OpenAI gpt-3.5-turbo"
+#: src/config.ts:42
+msgid "Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence"
 msgstr ""
 
 #: src/options/AdvancedView.vue:10
 #: src/options/AdvancedView.vue:11
+msgid "OpenAI gpt-3.5-turbo"
+msgstr ""
+
+#: src/options/AdvancedView.vue:12
+#: src/options/AdvancedView.vue:13
 msgid "OpenAI gpt-4"
 msgstr ""
 
@@ -70,15 +78,23 @@ msgstr ""
 msgid "Opensource AI Assistant On All Websites"
 msgstr ""
 
-#: src/options/AdvancedView.vue:101
+#: src/options/AdvancedView.vue:109
 msgid "Pop Up"
 msgstr ""
 
-#: src/options/AdvancedView.vue:69
+#: src/config.ts:35
+msgid "Refine"
+msgstr ""
+
+#: src/config.ts:36
+msgid "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
+msgstr ""
+
+#: src/options/AdvancedView.vue:76
 msgid "Save Changes"
 msgstr ""
 
-#: src/options/AdvancedView.vue:88
+#: src/options/AdvancedView.vue:96
 msgid "Side Bar"
 msgstr ""
 
@@ -88,10 +104,18 @@ msgstr ""
 msgid "Star on Github"
 msgstr ""
 
-#: src/options/AdvancedView.vue:21
-#: src/options/AdvancedView.vue:22
-#: src/options/AdvancedView.vue:32
-#: src/options/AdvancedView.vue:37
+#: src/config.ts:31
+msgid "Summarize"
+msgstr ""
+
+#: src/config.ts:32
+msgid "Summarize and express these words concisely"
+msgstr ""
+
+#: src/options/AdvancedView.vue:25
+#: src/options/AdvancedView.vue:26
+#: src/options/AdvancedView.vue:36
+#: src/options/AdvancedView.vue:43
 msgid "Visit"
 msgstr ""
 
@@ -101,13 +125,13 @@ msgstr ""
 msgid "Webpilot is open source"
 msgstr ""
 
-#: src/options/AdvancedView.vue:100
-#: src/options/AdvancedView.vue:112
-#: src/options/AdvancedView.vue:64
-#: src/options/AdvancedView.vue:65
+#: src/options/AdvancedView.vue:110
+#: src/options/AdvancedView.vue:122
+#: src/options/AdvancedView.vue:70
+#: src/options/AdvancedView.vue:71
 msgid "when text is selected"
 msgstr ""
 
-#: src/options/AdvancedView.vue:17
+#: src/options/AdvancedView.vue:20
 msgid "Your API Key"
 msgstr ""
