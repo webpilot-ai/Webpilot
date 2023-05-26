@@ -17,7 +17,9 @@ const getPropmtTemplate = (referenceText, command) => {
 
 export default function useAskAi() {
   const loading = ref(false)
+  const generating = ref(false)
   const success = ref(false)
+  const done = ref(false)
   const error = ref(false)
   const result = ref('')
   const errorMessage = ref('')
@@ -26,20 +28,26 @@ export default function useAskAi() {
 
   const resetState = () => {
     loading.value = false
+    generating.value = false
     success.value = false
+    done.value = false
     error.value = false
     result.value = ''
+    errorMessage.value = ''
   }
 
-  const askAi = async ({referenceText = '', command, authKey = '', url = null}) => {
+  const askAi = async ({referenceText = '', command, authKey = '', url = null} = {}) => {
     // clean result
     resetState()
+
+    if (!referenceText && !command) return askOpenAI()
 
     let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
     const message = getPropmtTemplate(text, command)
 
     loading.value = true
+    generating.value = true
 
     return askOpenAI({
       authKey: authKey === '' ? store.config.authKey : authKey,
@@ -51,7 +59,11 @@ export default function useAskAi() {
         loading.value = false
         success.value = true
         parseStream(streamReader, reqResult => {
-          result.value = reqResult
+          result.value = reqResult.text
+          done.value = reqResult.done
+          if (done.value) {
+            generating.value = false
+          }
         })
       })
       .catch(err => {
@@ -89,6 +101,8 @@ export default function useAskAi() {
   return {
     result,
     loading,
+    generating,
+    done,
     success,
     error,
     errorMessage,

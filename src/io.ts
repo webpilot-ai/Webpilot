@@ -2,21 +2,19 @@ import {OPEN_AI_API} from '@/config'
 
 let prevAbortController = null
 
-export async function askOpenAI({authKey, model, message, url = null}) {
-  const requestModel = model
+export function askOpenAI({authKey, model, message, url = null} = {}) {
+  const abortController = new AbortController()
 
+  if (prevAbortController) prevAbortController.abort()
+  prevAbortController = abortController
+
+  if (!model) return Promise.resolve()
+
+  const requestModel = model
   requestModel.messages = message
   requestModel.stream = true
 
-  const abortController = new AbortController()
-
-  if (prevAbortController) {
-    prevAbortController.abort()
-  }
-
-  prevAbortController = abortController
-
-  return fetch(!!url && url !== '' ? url : OPEN_AI_API, {
+  return fetch(url || OPEN_AI_API, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,6 +24,7 @@ export async function askOpenAI({authKey, model, message, url = null}) {
     signal: abortController.signal,
   }).then(async response => {
     const streamReader = response.body.getReader()
+    streamReader.abortController = abortController
 
     if (!response.ok) {
       const decoder = new TextDecoder()
@@ -49,10 +48,18 @@ export async function parseStream(streamReader, onUpdate) {
   let text = ''
 
   while (true) {
-    // eslint-disable-next-line
-    const {done, value} = await streamReader.read()
+    let done = false
+    let value = ''
+    try {
+      // eslint-disable-next-line
+      const stream = await streamReader.read()
+      done = stream.done
+      value = stream.value
+    } catch (e) {
+      return onUpdate({done, text})
+    }
 
-    if (done) return text
+    if (done) return onUpdate({done, text})
 
     const chunk = decoder.decode(value, {stream: true})
     const dataStrList = chunk.split('\n\n')
@@ -67,7 +74,7 @@ export async function parseStream(streamReader, onUpdate) {
 
         text += content
 
-        onUpdate(text)
+        onUpdate({done, text})
       } catch (e) {}
     })
   }

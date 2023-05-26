@@ -1,0 +1,60 @@
+<template>
+  <SuperButton
+    :done="done"
+    :generating="generating"
+    :prompt="superButtonPrompt"
+    :title="superButtonTitle"
+    @abort="handleAbort"
+    @fire="handleFire"
+    @undo="handleUndo"
+  />
+</template>
+
+<script setup>
+import '@assets/styles/csui-reset.scss'
+
+import {ref, watch} from 'vue'
+
+import SuperButton from '@/components/SuperButton/SuperButton.vue'
+
+import useAskAi from '@/hooks/useAskAi'
+import useSuperButtonPrompt from '@/hooks/useSuperButtonPrompt'
+
+const STORAGE_KEY = 'GithubIssues'
+const TITLE = 'github.com'
+const DEFAULT_PROMPT = 'Re-write in native American English'
+
+const superButtonTitle = ref(TITLE)
+const originTextareaValue = ref('')
+
+const {askAi, generating, done, result} = useAskAi()
+
+const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_KEY, DEFAULT_PROMPT)
+
+watch(result, result => {
+  getTextarea().value = result
+})
+
+function getTextarea() {
+  let $textarea = document.querySelector('#issue_body')
+  if (!$textarea) $textarea = document.querySelector('#new_comment_field')
+  return $textarea
+}
+
+async function handleFire({prompt}) {
+  setSuperButtonPrompt(prompt)
+  const referenceText = getTextarea().value
+
+  originTextareaValue.value = referenceText
+
+  await askAi({referenceText, command: prompt})
+}
+
+async function handleAbort() {
+  askAi()
+}
+
+function handleUndo() {
+  getTextarea().value = originTextareaValue.value
+}
+</script>
