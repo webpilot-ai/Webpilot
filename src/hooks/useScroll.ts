@@ -23,5 +23,10 @@ export default function useScroll(element) {
     document?.removeEventListener('scroll', getScrollY)
   })
 
-  return {scrollYOffset}
+  const resetScroll = () => {
+    originScrollY.value = 0
+    scrollYOffset.value = 0
+  }
+
+  return {scrollYOffset, resetScroll}
 }

@@ -7,9 +7,10 @@
       top: `${tailPosition.y}px`,
       left: `${tailPosition.x}px`,
     }"
-    @click="handleMouseOverTail"
+    @mouseover="handleMouseOverTail"
   >
     <img :class="$style.webpilotLogo" :src="WebpilotLogo" />
+    <span>{{ shortcutText }}</span>
   </section>
 
   <section
@@ -46,6 +47,7 @@ import useMouseSelectedText from '@/hooks/useMouseSelectedText'
 import useKeyboardSelectedText from '@/hooks/useKeyboardSelectedText'
 
 import useStore from '@/stores/store'
+import {formatShortcut} from '@/utils'
 
 import WebpilotLogo from '../../../assets/icon.png'
 
@@ -85,6 +87,9 @@ const isShowWebpilotTail = computed(() => {
   return showWebpilotTail.value && store.config.autoPopup
 })
 
+const {scrollYOffset: tailScrollYOffset, resetScroll} = useScroll(refTail)
+const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
+
 /** Get text and position from mouse and keybaord select text */
 const updateTextAndPosition = textAndPosition => {
   if (isShowWebpilotPopup.value) return
@@ -92,14 +97,12 @@ const updateTextAndPosition = textAndPosition => {
   const {selectedText: text, position: currentPosition} = textAndPosition
   selectedText.value = text
   store.setSelectedText(text)
+  resetScroll()
   position.value = currentPosition
 }
 
 useMouseSelectedText(updateTextAndPosition)
 useKeyboardSelectedText(updateTextAndPosition)
-
-const {scrollYOffset: tailScrollYOffset} = useScroll(refTail)
-const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
 
 // keyboard
 const keys = useMagicKeys()
@@ -169,8 +172,8 @@ const handleMouseOverTail = () => {
 }
 
 const tailPosition = computed(() => {
-  const TAIL_X_OFFEST = 25
-  const TAIL_Y_OFFSET = 0
+  const TAIL_X_OFFEST = 0
+  const TAIL_Y_OFFSET = 9
 
   let {x, y} = position.value
 
@@ -187,6 +190,10 @@ const popupPosition = computed(() => {
   const x = window.innerWidth / 2 - 480 / 2
   const y = 50
   return {x, y}
+})
+
+const shortcutText = computed(() => {
+  return formatShortcut(store.config.customShortcut)
 })
 </script>
 
@@ -221,12 +228,24 @@ const popupPosition = computed(() => {
 .webpilotTail {
   @include popup;
 
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  padding: 6px 4px;
+  padding-right: 6px;
+  color: #292929;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 17px;
+  border-radius: 10px;
   box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
   cursor: pointer;
-  opacity: 0.85;
+
+  img {
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+  }
 }
 
 .webpilotLogo {
