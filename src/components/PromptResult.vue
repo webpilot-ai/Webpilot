@@ -1,8 +1,8 @@
 <template>
   <section v-show="showResult" :class="$style.promptResultWrap">
     <section>Webpilot says</section>
-    <div ref="refMarkdown" :class="$style.markdownWrap">
-      <Markdown :source="result" @scroll="onScroll" />
+    <div ref="refMarkdown" :class="$style.markdownWrap" @scroll="onScroll">
+      <Markdown :source="result" />
     </div>
     <section :class="$style.btnArea">
       <section :class="$style.tips" @click="showShareInfo">
