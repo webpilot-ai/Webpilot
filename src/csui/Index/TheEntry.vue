@@ -14,7 +14,7 @@
   </section>
 
   <section
-    v-if="isShowWebpilotPopup"
+    v-if="showWebpilotPopup"
     ref="refPopupWrap"
     :class="$style.popupBoxContainer"
     :style="{
@@ -23,7 +23,7 @@
       transform: `translate(${dragOffsetX}px, ${dragOffsetY}px)`,
     }"
   >
-    <ThePopupBox id="webpilot_popup" :is-ask-page="isShowAskPage" @close-popup="handleClosePopup" />
+    <ThePopupBox id="webpilot_popup" :is-ask-page="isAskPage" @close-popup="handleClosePopup" />
     <section ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
 
@@ -62,9 +62,6 @@ const refPopupWrap = ref(null)
 /** For listen drag  X Y offset */
 const refDragHandle = ref(null)
 
-/** Identify popup type */
-const isShowAskPage = ref(false)
-
 /** Popup state trigger by mouse over logo(tail) */
 const showWebpilotPopup = ref(false)
 
@@ -77,13 +74,17 @@ const position = ref({x: 0, y: 0})
 /** Select selct by keyboard or mouse */
 const selectedText = ref('')
 
-/** Show popup or not */
-const isShowWebpilotPopup = computed(() => {
-  return showWebpilotPopup.value || isShowAskPage.value
+/** Identify popup type */
+const isAskPage = computed(() => {
+  return selectedText.value === '' && !selectedText.value
 })
 
 const isShowWebpilotTail = computed(() => {
   if (!store.config.isAuth) return false
+
+  // Hiden when popup show
+  if (showWebpilotPopup.value) return false
+
   return showWebpilotTail.value && store.config.autoPopup
 })
 
@@ -92,7 +93,7 @@ const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(ref
 
 /** Get text and position from mouse and keybaord select text */
 const updateTextAndPosition = textAndPosition => {
-  if (isShowWebpilotPopup.value) return
+  if (showWebpilotPopup.value) return
 
   const {selectedText: text, position: currentPosition} = textAndPosition
   selectedText.value = text
@@ -113,38 +114,35 @@ watch(shortcut, v => {
   // Not key not popup
   if (!store.config.isAuth) return
 
-  if (!showWebpilotPopup.value) {
-    // Hit shortcut twice close popup
-    if (isShowAskPage.value) {
-      handleClosePopup()
-      return
-    }
+  // Hit shortcut twice close popup
+  if (showWebpilotPopup.value) {
+    handleClosePopup()
+    return
+  }
 
-    showAskPage()
+  showWebpilotPopup.value = true
 
-    // show popup by shortcut remove shortkey tips
-    if (store.config.showShortcutTips) {
-      store.setConfig({
-        ...store.config,
-        showShortcutTips: false,
-      })
-    }
+  // show popup by shortcut remove shortkey tips
+  if (store.config.showShortcutTips) {
+    store.setConfig({
+      ...store.config,
+      showShortcutTips: false,
+    })
   }
 })
 
 // Messaging
 useMessage(req => {
   if (req.name === MESSAGING_EVENT.SHOW_POPUP) {
-    showAskPage()
+    showWebpilotPopup.value = true
   }
 })
 
-const showAskPage = () => {
-  isShowAskPage.value = true
-}
+// trigger by click icon
 
 const onClickPopupOutside = () => {
-  if (isShowAskPage.value) return
+  // if is askpage (popup without select text), ingore click outside
+  if (isAskPage.value) return
 
   selectedText.value = ''
   handleClosePopup()
@@ -158,7 +156,6 @@ const showWebpilotTail = computed(() => {
 })
 
 const handleClosePopup = () => {
-  isShowAskPage.value = false
   showWebpilotPopup.value = false
   store.$patch({selectedText: ''})
   // remove tail

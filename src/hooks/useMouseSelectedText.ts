@@ -19,14 +19,14 @@ export default function useMouseSelectedText(onChange) {
 
       if (selection.rangeCount > 0 && selectedText.value.length > 0) {
         // is selected element is textarea
-        if (selection.anchorNode === selection.focusNode) {
-          const node = selection.anchorNode.childNodes[selection.anchorOffset]
-
-          if (node instanceof HTMLTextAreaElement || node instanceof HTMLInputElement) {
-            const rect = getRectFromInputAndTextarea(node)
-            x = rect.left
-            y = rect.bottom
-          }
+        const node = selection.anchorNode.childNodes[selection.anchorOffset]
+        if (
+          selection.anchorNode === selection.focusNode &&
+          (node instanceof HTMLTextAreaElement || node instanceof HTMLInputElement)
+        ) {
+          const rect = getRectFromInputAndTextarea(node)
+          x = rect.left
+          y = rect.bottom
         } else {
           const rect = selection.getRangeAt(0).getBoundingClientRect()
           x = rect.left
