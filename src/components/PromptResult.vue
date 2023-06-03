@@ -119,7 +119,8 @@ const handleCopy = () => {
   height: 116px;
   margin-top: 4px;
   padding: 8px;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: #000;
   font-weight: 400;
   font-size: 14px;
@@ -148,9 +149,11 @@ const handleCopy = () => {
 
   pre {
     margin: 0.5rem 0;
+    padding: 0;
   }
 
   code {
+    padding: 0.5rem !important;
     border-radius: 5px;
   }
 }
