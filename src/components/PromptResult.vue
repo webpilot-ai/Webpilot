@@ -1,13 +1,9 @@
 <template>
   <section v-show="showResult" :class="$style.promptResultWrap">
     <section>Webpilot says</section>
-    <textarea
-      ref="refTextarea"
-      :class="$style.textarea"
-      readonly
-      :value="result"
-      @scroll="onScroll"
-    />
+    <div ref="refMarkdown" :class="$style.markdownWrap" @scroll="onScroll">
+      <Markdown :source="result" />
+    </div>
     <section :class="$style.btnArea">
       <section :class="$style.tips" @click="showShareInfo">
         Amazing Webpilot, telling friends!
@@ -22,10 +18,13 @@ import {ref, watch, computed} from 'vue'
 
 import copyToClipboard from 'copy-to-clipboard'
 import {useToast} from 'vue-toast-notification'
+import Markdown from 'vue3-markdown-it'
+// eslint-disable-next-line import/no-unresolved
+import 'highlight.js/styles/monokai.css'
 
 import WebpilotButton from './WebpilotButton.vue'
 
-const refTextarea = ref(null)
+const refMarkdown = ref(null)
 const isAutoScroll = ref(true)
 
 const toast = useToast()
@@ -44,11 +43,11 @@ let textareaLineHeight = null
 
 const onScroll = () => {
   if (textareaLineHeight === null) {
-    const styleLineHeight = window.getComputedStyle(refTextarea.value)?.lineHeight
+    const styleLineHeight = window.getComputedStyle(refMarkdown.value)?.lineHeight
     textareaLineHeight = parseFloat(styleLineHeight)
   }
 
-  const {scrollTop: currentScrollTop, scrollHeight, clientHeight} = refTextarea.value
+  const {scrollTop: currentScrollTop, scrollHeight, clientHeight} = refMarkdown.value
 
   // scroll up stop auto scroll
   if (isAutoScroll.value && oldScrollTop !== null && currentScrollTop < oldScrollTop) {
@@ -83,13 +82,13 @@ const showShareInfo = () => {
     'update:modelValue',
     `Let me tell you about this crazy useful AI tool called Webpilot. All you gotta do is swipe on the task, and it gets done automatically. It's way better than ChatGPT, trust me!\n\nInstall: https://bit.ly/3mAJ9I7\nGitHub: https://github.com/webpilot-ai/Webpilot`
   )
-  refTextarea.value.scrollTop = refTextarea.value.scrollHeight
+  refMarkdown.value.scrollTop = refMarkdown.value.scrollHeight
 }
 
 watch(result, () => {
   if (!isAutoScroll.value) return
 
-  refTextarea.value.scrollTop = refTextarea.value.scrollHeight
+  refMarkdown.value.scrollTop = refMarkdown.value.scrollHeight
 })
 
 const handleCopy = () => {
@@ -115,15 +114,18 @@ const handleCopy = () => {
   line-height: 20px;
 }
 
-.textarea {
+.markdownWrap {
   width: 448px;
   height: 116px;
   margin-top: 4px;
   padding: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: #000;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
+  text-align: left;
   border: 1px solid #dcdee1;
   border-radius: 5px;
   resize: none;
@@ -135,6 +137,24 @@ const handleCopy = () => {
   &:focus {
     border-color: #dcdee1;
     outline: none;
+  }
+
+  * {
+    font-size: 14px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  pre {
+    margin: 0.5rem 0;
+    padding: 0;
+  }
+
+  code {
+    padding: 0.5rem !important;
+    border-radius: 5px;
   }
 }
 
