@@ -10,7 +10,7 @@ import SuperButton from '@/components/SuperButton/SuperButton.vue'
 import useAskAi from '@/hooks/useAskAi'
 import useSuperButtonPrompt from '@/hooks/useSuperButtonPrompt'
 
-const STORAGE_KEY = 'SlackEditor'
+const STORAGE_KEY = 'SlackMessages'
 const TITLE = 'slack.com'
 
 const refSuperButton = ref(null)
