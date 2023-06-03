@@ -14,6 +14,7 @@ const STORAGE_KEY = 'SlackMessages'
 const TITLE = 'slack.com'
 
 const refSuperButton = ref(null)
+const isInitialized = ref(false)
 const superButtonTitle = ref(TITLE)
 const originEditorContent = ref('')
 const DEFAULT_PROMPT = 'Re-write in native American English'
@@ -30,6 +31,7 @@ watch(result, result => {
 watch(activeElement, el => {
   if (!el.classList.contains('ql-editor')) return
   if (generating.value) return
+  if (!isInitialized.value) isInitialized.value = true
 
   const grandParent = el.parentNode.parentNode
   grandParent.setAttribute('style', 'position: relative')
@@ -60,7 +62,7 @@ function handleUndo() {
 </script>
 
 <template>
-  <section ref="refSuperButton" :class="$style.slackSuperButton">
+  <section v-show="isInitialized" ref="refSuperButton" :class="$style.slackSuperButton">
     <SuperButton
       :done="done"
       :generating="generating"
