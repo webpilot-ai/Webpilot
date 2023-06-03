@@ -95,10 +95,12 @@ const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(ref
 const updateTextAndPosition = textAndPosition => {
   if (showWebpilotPopup.value) return
 
+  // prevent reset when continuously select text
+  if (!showWebpilotTail.value) resetScroll()
+
   const {selectedText: text, position: currentPosition} = textAndPosition
   selectedText.value = text
   store.setSelectedText(text)
-  resetScroll()
   position.value = currentPosition
 }
 
