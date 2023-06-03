@@ -22,13 +22,14 @@ import useSuperButtonPrompt from '@/hooks/useSuperButtonPrompt'
 
 const STORAGE_KEY = 'GithubIssues'
 const TITLE = 'github.com'
+const DEFAULT_PROMPT = 'Re-write in native American English'
 
 const superButtonTitle = ref(TITLE)
 const originTextareaValue = ref('')
 
 const {askAi, generating, done, result} = useAskAi()
 
-const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_KEY)
+const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_KEY, DEFAULT_PROMPT)
 
 watch(result, result => {
   getTextarea().value = result

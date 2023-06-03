@@ -2,9 +2,8 @@ import {onBeforeMount, ref} from 'vue'
 import {Storage} from '@plasmohq/storage'
 
 const storage = new Storage()
-const DEFAULT_PROMPT = 'Re-write in native American English'
 
-export default function useSuperButtonPrompt(storageKey, defaultPrompt = DEFAULT_PROMPT) {
+export default function useSuperButtonPrompt(storageKey, defaultPrompt) {
   const prompt = ref(defaultPrompt)
 
   onBeforeMount(() => {

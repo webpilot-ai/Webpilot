@@ -16,10 +16,11 @@ const TITLE = 'slack.com'
 const refSuperButton = ref(null)
 const superButtonTitle = ref(TITLE)
 const originEditorContent = ref('')
+const DEFAULT_PROMPT = 'Re-write in native American English'
 
 const {askAi, generating, done, result} = useAskAi()
 
-const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_KEY)
+const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_KEY, DEFAULT_PROMPT)
 
 const activeElement = useActiveElement()
 
