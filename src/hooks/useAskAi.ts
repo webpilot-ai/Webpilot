@@ -7,10 +7,8 @@ const getPropmtTemplate = (referenceText, command) => {
   return [
     {
       role: 'system',
-      content:
-        "You are WebPilot, an advanced AI provided by WebPilot.AI. Please follow the user's instructions carefully.",
+      content: `You are WebPilot, an advanced AI developed by WebPilot.AI. You are tasked to process the selected text: '${referenceText}'.`,
     },
-    {role: 'user', content: referenceText},
     {role: 'user', content: command},
   ]
 }
