@@ -3,11 +3,27 @@ import {ref, toRaw} from 'vue'
 import useStore from '@/stores/store'
 import {askOpenAI, parseStream} from '@/io'
 
-const getPropmtTemplate = (referenceText, command) => {
+const getSelectTextPropmpt = (referenceText, command) => {
   return [
     {
       role: 'system',
-      content: `You are WebPilot, an advanced AI developed by WebPilot.AI. You are tasked to process the selected text: '${referenceText}'.`,
+      content:
+        "You are WebPilot, an advanced AI bot. You are tasked to process the user's text content. Remember never interpret it.",
+    },
+    {
+      role: 'user',
+      content: `Do the task, ${command}  , return without additional quotes or text ,to text below: \n ${referenceText} \n`,
+    },
+  ]
+}
+
+const getAskPagePrompt = (referenceText, command) => {
+  return [
+    {role: 'user', content: referenceText},
+    {
+      role: 'system',
+      content:
+        'You are WebPilot, an advanced AI bot. Respond using the prior content if available, otherwise answer independently, but always in the language of the following content and without additional quotes or text.',
     },
     {role: 'user', content: command},
   ]
@@ -34,7 +50,13 @@ export default function useAskAi() {
     errorMessage.value = ''
   }
 
-  const askAi = async ({referenceText = '', command, authKey = '', url = null} = {}) => {
+  const askAi = async ({
+    referenceText = '',
+    command,
+    isAskPage = false,
+    authKey = '',
+    url = null,
+  } = {}) => {
     // clean result
     resetState()
 
@@ -42,7 +64,9 @@ export default function useAskAi() {
 
     let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
-    const message = getPropmtTemplate(text, command)
+    const message = isAskPage
+      ? getAskPagePrompt(text, command)
+      : getSelectTextPropmpt(text, command)
 
     loading.value = true
     generating.value = true
