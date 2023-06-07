@@ -16,6 +16,12 @@
           >
             {{ $gettext('Advanced') }}
           </li>
+          <li
+            :class="[index.tab, active == 'account' ? index.active : '']"
+            @click="active = 'account'"
+          >
+            {{ $gettext('Account') }}
+          </li>
           <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
             {{ $gettext('About') }}
           </li>
@@ -25,7 +31,7 @@
       <!-- body -->
       <div :class="index.body">
         <AdvancedView v-show="active == 'advanced'" />
-
+        <AccountView v-show="active == 'account'" />
         <AboutView v-show="active == 'about'" />
       </div>
 
@@ -45,6 +51,7 @@ import '@assets/styles/reset.scss'
 import {ref} from 'vue'
 
 import AdvancedView from './AdvancedView.vue'
+import AccountView from './AccountView.vue'
 import AboutView from './AboutView.vue'
 
 const active = ref('advanced')
