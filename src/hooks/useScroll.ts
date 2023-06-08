@@ -1,32 +1,61 @@
 import {onUnmounted, ref, watch} from 'vue'
 
-export default function useScroll(element) {
-  const originScrollY = ref(0)
-  const scrollYOffset = ref(0)
+import {getAllScrollableParents} from '@/utils'
 
-  const getScrollY = () => {
-    scrollYOffset.value = originScrollY.value - window.scrollY
+export default function useScroll(element, target) {
+  const offsetY = ref(0)
+
+  let originY = 0
+  let scrollableElements = []
+
+  const getScrollYOffset = () => {
+    const targetElement = target.value
+    const {y} = targetElement.getBoundingClientRect()
+    offsetY.value = y - originY
+  }
+
+  const addListeners = () => {
+    scrollableElements.forEach(item => {
+      item.addEventListener('scroll', getScrollYOffset)
+    })
+  }
+
+  const removeListeners = () => {
+    scrollableElements.forEach(item => {
+      item.removeEventListener('scroll', getScrollYOffset)
+    })
+    scrollableElements = []
   }
 
   watch(element, newValue => {
     if (newValue) {
-      scrollYOffset.value = 0
-      originScrollY.value = window.scrollY
-      document.addEventListener('scroll', getScrollY)
+      const targetElement = target.value
+
+      if (!targetElement?.getBoundingClientRect) return
+
+      resetScroll()
+      // get all scrollable parents
+      scrollableElements = getAllScrollableParents(targetElement)
+
+      const {y} = targetElement.getBoundingClientRect()
+
+      originY = y || 0
+
+      addListeners()
     } else {
-      originScrollY.value = 0
-      document.removeEventListener('scroll', getScrollY)
+      removeListeners()
     }
   })
 
   onUnmounted(() => {
-    document?.removeEventListener('scroll', getScrollY)
+    removeListeners()
   })
 
   const resetScroll = () => {
-    originScrollY.value = 0
-    scrollYOffset.value = 0
+    const {y} = target.value.getBoundingClientRect()
+    originY = y
+    offsetY.value = 0
   }
 
-  return {scrollYOffset, resetScroll}
+  return {offsetY, resetScroll}
 }

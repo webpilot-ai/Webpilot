@@ -43,8 +43,7 @@ import {MESSAGING_EVENT} from '@/config'
 import useScroll from '@/hooks/useScroll'
 import useDraggable from '@/hooks/useDraggable'
 import useMessage from '@/hooks/useMessage'
-import useMouseSelectedText from '@/hooks/useMouseSelectedText'
-import useKeyboardSelectedText from '@/hooks/useKeyboardSelectedText'
+import useSelectedText from '@/hooks/useSelectedText'
 
 import useStore from '@/stores/store'
 import {formatShortcut} from '@/utils'
@@ -88,24 +87,29 @@ const isShowWebpilotTail = computed(() => {
   return showWebpilotTail.value && store.config.autoPopup
 })
 
-const {scrollYOffset: tailScrollYOffset, resetScroll} = useScroll(refTail)
-const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
+const targetElementRef = ref(null)
 
 /** Get text and position from mouse and keybaord select text */
 const updateTextAndPosition = textAndPosition => {
   if (showWebpilotPopup.value) return
 
-  // prevent reset when continuously select text
-  if (!showWebpilotTail.value) resetScroll()
-
   const {selectedText: text, position: currentPosition} = textAndPosition
   selectedText.value = text
   store.setSelectedText(text)
   position.value = currentPosition
+
+  // update selected element
+  const {targetElement: target} = textAndPosition
+  targetElementRef.value = text ? target.value : null
+
+  // reset scroll data when continuously select text
+  if (showWebpilotTail.value) resetScroll()
 }
 
-useMouseSelectedText(updateTextAndPosition)
-useKeyboardSelectedText(updateTextAndPosition)
+useSelectedText(updateTextAndPosition)
+
+const {offsetY: tailScrollYOffset, resetScroll} = useScroll(refTail, targetElementRef)
+const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
 
 // keyboard
 const keys = useMagicKeys()

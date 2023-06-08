@@ -83,3 +83,21 @@ export function getRectFromInputAndTextarea(target) {
 
   return rect
 }
+
+export function getAllScrollableParents(element) {
+  const scrollableElemetns = []
+
+  let tempElement = element
+  while (tempElement) {
+    const {scrollHeight, clientHeight} = tempElement
+    const {overflowY} = window.getComputedStyle(tempElement)
+
+    if (scrollHeight > clientHeight && overflowY !== 'hidden') {
+      // scroll event not works on HTML tag, replace it with window
+      scrollableElemetns.push(tempElement.tagName === 'HTML' ? window : tempElement)
+    }
+    tempElement = tempElement?.parentElement
+  }
+
+  return scrollableElemetns
+}
