@@ -2,91 +2,73 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div>
-        <div :class="advanced.radio">
-          <input
-            id="option1"
-            v-model="selectedOption"
-            name="option"
-            type="radio"
-            value="option1"
-            @change="handleOptionChange"
-          />
-          <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
-        </div>
-        <div v-if="selectedOption === 'option1'">Your Usage</div>
+      <div :class="advanced.apiItem">
+        <label :class="[advanced.subtitle, advanced.apiProvider]" for="provider">{{
+          $gettext('Active API Provider')
+        }}</label>
+        <select id="provider" v-model="llmModel" name="provider">
+          <option :class="advanced.iconLogo" selected value="gpt-3.5-turbo">
+            {{ $gettext('OpenAI gpt-3.5-turbo') }}
+          </option>
+          <option value="gpt-4">{{ $gettext('OpenAI gpt-4') }}</option>
+          <!-- <option value="baidu_wenxin">百度文心</option> -->
+        </select>
+        <img alt="" :class="advanced.dropdown" src="./images/dropdown.png" @click="openSelect" />
       </div>
-      <div>
-        <div :class="advanced.radio">
-          <input
-            id="option2"
-            v-model="selectedOption"
-            name="option"
-            type="radio"
-            value="option2"
-            @change="handleOptionChange"
-          />
-          <label for="option2">Set up your OpenAI API</label>
-        </div>
-        <div v-if="selectedOption === 'option2'">
-          <div :class="advanced.apiItem">
-            <input
-              id="keys"
-              v-model="authKey"
-              :class="{[advanced.haveAuthKey]: store.config.authKey !== ''}"
-              name="keys"
-              :placeholder="authKeyPlaceHolder"
-              role="authkey"
-              type="text"
-              @blur="onBlurSetAuthkey"
-              @focus="onEditAuthKey"
-            />
-            <WebpilotAlert
-              v-if="(error || success) && !isSelfHost"
-              :auto-hide="true"
-              style="margin-top: 8px"
-              :tips="alertInfo.tips"
-              :type="alertInfo.type"
-              @on-hide="hideAlert"
-            />
-            <div :class="advanced.apiKeyGuide">
-              <p>
-                To get your API key, log into
-                <a href="https://platform.openai.com/account/api-keys" target="_blank">
-                  Open AI > API Keys</a
-                >
-              </p>
-              <p>Click <b>“Create new secret key”</b>. Copy and paste key above</p>
-            </div>
+      <div :class="advanced.apiItem">
+        <label :class="advanced.subtitle" for="keys" style="margin-top: 20px">{{
+          $gettext('Your API Key')
+        }}</label>
+        <input
+          id="keys"
+          v-model="authKey"
+          :class="{[advanced.haveAuthKey]: store.config.authKey !== ''}"
+          name="keys"
+          :placeholder="authKeyPlaceHolder"
+          role="authkey"
+          type="text"
+          @blur="onBlurSetAuthkey"
+          @focus="onEditAuthKey"
+        />
+        <WebpilotAlert
+          v-if="(error || success) && !isSelfHost"
+          :auto-hide="true"
+          style="margin-top: 8px"
+          :tips="alertInfo.tips"
+          :type="alertInfo.type"
+          @on-hide="hideAlert"
+        />
 
-            <div :class="advanced.host">
-              <div :class="advanced.selfHost">
-                <input
-                  id="self_host"
-                  v-model="isSelfHost"
-                  name="self_host"
-                  type="checkbox"
-                  @change="chekcCloseSelfHost"
-                />
-                <label for="self_host">Self Host</label>
-              </div>
-            </div>
-            <div v-if="isSelfHost" :class="advanced.selfHostInput">
-              <input
-                v-model="selfHostUrl"
-                placeholder="Enter your base address"
-                @change="onChangeHostUrl"
-              />
-              <WebpilotAlert
-                v-if="(error || success) && isSelfHost"
-                style="margin-top: 8px"
-                :tips="alertInfo.tips"
-                :type="alertInfo.type"
-              />
-            </div>
+        <span :class="advanced.links">
+          {{ $gettext('Visit') }}: <a :href="links" target="_blank">{{ links }}</a>
+        </span>
+        <div :class="advanced.host">
+          <div :class="advanced.selfHost">
+            <input
+              id="self_host"
+              v-model="isSelfHost"
+              name="self_host"
+              type="checkbox"
+              @change="chekcCloseSelfHost"
+            />
+            <label for="self_host">Self Host</label>
           </div>
         </div>
+        <div v-if="isSelfHost" :class="advanced.selfHostInput">
+          <input
+            v-model="selfHostUrl"
+            placeholder="Enter your base address"
+            @change="onChangeHostUrl"
+          />
+          <WebpilotAlert
+            v-if="(error || success) && isSelfHost"
+            style="margin-top: 8px"
+            :tips="alertInfo.tips"
+            :type="alertInfo.type"
+          />
+        </div>
       </div>
+
       <WebpilotButton
         :auto-hide="true"
         :loading="loading"
@@ -164,11 +146,12 @@ import WebpilotButton from '@/components/WebpilotButton.vue'
 import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import {$gettext} from '@/utils/i18n'
-import {WEBPILOT_OPENAI} from '@/config'
 
 import WebpilotLogo from '../../assets/icon.png'
 
 import SwitchButton from './components/SwitchButton.vue'
+
+const links = ref('https://platform.openai.com/account/api-keys')
 
 const store = useStore()
 
@@ -176,10 +159,7 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref('option1')
-
 const saveAuthKey = ref(config.value.authKey)
-
 /** Edit Auth Key */
 const authKey = ref('')
 const authKeyPlaceHolder = computed(() => {
@@ -236,28 +216,6 @@ const llmModel = ref(config.value.model.model)
 const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
 
-const currentAuthKey = ref(config.value.authKey)
-const currentHostUrl = ref(config.value.selfHostUrl)
-
-const handleOptionChange = event => {
-  const {value} = event.target
-
-  selectedOption.value = value
-
-  switch (value) {
-    case 'option1':
-      currentAuthKey.value = WEBPILOT_OPENAI.AUTH_KEY
-      currentHostUrl.value = WEBPILOT_OPENAI.HOST_URL
-      llmModel.value = WEBPILOT_OPENAI.MODEL
-      break
-    default:
-      currentAuthKey.value = saveAuthKey.value
-      currentHostUrl.value = selfHostUrl.value
-      llmModel.value = 'gpt-3.5-turbo'
-      break
-  }
-}
-
 const save = async () => {
   store.setConfig({
     ...store.config,
@@ -268,17 +226,17 @@ const save = async () => {
   })
 
   if (
-    currentAuthKey.value === store.config.authKey &&
-    currentHostUrl.value === store.config.selfHostUrl
+    saveAuthKey.value === store.config.authKey &&
+    selfHostUrl.value === store.config.selfHostUrl
   ) {
     return
   }
 
   // Check Toekn validation
   await askAi({
-    authKey: currentAuthKey.value,
+    authKey: saveAuthKey.value,
     command: 'Say hi.',
-    url: currentHostUrl.value,
+    url: selfHostUrl.value,
   })
 
   store.setConfig({
@@ -409,29 +367,10 @@ const hideAlert = () => {
   }
 }
 
-.radio {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  line-height: 25px;
-
-  input {
-    width: 16px;
-    height: 16px;
-    margin: 0 5px 0 0;
-    border: 1px solid #4f5aff;
-    cursor: pointer;
-  }
-
-  label {
-    font-size: 18px;
-    cursor: pointer;
-  }
-}
-
 .api {
   display: flex;
   flex-direction: column;
+  height: 426px;
   padding: 16px 24px;
 }
 

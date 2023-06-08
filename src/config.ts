@@ -64,3 +64,9 @@ export const SUPER_BUTTON_STATUS = {
   generating: 'generating',
   done: 'done',
 }
+
+export const WEBPILOT_OPENAI = {
+  AUTH_KEY: 'xxxxxxxxx',
+  HOST_URL: 'https://ai.api.moblin.net/api/openai/v1/chat/completions',
+  MODEL: 'gpt-4',
+}
