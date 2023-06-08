@@ -1,11 +1,22 @@
 <template>
   <div :class="account.main">
-    <div>
+    <div :class="account.loggedin">
       <div :class="account.intro">
         <p>To unlock all features including Webpilot FREE API</p>
         <p>we highly recommend you to sign in</p>
       </div>
-      <div class="button"></div>
+      <div :class="button">
+        <button>Sign in with Google</button>
+      </div>
+    </div>
+    <div :class="account.loggedout">
+      <div :class="account.profile">
+        <h3>Linked Account</h3>
+        <p>Account Name</p>
+      </div>
+      <div :class="account.plan">
+        <h3>Your Plan</h3>
+      </div>
     </div>
   </div>
 </template>
