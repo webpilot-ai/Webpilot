@@ -2,7 +2,7 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div v-if="isLoggedIn === true" :class="advanced.general">
+      <div v-if="isSignedIn === true" :class="advanced.general">
         <div :class="advanced.radio">
           <input
             id="option1"
@@ -21,7 +21,7 @@
       <div :class="advanced.personal">
         <div :class="advanced.radio">
           <input
-            v-if="isLoggedIn === true"
+            v-if="isSignedIn === true"
             id="option2"
             v-model="selectedOption"
             name="option"
@@ -176,7 +176,7 @@ import SwitchButton from './components/SwitchButton.vue'
 
 const store = useStore()
 const userStore = useUserStore()
-const {isLoggedIn} = storeToRefs(userStore)
+const {isSignedIn} = storeToRefs(userStore)
 
 const {loading, success, error, askAi} = useAskAi()
 

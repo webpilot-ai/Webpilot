@@ -1,6 +1,6 @@
 <template>
   <div :class="account.main">
-    <div v-if="!isLoggedIn" :class="account.loggedout">
+    <div v-if="!isSignedIn" :class="account.loggedout">
       <div :class="account.panel">
         <div :class="account.intro">
           <p>To unlock all features including Webpilot FREE API</p>
@@ -29,7 +29,7 @@ import {storeToRefs} from 'pinia'
 import useUserStore from '@/stores/user'
 
 const userStore = useUserStore()
-const {user, isLoggedIn} = storeToRefs(userStore)
+const {user, isSignedIn} = storeToRefs(userStore)
 </script>
 
 <style module="account" lang="scss">
@@ -51,7 +51,7 @@ const {user, isLoggedIn} = storeToRefs(userStore)
 .loggedout {
   .panel {
     height: 354px;
-    background-image: url("./images/bg-signin.png");
+    background-image: url('./images/bg-signin.png');
     background-repeat: no-repeat;
     background-position: 50% 50px;
     background-size: 176px;
@@ -79,7 +79,7 @@ const {user, isLoggedIn} = storeToRefs(userStore)
     height: 42px;
     padding: 0;
     text-indent: -9999px;
-    background-image: url("./images/sign-in-with-google.png");
+    background-image: url('./images/sign-in-with-google.png');
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;

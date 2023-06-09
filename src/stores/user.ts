@@ -1,19 +1,20 @@
 import {ref} from 'vue'
 import {defineStore} from 'pinia'
 
+import {getUser as getUserInfo} from '@/apiService'
+
 const useUserStore = defineStore('user', () => {
   const user = ref(null)
-  const isLoggedIn = ref(false)
+  const isSignedIn = ref(false)
 
-  function getUser() {
-    // TODO: get user info from server
-    setTimeout(() => {
-      user.value = 'OpenAI'
-      isLoggedIn.value = true
-    }, 1500)
+  async function getUser() {
+    const response = await getUserInfo()
+
+    user.value = response.email
+    isSignedIn.value = response.isSignedIn
   }
 
-  return {user, isLoggedIn, getUser}
+  return {user, isSignedIn, getUser}
 })
 
 export default useUserStore
