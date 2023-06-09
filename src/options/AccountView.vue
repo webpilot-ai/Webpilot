@@ -1,20 +1,22 @@
 <template>
   <div :class="account.main">
-    <div :class="account.loggedin">
-      <div :class="account.intro">
-        <p>To unlock all features including Webpilot FREE API</p>
-        <p>we highly recommend you to sign in</p>
-      </div>
-      <div :class="button">
-        <button>Sign in with Google</button>
+    <div v-if="!isLoggedIn" :class="account.loggedout">
+      <div :class="account.panel">
+        <div :class="account.intro">
+          <p>To unlock all features including Webpilot FREE API</p>
+          <p>we highly recommend you to sign in</p>
+        </div>
+        <div :class="account.signIn">
+          <a :class="account.button">Sign in with Google</a>
+        </div>
       </div>
     </div>
-    <div :class="account.loggedout">
-      <div :class="account.profile">
+    <div v-else :class="account.loggedin">
+      <div :class="[account.panel, account.profile]">
         <h3>Linked Account</h3>
-        <p>Account Name</p>
+        <p>{{ user }}</p>
       </div>
-      <div :class="account.plan">
+      <div :class="[account.panel, account.plan]">
         <h3>Your Plan</h3>
       </div>
     </div>
@@ -22,25 +24,66 @@
 </template>
 
 <script setup>
-import {onMounted} from 'vue'
+import {storeToRefs} from 'pinia'
 
-// let { donate} = {}
+import useUserStore from '@/stores/user'
 
-// const ABOUT_API = 'https://raw.githubusercontent.com/webpilot-ai/data/main/about_vue3.json'
-
-onMounted(() => {
-  // fetch(ABOUT_API)
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     return ({ donate} = data)
-  //   })
-})
+const userStore = useUserStore()
+const {user, isLoggedIn} = storeToRefs(userStore)
 </script>
 
 <style module="account" lang="scss">
-.main {
-  background-color: rgb(255 255 255 / 60%);
+.panel {
+  margin-bottom: 20px;
+  padding: 16px 24px;
+  background-color: #fff;
   border-radius: 10px;
+
+  h3 {
+    margin: 0;
+    color: #4f5aff;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 34px;
+  }
+}
+
+.loggedout {
+  .panel {
+    height: 354px;
+    background-image: url("./images/bg-signin.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50px;
+    background-size: 176px;
+  }
+}
+
+.intro {
+  padding: 185px 0 0;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+  }
+}
+
+.signIn {
+  margin: 36px 0 0;
+  text-align: center;
+
+  .button {
+    display: inline-block;
+    width: 172px;
+    height: 42px;
+    padding: 0;
+    text-indent: -9999px;
+    background-image: url("./images/sign-in-with-google.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+  }
 }
 
 .title {

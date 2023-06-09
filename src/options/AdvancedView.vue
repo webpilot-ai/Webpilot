@@ -2,7 +2,7 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div :class="advanced.general">
+      <div v-if="isLoggedIn === true" :class="advanced.general">
         <div :class="advanced.radio">
           <input
             id="option1"
@@ -21,6 +21,7 @@
       <div :class="advanced.personal">
         <div :class="advanced.radio">
           <input
+            v-if="isLoggedIn === true"
             id="option2"
             v-model="selectedOption"
             name="option"
@@ -160,6 +161,7 @@ import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import useStore from '@/stores/store'
+import useUserStore from '@/stores/user'
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
@@ -173,6 +175,8 @@ import WebpilotLogo from '../../assets/icon.png'
 import SwitchButton from './components/SwitchButton.vue'
 
 const store = useStore()
+const userStore = useUserStore()
+const {isLoggedIn} = storeToRefs(userStore)
 
 const {loading, success, error, askAi} = useAskAi()
 
@@ -418,8 +422,6 @@ const hideAlert = () => {
 }
 
 .general {
-  margin: 16px 0 0;
-
   h4 {
     font-weight: 400;
     font-size: 14px;
@@ -430,7 +432,7 @@ const hideAlert = () => {
 .radio {
   display: flex;
   align-items: center;
-  margin: 0 0 12px;
+  margin: 16px 0 12px;
   line-height: 25px;
 
   input {
