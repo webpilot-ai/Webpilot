@@ -2,7 +2,7 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div>
+      <div :class="advanced.general">
         <div :class="advanced.radio">
           <input
             id="option1"
@@ -14,9 +14,11 @@
           />
           <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
         </div>
-        <div v-if="selectedOption === 'option1'">Your Usage</div>
+        <div v-if="selectedOption === 'option1'">
+          <h4>Your Usage</h4>
+        </div>
       </div>
-      <div>
+      <div :class="advanced.personal">
         <div :class="advanced.radio">
           <input
             id="option2"
@@ -329,16 +331,10 @@ const hideAlert = () => {
   height: 22px;
 }
 
-.main {
-  padding: 24px 0;
-  padding-top: 15px;
-  font-family: 'PingFang SC', Helvetica, Arial, sans-serif;
-}
-
 .panel {
   display: flex;
   flex-direction: column;
-  padding: 24px 16px;
+  padding: 16px 24px;
   background-color: white;
   border-radius: 10px;
 
@@ -374,6 +370,7 @@ const hideAlert = () => {
     width: 360px;
     height: 36px;
     margin-top: 8px;
+    margin-bottom: 12px;
     padding-left: 8px;
     font-size: 14px;
     line-height: 20px;
@@ -407,18 +404,39 @@ const hideAlert = () => {
     font-size: 14px;
     line-height: 20px;
   }
+
+  p {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+.api {
+  min-height: 430px;
+}
+
+.general {
+  margin: 16px 0 0;
+
+  h4 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
 }
 
 .radio {
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 0 0 12px;
   line-height: 25px;
 
   input {
     width: 16px;
     height: 16px;
-    margin: 0 5px 0 0;
+    margin: 0 8px 0 0;
     border: 1px solid #4f5aff;
     cursor: pointer;
   }
@@ -427,12 +445,6 @@ const hideAlert = () => {
     font-size: 18px;
     cursor: pointer;
   }
-}
-
-.api {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 24px;
 }
 
 .apiItem {
@@ -449,7 +461,7 @@ const hideAlert = () => {
   flex-direction: row;
   justify-content: space-between;
   width: 360px;
-  margin-top: 8px;
+  margin-top: 16px;
 }
 
 .selfHost {

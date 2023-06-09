@@ -39,8 +39,6 @@ onMounted(() => {
 
 <style module="account" lang="scss">
 .main {
-  margin-top: 20px;
-  padding: 24px 16px;
   background-color: rgb(255 255 255 / 60%);
   border-radius: 10px;
 }
