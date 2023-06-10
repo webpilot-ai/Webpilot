@@ -7,7 +7,7 @@
           <p>we highly recommend you to sign in</p>
         </div>
         <div :class="account.signIn">
-          <a :class="account.button">Sign in with Google</a>
+          <a :class="account.button" @click="openSignIn()">Sign in with Google</a>
         </div>
       </div>
     </div>
@@ -30,6 +30,24 @@ import useUserStore from '@/stores/user'
 
 const userStore = useUserStore()
 const {user, isSignedIn} = storeToRefs(userStore)
+
+const openSignIn = () => {
+  chrome.tabs.create({url: 'http://localhost:8001/'})
+}
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log('8001  ', request)
+  if (request.username) {
+    // Access the username sent from the webpage
+    const {username} = request
+
+    // Do something with the username in the extension
+    console.log(`Username received: ${username}`)
+
+    // Send a response back if needed
+    sendResponse({message: 'Username received successfully'})
+  }
+})
 </script>
 
 <style module="account" lang="scss">
