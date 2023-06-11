@@ -58,7 +58,7 @@ import AdvancedView from './AdvancedView.vue'
 import AccountView from './AccountView.vue'
 import AboutView from './AboutView.vue'
 
-const active = ref('account')
+const active = ref('advanced')
 
 const userStore = useUserStore()
 const {user} = storeToRefs(userStore)

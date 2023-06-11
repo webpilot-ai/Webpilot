@@ -5,6 +5,8 @@ export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 export const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions'
 
 export const defaultConfig = {
+  // general | personal
+  apiOrigin: 'personal',
   /** Open AI or selfhost api key */
   authKey: '',
   /** Is auth successed */

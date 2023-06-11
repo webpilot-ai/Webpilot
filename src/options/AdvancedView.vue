@@ -9,12 +9,12 @@
             v-model="selectedOption"
             name="option"
             type="radio"
-            value="option1"
+            value="general"
             @change="handleOptionChange"
           />
           <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
         </div>
-        <div v-if="selectedOption === 'option1'">
+        <div v-if="selectedOption === 'general'">
           <h4>Your Usage</h4>
           <p>{{ usage.current }} / {{ usage.total }}</p>
         </div>
@@ -27,12 +27,12 @@
             v-model="selectedOption"
             name="option"
             type="radio"
-            value="option2"
+            value="personal"
             @change="handleOptionChange"
           />
           <label for="option2">Set up your OpenAI API</label>
         </div>
-        <div v-if="selectedOption === 'option2'">
+        <div v-if="selectedOption === 'personal'">
           <div :class="advanced.apiItem">
             <input
               id="keys"
@@ -175,16 +175,17 @@ import WebpilotLogo from '../../assets/icon.png'
 
 import SwitchButton from './components/SwitchButton.vue'
 
-const store = useStore()
 const userStore = useUserStore()
 const {isSignedIn, usage} = storeToRefs(userStore)
 const {getUsage} = userStore
+
+const store = useStore()
 
 const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref('option1')
+const selectedOption = ref(config.value.authKey || 'personal')
 
 const saveAuthKey = ref(config.value.authKey)
 
@@ -253,7 +254,7 @@ const handleOptionChange = event => {
   selectedOption.value = value
 
   switch (value) {
-    case 'option1':
+    case 'general':
       currentAuthKey.value = WEBPILOT_OPENAI.AUTH_KEY
       currentHostUrl.value = WEBPILOT_OPENAI.HOST_URL
       llmModel.value = WEBPILOT_OPENAI.MODEL
@@ -277,6 +278,7 @@ const save = async () => {
   })
 
   if (
+    selectedOption.value === store.config.apiOrigin &&
     currentAuthKey.value === store.config.authKey &&
     currentHostUrl.value === store.config.selfHostUrl
   ) {
@@ -292,6 +294,7 @@ const save = async () => {
 
   store.setConfig({
     ...store.config,
+    apiOrigin: selectedOption.value,
     isAuth: true,
     authKey: saveAuthKey.value,
     isFinishSetup: true,

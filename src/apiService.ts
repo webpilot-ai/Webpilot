@@ -14,7 +14,6 @@ async function sendRequest(endpoint, method = 'GET', payload = null) {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${credential}`,
-      // Add any additional headers if needed
     },
     body: payload ? JSON.stringify(payload) : null,
   }
@@ -33,10 +32,44 @@ async function sendRequest(endpoint, method = 'GET', payload = null) {
       throw new Error(message || error || 'Request failed')
     }
 
-    return responseData
+    return {...responseData, isSignedIn: true}
   } catch (error) {
     // Handle network errors
     throw new Error('Network error')
+  }
+}
+
+export async function getUser() {
+  const endpoint = ENDPOINT.GET_USER
+
+  try {
+    const response = await sendRequest(endpoint)
+
+    if (response.isSignedIn === false) {
+      return response
+    }
+
+    const {email, id, isSignedIn} = response
+    return {email, id, isSignedIn}
+  } catch (error) {
+    throw new Error('Failed to get user information')
+  }
+}
+
+export async function getAPIUsage() {
+  const endpoint = ENDPOINT.GET_API_USAGE
+
+  try {
+    const response = await sendRequest(endpoint)
+
+    if (response.isSignedIn === false) {
+      return response
+    }
+
+    const {current_used: current, total_amount: total} = response
+    return {current, total}
+  } catch (error) {
+    throw new Error('Failed to get user information')
   }
 }
 
@@ -58,37 +91,3 @@ async function sendRequest(endpoint, method = 'GET', payload = null) {
 //     throw new Error('Login failed')
 //   }
 // }
-
-export async function getUser() {
-  const endpoint = ENDPOINT.GET_USER
-
-  try {
-    const response = await sendRequest(endpoint)
-
-    if (response.isSignedIn === false) {
-      return {isSignedIn: false}
-    }
-
-    const {email, id} = response
-    return {email, id, isSignedIn: true}
-  } catch (error) {
-    throw new Error('Failed to get user information')
-  }
-}
-
-export async function getAPIUsage() {
-  const endpoint = ENDPOINT.GET_API_USAGE
-
-  try {
-    const response = await sendRequest(endpoint)
-
-    if (response.isSignedIn === false) {
-      return {isSignedIn: false}
-    }
-
-    const {current_used: current, total_amount: total} = response
-    return {current, total}
-  } catch (error) {
-    throw new Error('Failed to get user information')
-  }
-}
