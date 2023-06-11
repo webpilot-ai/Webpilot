@@ -24,28 +24,30 @@
 </template>
 
 <script setup>
+import {Storage} from '@plasmohq/storage'
 import {storeToRefs} from 'pinia'
 
 import useUserStore from '@/stores/user'
+
+import {GOOGLE_CREDENTIAL} from '@/apiConfig'
+
+const storage = new Storage()
 
 const userStore = useUserStore()
 const {user, isSignedIn} = storeToRefs(userStore)
 
 const openSignIn = () => {
-  chrome.tabs.create({url: 'http://localhost:8001/'})
+  chrome.tabs.create({url: 'http://localhost/'})
 }
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request) {
   console.log('8001  ', request)
-  if (request.username) {
+  if (request.credential) {
     // Access the username sent from the webpage
-    const {username} = request
-
+    const {credential} = request
+    storage.set(GOOGLE_CREDENTIAL, credential)
     // Do something with the username in the extension
-    console.log(`Username received: ${username}`)
-
-    // Send a response back if needed
-    sendResponse({message: 'Username received successfully'})
+    console.log(`Credential received: ${credential}`)
   }
 })
 </script>

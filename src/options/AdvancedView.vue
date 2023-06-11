@@ -16,6 +16,7 @@
         </div>
         <div v-if="selectedOption === 'option1'">
           <h4>Your Usage</h4>
+          <p>{{ usage.current }} / {{ usage.total }}</p>
         </div>
       </div>
       <div :class="advanced.personal">
@@ -176,7 +177,8 @@ import SwitchButton from './components/SwitchButton.vue'
 
 const store = useStore()
 const userStore = useUserStore()
-const {isSignedIn} = storeToRefs(userStore)
+const {isSignedIn, usage} = storeToRefs(userStore)
+const {getUsage} = userStore
 
 const {loading, success, error, askAi} = useAskAi()
 
@@ -255,6 +257,7 @@ const handleOptionChange = event => {
       currentAuthKey.value = WEBPILOT_OPENAI.AUTH_KEY
       currentHostUrl.value = WEBPILOT_OPENAI.HOST_URL
       llmModel.value = WEBPILOT_OPENAI.MODEL
+      getUsage()
       break
     default:
       currentAuthKey.value = saveAuthKey.value

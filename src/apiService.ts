@@ -1,14 +1,19 @@
-import {BASE_URL, ENDPOINT} from './apiConfig'
+import {Storage} from '@plasmohq/storage'
+
+import {BASE_URL, GOOGLE_CREDENTIAL, ENDPOINT} from './apiConfig'
 
 const baseURL = BASE_URL
 
 async function sendRequest(endpoint, method = 'GET', payload = null) {
+  const storage = new Storage()
   const url = `${baseURL}${endpoint}`
+  const credential = (await storage.get(GOOGLE_CREDENTIAL)) || ''
 
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${credential}`,
       // Add any additional headers if needed
     },
     body: payload ? JSON.stringify(payload) : null,
@@ -60,12 +65,29 @@ export async function getUser() {
   try {
     const response = await sendRequest(endpoint)
 
-    if (!response.isSignedIn) {
+    if (response.isSignedIn === false) {
       return {isSignedIn: false}
     }
 
     const {email, id} = response
     return {email, id, isSignedIn: true}
+  } catch (error) {
+    throw new Error('Failed to get user information')
+  }
+}
+
+export async function getAPIUsage() {
+  const endpoint = ENDPOINT.GET_API_USAGE
+
+  try {
+    const response = await sendRequest(endpoint)
+
+    if (response.isSignedIn === false) {
+      return {isSignedIn: false}
+    }
+
+    const {current_used: current, total_amount: total} = response
+    return {current, total}
   } catch (error) {
     throw new Error('Failed to get user information')
   }

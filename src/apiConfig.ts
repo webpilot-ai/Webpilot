@@ -1,4 +1,6 @@
-export const BASE_URL = 'http://localhost:9001/v1'
+export const BASE_URL = 'https://api.webpilotai.com/hyrule/v1'
+
+export const GOOGLE_CREDENTIAL = 'GOOGLE_CREDENTIAL'
 
 export const ENDPOINT = {
   GET_USER: '/user',

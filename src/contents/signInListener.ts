@@ -1,9 +1,8 @@
 // Listen for messages from the webpage
 window.addEventListener('message', function (event) {
-  if (event.source === window && event.data && event.data.username) {
+  console.log('send credential to extension ', event)
+  if (event.source === window && event.data && event.data.credential) {
     // Send the message to the background script
-    chrome.runtime.sendMessage({username: event.data.username}, function (response) {
-      console.log(response.message)
-    })
+    chrome.runtime.sendMessage({credential: event.data.credential}, function () {})
   }
 })
