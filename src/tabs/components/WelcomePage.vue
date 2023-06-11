@@ -10,15 +10,17 @@
           <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 1}">1</li>
           <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 2}">2</li>
           <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 3}">3</li>
+          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 4}">4</li>
         </ul>
-        <h2 :class="setup.formTitle">Set up your API Key</h2>
         <div :class="setup.infoInputArea">
           <!-- Step One -->
-          <StepOne v-if="stepIndex === 1" v-model="authInfo" />
+          <StepOne v-if="stepIndex === 1" :skip="handleSkip" />
           <!-- Setp Two -->
-          <StepTwo v-else-if="stepIndex === 2" />
+          <StepTwo v-else-if="stepIndex === 2" v-model="authInfo" />
           <!-- Setp Three -->
           <StepThree v-else-if="stepIndex === 3" />
+          <!-- Setp Four -->
+          <StepFour v-else-if="stepIndex === 4" />
           <!-- NEXT BUTTON -->
           <div :class="setup.btnGroup">
             <WebpilotButton
@@ -28,8 +30,9 @@
               @click="handleGoBackBtn"
             />
             <WebpilotButton
+              v-if="stepIndex !== 1"
               :loading="loading"
-              :value="stepIndex === 3 ? 'DONE' : 'NEXT'"
+              :value="stepIndex === 4 ? 'DONE' : 'NEXT'"
               @click="handleNextBtn"
             />
           </div>
@@ -58,6 +61,7 @@ import useAskAi from '@/hooks/useAskAi'
 import StepOne from './StepOne.vue'
 import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
+import StepFour from './StepFour.vue'
 
 const toast = useToast()
 const storeConfig = useStore()
@@ -71,6 +75,10 @@ const authInfo = ref({
   authKey: '',
   selfHostUrl: '',
 })
+
+const handleSkip = () => {
+  stepIndex.value = 2
+}
 
 const checkAuthKey = async () => {
   const {authKey, selfHostUrl} = authInfo.value
@@ -180,7 +188,7 @@ const handleGoBackBtn = () => {
   display: flex;
   flex-direction: row;
   margin: 0;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   padding: 0;
   list-style-type: none;
 }

@@ -1,137 +1,127 @@
 <script setup>
-import {computed, ref} from 'vue'
-import {storeToRefs} from 'pinia'
+import {onMounted, ref} from 'vue'
 
-import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
-import WebpilotAlert from '@/components/WebpilotAlert.vue'
-import IllustrationSelectText from '@/components/icon/IllustrationSelectText.vue'
-import DisplayMode from '@/components/DisplayMode.vue'
-import useStore from '@/stores/store'
+import IconOpenAi from '@/components/icon/IconOpenAi.vue'
+import HelpTips from '@/components/HelpTips.vue'
 
-import ShortcutInput from '@/components/ShortcutInput.vue'
-
-import {formatShortcut} from '@/utils/index'
-
-const store = useStore()
-
-const {config} = storeToRefs(store)
-
-const {customShortcut} = config.value
-
-const autoPopup = ref(config.value.autoPopup)
-const mode = ref(config.value.displayMode)
-
-const onShotcutChange = customShortcut => {
-  store.setConfig({
-    ...store.config,
-    customShortcut,
-  })
-}
-
-const onAutoPopupChange = value => {
-  store.setConfig({
-    ...store.config,
-    autoPopup: value,
-  })
-}
-
-const osDisplayModeChange = value => {
-  store.setConfig({
-    ...store.config,
-    displayMode: value,
-  })
-}
-
-const shotcut = computed(() => {
-  return formatShortcut(store.config.customShortcut)
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
+  },
 })
+
+const emits = defineEmits(['update:modelValue', 'change'])
+
+const authKey = ref(props.modelValue.authKey)
+const isSelfHost = ref(false)
+const selfHostUrl = ref(props.modelValue.selfHostUrl)
+
+onMounted(() => {
+  if (props.modelValue.selfHostUrl !== '') {
+    isSelfHost.value = true
+  }
+})
+
+const onChange = () => {
+  emits('update:modelValue', {
+    authKey: authKey.value,
+    selfHostUrl: selfHostUrl.value,
+  })
+}
 </script>
 
 <template>
-  <div>
-    <h2 :class="stepTwo.shortcutGuideTitle">
-      Select text, and press <span>{{ shotcut }}</span> to ask Webpilot
-    </h2>
-    <div :class="stepTwo.changeShorcut">
-      <span>Change Shortcut</span>
-      <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShotcutChange" />
+  <div :class="stepTwo.wrap">
+    <div :class="stepTwo.header">
+      <IconOpenAi :class="stepTwo.openAiIcon" />OpenAI gpt-3.5-turbo
     </div>
-    <WebpilotCheckbox
-      v-model="autoPopup"
-      label="Display Webpilot icon when text is selected"
-      style="margin-top: 16px"
-      @change="onAutoPopupChange"
+    <div :class="stepTwo.apiKeyGuide">
+      To get your API key, log into
+      <a href="https://platform.openai.com/account/api-keys" target="_blank"> Open AI > API Keys</a>
+      Click <b>“Create new secret key”</b>. Copy and paste key below
+    </div>
+    <input
+      v-model="authKey"
+      :class="stepTwo.input"
+      placeholder="Enter your API Key from OpenAI"
+      type="text"
+      @change="onChange"
     />
-    <IllustrationSelectText style="margin-top: 12px" />
-    <WebpilotAlert
-      style="margin-top: 6px"
-      tips="Webpilot will answer based on the current page if no text is selected"
-      type="info"
-    />
-    <div v-if="true" :class="stepTwo.displayMode">
-      <h2 :class="stepTwo.title">Display mode</h2>
-      <DisplayMode
-        v-model="mode"
-        style="margin-top: 2px; margin-bottom: 55px"
-        @change="osDisplayModeChange"
+    <div :class="stepTwo.selfHost">
+      <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
+      <label for="self_host">Self Host</label>
+    </div>
+
+    <template v-if="isSelfHost">
+      <input
+        v-model="selfHostUrl"
+        :class="stepTwo.input"
+        placeholder="Enter your base address"
+        type="text"
+        @change="onChange"
       />
-    </div>
+      <HelpTips value="How to self host API?" />
+    </template>
   </div>
 </template>
 
 <style module="stepTwo" lang="scss">
-.shortcutGuideTitle {
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 25px;
+.wrap {
+  .openAiIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
 
-  span {
-    padding: 2px 4px;
-    color: #4f5aff;
-    border: 1px solid #4f5aff;
-    border-radius: 5px;
+  .header {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
   }
 }
 
-.changeShorcut {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 8px;
+.apiKeyGuide {
+  margin-top: 16px;
+  color: #292929;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
 
-  span {
-    margin-right: 12px;
-    color: #585b58;
-    font-size: 14px;
-    line-height: 20px;
+  a {
+    text-decoration: none;
   }
 
-  input {
-    width: 140px;
-    height: 36px;
-    padding: 8px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    border: 1px solid #dcdee1;
-    border-radius: 5px;
+  a:visited {
+    color: #4f5aff;
   }
+}
 
-  input:focus {
+.input {
+  width: 360px;
+  height: 36px;
+  margin-top: 12px;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  border: 1px solid #dcdee1;
+  border-radius: 5px;
+
+  &:focus {
     outline: none;
   }
 }
 
-.displayMode {
+.selfHost {
   display: flex;
-  flex-direction: column;
-  margin-top: 48px;
+  margin-top: 18px;
+  cursor: pointer;
+  user-select: none;
 
-  .title {
-    color: #292929;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 25px;
+  * {
+    cursor: pointer;
   }
 }
 </style>

@@ -19,9 +19,8 @@ const useStore = defineStore('store', () => {
   async function initConfig() {
     const storedConfig = await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)
     if (storedConfig && typeof storedConfig === 'object') {
-      // config.value = storedConfig
+      config.value = storedConfig
     }
-    console.log('store config:: ', storedConfig)
   }
 
   function saveToLocalStorage(config) {
