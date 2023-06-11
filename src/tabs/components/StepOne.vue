@@ -11,14 +11,37 @@
 
 <script setup>
 import {defineProps} from 'vue'
+import {Storage} from '@plasmohq/storage'
 
-defineProps({
+import {GOOGLE_CREDENTIAL} from '@/apiConfig'
+
+const storage = new Storage()
+
+const props = defineProps({
   skip: {
     type: Function,
     required: true,
     default: () => {},
   },
 })
+
+const openSignIn = () => {
+  chrome.tabs.create({url: 'http://localhost/'}, tab => {
+    const tabId = tab.id
+
+    chrome.runtime.onMessage.addListener(function (request) {
+      if (request.credential) {
+        // Access the username sent from the webpage
+        const {credential} = request
+        storage.set(GOOGLE_CREDENTIAL, credential)
+        // Do something with the username in the extension
+        console.log(`Credential received: ${credential}`)
+        props.skip()
+        chrome.tabs.remove(tabId)
+      }
+    })
+  })
+}
 </script>
 
 <style module="stepOne" lang="scss">

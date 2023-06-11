@@ -37,19 +37,21 @@ const userStore = useUserStore()
 const {user, isSignedIn} = storeToRefs(userStore)
 
 const openSignIn = () => {
-  chrome.tabs.create({url: 'http://localhost/'})
-}
+  chrome.tabs.create({url: 'http://localhost/'}, tab => {
+    const tabId = tab.id
 
-chrome.runtime.onMessage.addListener(function (request) {
-  console.log('8001  ', request)
-  if (request.credential) {
-    // Access the username sent from the webpage
-    const {credential} = request
-    storage.set(GOOGLE_CREDENTIAL, credential)
-    // Do something with the username in the extension
-    console.log(`Credential received: ${credential}`)
-  }
-})
+    chrome.runtime.onMessage.addListener(function (request) {
+      if (request.credential) {
+        // Access the username sent from the webpage
+        const {credential} = request
+        storage.set(GOOGLE_CREDENTIAL, credential)
+        // Do something with the username in the extension
+        console.log(`Credential received: ${credential}`)
+        chrome.tabs.remove(tabId)
+      }
+    })
+  })
+}
 </script>
 
 <style module="account" lang="scss">
