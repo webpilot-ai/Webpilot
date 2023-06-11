@@ -13,10 +13,12 @@
 import {defineProps} from 'vue'
 import {Storage} from '@plasmohq/storage'
 
+import useUserStore from '@/stores/user'
 import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
 const storage = new Storage()
-
+const userStore = useUserStore()
+const {getUser} = userStore
 const props = defineProps({
   skip: {
     type: Function,
@@ -37,6 +39,7 @@ const openSignIn = () => {
         // Do something with the username in the extension
         console.log(`Credential received: ${credential}`)
         props.skip()
+        getUser()
         chrome.tabs.remove(tabId)
       }
     })

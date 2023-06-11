@@ -35,6 +35,7 @@ const storage = new Storage()
 
 const userStore = useUserStore()
 const {user, isSignedIn} = storeToRefs(userStore)
+const {getUser} = userStore
 
 const openSignIn = () => {
   chrome.tabs.create({url: 'http://localhost/'}, tab => {
@@ -45,6 +46,7 @@ const openSignIn = () => {
         // Access the username sent from the webpage
         const {credential} = request
         storage.set(GOOGLE_CREDENTIAL, credential)
+        getUser()
         // Do something with the username in the extension
         console.log(`Credential received: ${credential}`)
         chrome.tabs.remove(tabId)
