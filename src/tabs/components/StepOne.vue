@@ -4,7 +4,7 @@
     <p>To unlock all features, we highly recommend you to sign in</p>
     <div :class="stepOne.button">
       <a :class="stepOne.signin" @click="openSignIn()">Sign in with Google</a>
-      <a :class="stepOne.skip" @click="skip">SKIP FOR NOW</a>
+      <!-- <a :class="stepOne.skip" @click="skip">SKIP FOR NOW</a> -->
     </div>
   </div>
   <div v-if="showMask" :class="stepOne.mask"></div>
