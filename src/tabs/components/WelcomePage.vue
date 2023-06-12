@@ -53,6 +53,7 @@ import {ref} from 'vue'
 import {useToast} from 'vue-toast-notification'
 
 import useStore from '@/stores/store'
+import useUserStore from '@/stores/user'
 
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
@@ -62,6 +63,11 @@ import StepOne from './StepOne.vue'
 import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
 import StepFour from './StepFour.vue'
+
+const userStore = useUserStore()
+const {getUser} = userStore
+
+getUser()
 
 const toast = useToast()
 const storeConfig = useStore()
@@ -85,7 +91,7 @@ const checkAuthKey = async () => {
 
   // check toekn and self host change
   if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
-    stepIndex.value = 2
+    stepIndex.value = 3
     return
   }
 
@@ -103,7 +109,7 @@ const checkAuthKey = async () => {
       isFinishSetup: true,
       selfHostUrl: selfHostUrl !== '' ? selfHostUrl : '',
     })
-    stepIndex.value = 2
+    stepIndex.value = 3
   } catch (error) {
     toast.open({
       message: 'Incorrect API Key. Please check with the provider',
@@ -114,11 +120,11 @@ const checkAuthKey = async () => {
 }
 
 const handleNextBtn = async () => {
-  if (stepIndex.value === 1) {
+  if (stepIndex.value === 2) {
     await checkAuthKey()
-  } else if (stepIndex.value === 2) {
-    stepIndex.value = 3
   } else if (stepIndex.value === 3) {
+    stepIndex.value = 4
+  } else if (stepIndex.value === 4) {
     window.close()
   }
 }
@@ -130,6 +136,8 @@ const handleGoBackBtn = () => {
     stepIndex.value = 1
   } else if (stepIndex.value === 3) {
     stepIndex.value = 2
+  } else if (stepIndex.value === 4) {
+    stepIndex.value = 3
   }
 }
 </script>

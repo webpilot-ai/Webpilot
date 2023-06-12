@@ -336,11 +336,6 @@ const hideAlert = () => {
 </script>
 
 <style module="advanced" lang="scss">
-.openAiLogo {
-  width: 22px;
-  height: 22px;
-}
-
 .panel {
   display: flex;
   flex-direction: column;
@@ -510,39 +505,6 @@ const hideAlert = () => {
     border: 1px solid #dcdee1;
     border-radius: 5px;
   }
-}
-
-.more {
-  /* identical to box height */
-  display: inline;
-  color: #585b58;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: right;
-  text-decoration-line: underline;
-
-  .question_mark {
-    display: inline;
-    width: 16px;
-    height: 16px;
-    margin-right: 6px;
-    vertical-align: middle;
-  }
-}
-
-.saveButton {
-  width: 143px;
-  margin-top: auto;
-  padding: 8px 16px;
-  color: white;
-  font-weight: 500;
-  font-size: 14px;
-  font-family: 'PingFang SC', Helvetica, Arial, sans-serif;
-  line-height: 20px;
-  background-color: #929497;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .mode {
