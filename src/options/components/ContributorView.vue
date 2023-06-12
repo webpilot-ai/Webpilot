@@ -27,11 +27,10 @@ defineProps({
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 155px;
   height: 143px;
   margin-right: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   padding: 16px;
   background-color: #fff;
   border-radius: 20px;
@@ -40,17 +39,20 @@ defineProps({
   img {
     width: 48px;
     height: 48px;
-    margin-right: 16px;
+    margin: 0 0 7px;
     border-radius: 50%;
   }
 
   .name {
+    margin: 0 0 2px;
+    color: #4f5aff;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
   }
 
   .title {
+    color: #585b58;
     white-space: pre-wrap;
   }
 }

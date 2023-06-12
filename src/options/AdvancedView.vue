@@ -2,7 +2,8 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div v-if="isSignedIn === true" :class="advanced.general">
+      <!-- <div v-if="isSignedIn === true" :class="advanced.general"> -->
+      <div v-if="false" :class="advanced.general">
         <div :class="advanced.radio">
           <input
             id="option1"
@@ -22,7 +23,6 @@
       <div :class="advanced.personal">
         <div :class="advanced.radio">
           <input
-            v-if="isSignedIn === true"
             id="option2"
             v-model="selectedOption"
             name="option"
@@ -103,8 +103,10 @@
 
     <div :class="[advanced.extension, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('Extension Settings') }}</span>
-      <span :class="[advanced.subtitle, advanced.displayMode]">{{ $gettext('Display Mode') }}</span>
-      <div :class="advanced.mode">
+      <span v-if="false" :class="[advanced.subtitle, advanced.displayMode]">{{
+        $gettext('Display Mode')
+      }}</span>
+      <div v-if="false" :class="advanced.mode">
         <!-- Sider bar under development -->
         <div v-if="false" :class="advanced.radioGroup">
           <input
@@ -176,7 +178,7 @@ import WebpilotLogo from '../../assets/icon.png'
 import SwitchButton from './components/SwitchButton.vue'
 
 const userStore = useUserStore()
-const {isSignedIn, usage} = storeToRefs(userStore)
+const {usage} = storeToRefs(userStore)
 const {getUsage} = userStore
 
 const store = useStore()
@@ -185,40 +187,46 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref(config.value.apiOrigin || 'personal')
+const selectedOption = ref('personal')
 
 const saveAuthKey = ref(config.value.authKey)
 
 /** Edit Auth Key */
 const authKey = ref('')
-const authKeyPlaceHolder = computed(() => {
+const authKeyPlaceHolder = ref('Enter your API Key from OpenAI')
+
+const updatePlaceHolder = () => {
   const key = saveAuthKey.value === '' ? store.config.authKey : saveAuthKey.value
 
   if (key === '' || !key) return 'Enter your API Key from OpenAI'
 
   const startText = key.substring(0, 3)
   const endText = key.substring(key.length - 4, key.length)
+  authKeyPlaceHolder.value = `${startText}...${endText}`
   return `${startText}...${endText}`
-})
+}
+updatePlaceHolder()
 
 const onEditAuthKey = () => {
   // use saved temp key first
-  if (saveAuthKey.value !== '') {
-    authKey.value = saveAuthKey.value
-    return
-  }
-
-  // if cna't find local save auhtkey use storeconfig authkey
-  const {authKey: key} = config.value
-  if (key === '' || !key) return
-  saveAuthKey.value = key
-  authKey.value = key
+  // if (saveAuthKey.value !== '') {
+  //   authKey.value = saveAuthKey.value
+  //   return
+  // }
+  // // if can't find local save auhtkey use storeconfig authkey
+  // const {authKey: key} = config.value
+  // if (key === '' || !key) return
+  // saveAuthKey.value = key
+  authKeyPlaceHolder.value = ''
 }
 
 const onBlurSetAuthkey = () => {
-  saveAuthKey.value = authKey.value
+  if (authKey.value !== '') {
+    saveAuthKey.value = authKey.value
+  }
 
-  if (authKey.value !== '') authKey.value = ''
+  authKey.value = ''
+  updatePlaceHolder()
 }
 
 const alertInfo = computed(() => {
@@ -355,7 +363,7 @@ const hideAlert = () => {
   }
 
   .subtitle {
-    margin-top: 24px;
+    margin-top: 36px;
     color: #292929;
     font-weight: 400;
     font-size: 18px;
@@ -377,6 +385,7 @@ const hideAlert = () => {
     margin-top: 8px;
     margin-bottom: 12px;
     padding-left: 8px;
+    color: #929497;
     font-size: 14px;
     line-height: 20px;
     border: 1px solid #dcdee1;
@@ -550,7 +559,8 @@ const hideAlert = () => {
   margin-top: 9px;
 
   div {
-    display: inline;
+    display: flex;
+    align-items: center;
     padding-left: 6px;
     color: #585b58;
     font-weight: 400;
@@ -562,7 +572,7 @@ const hideAlert = () => {
     display: inline-block;
     width: 16px;
     height: 16px;
-    margin: 0 4px;
+    margin: 0 5px;
   }
 }
 

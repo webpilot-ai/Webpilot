@@ -19,7 +19,7 @@
           <a @click="signOut()">UNLINK</a>
         </p>
       </div>
-      <div :class="[account.panel, account.plan]">
+      <div v-if="false" :class="[account.panel, account.plan]">
         <h3>Your Plan</h3>
       </div>
     </div>
@@ -131,8 +131,17 @@ const signOut = () => {
 
   a {
     margin-left: 24px;
+    color: #585b58;
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  a:hover {
+    color: #4f5aff;
+  }
+
+  a:active {
+    color: #4f5aff;
   }
 }
 </style>
