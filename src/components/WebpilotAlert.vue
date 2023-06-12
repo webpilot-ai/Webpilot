@@ -72,7 +72,7 @@ const ALERT_TYPE = {
   width: fit-content;
   min-height: 27px;
   padding: 5px 8px 5px 6px;
-  font-weight: 500;
+  color: #585b58;
   font-size: 12px;
   line-height: 17px;
   background: linear-gradient(0deg, rgb(79 90 255 / 10%), rgb(79 90 255 / 10%)), #fff;

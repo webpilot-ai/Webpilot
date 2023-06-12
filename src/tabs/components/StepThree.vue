@@ -1,3 +1,37 @@
+<template>
+  <div :class="stepThree.wrap">
+    <h3>Active Webpilot Extension</h3>
+
+    <h2 :class="stepThree.shortcutGuideTitle">
+      Select text, and press <span>{{ shotcut }}</span> to ask Webpilot
+    </h2>
+    <div :class="stepThree.changeShorcut">
+      <span>Change Shortcut</span>
+      <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShotcutChange" />
+    </div>
+    <WebpilotCheckbox
+      v-model="autoPopup"
+      label="Display Webpilot icon when text is selected"
+      style="margin-top: 16px"
+      @change="onAutoPopupChange"
+    />
+    <IllustrationSelectText style="margin-top: 12px" />
+    <WebpilotAlert
+      style="margin-top: 6px"
+      tips="Webpilot will answer based on the current page if no text is selected"
+      type="info"
+    />
+    <div v-if="false" :class="stepThree.displayMode">
+      <h2 :class="stepThree.title">Display mode</h2>
+      <DisplayMode
+        v-model="mode"
+        style="margin-top: 2px; margin-bottom: 55px"
+        @change="osDisplayModeChange"
+      />
+    </div>
+  </div>
+</template>
+
 <script setup>
 import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
@@ -47,39 +81,17 @@ const shotcut = computed(() => {
 })
 </script>
 
-<template>
-  <div>
-    <h2 :class="stepTwo.shortcutGuideTitle">
-      Select text, and press <span>{{ shotcut }}</span> to ask Webpilot
-    </h2>
-    <div :class="stepTwo.changeShorcut">
-      <span>Change Shortcut</span>
-      <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShotcutChange" />
-    </div>
-    <WebpilotCheckbox
-      v-model="autoPopup"
-      label="Display Webpilot icon when text is selected"
-      style="margin-top: 16px"
-      @change="onAutoPopupChange"
-    />
-    <IllustrationSelectText style="margin-top: 12px" />
-    <WebpilotAlert
-      style="margin-top: 6px"
-      tips="Webpilot will answer based on the current page if no text is selected"
-      type="info"
-    />
-    <div v-if="true" :class="stepTwo.displayMode">
-      <h2 :class="stepTwo.title">Display mode</h2>
-      <DisplayMode
-        v-model="mode"
-        style="margin-top: 2px; margin-bottom: 55px"
-        @change="osDisplayModeChange"
-      />
-    </div>
-  </div>
-</template>
+<style module="stepThree" lang="scss">
+.wrap {
+  h3 {
+    margin: 0 0 16px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 34px;
+    text-align: center;
+  }
+}
 
-<style module="stepTwo" lang="scss">
 .shortcutGuideTitle {
   font-weight: 400;
   font-size: 18px;

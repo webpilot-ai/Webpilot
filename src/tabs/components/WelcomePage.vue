@@ -281,6 +281,7 @@ const handleGoBackBtn = () => {
   align-items: center;
   margin-top: auto;
   margin-bottom: 16px;
+  color: #585b58;
   font-weight: 400;
   font-size: 18px;
   line-height: 25px;

@@ -1,7 +1,7 @@
 <template>
   <div :class="stepTwo.wrap">
     <h3>Set up your API Key</h3>
-    <div v-if="isSignedIn === true" :class="stepTwo.general">
+    <!-- <div v-if="isSignedIn === true" :class="stepTwo.general">
       <div :class="stepTwo.radio">
         <input
           id="option1"
@@ -14,7 +14,7 @@
         <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
       </div>
       <p>You can use Webpilot API for free up to X times</p>
-    </div>
+    </div> -->
     <div :class="stepTwo.personal">
       <div :class="stepTwo.radio">
         <input
@@ -194,6 +194,8 @@ const onChange = () => {
 }
 
 .general {
+  margin: 0 0 36px;
+
   h4 {
     font-weight: 400;
     font-size: 14px;
@@ -201,6 +203,7 @@ const onChange = () => {
   }
 
   p {
+    margin: 0;
     padding: 0 25px;
   }
 }
@@ -208,7 +211,7 @@ const onChange = () => {
 .radio {
   display: flex;
   align-items: center;
-  margin: 16px 0 12px;
+  margin: 0 0 4px;
   line-height: 25px;
 
   input {
