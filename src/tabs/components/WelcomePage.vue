@@ -54,6 +54,7 @@ import {useToast} from 'vue-toast-notification'
 
 import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
+import {WEBPILOT_OPENAI} from '@/config'
 
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
@@ -80,6 +81,7 @@ const stepIndex = ref(1)
 const authInfo = ref({
   authKey: '',
   selfHostUrl: '',
+  selectedOption: 'personal',
 })
 
 const handleSkip = () => {
@@ -87,7 +89,13 @@ const handleSkip = () => {
 }
 
 const checkAuthKey = async () => {
-  const {authKey, selfHostUrl} = authInfo.value
+  const {selectedOption} = authInfo.value
+  let {authKey, selfHostUrl} = authInfo.value
+
+  if (selectedOption === 'general') {
+    authKey = WEBPILOT_OPENAI.AUTH_KEY
+    selfHostUrl = WEBPILOT_OPENAI.HOST_URL
+  }
 
   // check toekn and self host change
   if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
@@ -148,8 +156,7 @@ const handleGoBackBtn = () => {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  padding: 32px;
-  padding-bottom: 0;
+  padding: 24px 32px 0;
   background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
   backdrop-filter: blur(5px);
 }
@@ -162,8 +169,13 @@ const handleGoBackBtn = () => {
   font-size: 18px;
   line-height: 25px;
 
+  svg {
+    width: 178px;
+    height: 36px;
+  }
+
   h1 {
-    margin-left: 19px;
+    margin: 0 0 0 19px;
     font-weight: 400;
     font-size: 18px;
     line-height: 25px;

@@ -37,7 +37,6 @@ const openSignIn = () => {
         const {credential} = request
         storage.set(GOOGLE_CREDENTIAL, credential)
         // Do something with the username in the extension
-        console.log(`Credential received: ${credential}`)
         props.skip()
         getUser()
         chrome.tabs.remove(tabId)
@@ -55,6 +54,10 @@ const openSignIn = () => {
     font-size: 24px;
     line-height: 34px;
     text-align: center;
+    background-image: url('../images/logo.png');
+    background-repeat: no-repeat;
+    background-position: 40px 50%;
+    background-size: 24px 24px;
   }
 
   p {

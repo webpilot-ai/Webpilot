@@ -27,7 +27,6 @@
           </li>
         </ul>
       </div>
-      <div>user::: {{ user }}</div>
 
       <!-- body -->
       <div :class="index.body">
@@ -50,7 +49,6 @@
 <script setup>
 import '@assets/styles/reset.scss'
 import {ref} from 'vue'
-import {storeToRefs} from 'pinia'
 
 import useUserStore from '@/stores/user'
 
@@ -61,7 +59,6 @@ import AboutView from './AboutView.vue'
 const active = ref('advanced')
 
 const userStore = useUserStore()
-const {user} = storeToRefs(userStore)
 const {getUser} = userStore
 
 getUser()

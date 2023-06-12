@@ -11,10 +11,13 @@
         </div>
       </div>
     </div>
-    <div v-else :class="account.loggedin">
+    <div v-else :class="account.signedIn">
       <div :class="[account.panel, account.profile]">
         <h3>Linked Account</h3>
-        <p>{{ user }}</p>
+        <p>
+          {{ user }}
+          <a @click="signOut()">UNLINK</a>
+        </p>
       </div>
       <div :class="[account.panel, account.plan]">
         <h3>Your Plan</h3>
@@ -48,11 +51,15 @@ const openSignIn = () => {
         storage.set(GOOGLE_CREDENTIAL, credential)
         getUser()
         // Do something with the username in the extension
-        console.log(`Credential received: ${credential}`)
         chrome.tabs.remove(tabId)
       }
     })
   })
+}
+
+const signOut = () => {
+  storage.remove(GOOGLE_CREDENTIAL)
+  getUser()
 }
 </script>
 
@@ -110,16 +117,22 @@ const openSignIn = () => {
   }
 }
 
-.title {
-  margin-bottom: 8px;
-  color: #292929;
-  font-size: 18px;
-  line-height: 25px;
-}
+.profile {
+  p {
+    padding: 0 36px;
+    color: #585b58;
+    font-size: 14px;
+    line-height: 25px;
+    background-image: url("./images/g-logo.png");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 24px 25px;
+  }
 
-.persons {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
+  a {
+    margin-left: 24px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 </style>

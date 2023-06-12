@@ -1,5 +1,6 @@
 <template>
   <div :class="stepTwo.wrap">
+    <h3>Set up your API Key</h3>
     <div v-if="isSignedIn === true" :class="stepTwo.general">
       <div :class="stepTwo.radio">
         <input
@@ -12,9 +13,7 @@
         />
         <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
       </div>
-      <div>
-        <p>You can use Webpilot API for free up to X times</p>
-      </div>
+      <p>You can use Webpilot API for free up to X times</p>
     </div>
     <div :class="stepTwo.personal">
       <div :class="stepTwo.radio">
@@ -56,7 +55,7 @@
             <p>Click <b>“Create new secret key”</b>. Copy and paste key above</p>
           </div>
 
-          <div :class="stepTwo.host">
+          <div v-if="selectedOption === 'personal'" :class="stepTwo.host">
             <div :class="stepTwo.selfHost">
               <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
               <label for="self_host">Self Host</label>
@@ -95,7 +94,6 @@
 import {onMounted, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
-import {WEBPILOT_OPENAI} from '@/config'
 import useUserStore from '@/stores/user'
 
 import HelpTips from '@/components/HelpTips.vue'
@@ -103,7 +101,6 @@ import HelpTips from '@/components/HelpTips.vue'
 
 const userStore = useUserStore()
 const {isSignedIn} = storeToRefs(userStore)
-const selectedOption = ref('general')
 
 const props = defineProps({
   modelValue: {
@@ -114,6 +111,7 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue', 'change'])
 
+const selectedOption = ref(props.modelValue.selectedOption)
 const authKey = ref(props.modelValue.authKey)
 const isSelfHost = ref(false)
 const selfHostUrl = ref(props.modelValue.selfHostUrl)
@@ -132,15 +130,14 @@ const handleOptionChange = event => {
   switch (value) {
     case 'general':
       emits('update:modelValue', {
-        authKey: WEBPILOT_OPENAI.AUTH_KEY,
-        selfHostUrl: WEBPILOT_OPENAI.HOST_URL,
+        selectedOption: 'general',
       })
       break
     default:
       emits('update:modelValue', {
-        authKey: authKey.value,
-        selfHostUrl: selfHostUrl.value,
+        selectedOption: 'personal',
       })
+
       break
   }
 }
@@ -171,12 +168,20 @@ const onChange = () => {
     font-size: 18px;
     line-height: 25px;
   }
+
+  h3 {
+    margin: 0 0 16px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 34px;
+    text-align: center;
+  }
 }
 
 .input {
   width: 360px;
   height: 36px;
-  margin-top: 12px;
+  margin: 8px 0 12px;
   padding: 8px;
   font-size: 14px;
   line-height: 20px;
@@ -193,6 +198,10 @@ const onChange = () => {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+  }
+
+  p {
+    padding: 0 25px;
   }
 }
 
@@ -219,6 +228,13 @@ const onChange = () => {
 .apiItem {
   display: flex;
   flex-direction: column;
+
+  p {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 
 .haveAuthKey::placeholder {
