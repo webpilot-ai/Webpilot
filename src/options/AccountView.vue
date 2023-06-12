@@ -41,7 +41,7 @@ const {user, isSignedIn} = storeToRefs(userStore)
 const {getUser} = userStore
 
 const openSignIn = () => {
-  chrome.tabs.create({url: 'http://localhost/'}, tab => {
+  chrome.tabs.create({url: 'https://account.webpilot.ai/'}, tab => {
     const tabId = tab.id
 
     chrome.runtime.onMessage.addListener(function (request) {
@@ -123,7 +123,7 @@ const signOut = () => {
     color: #585b58;
     font-size: 14px;
     line-height: 25px;
-    background-image: url("./images/g-logo.png");
+    background-image: url('./images/g-logo.png');
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: 24px 25px;

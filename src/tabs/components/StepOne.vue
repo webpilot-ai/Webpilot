@@ -28,7 +28,7 @@ const props = defineProps({
 })
 
 const openSignIn = () => {
-  chrome.tabs.create({url: 'http://localhost/'}, tab => {
+  chrome.tabs.create({url: 'https://account.webpilot.ai/'}, tab => {
     const tabId = tab.id
 
     chrome.runtime.onMessage.addListener(function (request) {
