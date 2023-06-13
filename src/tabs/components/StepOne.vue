@@ -120,16 +120,14 @@ const openSignIn = () => {
     padding: 0;
     line-height: 40px;
     text-align: center;
+    text-indent: -9999px;
     background: #f8faff;
+    background-image: url('../images/signin-google.png');
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 154px 20px;
     border: 1px solid #d2e3fc;
     border-radius: 5px;
-
-    /* text-indent: -9999px; */
-
-    /* background-image: url('../../options/images/sign-in-with-google.png'); */
-
-    /* background-repeat: no-repeat;
-    background-size: contain; */
     cursor: pointer;
   }
 

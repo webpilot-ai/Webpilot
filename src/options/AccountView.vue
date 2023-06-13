@@ -106,14 +106,34 @@ const signOut = () => {
 
   .button {
     display: inline-block;
-    width: 172px;
-    height: 42px;
+    width: 170px;
+    height: 40px;
+    margin: 0 0 24px;
     padding: 0;
+    line-height: 40px;
+    text-align: center;
     text-indent: -9999px;
-    background-image: url('./images/sign-in-with-google.png');
+    background: #f8faff;
+    background-image: url('../tabs/images/signin-google.png');
     background-repeat: no-repeat;
-    background-size: contain;
+    background-position: 50% 50%;
+    background-size: 154px 20px;
+    border: 1px solid #d2e3fc;
+    border-radius: 5px;
     cursor: pointer;
+  }
+
+  .button:hover {
+    /* filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.109969)) */
+
+    /* drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.0794837)); */
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 11%), 0 5px 15px 0 rgb(0 0 0 / 8%);
+  }
+
+  .button:active {
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, rgb(0 0 0 / 40%), rgb(0 0 0 / 40%)),
+      linear-gradient(0deg, #4f5aff, #4f5aff);
   }
 }
 
@@ -141,7 +161,7 @@ const signOut = () => {
   }
 
   a:active {
-    color: #4f5aff;
+    color: #292f8e;
   }
 }
 </style>
