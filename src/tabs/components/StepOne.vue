@@ -1,127 +1,169 @@
+<template>
+  <div :class="stepOne.wrap">
+    <h3>Create Webpilot account</h3>
+    <p>To unlock all features, we highly recommend you to sign in</p>
+    <div :class="stepOne.button">
+      <a :class="stepOne.signin" @click="openSignIn()">Sign in with Google</a>
+      <!-- <a :class="stepOne.skip" @click="skip">SKIP FOR NOW</a> -->
+    </div>
+  </div>
+  <div v-if="showMask" :class="stepOne.mask"></div>
+</template>
+
 <script setup>
-import {onMounted, ref} from 'vue'
+import {ref} from 'vue'
+import {Storage} from '@plasmohq/storage'
 
-import IconOpenAi from '@/components/icon/IconOpenAi.vue'
-import HelpTips from '@/components/HelpTips.vue'
+import useUserStore from '@/stores/user'
+import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
+const storage = new Storage()
+const userStore = useUserStore()
+const {getUser} = userStore
 const props = defineProps({
-  modelValue: {
-    type: Object,
+  skip: {
+    type: Function,
     required: true,
+    default: () => {},
   },
 })
 
-const emits = defineEmits(['update:modelValue', 'change'])
+const showMask = ref(false)
 
-const authKey = ref(props.modelValue.authKey)
-const isSelfHost = ref(false)
-const selfHostUrl = ref(props.modelValue.selfHostUrl)
+const openSignIn = () => {
+  const width = 480
+  const height = 624
 
-onMounted(() => {
-  if (props.modelValue.selfHostUrl !== '') {
-    isSelfHost.value = true
-  }
-})
+  const screenWidth = window.screen.availWidth
+  const screenHeight = window.screen.availHeight
 
-const onChange = () => {
-  emits('update:modelValue', {
-    authKey: authKey.value,
-    selfHostUrl: selfHostUrl.value,
-  })
+  const left = Math.round((screenWidth - width) / 2)
+  const top = Math.round((screenHeight - height) / 2)
+
+  chrome.windows.create(
+    {
+      url: 'https://account.webpilot.ai/',
+      type: 'popup',
+      left,
+      top,
+      width,
+      height,
+    },
+    function (newWindow) {
+      const newWindowId = newWindow.id
+      showMask.value = true
+
+      chrome.runtime.onMessage.addListener(function (request) {
+        if (request.credential) {
+          // Access the username sent from the webpage
+          const {credential} = request
+          showMask.value = false
+          storage.set(GOOGLE_CREDENTIAL, credential)
+          // Do something with the username in the extension
+          props.skip()
+          getUser()
+          chrome.windows.remove(newWindowId)
+        }
+      })
+    }
+  )
+  // chrome.tabs.create({url: 'https://account.webpilot.ai/'}, tab => {
+  //   const tabId = tab.id
+
+  //   chrome.runtime.onMessage.addListener(function (request) {
+  //     if (request.credential) {
+  //       // Access the username sent from the webpage
+  //       const {credential} = request
+  //       storage.set(GOOGLE_CREDENTIAL, credential)
+  //       // Do something with the username in the extension
+  //       props.skip()
+  //       getUser()
+  //       chrome.tabs.remove(tabId)
+  //     }
+  //   })
+  // })
 }
 </script>
 
-<template>
-  <div :class="stepOne.wrap">
-    <div :class="stepOne.header">
-      <IconOpenAi :class="stepOne.openAiIcon" />OpenAI gpt-3.5-turbo
-    </div>
-    <div :class="stepOne.apiKeyGuide">
-      To get your API key, log into
-      <a href="https://platform.openai.com/account/api-keys" target="_blank"> Open AI > API Keys</a>
-      Click <b>“Create new secret key”</b>. Copy and paste key below
-    </div>
-    <input
-      v-model="authKey"
-      :class="stepOne.input"
-      placeholder="Enter your API Key from OpenAI"
-      type="text"
-      @change="onChange"
-    />
-    <div :class="stepOne.selfHost">
-      <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-      <label for="self_host">Self Host</label>
-    </div>
-
-    <template v-if="isSelfHost">
-      <input
-        v-model="selfHostUrl"
-        :class="stepOne.input"
-        placeholder="Enter your base address"
-        type="text"
-        @change="onChange"
-      />
-      <HelpTips value="How to self host API?" />
-    </template>
-  </div>
-</template>
-
 <style module="stepOne" lang="scss">
 .wrap {
-  .openAiIcon {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-  }
-
-  .header {
-    display: flex;
-    align-items: center;
+  h3 {
+    margin: 0 0 16px;
     font-weight: 400;
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 24px;
+    line-height: 34px;
+    text-align: center;
+    background-image: url('../images/logo.png');
+    background-repeat: no-repeat;
+    background-position: 40px 50%;
+    background-size: 24px 24px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
   }
 }
 
-.apiKeyGuide {
-  margin-top: 16px;
-  color: #292929;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-
-  a {
-    text-decoration: none;
-  }
-
-  a:visited {
-    color: #4f5aff;
-  }
-}
-
-.input {
-  width: 360px;
-  height: 36px;
-  margin-top: 12px;
-  padding: 8px;
-  font-size: 14px;
-  line-height: 20px;
-  border: 1px solid #dcdee1;
-  border-radius: 5px;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.selfHost {
+.button {
   display: flex;
-  margin-top: 18px;
-  cursor: pointer;
-  user-select: none;
+  flex-direction: column;
+  align-items: center;
+  margin: 72px 0 0;
 
-  * {
+  .signin {
+    display: inline-block;
+    width: 170px;
+    height: 40px;
+    margin: 0 0 24px;
+    padding: 0;
+    line-height: 40px;
+    text-align: center;
+    background: #f8faff;
+    border: 1px solid #d2e3fc;
+    border-radius: 5px;
+
+    /* text-indent: -9999px; */
+
+    /* background-image: url('../../options/images/sign-in-with-google.png'); */
+
+    /* background-repeat: no-repeat;
+    background-size: contain; */
     cursor: pointer;
   }
+
+  .signin:hover {
+    /* filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.109969)) */
+
+    /* drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.0794837)); */
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 11%), 0 5px 15px 0 rgb(0 0 0 / 8%);
+  }
+
+  .signin:active {
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, rgb(0 0 0 / 40%), rgb(0 0 0 / 40%)),
+      linear-gradient(0deg, #4f5aff, #4f5aff);
+  }
+}
+
+.skip {
+  display: inline-block;
+  width: 172px;
+  padding: 8px 16px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid rgb(79 90 255 / 20%);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgb(0 0 0 / 60%);
 }
 </style>

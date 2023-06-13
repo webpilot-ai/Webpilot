@@ -54,7 +54,7 @@ const handleClick = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  height: 36px;
   padding: 8px 16px;
   font-weight: 500;
   font-size: 14px !important;

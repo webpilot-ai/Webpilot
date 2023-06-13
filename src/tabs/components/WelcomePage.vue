@@ -10,15 +10,17 @@
           <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 1}">1</li>
           <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 2}">2</li>
           <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 3}">3</li>
+          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 4}">4</li>
         </ul>
-        <h2 :class="setup.formTitle">Set up your API Key</h2>
         <div :class="setup.infoInputArea">
           <!-- Step One -->
-          <StepOne v-if="stepIndex === 1" v-model="authInfo" />
+          <StepOne v-if="stepIndex === 1" :skip="handleSkip" />
           <!-- Setp Two -->
-          <StepTwo v-else-if="stepIndex === 2" />
+          <StepTwo v-else-if="stepIndex === 2" v-model="authInfo" />
           <!-- Setp Three -->
           <StepThree v-else-if="stepIndex === 3" />
+          <!-- Setp Four -->
+          <StepFour v-else-if="stepIndex === 4" />
           <!-- NEXT BUTTON -->
           <div :class="setup.btnGroup">
             <WebpilotButton
@@ -28,8 +30,9 @@
               @click="handleGoBackBtn"
             />
             <WebpilotButton
+              v-if="stepIndex !== 1"
               :loading="loading"
-              :value="stepIndex === 3 ? 'DONE' : 'NEXT'"
+              :value="stepIndex === 4 ? 'DONE' : 'NEXT'"
               @click="handleNextBtn"
             />
           </div>
@@ -50,6 +53,8 @@ import {ref} from 'vue'
 import {useToast} from 'vue-toast-notification'
 
 import useStore from '@/stores/store'
+import useUserStore from '@/stores/user'
+import {WEBPILOT_OPENAI} from '@/config'
 
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
@@ -58,6 +63,12 @@ import useAskAi from '@/hooks/useAskAi'
 import StepOne from './StepOne.vue'
 import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
+import StepFour from './StepFour.vue'
+
+const userStore = useUserStore()
+const {getUser} = userStore
+
+getUser()
 
 const toast = useToast()
 const storeConfig = useStore()
@@ -70,14 +81,25 @@ const stepIndex = ref(1)
 const authInfo = ref({
   authKey: '',
   selfHostUrl: '',
+  selectedOption: 'personal',
 })
 
+const handleSkip = () => {
+  stepIndex.value = 2
+}
+
 const checkAuthKey = async () => {
-  const {authKey, selfHostUrl} = authInfo.value
+  const {selectedOption} = authInfo.value
+  let {authKey, selfHostUrl} = authInfo.value
+
+  if (selectedOption === 'general') {
+    authKey = WEBPILOT_OPENAI.AUTH_KEY
+    selfHostUrl = WEBPILOT_OPENAI.HOST_URL
+  }
 
   // check toekn and self host change
   if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
-    stepIndex.value = 2
+    stepIndex.value = 3
     return
   }
 
@@ -95,7 +117,7 @@ const checkAuthKey = async () => {
       isFinishSetup: true,
       selfHostUrl: selfHostUrl !== '' ? selfHostUrl : '',
     })
-    stepIndex.value = 2
+    stepIndex.value = 3
   } catch (error) {
     toast.open({
       message: 'Incorrect API Key. Please check with the provider',
@@ -106,11 +128,11 @@ const checkAuthKey = async () => {
 }
 
 const handleNextBtn = async () => {
-  if (stepIndex.value === 1) {
+  if (stepIndex.value === 2) {
     await checkAuthKey()
-  } else if (stepIndex.value === 2) {
-    stepIndex.value = 3
   } else if (stepIndex.value === 3) {
+    stepIndex.value = 4
+  } else if (stepIndex.value === 4) {
     window.close()
   }
 }
@@ -122,6 +144,8 @@ const handleGoBackBtn = () => {
     stepIndex.value = 1
   } else if (stepIndex.value === 3) {
     stepIndex.value = 2
+  } else if (stepIndex.value === 4) {
+    stepIndex.value = 3
   }
 }
 </script>
@@ -132,8 +156,7 @@ const handleGoBackBtn = () => {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  padding: 32px;
-  padding-bottom: 0;
+  padding: 24px 32px 0;
   background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
   backdrop-filter: blur(5px);
 }
@@ -146,8 +169,13 @@ const handleGoBackBtn = () => {
   font-size: 18px;
   line-height: 25px;
 
+  svg {
+    width: 178px;
+    height: 36px;
+  }
+
   h1 {
-    margin-left: 19px;
+    margin: 0 0 0 19px;
     font-weight: 400;
     font-size: 18px;
     line-height: 25px;
@@ -162,17 +190,31 @@ const handleGoBackBtn = () => {
   width: 100%;
   margin-top: 24px;
   padding-top: 32px;
-  overflow-y: scroll;
+  overflow-y: auto;
   background: rgb(255 255 255 / 60%);
   border: 1px solid #fff;
   border-radius: 20px 20px 0 0;
 
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
+    height: 26px;
   }
 
+  /* Background color of the scrollbar track */
+  &::-webkit-scrollbar-track {
+    background: linear-gradient(0deg, rgb(79 90 255 / 20%), rgb(79 90 255 / 20%)), #fff;
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Color of the scrollbar thumb */
   &::-webkit-scrollbar-thumb {
-    background: rgb(255 255 255 / 30%);
+    background: linear-gradient(0deg, rgb(79 90 255 / 40%), rgb(79 90 255 / 40%)), #fff;
+    border-radius: 5px;
+  }
+
+  /* Hover state of the scrollbar thumb */
+  &::-webkit-scrollbar-thumb:hover {
+    /* background-color: #555; */
   }
 }
 
@@ -180,7 +222,7 @@ const handleGoBackBtn = () => {
   display: flex;
   flex-direction: row;
   margin: 0;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   padding: 0;
   list-style-type: none;
 }
@@ -253,6 +295,7 @@ const handleGoBackBtn = () => {
   align-items: center;
   margin-top: auto;
   margin-bottom: 16px;
+  color: #585b58;
   font-weight: 400;
   font-size: 18px;
   line-height: 25px;

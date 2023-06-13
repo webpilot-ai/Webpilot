@@ -5,6 +5,8 @@ export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 export const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions'
 
 export const defaultConfig = {
+  // general | personal
+  apiOrigin: 'personal',
   /** Open AI or selfhost api key */
   authKey: '',
   /** Is auth successed */
@@ -63,4 +65,10 @@ export const SUPER_BUTTON_STATUS = {
   pending: 'pending',
   generating: 'generating',
   done: 'done',
+}
+
+export const WEBPILOT_OPENAI = {
+  AUTH_KEY: 'xxxxxxxxx',
+  HOST_URL: 'https://ai.api.moblin.net/api/openai/v1/chat/completions',
+  MODEL: 'gpt-3.5-turbo',
 }
