@@ -3,29 +3,16 @@ import {ref, toRaw} from 'vue'
 import useStore from '@/stores/store'
 import {askOpenAI, parseStream} from '@/io'
 
-const getSelectTextPropmpt = (referenceText, command) => {
+const getPrompt = (referenceText, command) => {
   return [
     {
-      role: 'system',
-      content:
-        "You are WebPilot, an advanced AI bot. You are tasked to process the user's text content. Remember never interpret it.",
+      role: 'assistant',
+      content: referenceText,
     },
     {
       role: 'user',
-      content: `Do the task, ${command}  , return without additional quotes or text ,to text below: \n ${referenceText} \n`,
+      content: command,
     },
-  ]
-}
-
-const getAskPagePrompt = (referenceText, command) => {
-  return [
-    {role: 'user', content: referenceText},
-    {
-      role: 'system',
-      content:
-        'You are WebPilot, an advanced AI bot. Respond using the prior content if available, otherwise answer independently, but always in the language of the following content and without additional quotes or text.',
-    },
-    {role: 'user', content: command},
   ]
 }
 
@@ -50,13 +37,7 @@ export default function useAskAi() {
     errorMessage.value = ''
   }
 
-  const askAi = async ({
-    referenceText = '',
-    command,
-    isAskPage = false,
-    authKey = '',
-    url = null,
-  } = {}) => {
+  const askAi = async ({referenceText = '', command, authKey = '', url = null} = {}) => {
     // clean result
     resetState()
 
@@ -64,9 +45,7 @@ export default function useAskAi() {
 
     let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
-    const message = isAskPage
-      ? getAskPagePrompt(text, command)
-      : getSelectTextPropmpt(text, command)
+    const message = getPrompt(text, command)
 
     loading.value = true
     generating.value = true
@@ -107,13 +86,13 @@ export default function useAskAi() {
         } else {
           let errorMsg = err.message || ''
 
-          errorMessage.value = `OpenAI: ${errorMsg}`
-
           if (err?.response?.data?.error?.message) {
             // eslint-disable-next-line
             errorMsg = `OpenAI: ${err.response.data.error.message}`
             // TODO: add toast
           }
+
+          errorMessage.value = `OpenAI: ${errorMsg}`
         }
 
         throw err
