@@ -1,3 +1,7 @@
+<template>
+  <div></div>
+</template>
+
 <script setup>
 import {createApp} from 'vue'
 

@@ -6,8 +6,8 @@
       <a :class="stepOne.signin" @click="openSignIn()">Sign in with Google</a>
       <!-- <a :class="stepOne.skip" @click="skip">SKIP FOR NOW</a> -->
     </div>
+    <div v-if="showMask" :class="stepOne.mask"></div>
   </div>
-  <div v-if="showMask" :class="stepOne.mask"></div>
 </template>
 
 <script setup>

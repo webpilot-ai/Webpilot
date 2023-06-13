@@ -23,8 +23,8 @@
         <h3>Your Plan</h3>
       </div>
     </div>
+    <div v-if="showMask" :class="account.mask"></div>
   </div>
-  <div v-if="showMask" :class="account.mask"></div>
 </template>
 
 <script setup>
