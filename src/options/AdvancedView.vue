@@ -78,7 +78,7 @@
             <div v-if="isSelfHost" :class="advanced.selfHostInput">
               <input
                 v-model="selfHostUrl"
-                placeholder="Enter your base address"
+                placeholder="https://api.openai.com"
                 @change="onChangeHostUrl"
               />
               <WebpilotAlert

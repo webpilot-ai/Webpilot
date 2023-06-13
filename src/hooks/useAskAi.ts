@@ -54,7 +54,7 @@ export default function useAskAi() {
       authKey: authKey === '' ? store.config.authKey : authKey,
       model: toRaw(store.config.model),
       message,
-      url: url === null || url === undefined ? store.config.selfHostUrl : url,
+      baseURL: url === null || url === undefined ? store.config.selfHostUrl : url,
     })
       .then(streamReader => {
         loading.value = false

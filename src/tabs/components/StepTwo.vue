@@ -80,7 +80,7 @@
         <input
           v-model="selfHostUrl"
           :class="stepTwo.input"
-          placeholder="Enter your base address"
+          placeholder="https://api.openai.com"
           type="text"
           @change="onChange"
         />

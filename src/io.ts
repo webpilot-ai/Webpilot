@@ -1,8 +1,11 @@
-import {OPEN_AI_API} from '@/config'
+import {Storage} from '@plasmohq/storage'
+
+import {OPENAI_BASE_URL, API_PATH, WEBPILOT_OPENAI} from '@/config'
+import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
 let prevAbortController = null
 
-export function askOpenAI({authKey, model, message, url = null} = {}) {
+export async function askOpenAI({authKey, model, message, baseURL = null} = {}) {
   const abortController = new AbortController()
 
   if (prevAbortController) prevAbortController.abort()
@@ -14,11 +17,22 @@ export function askOpenAI({authKey, model, message, url = null} = {}) {
   requestModel.messages = message
   requestModel.stream = true
 
-  return fetch(url || OPEN_AI_API, {
+  const prefixURL = baseURL || OPENAI_BASE_URL
+  if (prefixURL.endsWith('/')) {
+    prefixURL.substring(0, prefixURL.length - 1)
+  }
+  const url = `${prefixURL}${API_PATH}`
+
+  const storage = new Storage()
+  const webpilotKey = await storage.get(GOOGLE_CREDENTIAL)
+
+  const key = authKey === WEBPILOT_OPENAI.AUTH_KEY ? webpilotKey : authKey
+
+  return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${authKey}`,
+      Authorization: `Bearer ${key}`,
     },
     body: JSON.stringify(requestModel),
     signal: abortController.signal,
