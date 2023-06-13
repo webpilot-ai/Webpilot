@@ -81,7 +81,7 @@ const stepIndex = ref(1)
 const authInfo = ref({
   authKey: '',
   selfHostUrl: '',
-  selectedOption: 'personal',
+  selectedOption: 'general',
 })
 
 const handleSkip = () => {

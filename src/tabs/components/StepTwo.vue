@@ -1,7 +1,7 @@
 <template>
   <div :class="stepTwo.wrap">
     <h3>Set up your API Key</h3>
-    <!-- <div v-if="isSignedIn === true" :class="stepTwo.general">
+    <div v-if="isSignedIn === true" :class="stepTwo.general">
       <div :class="stepTwo.radio">
         <input
           id="option1"
@@ -14,11 +14,10 @@
         <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
       </div>
       <p>You can use Webpilot API for free up to X times</p>
-    </div> -->
+    </div>
     <div :class="stepTwo.personal">
       <div :class="stepTwo.radio">
         <input
-          v-if="isSignedIn === true"
           id="option2"
           v-model="selectedOption"
           name="option"

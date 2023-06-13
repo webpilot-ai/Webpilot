@@ -2,8 +2,8 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <!-- <div v-if="isSignedIn === true" :class="advanced.general"> -->
-      <div v-if="false" :class="advanced.general">
+      <div v-if="isSignedIn === true" :class="advanced.general">
+        <!-- <div v-if="false" :class="advanced.general"> -->
         <div :class="advanced.radio">
           <input
             id="option1"
@@ -178,7 +178,7 @@ import WebpilotLogo from '../../assets/icon.png'
 import SwitchButton from './components/SwitchButton.vue'
 
 const userStore = useUserStore()
-const {usage} = storeToRefs(userStore)
+const {usage, isSignedIn} = storeToRefs(userStore)
 const {getUsage} = userStore
 
 const store = useStore()
@@ -187,7 +187,7 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref('personal')
+const selectedOption = ref(config.value.authKey || 'general')
 
 const saveAuthKey = ref(config.value.authKey)
 
