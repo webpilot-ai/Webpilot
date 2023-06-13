@@ -57,7 +57,6 @@ const onScroll = () => {
   // scroll to bottom start auto scroll
   if (
     !isAutoScroll.value &&
-    !isAutoScroll.value &&
     scrollHeight - (currentScrollTop + clientHeight) <= textareaLineHeight / 2
   ) {
     isAutoScroll.value = true

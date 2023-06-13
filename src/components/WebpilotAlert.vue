@@ -59,8 +59,6 @@ const ALERT_TYPE = {
   ERROR: 'error',
   SUCCESS: 'success',
 }
-
-// eslint-disable-next-line
 </script>
 
 <style lang="scss" module>

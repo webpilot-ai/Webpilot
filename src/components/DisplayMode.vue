@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch} from 'vue'
+import {computed} from 'vue'
 
 import IllustrationPopup from './icon/IllustrationPopup.vue'
 import IllustrationSidebar from './icon/IllustrationSidebar.vue'
@@ -11,13 +11,14 @@ const props = defineProps({
   },
 })
 
-const mode = ref(props.modelValue)
-
 const emits = defineEmits(['update:modelValue', 'change'])
 
-watch(mode, v => {
-  emits('update:modelValue', v)
-  emits('change', v)
+const mode = computed({
+  get: () => props.modelValue,
+  set: value => {
+    emits('update:modelValue', value)
+    emits('change', value)
+  },
 })
 </script>
 
@@ -30,7 +31,7 @@ watch(mode, v => {
         <IllustrationPopup />
       </section>
     </label>
-    <label v-if="false" :class="$style.radioLabel">
+    <label :class="$style.radioLabel">
       <input id="sidebar" v-model="mode" type="radio" value="sideBar" />
       <section :class="$style.radioDesc">
         <span>Side Bar</span>
