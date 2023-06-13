@@ -24,9 +24,11 @@
       </div>
     </div>
   </div>
+  <div v-if="showMask" :class="account.mask"></div>
 </template>
 
 <script setup>
+import {ref} from 'vue'
 import {Storage} from '@plasmohq/storage'
 import {storeToRefs} from 'pinia'
 
@@ -40,21 +42,63 @@ const userStore = useUserStore()
 const {user, isSignedIn} = storeToRefs(userStore)
 const {getUser} = userStore
 
+const showMask = ref(false)
 const openSignIn = () => {
-  chrome.tabs.create({url: 'https://account.webpilot.ai/'}, tab => {
-    const tabId = tab.id
+  const width = 480
+  const height = 624
 
-    chrome.runtime.onMessage.addListener(function (request) {
-      if (request.credential) {
-        // Access the username sent from the webpage
-        const {credential} = request
-        storage.set(GOOGLE_CREDENTIAL, credential)
-        getUser()
-        // Do something with the username in the extension
-        chrome.tabs.remove(tabId)
-      }
-    })
-  })
+  const screenWidth = window.screen.availWidth
+  const screenHeight = window.screen.availHeight
+
+  const left = Math.round((screenWidth - width) / 2)
+  const top = Math.round((screenHeight - height) / 2)
+
+  chrome.windows.create(
+    {
+      url: 'https://account.webpilot.ai/',
+      type: 'popup',
+      left,
+      top,
+      width,
+      height,
+    },
+    function (newWindow) {
+      const newWindowId = newWindow.id
+      showMask.value = true
+
+      chrome.runtime.onMessage.addListener(function (request) {
+        if (request.credential) {
+          // Access the username sent from the webpage
+          const {credential} = request
+          showMask.value = false
+          storage.set(GOOGLE_CREDENTIAL, credential)
+          // Do something with the username in the extension
+          getUser()
+          chrome.windows.remove(newWindowId)
+        }
+      })
+
+      chrome.windows.onRemoved.addListener(function (closedWindowId) {
+        if (closedWindowId === newWindowId) {
+          showMask.value = false
+        }
+      })
+    }
+  )
+  // chrome.tabs.create({url: 'https://account.webpilot.ai/'}, tab => {
+  //   const tabId = tab.id
+
+  //   chrome.runtime.onMessage.addListener(function (request) {
+  //     if (request.credential) {
+  //       // Access the username sent from the webpage
+  //       const {credential} = request
+  //       storage.set(GOOGLE_CREDENTIAL, credential)
+  //       getUser()
+  //       // Do something with the username in the extension
+  //       chrome.tabs.remove(tabId)
+  //     }
+  //   })
+  // })
 }
 
 const signOut = () => {
@@ -163,5 +207,14 @@ const signOut = () => {
   a:active {
     color: #292f8e;
   }
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgb(0 0 0 / 60%);
 }
 </style>

@@ -65,6 +65,12 @@ const openSignIn = () => {
           chrome.windows.remove(newWindowId)
         }
       })
+
+      chrome.windows.onRemoved.addListener(function (closedWindowId) {
+        if (closedWindowId === newWindowId) {
+          showMask.value = false
+        }
+      })
     }
   )
   // chrome.tabs.create({url: 'https://account.webpilot.ai/'}, tab => {
