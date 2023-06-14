@@ -10,7 +10,8 @@ export default {
 }
 
 export const config = {
-  matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
+  matches: ['https://www.askjhdjksj.xmn/'],
+  // matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
 }
 
 async function render({createRootContainer}) {

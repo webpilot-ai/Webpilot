@@ -10,7 +10,8 @@ export default {
 }
 
 export const config = {
-  matches: ['https://app.slack.com/client/*'],
+  matches: ['https://www.askjhdjksj.xmn/'],
+  // matches: ['https://app.slack.com/client/*'],
 }
 
 async function render({createRootContainer}) {
