@@ -2,9 +2,13 @@ import {$gettext} from './utils/i18n'
 
 export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 
-export const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions'
+export const OPENAI_BASE_URL = 'https://api.openai.com'
+
+export const API_PATH = '/v1/chat/completions'
 
 export const defaultConfig = {
+  // general | personal
+  apiOrigin: 'personal',
   /** Open AI or selfhost api key */
   authKey: '',
   /** Is auth successed */
@@ -63,4 +67,10 @@ export const SUPER_BUTTON_STATUS = {
   pending: 'pending',
   generating: 'generating',
   done: 'done',
+}
+
+export const WEBPILOT_OPENAI = {
+  AUTH_KEY: 'KEY_PLACEHOLDER',
+  HOST_URL: 'https://api.webpilotai.com/api/webpilot',
+  MODEL: 'gpt-3.5-turbo',
 }

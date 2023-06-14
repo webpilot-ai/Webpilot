@@ -3,15 +3,16 @@ import {ref, toRaw} from 'vue'
 import useStore from '@/stores/store'
 import {askOpenAI, parseStream} from '@/io'
 
-const getPropmtTemplate = (referenceText, command) => {
+const getPrompt = (referenceText, command) => {
   return [
     {
-      role: 'system',
-      content:
-        "You are WebPilot, an advanced AI provided by WebPilot.AI. Please follow the user's instructions carefully.",
+      role: 'assistant',
+      content: referenceText,
     },
-    {role: 'user', content: referenceText},
-    {role: 'user', content: command},
+    {
+      role: 'user',
+      content: command,
+    },
   ]
 }
 
@@ -44,7 +45,7 @@ export default function useAskAi() {
 
     let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
-    const message = getPropmtTemplate(text, command)
+    const message = getPrompt(text, command)
 
     loading.value = true
     generating.value = true
@@ -53,7 +54,7 @@ export default function useAskAi() {
       authKey: authKey === '' ? store.config.authKey : authKey,
       model: toRaw(store.config.model),
       message,
-      url: url === null || url === undefined ? store.config.selfHostUrl : url,
+      baseURL: url === null || url === undefined ? store.config.selfHostUrl : url,
     })
       .then(streamReader => {
         loading.value = false
@@ -85,13 +86,13 @@ export default function useAskAi() {
         } else {
           let errorMsg = err.message || ''
 
-          errorMessage.value = `OpenAI: ${errorMsg}`
-
           if (err?.response?.data?.error?.message) {
             // eslint-disable-next-line
             errorMsg = `OpenAI: ${err.response.data.error.message}`
             // TODO: add toast
           }
+
+          errorMessage.value = `OpenAI: ${errorMsg}`
         }
 
         throw err

@@ -16,6 +16,12 @@
           >
             {{ $gettext('Advanced') }}
           </li>
+          <li
+            :class="[index.tab, active == 'account' ? index.active : '']"
+            @click="active = 'account'"
+          >
+            {{ $gettext('Account') }}
+          </li>
           <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
             {{ $gettext('About') }}
           </li>
@@ -25,7 +31,7 @@
       <!-- body -->
       <div :class="index.body">
         <AdvancedView v-show="active == 'advanced'" />
-
+        <AccountView v-show="active == 'account'" />
         <AboutView v-show="active == 'about'" />
       </div>
 
@@ -44,19 +50,33 @@
 import '@assets/styles/reset.scss'
 import {ref} from 'vue'
 
+import useUserStore from '@/stores/user'
+
 import AdvancedView from './AdvancedView.vue'
+import AccountView from './AccountView.vue'
 import AboutView from './AboutView.vue'
 
 const active = ref('advanced')
+
+const userStore = useUserStore()
+const {getUser} = userStore
+
+getUser()
 </script>
 
 <style module="index" lang="scss">
 .container {
   display: flex;
   justify-content: center;
-  width: 100%;
   height: 100vh;
+  padding: 36px 32px 0;
   background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
+}
+
+@media screen and (width <= 779px) {
+  .container {
+    padding: 18px 14px 0;
+  }
 }
 
 .main {
@@ -65,8 +85,7 @@ const active = ref('advanced')
   justify-content: space-between;
   width: calc(100vw - 18px);
   max-width: 1438px;
-  margin-top: 18px;
-  padding: 24px;
+  padding: 16px;
   overflow-y: scroll;
   background: rgb(255 255 255 / 60%);
   border: 1px solid #fff;
@@ -81,7 +100,7 @@ const active = ref('advanced')
   }
 
   .body {
-    justify-content: flex-start;
+    padding: 16px 0 0;
   }
 }
 
@@ -90,13 +109,11 @@ const active = ref('advanced')
   flex-direction: row;
 
   img {
-    margin-right: 24px;
+    margin: 4px 24px 4px 4px;
   }
 
   .slogan {
-    display: flex;
-    align-items: center;
-    margin-top: 7px;
+    margin-top: 18px;
     color: #777;
     font-weight: 400;
     font-size: 18px;
@@ -134,18 +151,16 @@ const active = ref('advanced')
 .tabs {
   display: flex;
   flex-direction: row;
-  margin-top: 33px;
-  margin-bottom: 0;
-  padding-left: 20px;
-  font-weight: 600;
+  margin: 28px 0 0;
+  padding: 0;
+  font-weight: 400;
   font-size: 24px;
   line-height: 34px;
   list-style: none;
-  padding-inline-start: 24px;
-}
 
-li + li {
-  margin-left: 48px;
+  li {
+    margin: 0 24px;
+  }
 }
 
 .tab {
@@ -155,6 +170,7 @@ li + li {
 
 .active {
   color: #4f5aff;
+  font-weight: 600;
   border-bottom: 4px solid #4f5aff;
 }
 </style>

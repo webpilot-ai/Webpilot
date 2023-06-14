@@ -1,35 +1,48 @@
 <template>
-  <div :class="stepOne.wrap">
-    <h3>Create Webpilot account</h3>
-    <p>To unlock all features, we highly recommend you to sign in</p>
-    <div :class="stepOne.button">
-      <a :class="stepOne.signin" @click="openSignIn()">Sign in with Google</a>
-      <!-- <a :class="stepOne.skip" @click="skip">SKIP FOR NOW</a> -->
+  <div :class="account.main">
+    <div v-if="!isSignedIn" :class="account.loggedout">
+      <div :class="account.panel">
+        <div :class="account.intro">
+          <p>To unlock all features including Webpilot FREE API</p>
+          <p>we highly recommend you to sign in</p>
+        </div>
+        <div :class="account.signIn">
+          <a :class="account.button" @click="openSignIn()">Sign in with Google</a>
+        </div>
+      </div>
     </div>
-    <div v-if="showMask" :class="stepOne.mask"></div>
+    <div v-else :class="account.signedIn">
+      <div :class="[account.panel, account.profile]">
+        <h3>Linked Account</h3>
+        <p>
+          {{ user }}
+          <a @click="signOut()">UNLINK</a>
+        </p>
+      </div>
+      <div v-if="false" :class="[account.panel, account.plan]">
+        <h3>Your Plan</h3>
+      </div>
+    </div>
+    <div v-if="showMask" :class="account.mask"></div>
   </div>
 </template>
 
 <script setup>
 import {ref} from 'vue'
 import {Storage} from '@plasmohq/storage'
+import {storeToRefs} from 'pinia'
 
 import useUserStore from '@/stores/user'
+
 import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
 const storage = new Storage()
+
 const userStore = useUserStore()
+const {user, isSignedIn} = storeToRefs(userStore)
 const {getUser} = userStore
-const props = defineProps({
-  skip: {
-    type: Function,
-    required: true,
-    default: () => {},
-  },
-})
 
 const showMask = ref(false)
-
 const openSignIn = () => {
   const width = 480
   const height = 624
@@ -60,7 +73,6 @@ const openSignIn = () => {
           showMask.value = false
           storage.set(GOOGLE_CREDENTIAL, credential)
           // Do something with the username in the extension
-          props.skip()
           getUser()
           chrome.windows.remove(newWindowId)
         }
@@ -81,44 +93,62 @@ const openSignIn = () => {
   //       // Access the username sent from the webpage
   //       const {credential} = request
   //       storage.set(GOOGLE_CREDENTIAL, credential)
-  //       // Do something with the username in the extension
-  //       props.skip()
   //       getUser()
+  //       // Do something with the username in the extension
   //       chrome.tabs.remove(tabId)
   //     }
   //   })
   // })
 }
+
+const signOut = () => {
+  storage.remove(GOOGLE_CREDENTIAL)
+  getUser()
+}
 </script>
 
-<style module="stepOne" lang="scss">
-.wrap {
+<style module="account" lang="scss">
+.panel {
+  margin-bottom: 20px;
+  padding: 16px 24px;
+  background-color: #fff;
+  border-radius: 10px;
+
   h3 {
-    margin: 0 0 16px;
+    margin: 0;
+    color: #4f5aff;
     font-weight: 400;
     font-size: 24px;
     line-height: 34px;
-    text-align: center;
-    background-image: url('../images/logo.png');
-    background-repeat: no-repeat;
-    background-position: 40px 50%;
-    background-size: 24px 24px;
   }
+}
+
+.loggedout {
+  .panel {
+    height: 354px;
+    background-image: url('./images/bg-signin.png');
+    background-repeat: no-repeat;
+    background-position: 50% 50px;
+    background-size: 176px;
+  }
+}
+
+.intro {
+  padding: 185px 0 0;
 
   p {
+    margin: 0;
     font-size: 14px;
     line-height: 20px;
     text-align: center;
   }
 }
 
-.button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 72px 0 0;
+.signIn {
+  margin: 36px 0 0;
+  text-align: center;
 
-  .signin {
+  .button {
     display: inline-block;
     width: 170px;
     height: 40px;
@@ -128,7 +158,7 @@ const openSignIn = () => {
     text-align: center;
     text-indent: -9999px;
     background: #f8faff;
-    background-image: url('../images/signin-google.png');
+    background-image: url('../tabs/images/signin-google.png');
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: 154px 20px;
@@ -137,29 +167,46 @@ const openSignIn = () => {
     cursor: pointer;
   }
 
-  .signin:hover {
+  .button:hover {
     /* filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.109969)) */
 
     /* drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.0794837)); */
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 11%), 0 5px 15px 0 rgb(0 0 0 / 8%);
   }
 
-  .signin:active {
+  .button:active {
     border: 1px solid;
     border-image-source: linear-gradient(0deg, rgb(0 0 0 / 40%), rgb(0 0 0 / 40%)),
       linear-gradient(0deg, #4f5aff, #4f5aff);
   }
 }
 
-.skip {
-  display: inline-block;
-  width: 172px;
-  padding: 8px 16px;
-  text-align: center;
-  background: #fff;
-  border: 1px solid rgb(79 90 255 / 20%);
-  border-radius: 4px;
-  cursor: pointer;
+.profile {
+  p {
+    padding: 0 36px;
+    color: #585b58;
+    font-size: 14px;
+    line-height: 25px;
+    background-image: url('./images/g-logo.png');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 24px 25px;
+  }
+
+  a {
+    margin-left: 24px;
+    color: #585b58;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  a:hover {
+    color: #4f5aff;
+  }
+
+  a:active {
+    color: #292f8e;
+  }
 }
 
 .mask {

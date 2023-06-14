@@ -104,6 +104,7 @@ function resetNewPrompt() {
   padding-left: 8px;
   color: #292929;
   line-height: 36px;
+  background-color: #fff;
   border: 1px solid #dcdee1;
   border-radius: 5px;
 

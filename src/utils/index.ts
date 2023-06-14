@@ -23,8 +23,10 @@ export function getOS() {
 
 export function formatShortcut(keys) {
   let keyList = keys
+  const isMac = getOS() === 'Mac OS'
+
   keyList = keyList.map(item => {
-    if (item === 'Control') return 'Ctrl'
+    if (item === 'Control') return isMac ? 'Cmd' : 'Ctrl'
     if (item === 'Meta') return '⌘'
     return item.length === 1 ? item.toUpperCase() : item
   })
@@ -82,4 +84,22 @@ export function getRectFromInputAndTextarea(target) {
   target.setSelectionRange(selectionStart, selectionEnd)
 
   return rect
+}
+
+export function getAllScrollableParents(element) {
+  const scrollableElemetns = []
+
+  let tempElement = element
+  while (tempElement) {
+    const {scrollHeight, clientHeight} = tempElement
+    const {overflowY} = window.getComputedStyle(tempElement)
+
+    if (scrollHeight > clientHeight && overflowY !== 'hidden') {
+      // scroll event not works on HTML tag, replace it with window
+      scrollableElemetns.push(tempElement.tagName === 'HTML' ? window : tempElement)
+    }
+    tempElement = tempElement?.parentElement
+  }
+
+  return scrollableElemetns
 }

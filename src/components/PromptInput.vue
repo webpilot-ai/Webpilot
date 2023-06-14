@@ -7,7 +7,6 @@
       :disabled="disabled"
       :placeholder="placeholderText"
       type="text"
-      @input="updateInputValue"
       @keydown.enter="handleSend"
     />
     <section
@@ -24,7 +23,7 @@
 </template>
 
 <script setup>
-import {watch, ref, computed, onMounted} from 'vue'
+import {ref, computed, onMounted} from 'vue'
 
 import IconSend from './icon/IconSend.vue'
 import IconSendFill from './icon/IconSendFill.vue'
@@ -55,18 +54,23 @@ const props = defineProps({
   },
 })
 
-const refInput = ref(null)
+const localModelValue = computed({
+  get: () => props.modelValue,
+  set: value => {
+    emits('update:modelValue', value)
+    emits('onChange', value)
+  },
+})
 
-const localModelValue = ref(props.modelValue)
+// Auto focus
+const refInput = ref(null)
 
 onMounted(() => {
   refInput.value.focus()
 })
 
 const placeholderText = computed(() => {
-  if (props.selectedText === '') {
-    return props.placeholder
-  }
+  if (props.selectedText === '') return props.placeholder
 
   return `Or ask a question about “${props.selectedText}”`
 })
@@ -74,18 +78,6 @@ const placeholderText = computed(() => {
 const handleSend = () => {
   if (props.disabled) return
   emits('onSubmit')
-}
-
-watch(
-  () => props.modelValue,
-  newValue => {
-    localModelValue.value = newValue
-  }
-)
-
-const updateInputValue = () => {
-  emits('update:modelValue', localModelValue.value)
-  emits('onChange')
 }
 </script>
 
