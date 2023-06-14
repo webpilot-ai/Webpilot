@@ -3,8 +3,9 @@
     <h3>{{ $gettext('Using WebPilot') }}</h3>
 
     <h2 :class="stepThree.shortcutGuideTitle">
-      {{ $gettext('Press ') }}<span>{{ shotcut }}</span
-      >{{ $gettext(' to use WebPilot on any website.') }}
+      <span>{{ $gettext('Press ') }}</span>
+      <span>{{ shotcut }}</span>
+      <span>{{ $gettext('to use WebPilot on any website.') }}</span>
     </h2>
     <div :class="stepThree.changeShorcut">
       <span>Change Shortcut</span>

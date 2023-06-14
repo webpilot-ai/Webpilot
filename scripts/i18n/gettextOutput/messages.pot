@@ -105,7 +105,7 @@ msgid ""
 "        \n"
 "        Replace [4] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n"
 "        \n"
-"        Replace [5] with a list of specific camera model(including specific color film type and lens details as well as techniques)  set a artistic style;\n"
+"        Replace [5] with a list of specific camera model(including specific color film type and lens details as well as techniques) set a artistic style;\n"
 "        \n"
 "        Replace [6] with a list of multiple directors, cinematographers, photographers, fashion designers, cartoonist or artist, who would be unlikely to collaborate but would juxtapose uniquely.\n"
 "        \n"
@@ -153,7 +153,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:22
+#: src/tabs/components/StepThree.vue:23
 msgid "Select text first, hit shortcut next, gain better results."
 msgstr ""
 
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Self Host"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:15
+#: src/tabs/components/StepThree.vue:16
 msgid "Show WebPilot icon when selecting text"
 msgstr ""
 
@@ -189,6 +189,11 @@ msgstr ""
 #: src/tabs/components/StepTwo.vue:46
 #: src/tabs/components/StepTwo.vue:52
 msgid "To get it, open this link and click “Create new secret key”."
+msgstr ""
+
+#: src/tabs/components/StepThree.vue:7
+#: src/tabs/components/StepThree.vue:8
+msgid "to use WebPilot on any website."
 msgstr ""
 
 #: src/tabs/components/StepThree.vue:2
