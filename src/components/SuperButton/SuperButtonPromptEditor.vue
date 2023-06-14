@@ -5,7 +5,12 @@
         <div>Prompt for</div>
         <div :class="$style.title">{{ title }}</div>
       </section>
-      <img :class="$style.close" :src="closeIcon" @click="handleClose" />
+      <Popper :class="$style.popover" hover offset-distance="4" placement="top">
+        <img :class="$style.close" :src="closeIcon" @click="handleClose" />
+        <template #content>
+          <span :class="$style.popoverText">Close</span>
+        </template>
+      </Popper>
     </section>
 
     <section :class="$style.promptEditor">
@@ -13,14 +18,22 @@
         v-model="newPrompt"
         :class="[$style.promptInput, {[$style.pr8]: !newPrompt}]"
         :placeholder="prompt"
+        @focus="handleFocus"
       />
-      <img v-if="!!newPrompt" :class="$style.save" :src="sendIcon" @click="handleSave" />
+      <Popper :class="$style.popover" hover offset-distance="0" offset-skid="-12" placement="top">
+        <img v-if="!!newPrompt" :class="$style.save" :src="sendIcon" @click="handleSave" />
+        <template #content>
+          <span :class="$style.popoverText">Save</span>
+        </template>
+      </Popper>
     </section>
   </section>
 </template>
 
 <script setup>
 import {ref} from 'vue'
+
+import Popper from 'vue3-popper'
 
 import closeIcon from '@assets/icon/close.svg'
 import sendIcon from '@assets/icon/sendActive.svg'
@@ -33,6 +46,10 @@ const props = defineProps({
 })
 
 const newPrompt = ref('')
+
+function handleFocus() {
+  newPrompt.value = props.prompt
+}
 
 function handleClose() {
   emits('close')
@@ -124,5 +141,20 @@ function resetNewPrompt() {
   width: 22px;
   height: 22px;
   cursor: pointer;
+}
+
+.popover {
+  /* max-height: 24px;
+  line-height: 24px; */
+}
+
+.popoverText {
+  padding: 4px 8px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 17px;
+  background-color: black;
+  border-radius: 5px;
 }
 </style>

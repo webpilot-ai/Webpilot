@@ -1,10 +1,12 @@
 <template>
   <section :class="$style.container">
     <template v-if="!text">
-      <div :class="[$style.prompt, {[$style.prompt_hover]: hovered}]">
-        {{ prompt }}
+      <div :class="$style.promptBlock" @click="handleEdit">
+        <div :class="[$style.prompt, {[$style.prompt_hover]: hovered}]">
+          {{ prompt }}
+        </div>
+        <img ref="hoverElement" :class="$style.edit" :src="icon" />
       </div>
-      <img ref="hoverElement" :class="$style.edit" :src="icon" @click="handleEdit" />
     </template>
     <div v-else :class="$style.text">{{ text }}</div>
 
@@ -52,9 +54,22 @@ function handleEdit() {
   justify-content: space-between;
   height: 25px;
   padding: 0 4px;
+  color: #292929;
+  font-size: 12px;
   background-color: #fff;
   border: 1px solid #eeefff;
   border-radius: 4px;
+}
+
+.promptBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    color: #4f5aff;
+    cursor: pointer;
+  }
 }
 
 .prompt {
