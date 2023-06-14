@@ -16,12 +16,12 @@
           >
             {{ $gettext('Advanced') }}
           </li>
-          <li
+          <!-- <li
             :class="[index.tab, active == 'account' ? index.active : '']"
             @click="active = 'account'"
           >
             {{ $gettext('Account') }}
-          </li>
+          </li> -->
           <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
             {{ $gettext('About') }}
           </li>

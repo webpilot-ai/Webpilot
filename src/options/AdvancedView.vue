@@ -2,8 +2,8 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div v-if="isSignedIn === true" :class="advanced.general">
-        <!-- <div v-if="false" :class="advanced.general"> -->
+      <!-- <div v-if="isSignedIn === true" :class="advanced.general"> -->
+      <div v-if="false" :class="advanced.general">
         <div :class="advanced.radio">
           <input
             id="option1"
@@ -13,7 +13,9 @@
             value="general"
             @change="handleOptionChange"
           />
-          <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
+          <label v-if="isSignedIn === true" for="option1"
+            >Use Free OpenAI GPT API from Webpilot</label
+          >
         </div>
         <div v-if="selectedOption === 'general'">
           <h4>Your Usage</h4>
@@ -187,7 +189,8 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref(config.value.authKey || 'general')
+// const selectedOption = ref(config.value.authKey || 'general')
+const selectedOption = ref('personal')
 
 const saveAuthKey = ref(config.value.authKey)
 

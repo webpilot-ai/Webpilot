@@ -1,7 +1,8 @@
 <template>
   <div :class="stepTwo.wrap">
     <h3>Set up your API Key</h3>
-    <div v-if="isSignedIn === true" :class="stepTwo.general">
+    <!-- <div v-if="isSignedIn === true" :class="stepTwo.general"> -->
+    <div v-if="false" :class="stepTwo.general">
       <div :class="stepTwo.radio">
         <input
           id="option1"
@@ -11,7 +12,9 @@
           value="general"
           @change="handleOptionChange"
         />
-        <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
+        <label v-if="isSignedIn === true" for="option1"
+          >Use Free OpenAI GPT API from Webpilot</label
+        >
       </div>
       <p>You can use Webpilot API for free up to X times</p>
     </div>
@@ -110,7 +113,8 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue', 'change'])
 
-const selectedOption = ref(props.modelValue.selectedOption)
+// const selectedOption = ref(props.modelValue.selectedOption)
+const selectedOption = ref('personal')
 const authKey = ref(props.modelValue.authKey)
 const isSelfHost = ref(false)
 const selfHostUrl = ref(props.modelValue.selfHostUrl)
