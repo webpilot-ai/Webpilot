@@ -2,6 +2,9 @@
   "extensionDescription": {
     "message": "Web copilot for all, free & open-source!"
   },
+  "_to_use_WebPilot_on_any_website_": {
+    "message": " to use WebPilot on any website."
+  },
   "About": {
     "message": "About"
   },
@@ -106,9 +109,6 @@
   },
   "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
     "message": "To get it, open this link and click “Create new secret key”."
-  },
-  "to_use_WebPilot_on_any_website_": {
-    "message": "to use WebPilot on any website."
   },
   "Using_WebPilot": {
     "message": "Using WebPilot"

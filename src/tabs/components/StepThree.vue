@@ -4,8 +4,8 @@
 
     <h2 :class="stepThree.shortcutGuideTitle">
       <span>{{ $gettext('Press ') }}</span>
-      <span>{{ shotcut }}</span>
-      <span>{{ $gettext('to use WebPilot on any website.') }}</span>
+      <span :class="stepThree.shotcut">{{ shotcut }}</span>
+      <span>{{ $gettext(' to use WebPilot on any website.') }}</span>
     </h2>
     <div :class="stepThree.changeShorcut">
       <span>Change Shortcut</span>
@@ -101,7 +101,7 @@ const shotcut = computed(() => {
   font-size: 18px;
   line-height: 25px;
 
-  span {
+  .shotcut {
     padding: 2px 4px;
     color: #4f5aff;
     border: 1px solid #4f5aff;

@@ -2,6 +2,9 @@
   "extensionDescription": {
     "message": "Web copilot for all，免费且开源，贼好用！"
   },
+  "_to_use_WebPilot_on_any_website_": {
+    "message": "，即可在任何网站上使用WebPilot。"
+  },
   "About": {
     "message": "About"
   },
@@ -106,9 +109,6 @@
   },
   "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
     "message": "打开这个链接后，点击 “Create new secret key”，以获取你的Key."
-  },
-  "to_use_WebPilot_on_any_website_": {
-    "message": "，即可在任何网站上使用WebPilot。"
   },
   "Using_WebPilot": {
     "message": "使用WebPilot"

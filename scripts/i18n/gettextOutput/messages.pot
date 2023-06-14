@@ -2,6 +2,11 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
+#: src/tabs/components/StepThree.vue:7
+#: src/tabs/components/StepThree.vue:8
+msgid " to use WebPilot on any website."
+msgstr ""
+
 #: src/options/TheEntry.vue:22
 #: src/options/TheEntry.vue:23
 #: src/options/TheEntry.vue:26
@@ -189,11 +194,6 @@ msgstr ""
 #: src/tabs/components/StepTwo.vue:46
 #: src/tabs/components/StepTwo.vue:52
 msgid "To get it, open this link and click “Create new secret key”."
-msgstr ""
-
-#: src/tabs/components/StepThree.vue:7
-#: src/tabs/components/StepThree.vue:8
-msgid "to use WebPilot on any website."
 msgstr ""
 
 #: src/tabs/components/StepThree.vue:2

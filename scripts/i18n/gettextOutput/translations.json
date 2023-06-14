@@ -1,5 +1,6 @@
 {
   "en": {
+    " to use WebPilot on any website.": " to use WebPilot on any website.",
     "About": "About",
     "Account": "Account",
     "Active Webpilot": "Active Webpilot",
@@ -35,7 +36,6 @@
     "Summarize": "Summarize",
     "Summarize and express these words concisely": "Summarize and express these words concisely",
     "To get it, open this link and click “Create new secret key”.": "To get it, open this link and click “Create new secret key”.",
-    "to use WebPilot on any website.": "to use WebPilot on any website.",
     "Using WebPilot": "Using WebPilot",
     "Webpilot is open source": "Webpilot is open source",
     "when text is selected": "when text is selected"
