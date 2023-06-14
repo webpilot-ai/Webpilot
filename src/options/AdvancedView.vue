@@ -304,9 +304,9 @@ const save = async () => {
     ...store.config,
     apiOrigin: selectedOption.value,
     isAuth: true,
-    authKey: saveAuthKey.value,
+    authKey: currentAuthKey.value,
     isFinishSetup: true,
-    selfHostUrl: selfHostUrl.value !== '' ? selfHostUrl.value : '',
+    selfHostUrl: currentHostUrl.value || '',
   })
 }
 
