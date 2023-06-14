@@ -1,9 +1,10 @@
 <template>
   <div :class="stepThree.wrap">
-    <h3>Active Webpilot Extension</h3>
+    <h3>{{ $gettext('Using WebPilot') }}</h3>
 
     <h2 :class="stepThree.shortcutGuideTitle">
-      Select text, and press <span>{{ shotcut }}</span> to ask Webpilot
+      {{ $gettext('Press ') }}<span>{{ shotcut }}</span
+      >{{ $gettext(' to use WebPilot on any website.') }}
     </h2>
     <div :class="stepThree.changeShorcut">
       <span>Change Shortcut</span>
@@ -11,14 +12,14 @@
     </div>
     <WebpilotCheckbox
       v-model="autoPopup"
-      label="Display Webpilot icon when text is selected"
+      :label="$gettext('Show WebPilot icon when selecting text')"
       style="margin-top: 16px"
       @change="onAutoPopupChange"
     />
     <IllustrationSelectText style="margin-top: 12px" />
     <WebpilotAlert
       style="margin-top: 6px"
-      tips="Webpilot will answer based on the current page if no text is selected"
+      :tips="$gettext('Select text first, hit shortcut next, gain better results.')"
       type="info"
     />
     <div v-if="false" :class="stepThree.displayMode">
@@ -35,6 +36,8 @@
 <script setup>
 import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
+
+import {$gettext} from '@/utils/i18n'
 
 import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'

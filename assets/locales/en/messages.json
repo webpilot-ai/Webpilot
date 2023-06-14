@@ -5,8 +5,8 @@
   "About": {
     "message": "About"
   },
-  "Active_API_Provider": {
-    "message": "Active API Provider"
+  "Account": {
+    "message": "Account"
   },
   "Active_Webpilot": {
     "message": "Active Webpilot"
@@ -17,11 +17,20 @@
   "API_Settings": {
     "message": "API Settings"
   },
+  "Ask_a_question_about_this_webpage": {
+    "message": "Ask a question about this webpage"
+  },
   "Change_Shortcut": {
     "message": "Change Shortcut"
   },
-  "Disagree": {
-    "message": "Disagree"
+  "Choosing_Service": {
+    "message": "Choosing Service"
+  },
+  "Chrome_s_Settings__History__and_Web_Store_pages": {
+    "message": "Chrome's Settings, History, and Web Store pages"
+  },
+  "Current_Webpage_Not_Supported": {
+    "message": "Current Webpage Not Supported"
   },
   "Display_Mode": {
     "message": "Display Mode"
@@ -29,23 +38,41 @@
   "Display_Webpilot": {
     "message": "Display Webpilot"
   },
+  "Due_to_Chrome_s_constraints__Webpilot_cannot_be_activated_on_the_following_webpages_": {
+    "message": "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
+  },
+  "Enter_your_API_Key": {
+    "message": "Enter your API Key"
+  },
   "Extension_Settings": {
     "message": "Extension Settings"
   },
-  "Identify_any_logical_or_factual_errors_in_these_texts_and_provide_a_rebuttal__At_the_same_time__present_the_opposite_viewpoint_with_supporting_evidence": {
-    "message": "Identify any logical or factual errors in these texts and provide a rebuttal. At the same time, present the opposite viewpoint with supporting evidence"
+  "How_to_self_host_API_": {
+    "message": "How to self host API?"
   },
-  "OpenAI_gpt_3_5_turbo": {
-    "message": "OpenAI gpt-3.5-turbo"
+  "https___api_openai_com": {
+    "message": "https://api.openai.com"
   },
-  "OpenAI_gpt_4": {
-    "message": "OpenAI gpt-4"
+  "Let_s_draw_an_image_about_this__You_need_to_write_in_English_without_word_wraps_and_headlines__without_connection_words__back_to_back_separated_with_commas___1____element____2____3___environment____4____5____6___style_settings___________Replace__1__with_the_subject__A_image_of_____________________Replace__element__with_the_sentence_you_mentioned___________________Replace__2__with_a_list_of_creative_detailed_descriptions_about__element____________________Replace__3__with_a_list_of_detailed_descriptions_about_the_environment_of_the_scene___________________Replace__4__with_a_list_of_detailed_descriptions_about_the_mood_feelings_and_atmosphere_of_the_scene___________________Replace__5__with_a_list_of_specific_camera_model_including_specific_color_film_type_and_lens_details_as_well_as_techniques___set_a_artistic_style___________________Replace__6__with_a_list_of_multiple_directors__cinematographers__photographers__fashion_designers__cartoonist_or_artist__who_would_be_unlikely_to_collaborate_but_would_juxtapose_uniquely___________________Simply_write_the_without_explanation__replace_the_content_inside_the_brackets_with_details_about_the_content_word_inside_the_brackets_and_delete_the_brackets__Repeat_that_for_every_bracket_in_the_prompt__complex_prompt_for_an_AI_based_text_to_image_program_that_converts_a_prompt_about_a_topic_into_an_image__The_outcome_depends_on_the_prompt_s_coherence__The_topic_of_the_whole_scene_is_always_dependent_on_the_subject_that_is_replaced_with__element___always_start_the_prompt_with___imagine_prompt____don_t_use_any_line_breaks__Proper_grammar_is_unnecessary_and_details_can_be_listed___________________Do_not_show_things_like___1____element___in_your_response_": {
+    "message": "Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [element], [2], [3] {environment}, [4], [5], [6] {style settings}\n\n        Replace [1] with the subject \"A image of \";\n        \n        Replace [element] with the sentence you mentioned;\n        \n        Replace [2] with a list of creative detailed descriptions about [element];\n        \n        Replace [3] with a list of detailed descriptions about the environment of the scene;\n        \n        Replace [4] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n        \n        Replace [5] with a list of specific camera model(including specific color film type and lens details as well as techniques)  set a artistic style;\n        \n        Replace [6] with a list of multiple directors, cinematographers, photographers, fashion designers, cartoonist or artist, who would be unlikely to collaborate but would juxtapose uniquely.\n        \n        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n        \n        Do not show things like \"[1]\"\"[element]\" in your response."
+  },
+  "MidJourney_Prompt": {
+    "message": "MidJourney Prompt"
+  },
+  "New_tab_and_blank_pages": {
+    "message": "New tab and blank pages"
+  },
+  "OpenAI_Default_": {
+    "message": "OpenAI(Default)"
   },
   "Opensource_AI_Assistant_On_All_Websites": {
     "message": "Opensource AI Assistant On All Websites"
   },
   "Pop_Up": {
     "message": "Pop Up"
+  },
+  "Press_": {
+    "message": "Press "
   },
   "Refine": {
     "message": "Refine"
@@ -55,6 +82,15 @@
   },
   "Save_Changes": {
     "message": "Save Changes"
+  },
+  "Select_text_first__hit_shortcut_next__gain_better_results_": {
+    "message": "Select text first, hit shortcut next, gain better results."
+  },
+  "Self_Host": {
+    "message": "Self Host"
+  },
+  "Show_WebPilot_icon_when_selecting_text": {
+    "message": "Show WebPilot icon when selecting text"
   },
   "Side_Bar": {
     "message": "Side Bar"
@@ -68,16 +104,16 @@
   "Summarize_and_express_these_words_concisely": {
     "message": "Summarize and express these words concisely"
   },
-  "Visit": {
-    "message": "Visit"
+  "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
+    "message": "To get it, open this link and click “Create new secret key”."
+  },
+  "Using_WebPilot": {
+    "message": "Using WebPilot"
   },
   "Webpilot_is_open_source": {
     "message": "Webpilot is open source"
   },
   "when_text_is_selected": {
     "message": "when text is selected"
-  },
-  "Your_API_Key": {
-    "message": "Your API Key"
   }
 }
