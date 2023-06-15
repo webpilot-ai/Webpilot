@@ -25,6 +25,8 @@
 <script setup>
 import {ref, computed, onMounted} from 'vue'
 
+import {$gettext} from '@/utils/i18n'
+
 import IconSend from './icon/IconSend.vue'
 import IconSendFill from './icon/IconSendFill.vue'
 import IconLoading from './icon/IconLoading.vue'
@@ -38,7 +40,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Ask a question about this webpage or anything',
+    default: $gettext('Ask a question about this webpage'),
   },
   disabled: {
     type: Boolean,

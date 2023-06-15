@@ -2,13 +2,18 @@
   <section :class="$style.notSupportPaeg">
     <HeaderPanel @on-close="closeWindow" />
     <section :class="$style.tipsWrap">
-      <WebpilotAlert :tips="'Webpage not supported'" type="error"> </WebpilotAlert>
+      <WebpilotAlert :tips="$gettext('Current Webpage Not Supported')" type="error">
+      </WebpilotAlert>
     </section>
     <section :class="$style.explain">
-      Due to Chrome constrains, Webpilot can not be active on the following webpages:
+      {{
+        $gettext(
+          "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
+        )
+      }}
       <ul role="list">
-        <li>Chrome's Setting, History and Web Store page</li>
-        <li>New tab page and blank page</li>
+        <li>{{ $gettext("Chrome's Settings, History, and Web Store pages") }}</li>
+        <li>{{ $gettext('New tab and blank pages') }}</li>
       </ul>
     </section>
     <TipsShortcut :class="$style.shortcut" />
@@ -20,6 +25,8 @@ import '@assets/styles/reset.scss'
 
 import {onBeforeMount} from 'vue'
 import {sendToBackground} from '@plasmohq/messaging'
+
+import {$gettext} from '@/utils/i18n'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'

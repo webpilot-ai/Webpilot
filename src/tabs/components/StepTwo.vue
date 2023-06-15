@@ -1,6 +1,6 @@
 <template>
   <div :class="stepTwo.wrap">
-    <h3>Set up your API Key</h3>
+    <h3>{{ $gettext('Choosing Service') }}</h3>
     <!-- <div v-if="isSignedIn === true" :class="stepTwo.general"> -->
     <div v-if="false" :class="stepTwo.general">
       <div :class="stepTwo.radio">
@@ -28,14 +28,14 @@
           value="personal"
           @change="handleOptionChange"
         />
-        <label for="option2">Set up your OpenAI API</label>
+        <label for="option2">{{ $gettext('OpenAI(Default)') }}</label>
       </div>
       <div>
         <div :class="stepTwo.apiItem">
           <input
             v-model="authKey"
             :class="stepTwo.input"
-            placeholder="Enter your API Key from OpenAI"
+            :placeholder="$gettext('Enter your API Key')"
             type="text"
             @change="onChange"
           />
@@ -49,18 +49,17 @@
           /> -->
           <div :class="stepTwo.apiKeyGuide">
             <p>
-              To get your API key, log into
+              {{ $gettext('To get it, open this link and click “Create new secret key”.') }}
               <a href="https://platform.openai.com/account/api-keys" target="_blank">
                 Open AI > API Keys</a
               >
             </p>
-            <p>Click <b>“Create new secret key”</b>. Copy and paste key above</p>
           </div>
 
           <div v-if="selectedOption === 'personal'" :class="stepTwo.host">
             <div :class="stepTwo.selfHost">
               <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-              <label for="self_host">Self Host</label>
+              <label for="self_host">{{ $gettext('Self Host') }}</label>
             </div>
           </div>
           <!-- <div v-if="isSelfHost" :class="stepTwo.selfHostInput">
@@ -82,11 +81,14 @@
         <input
           v-model="selfHostUrl"
           :class="stepTwo.input"
-          placeholder="https://api.openai.com"
+          :placeholder="$gettext('https://api.openai.com')"
           type="text"
           @change="onChange"
         />
-        <HelpTips value="How to self host API?" />
+        <HelpTips
+          url="https://github.com/webpilot-ai/ai-proxy"
+          :value="$gettext('How to self host API?')"
+        />
       </template>
     </div>
   </div>
@@ -99,6 +101,7 @@ import {storeToRefs} from 'pinia'
 import useUserStore from '@/stores/user'
 
 import HelpTips from '@/components/HelpTips.vue'
+import {$gettext} from '@/utils/i18n'
 // import WebpilotAlert from '@/components/WebpilotAlert.vue'
 
 const userStore = useUserStore()

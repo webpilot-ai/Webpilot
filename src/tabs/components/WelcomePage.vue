@@ -10,7 +10,7 @@
           <li
             v-for="(item, index) in steps"
             :key="index"
-            :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === item}"
+            :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === item + 1}"
           >
             {{ item }}
           </li>

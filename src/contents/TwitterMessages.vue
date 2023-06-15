@@ -10,7 +10,8 @@ export default {
 }
 
 export const config = {
-  matches: ['https://twitter.com/*'],
+  matches: ['https://www.askjhdjksj.xmn/'],
+  // matches: ['https://twitter.com/*'],
 }
 
 async function render({createRootContainer}) {

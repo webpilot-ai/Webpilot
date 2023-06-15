@@ -10,7 +10,8 @@ export default {
 }
 
 export const config = {
-  matches: ['https://github.com/*/issues/*'],
+  matches: ['https://www.askjhdjksj.xmn/'],
+  // matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
 }
 
 async function render({createRootContainer}) {
@@ -29,16 +30,40 @@ async function render({createRootContainer}) {
 }
 
 async function getRootContainer() {
-  let $textarea = document.querySelector('#issue_body')
-  if (!$textarea) $textarea = document.querySelector('#new_comment_field')
+  return new Promise(resolve => {
+    const checkInterval = setInterval(() => {
+      const $textarea =
+        document.querySelector('#issue_body') || document.querySelector('#new_comment_field')
 
-  const $parent = $textarea.parentNode
-  const $rootContainer = document.createElement('div')
+      if ($textarea) {
+        const $parent = $textarea.parentNode
+        const $rootContainer = document.createElement('div')
 
-  $parent.setAttribute('style', 'position:relative;')
-  $rootContainer.setAttribute('style', 'position:absolute;right:16px;bottom:16px;z-index:99999999;')
+        $parent.setAttribute('style', 'position:relative;')
+        $rootContainer.setAttribute(
+          'style',
+          'position:absolute;right:16px;bottom:16px;z-index:99999999;'
+        )
+        $parent.insertBefore($rootContainer, $textarea)
 
-  $parent.insertBefore($rootContainer, $textarea)
-  return $rootContainer
+        clearInterval(checkInterval)
+        resolve($rootContainer)
+      }
+    }, 200)
+  })
 }
+
+// async function getRootContainer() {
+//   let $textarea = document.querySelector('#issue_body')
+//   if (!$textarea) $textarea = document.querySelector('#new_comment_field')
+
+//   const $parent = $textarea.parentNode
+//   const $rootContainer = document.createElement('div')
+
+//   $parent.setAttribute('style', 'position:relative;')
+//   $rootContainer.setAttribute('style', 'position:absolute;right:16px;bottom:16px;z-index:99999999;')
+
+//   $parent.insertBefore($rootContainer, $textarea)
+//   return $rootContainer
+// }
 </script>
