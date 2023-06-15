@@ -44,6 +44,7 @@ import useScroll from '@/hooks/useScroll'
 import useDraggable from '@/hooks/useDraggable'
 import useMessage from '@/hooks/useMessage'
 import useSelectedText from '@/hooks/useSelectedText'
+import useStopKeyboardEvent from '@/hooks/useStopKeyboardEvent'
 
 import useStore from '@/stores/store'
 import {formatShortcut} from '@/utils'
@@ -136,6 +137,9 @@ watch(shortcut, v => {
     })
   }
 })
+
+// prevent keyboard event pass overlay ui
+useStopKeyboardEvent(refPopupWrap)
 
 // Messaging
 useMessage(req => {
