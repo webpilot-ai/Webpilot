@@ -1,4 +1,5 @@
 <script>
+import '@/featureFlagsConfig'
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
@@ -10,6 +11,7 @@ export default {
 }
 
 export const config = {
+  // matches: ['https://github.com/*/issues/*'],
   matches: ['https://www.askjhdjksj.xmn/'],
   // matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
 }
@@ -42,7 +44,7 @@ async function getRootContainer() {
         $parent.setAttribute('style', 'position:relative;')
         $rootContainer.setAttribute(
           'style',
-          'position:absolute;right:16px;bottom:16px;z-index:99999999;'
+          'position:absolute;right:8px;bottom:8px;z-index:99999999;'
         )
         $parent.insertBefore($rootContainer, $textarea)
 

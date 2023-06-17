@@ -65,10 +65,11 @@ function handleEdit() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: #585b58;
+  cursor: pointer;
 
   &:hover {
     color: #4f5aff;
-    cursor: pointer;
   }
 }
 

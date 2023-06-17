@@ -17,12 +17,21 @@
       <SuperButtonTooltip text="Stop writing" />
     </section>
 
-    <section v-if="undoTooltipVisible" :class="$style.tooltip">
+    <!-- <section v-if="undoTooltipVisible" :class="$style.tooltip">
       <SuperButtonTooltip text="Undo" />
-    </section>
+    </section> -->
 
-    <section ref="buttonHoverElement" :class="$style.superButton" @click="handleClick">
-      <img :class="$style.superButtonIcon" :src="icon" />
+    <section :class="$style.buttonWrapper">
+      <section
+        v-if="undoTooltipVisible"
+        :class="[$style.superButton, $style.undoButton]"
+        @click="handleUndo"
+      >
+        <span :class="$style.superButtonIcon"></span>
+      </section>
+      <section ref="buttonHoverElement" :class="$style.superButton" @click="handleClick">
+        <img :class="$style.superButtonIcon" :src="icon" />
+      </section>
     </section>
   </section>
 </template>
@@ -150,6 +159,14 @@ function handleClick() {
   }
 }
 
+function handleUndo() {
+  if (status.value === SUPER_BUTTON_STATUS.done) {
+    emits('undo')
+    forcePending.value = true
+    forceDone.value = false
+  }
+}
+
 function handleSavePrompt({prompt}) {
   emits('fire', {prompt})
 }
@@ -165,6 +182,11 @@ function toggleClickEdit() {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 4px;
 }
 
 .superButton {
@@ -189,6 +211,21 @@ function toggleClickEdit() {
   -ms-user-drag: none;
 }
 
+.undoButton {
+  .superButtonIcon {
+    background-image: url('data-base64:~src/components/SuperButton/icon/undo.svg');
+    background-repeat: no-repeat;
+  }
+
+  &:hover .superButtonIcon {
+    background-image: url('data-base64:~src/components/SuperButton/icon/undoHover.svg');
+  }
+
+  &:active .superButtonIcon {
+    background-image: url('data-base64:~src/components/SuperButton/icon/undoActive.svg');
+  }
+}
+
 .tooltip {
   position: relative;
   margin-bottom: 6px;
@@ -196,6 +233,6 @@ function toggleClickEdit() {
 
 .promptEditor {
   width: 480px;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 </style>

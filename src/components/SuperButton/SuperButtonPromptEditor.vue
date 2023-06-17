@@ -70,7 +70,7 @@ function resetNewPrompt() {
 
 <style lang="scss" module>
 .container {
-  padding: 12px 16px;
+  padding: 16px 16px 12px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgb(149 157 165 / 20%);
@@ -85,7 +85,7 @@ function resetNewPrompt() {
 .intro {
   display: flex;
   height: 17px;
-  margin: 4px 0 8px;
+  margin: 0 0 8px;
   color: #929497;
   font-weight: 500;
   font-size: 12px;
@@ -93,13 +93,13 @@ function resetNewPrompt() {
 }
 
 .title {
-  margin-left: 6px;
+  margin-left: 3px;
   color: #4f5aff;
 }
 
 .close {
-  width: 22px;
-  height: 22px;
+  width: 17px;
+  height: 17px;
   margin-bottom: 5px;
   cursor: pointer;
 
