@@ -78,8 +78,8 @@ function handleUndo() {
 <style lang="scss" module>
 .slackSuperButton {
   position: absolute;
-  right: 16px;
-  bottom: 0;
+  right: 8px;
+  bottom: 46px;
   z-index: 99999999;
 }
 </style>
