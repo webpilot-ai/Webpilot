@@ -118,6 +118,7 @@ const popUpAskIA = async () => {
     await askAi({
       referenceText: props.isAskPage ? article.textContent : store.selectedText,
       command,
+      isAskPage: props.isAskPage,
     })
     showError.value = false
   } catch {

@@ -37,7 +37,13 @@ export default function useAskAi() {
     errorMessage.value = ''
   }
 
-  const askAi = async ({referenceText = '', command, authKey = '', url = null} = {}) => {
+  const askAi = async ({
+    referenceText = '',
+    command,
+    authKey = '',
+    url = null,
+    isAskPage = false,
+  } = {}) => {
     // clean result
     resetState()
 
@@ -50,9 +56,17 @@ export default function useAskAi() {
     loading.value = true
     generating.value = true
 
+    const model = {
+      ...toRaw(store.config.model),
+    }
+    if (isAskPage) {
+      // 全局 popup，默认使用 16k 接口
+      model.model = 'gpt-3.5-turbo-16k'
+    }
+
     return askOpenAI({
       authKey: authKey === '' ? store.config.authKey : authKey,
-      model: toRaw(store.config.model),
+      model,
       message,
       baseURL: url === null || url === undefined ? store.config.selfHostUrl : url,
     })
