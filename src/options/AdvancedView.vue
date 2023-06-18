@@ -212,15 +212,16 @@ updatePlaceHolder()
 
 const onEditAuthKey = () => {
   // use saved temp key first
-  // if (saveAuthKey.value !== '') {
-  //   authKey.value = saveAuthKey.value
-  //   return
-  // }
-  // // if can't find local save auhtkey use storeconfig authkey
-  // const {authKey: key} = config.value
-  // if (key === '' || !key) return
-  // saveAuthKey.value = key
   authKeyPlaceHolder.value = ''
+
+  if (saveAuthKey.value !== '') {
+    authKey.value = saveAuthKey.value
+    return
+  }
+  // if can't find local save auhtkey use storeconfig authkey
+  const {authKey: key} = config.value
+  if (key === '' || !key) return
+  saveAuthKey.value = key
 }
 
 const onBlurSetAuthkey = () => {
@@ -290,26 +291,26 @@ const save = async () => {
 
   if (
     selectedOption.value === store.config.apiOrigin &&
-    currentAuthKey.value === store.config.authKey &&
-    currentHostUrl.value === store.config.selfHostUrl
+    saveAuthKey.value === store.config.authKey &&
+    selfHostUrl.value === store.config.selfHostUrl
   ) {
     return
   }
 
   // Check Toekn validation
   await askAi({
-    authKey: currentAuthKey.value,
+    authKey: saveAuthKey.value,
     command: 'Say hi.',
-    url: currentHostUrl.value,
+    url: selfHostUrl.value,
   })
 
   store.setConfig({
     ...store.config,
     apiOrigin: selectedOption.value,
     isAuth: true,
-    authKey: currentAuthKey.value,
+    authKey: saveAuthKey.value,
     isFinishSetup: true,
-    selfHostUrl: currentHostUrl.value || '',
+    selfHostUrl: selfHostUrl.value || '',
   })
 }
 

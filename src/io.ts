@@ -13,7 +13,7 @@ export async function askOpenAI({authKey, model, message, baseURL = null} = {}) 
 
   if (!model) return Promise.resolve()
 
-  const requestModel = model
+  const requestModel = {...model}
   requestModel.messages = message
   requestModel.stream = true
 
