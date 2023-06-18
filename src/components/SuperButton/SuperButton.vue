@@ -53,9 +53,9 @@ import generating from './icon/generating.svg'
 import generatingHover from './icon/generatingHover.svg'
 import generatingActive from './icon/generatingActive.svg'
 
-import undo from './icon/undo.svg'
-import undoHover from './icon/undoHover.svg'
-import undoActive from './icon/undoActive.svg'
+// import undo from './icon/undo.svg'
+// import undoHover from './icon/undoHover.svg'
+// import undoActive from './icon/undoActive.svg'
 
 const SUPER_BUTTON_ICON = {
   [SUPER_BUTTON_STATUS.pending]: {
@@ -69,9 +69,9 @@ const SUPER_BUTTON_ICON = {
     pressed: generatingActive,
   },
   [SUPER_BUTTON_STATUS.done]: {
-    default: undo,
-    hovered: undoHover,
-    pressed: undoActive,
+    default: webpilot,
+    hovered: webpilotHover,
+    pressed: webpilotActive,
   },
 }
 
@@ -122,7 +122,7 @@ const stopTooltipVisible = computed(() => {
 })
 
 const undoTooltipVisible = computed(() => {
-  return status.value === SUPER_BUTTON_STATUS.done && buttonHovered.value
+  return status.value === SUPER_BUTTON_STATUS.done
 })
 
 let timer = null
@@ -138,25 +138,23 @@ watch(buttonHovered, buttonHovered => {
 })
 
 function handleClick() {
-  if (status.value === SUPER_BUTTON_STATUS.pending) {
-    emits('fire', {prompt: props.prompt})
-    forcePending.value = false
-    forceDone.value = false
-    return
-  }
-
   if (status.value === SUPER_BUTTON_STATUS.generating) {
     emits('abort')
     forcePending.value = false
     forceDone.value = true
     return
   }
-
-  if (status.value === SUPER_BUTTON_STATUS.done) {
-    emits('undo')
-    forcePending.value = true
+  if (status.value === SUPER_BUTTON_STATUS.pending) {
+    emits('fire', {prompt: props.prompt})
+    forcePending.value = false
     forceDone.value = false
   }
+
+  // if (status.value === SUPER_BUTTON_STATUS.done) {
+  //   emits('undo')
+  //   forcePending.value = true
+  //   forceDone.value = false
+  // }
 }
 
 function handleUndo() {

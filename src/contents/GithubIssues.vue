@@ -7,16 +7,24 @@ import TheEntry from '@/csui/GithubIssues/TheEntry.vue'
 import useStore from '@/stores/store'
 
 export default {
-  plasmo: {render, getRootContainer},
+  plasmo: {render, getRootContainer, watch},
 }
 
 export const config = {
   // matches: ['https://github.com/*/issues/*'],
-  matches: ['https://www.askjhdjksj.xmn/'],
-  // matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
+  // matches: ['https://www.askjhdjksj.xmn/'],
+  matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
 }
 
+let isRender = false
+
 async function render({createRootContainer}) {
+  if (isRender || document.getElementById('webpilot-superbutton')) {
+    isRender = true
+    return
+  }
+  isRender = true
+
   const rootContainer = await createRootContainer()
   const pinia = createPinia()
 
@@ -46,12 +54,35 @@ async function getRootContainer() {
           'style',
           'position:absolute;right:8px;bottom:8px;z-index:99999999;'
         )
+        $rootContainer.setAttribute('id', 'webpilot-superbutton')
         $parent.insertBefore($rootContainer, $textarea)
 
         clearInterval(checkInterval)
         resolve($rootContainer)
       }
     }, 200)
+  })
+}
+
+function watch({render}) {
+  const observer = new MutationObserver(() => {
+    const $textarea =
+      document.querySelector('#issue_body') || document.querySelector('#new_comment_field')
+
+    if (!$textarea) {
+      isRender = false
+      return
+    }
+
+    render({
+      createRootContainer: getRootContainer,
+    })
+  })
+
+  // Need to watch the subtree for shadowDOM
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
   })
 }
 

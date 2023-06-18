@@ -1,7 +1,7 @@
 <script setup>
 import '@assets/styles/csui-reset.scss'
 
-import {ref, watch, nextTick} from 'vue'
+import {ref, watch} from 'vue'
 
 import {useActiveElement} from '@vueuse/core'
 
@@ -17,6 +17,7 @@ const refSuperButton = ref(null)
 const isInitialized = ref(false)
 const superButtonTitle = ref(TITLE)
 const DEFAULT_PROMPT = 'Re-write in native American English (within 280 characters)'
+const originTextareaValue = ref('')
 
 const {askAi, generating, done, result} = useAskAi()
 
@@ -24,10 +25,20 @@ const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_K
 
 const activeElement = useActiveElement()
 
-watch(done, () => {
-  document.execCommand?.('insertText', false, '  ')
-  document.execCommand?.('insertText', false, result.value)
+// watch(done, () => {
+//   document.execCommand?.('insertText', false, '  ')
+//   document.execCommand?.('insertText', false, result.value)
+// })
+
+watch(result, result => {
+  getEditor().innerText = result
 })
+
+// function getTextarea() {
+//   let $textarea = document.querySelector('#issue_body')
+//   if (!$textarea) $textarea = document.querySelector('#new_comment_field')
+//   return $textarea
+// }
 
 watch(activeElement, el => {
   if (!el.classList.contains('public-DraftEditor-content')) return
@@ -45,6 +56,8 @@ async function handleFire({prompt}) {
   const editor = getEditor()
   const referenceText = editor.innerText
 
+  originTextareaValue.value = referenceText
+
   await askAi({referenceText, command: prompt})
 }
 
@@ -57,10 +70,7 @@ async function handleAbort() {
 }
 
 function handleUndo() {
-  document.execCommand?.('undo', false)
-  nextTick(() => {
-    document.execCommand?.('insertText', false, '')
-  })
+  getEditor().innerText = originTextareaValue.value
 }
 </script>
 
