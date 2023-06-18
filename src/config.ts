@@ -92,3 +92,8 @@ export const WEBPILOT_OPENAI = {
   HOST_URL: 'https://api.webpilotai.com/api/webpilot',
   MODEL: 'gpt-3.5-turbo',
 }
+
+export const LAST_PROMPT_STORAGE_KEY = {
+  COMMON: 'LAST_COMMON',
+  SELECTED: 'LAST_SELECTED',
+}

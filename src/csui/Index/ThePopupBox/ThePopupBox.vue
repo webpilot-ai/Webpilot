@@ -39,9 +39,12 @@
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from 'vue'
 import {Readability} from '@mozilla/readability'
+import {Storage} from '@plasmohq/storage'
 
 import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
+
+import {LAST_PROMPT_STORAGE_KEY} from '@/config'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import PromptInput from '@/components/PromptInput.vue'
@@ -52,6 +55,8 @@ import PromptResult from '@/components/PromptResult.vue'
 import useStore from '@/stores/store'
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
+
+const storage = new Storage()
 
 const store = useStore()
 
@@ -85,7 +90,12 @@ watch(Escape, v => {
   }
 })
 
-onMounted(() => {
+const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
+
+onMounted(async () => {
+  const lastPrompt = (await storage.get(lastKey)) || ''
+  inputCommand.value = lastPrompt
+
   if (props.isAskPage) return
 
   // init selected prompt
@@ -120,6 +130,16 @@ const popUpAskIA = async () => {
       command,
       isAskPage: props.isAskPage,
     })
+
+    if (selectedPrompt.index === -1) {
+      storage.set(lastKey, inputCommand.value)
+
+      store.setConfig({
+        ...store.config,
+        latestPresetPromptIndex: -1,
+      })
+    }
+
     showError.value = false
   } catch {
     showError.value = true
