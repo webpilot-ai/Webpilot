@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@mozilla/readability": "^0.4.4",
-    "@plasmohq/messaging": "^0.2.1",
-    "@plasmohq/storage": "^1.5.0",
+    "@plasmohq/messaging": "^0.4.0",
+    "@plasmohq/storage": "^1.6.1",
     "@vueuse/core": "^10.1.2",
     "copy-to-clipboard": "^3.3.3",
     "jsonfile": "^6.1.0",
