@@ -40,18 +40,18 @@
 import {ref, computed, watch} from 'vue'
 import {useMousePressed, useElementHover} from '@vueuse/core'
 
+import webpilot from 'data-url:./icon/webpilot.svg'
+import webpilotHover from 'data-url:./icon/webpilotHover.svg'
+import webpilotActive from 'data-url:./icon/webpilotActive.svg'
+
+import generating from 'data-url:./icon/generating.svg'
+import generatingHover from 'data-url:./icon/generatingHover.svg'
+import generatingActive from 'data-url:./icon/generatingActive.svg'
+
 import {SUPER_BUTTON_STATUS} from '@/config'
 
 import SuperButtonTooltip from './SuperButtonTooltip.vue'
 import SuperButtonPromptEditor from './SuperButtonPromptEditor.vue'
-
-import webpilot from './icon/webpilot.svg'
-import webpilotHover from './icon/webpilotHover.svg'
-import webpilotActive from './icon/webpilotActive.svg'
-
-import generating from './icon/generating.svg'
-import generatingHover from './icon/generatingHover.svg'
-import generatingActive from './icon/generatingActive.svg'
 
 // import undo from './icon/undo.svg'
 // import undoHover from './icon/undoHover.svg'

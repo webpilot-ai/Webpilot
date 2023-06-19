@@ -10,10 +10,7 @@
     </template>
     <div v-else :class="$style.text">{{ text }}</div>
 
-    <div
-      :class="$style.triangle"
-      :style="`background-image: url(${require('./icon/triangle.png')})`"
-    ></div>
+    <div :class="$style.triangle"></div>
   </section>
 </template>
 
@@ -21,9 +18,9 @@
 import {ref, computed} from 'vue'
 import {useMousePressed, useElementHover} from '@vueuse/core'
 
-import edit from './icon/edit.svg'
-import editHover from './icon/editHover.svg'
-import editActive from './icon/editActive.svg'
+import edit from 'data-url:./icon/edit.svg'
+import editHover from 'data-url:./icon/editHover.svg'
+import editActive from 'data-url:./icon/editActive.svg'
 
 const emits = defineEmits(['edit'])
 
@@ -110,6 +107,7 @@ function handleEdit() {
   bottom: -5px;
   width: 12px;
   height: 6px;
+  background-image: url('data-base64:./icon/triangle.png');
   background-size: cover;
 }
 </style>

@@ -35,8 +35,8 @@ import {ref} from 'vue'
 
 import Popper from 'vue3-popper'
 
-import closeIcon from '@assets/icon/close.svg'
-import sendIcon from '@assets/icon/sendActive.svg'
+import closeIcon from 'data-url:@assets/icon/close.svg'
+import sendIcon from 'data-url:@assets/icon/sendActive.svg'
 
 const emits = defineEmits(['close', 'savePrompt'])
 

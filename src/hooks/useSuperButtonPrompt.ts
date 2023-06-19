@@ -15,7 +15,9 @@ export default function useSuperButtonPrompt(storageKey, defaultPrompt) {
   })
 
   async function getPrompt() {
-    const {superButtonPrompt} = await storage.get(storageKey)
+    const {superButtonPrompt} = (await storage.get(storageKey)) || {
+      superButtonPrompt: defaultPrompt,
+    }
 
     prompt.value = superButtonPrompt
 

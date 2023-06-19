@@ -41,6 +41,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@parcel/optimizer-data-url": "2.9.1",
+    "@parcel/transformer-inline-string": "2.9.1",
     "@types/chrome": "0.0.231",
     "@types/node": "18.15.11",
     "eslint": "^8.38.0",

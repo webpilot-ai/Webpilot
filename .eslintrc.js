@@ -6,4 +6,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  rules: {
+    'import/no-unresolved': [2, {ignore: ['data-url:']}],
+  },
 }
