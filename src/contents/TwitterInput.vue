@@ -45,7 +45,7 @@ export const config = {
 const getRootContainer = async () => {
   return new Promise(resolve => {
     const checkInterval = setInterval(() => {
-      const element = document.querySelector('.DraftEditor-root') || document.querySelector('#ul')
+      const element = document.querySelector('.DraftEditor-root')
 
       if (element) {
         const parent = element.parentNode

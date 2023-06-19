@@ -1,42 +1,64 @@
+<template>
+  <div :class="$style.container">
+    <TheEntry></TheEntry>
+  </div>
+</template>
+
 <script>
-import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
-import TheEntry from '@/csui/SlackMessages/TheEntry.vue'
 import useStore from '@/stores/store'
-
-export default {
-  plasmo: {render, getRootContainer},
-}
+import TheEntry from '@/csui/SlackMessages/TheEntry.vue'
 
 export const config = {
-  // matches: ['https://www.askjhdjksj.xmn/'],
+  // matches: ['http://localhost/*'],
   matches: ['https://app.slack.com/client/*'],
 }
 
-async function render({createRootContainer}) {
-  const rootContainer = await createRootContainer()
-  const pinia = createPinia()
+const getRootContainer = async () => {
+  return new Promise(resolve => {
+    const checkInterval = setInterval(() => {
+      const element = document.querySelector('.ql-editor')
 
-  const app = createApp(TheEntry)
+      if (element) {
+        const parent = element.parentNode
+        if (parent) {
+          // parent.setAttribute('style', 'overflow-y: initial;')
+        }
 
-  app.use(pinia)
-
-  // init pinia data
-  const store = useStore()
-  await store.initConfig()
-
-  app.mount(rootContainer)
+        clearInterval(checkInterval)
+        resolve(parent)
+      }
+    }, 200)
+  })
 }
 
-async function getRootContainer() {
-  const [$html] = document.getElementsByTagName('html')
+export default {
+  plasmo: {
+    getRootContainer,
+  },
+  components: {
+    TheEntry,
+  },
+  setup() {},
+  data() {},
+  beforeCreate() {
+    const pinia = createPinia()
 
-  if (!$html) return null
+    this.app.use(pinia)
 
-  const $rootContainer = document.createElement('div')
-  $html.append($rootContainer)
-
-  return $rootContainer
+    const store = useStore()
+    store.initConfig()
+  },
+  mounted() {},
 }
 </script>
+
+<style lang="scss" module>
+.container {
+  position: absolute;
+  right: 8px;
+  bottom: 46px;
+  z-index: 99999999;
+}
+</style>
