@@ -25,7 +25,8 @@
 import {sendToBackground} from '@plasmohq/messaging'
 import Popper from 'vue3-popper'
 
-import WebpilotLogo from '../../assets/icon.png'
+// eslint-disable-next-line import/no-unresolved
+import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import IconClose from './icon/IconClose.vue'
 import IconGear from './icon/IconGear.vue'

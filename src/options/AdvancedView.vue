@@ -165,6 +165,9 @@
 import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
+// eslint-disable-next-line import/no-unresolved
+import WebpilotLogo from 'data-base64:~assets/icon.png'
+
 import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
 import useAskAi from '@/hooks/useAskAi'
@@ -174,8 +177,6 @@ import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import {$gettext} from '@/utils/i18n'
 import {WEBPILOT_OPENAI} from '@/config'
-
-import WebpilotLogo from '../../assets/icon.png'
 
 import SwitchButton from './components/SwitchButton.vue'
 

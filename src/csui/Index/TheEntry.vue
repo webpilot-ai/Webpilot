@@ -38,6 +38,9 @@ import '@assets/styles/csui-reset.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
 
+// eslint-disable-next-line import/no-unresolved
+import WebpilotLogo from 'data-base64:~assets/icon.png'
+
 import {MESSAGING_EVENT} from '@/config'
 
 import useScroll from '@/hooks/useScroll'
@@ -49,7 +52,7 @@ import useStopKeyboardEvent from '@/hooks/useStopKeyboardEvent'
 import useStore from '@/stores/store'
 import {formatShortcut} from '@/utils'
 
-import WebpilotLogo from '../../../assets/icon.png'
+// import WebpilotLogo from '../data-base64:~assets/icon.png'
 
 import ThePopupBox from './ThePopupBox/ThePopupBox.vue'
 
