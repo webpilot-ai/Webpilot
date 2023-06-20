@@ -1,47 +1,64 @@
+<template>
+  <div :class="$style.container">
+    <TheEntry></TheEntry>
+  </div>
+</template>
+
 <script>
-import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
-import TheEntry from '@/csui/DiscordMessages/TheEntry.vue'
 import useStore from '@/stores/store'
-
-export default {
-  plasmo: {render, getRootContainer},
-}
+import TheEntry from '@/csui/DiscordMessages/TheEntry.vue'
 
 export const config = {
-  matches: ['https://discord.com/*', 'https://discord.com/channels/*/*'],
+  // matches: ['http://localhost/*'],
+  matches: ['https://discord.com/channels/662267976984297473/*'],
 }
 
-async function render({createRootContainer}) {
-  console.log('render');
-  const rootContainer = await createRootContainer()
-  const pinia = createPinia()
+const getRootContainer = async () => {
+  return new Promise(resolve => {
+    const checkInterval = setInterval(() => {
+      const element = document.querySelector('form')
 
-  const app = createApp(TheEntry)
+      if (element) {
+        // const parent = element.parentNode
+        // if (parent) {
+        //   // parent.setAttribute('style', 'overflow-y: initial;')
+        // }
 
-  app.use(pinia)
-
-  // init pinia data
-  const store = useStore()
-  await store.initConfig()
-  console.log('config initialized');
-
-  app.mount(rootContainer)
-  console.log('app mounted');
+        clearInterval(checkInterval)
+        resolve(element)
+      }
+    }, 200)
+  })
 }
 
-async function getRootContainer() {
-  console.log('getting root container');
-  const [$html] = document.getElementsByTagName('html')
-  console.log('html', $html);
+export default {
+  plasmo: {
+    getRootContainer,
+  },
+  components: {
+    TheEntry,
+  },
+  setup() {},
+  data() {},
+  beforeCreate() {
+    const pinia = createPinia()
 
-  if (!$html) return null
+    this.app.use(pinia)
 
-  const $rootContainer = document.createElement('div')
-  $html.append($rootContainer)
-  console.log('root container created');
-
-  return $rootContainer
+    const store = useStore()
+    store.initConfig()
+  },
+  mounted() {},
 }
 </script>
+
+<style lang="scss" module>
+.container {
+  position: absolute;
+  right: 13px;
+  bottom: 76px;
+  z-index: 99999999;
+}
+</style>
