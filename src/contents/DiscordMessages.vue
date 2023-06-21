@@ -11,8 +11,9 @@ import useStore from '@/stores/store'
 import TheEntry from '@/csui/DiscordMessages/TheEntry.vue'
 
 export const config = {
+  matches: ['https://www.askjhdjksj.xmn/'],
   // matches: ['http://localhost/*'],
-  matches: ['https://discord.com/channels/662267976984297473/*'],
+  // matches: ['https://discord.com/channels/662267976984297473/*'],
 }
 
 const getRootContainer = async () => {

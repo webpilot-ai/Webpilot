@@ -13,8 +13,9 @@ import useStore from '@/stores/store'
 import TheEntry from '@/csui/TwitterInput/TheEntry.vue'
 
 export const config = {
+  matches: ['https://www.askjhdjksj.xmn/'],
   // matches: ['http://localhost/*'],
-  matches: ['https://twitter.com/*', 'http://localhost/*'],
+  // matches: ['https://twitter.com/*', 'http://localhost/*'],
 }
 
 // const getInlineAnchor = () =>
