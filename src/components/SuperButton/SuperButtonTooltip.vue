@@ -84,6 +84,7 @@ function handleEdit() {
   color: #292929;
   font-weight: 500;
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .contentprompt_hover {

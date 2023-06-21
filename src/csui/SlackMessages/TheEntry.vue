@@ -32,7 +32,7 @@ const {askAi, generating, done, result} = useAskAi()
 const {superButtonPrompt, setSuperButtonPrompt} = useSuperButtonPrompt(STORAGE_KEY, DEFAULT_PROMPT)
 
 watch(result, result => {
-  getTextarea().innerText = result
+  getTextarea().innerText = result.replace(/\n+/g, '\n')
 })
 
 function getTextarea() {
@@ -50,10 +50,14 @@ async function handleFire({prompt}) {
 }
 
 async function handleAbort() {
-  askAi()
+  await askAi()
+  // after result change, restore the original value
+  setTimeout(() => {
+    getTextarea().innerText = originTextareaValue.value.replace(/\n+/g, '\n')
+  }, 0)
 }
 
 function handleUndo() {
-  getTextarea().innerText = originTextareaValue.value
+  getTextarea().innerText = originTextareaValue.value.replace(/\n+/g, '\n')
 }
 </script>

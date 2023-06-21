@@ -111,7 +111,7 @@ const icon = computed(() => {
 
 const promptTooltipVisible = computed(() => {
   return (
-    status.value === SUPER_BUTTON_STATUS.pending &&
+    status.value !== SUPER_BUTTON_STATUS.generating &&
     !promptEditorVisible.value &&
     (tooltipHovered.value || buttonDelayHovered.value)
   )
@@ -141,10 +141,10 @@ function handleClick() {
   if (status.value === SUPER_BUTTON_STATUS.generating) {
     emits('abort')
     forcePending.value = false
-    forceDone.value = true
+    forceDone.value = false
     return
   }
-  if (status.value === SUPER_BUTTON_STATUS.pending) {
+  if (status.value === SUPER_BUTTON_STATUS.pending || status.value === SUPER_BUTTON_STATUS.done) {
     emits('fire', {prompt: props.prompt})
     forcePending.value = false
     forceDone.value = false
