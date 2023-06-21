@@ -36,8 +36,8 @@ watch(result, result => {
 })
 
 function getTextarea() {
-  let $textarea = document.querySelector('#issue_body')
-  if (!$textarea) $textarea = document.querySelector('#new_comment_field')
+  const $textarea =
+    document.querySelector('#issue_body') || document.querySelector('#new_comment_field')
   return $textarea
 }
 
@@ -51,7 +51,11 @@ async function handleFire({prompt}) {
 }
 
 async function handleAbort() {
-  askAi()
+  await askAi()
+  // after result change, restore the original value
+  setTimeout(() => {
+    getTextarea().value = originTextareaValue.value
+  }, 0)
 }
 
 function handleUndo() {

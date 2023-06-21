@@ -1,82 +1,63 @@
+<template>
+  <div ref="root" :class="$style.container">
+    <TheEntry></TheEntry>
+  </div>
+</template>
+
 <script>
 import '@/featureFlagsConfig'
-import {createApp} from 'vue'
+
 import {createPinia} from 'pinia'
 
-import TheEntry from '@/csui/GithubIssues/TheEntry.vue'
 import useStore from '@/stores/store'
-
-export default {
-  plasmo: {render, getRootContainer, watch},
-}
+import TheEntry from '@/csui/GithubIssues/TheEntry.vue'
 
 export const config = {
-  // matches: ['https://github.com/*/issues/*'],
-  // matches: ['https://www.askjhdjksj.xmn/'],
+  // matches: ['http://localhost/*'],
   matches: ['https://github.com/*/issues', 'https://github.com/*/issues/*'],
 }
 
 let isRender = false
 
-async function render({createRootContainer}) {
-  if (isRender || document.getElementById('webpilot-superbutton')) {
-    isRender = true
-    return
-  }
-  isRender = true
-
-  const rootContainer = await createRootContainer()
-  const pinia = createPinia()
-
-  const app = createApp(TheEntry)
-
-  app.use(pinia)
-
-  // init pinia data
-  const store = useStore()
-  await store.initConfig()
-
-  app.mount(rootContainer)
-}
-
-async function getRootContainer() {
+const getRootContainer = async () => {
   return new Promise(resolve => {
     const checkInterval = setInterval(() => {
-      const $textarea =
+      const element =
         document.querySelector('#issue_body') || document.querySelector('#new_comment_field')
 
-      if ($textarea) {
-        const $parent = $textarea.parentNode
-        const $rootContainer = document.createElement('div')
+      if (element) {
+        const parent = element.parentNode
+        const csuiContainer = document.querySelector('.plasmo-csui-container')
 
-        $parent.setAttribute('style', 'position:relative;')
-        $rootContainer.setAttribute(
-          'style',
-          'position:absolute;right:8px;bottom:8px;z-index:99999999;'
-        )
-        $rootContainer.setAttribute('id', 'webpilot-superbutton')
-        $parent.insertBefore($rootContainer, $textarea)
+        // first time to new issue, render will run twice
+        if (csuiContainer) {
+          parent.removeChild(csuiContainer)
+        }
 
         clearInterval(checkInterval)
-        resolve($rootContainer)
+        resolve(parent)
       }
-    }, 200)
+    }, 500)
   })
 }
 
-function watch({render}) {
+const watch = ({render}) => {
   const observer = new MutationObserver(() => {
-    const $textarea =
+    const element =
       document.querySelector('#issue_body') || document.querySelector('#new_comment_field')
 
-    if (!$textarea) {
+    if (!element) {
       isRender = false
       return
     }
 
-    render({
-      createRootContainer: getRootContainer,
-    })
+    if (!isRender) {
+      isRender = true
+      render({
+        element: document.documentElement,
+        type: 'overlay',
+      })
+    }
   })
 
   // Need to watch the subtree for shadowDOM
@@ -86,17 +67,31 @@ function watch({render}) {
   })
 }
 
-// async function getRootContainer() {
-//   let $textarea = document.querySelector('#issue_body')
-//   if (!$textarea) $textarea = document.querySelector('#new_comment_field')
+export default {
+  plasmo: {
+    getRootContainer,
+    watch,
+  },
+  components: {
+    TheEntry,
+  },
+  beforeCreate() {
+    const pinia = createPinia()
 
-//   const $parent = $textarea.parentNode
-//   const $rootContainer = document.createElement('div')
+    this.app.use(pinia)
 
-//   $parent.setAttribute('style', 'position:relative;')
-//   $rootContainer.setAttribute('style', 'position:absolute;right:16px;bottom:16px;z-index:99999999;')
-
-//   $parent.insertBefore($rootContainer, $textarea)
-//   return $rootContainer
-// }
+    const store = useStore()
+    store.initConfig()
+  },
+  mounted() {},
+}
 </script>
+
+<style lang="scss" module>
+.container {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 99999999;
+}
+</style>
