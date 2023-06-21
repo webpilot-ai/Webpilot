@@ -22,7 +22,7 @@ import useSuperButtonPrompt from '@/hooks/useSuperButtonPrompt'
 
 const STORAGE_KEY = 'SlackMessages'
 const TITLE = 'slack.com'
-const DEFAULT_PROMPT = 'Re-write in native American English'
+const DEFAULT_PROMPT = 'Re-write in better English'
 
 const superButtonTitle = ref(TITLE)
 const originTextareaValue = ref('')

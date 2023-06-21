@@ -22,7 +22,7 @@ import useSuperButtonPrompt from '@/hooks/useSuperButtonPrompt'
 
 const STORAGE_KEY = 'TwitterInput'
 const TITLE = 'twitter.com'
-const DEFAULT_PROMPT = 'Re-write in native American English (within 280 characters)'
+const DEFAULT_PROMPT = 'Re-write in better English (within 280 characters)'
 
 const superButtonTitle = ref(TITLE)
 const originTextareaValue = ref('')
