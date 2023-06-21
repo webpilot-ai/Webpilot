@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.container">
+  <div ref="root" :class="$style.container">
     <TheEntry></TheEntry>
   </div>
 </template>
@@ -18,18 +18,13 @@ export const config = {
 const getRootContainer = async () => {
   return new Promise(resolve => {
     const checkInterval = setInterval(() => {
-      const element = document.querySelector('.ql-editor')
+      const element = document.querySelector('.c-wysiwyg_container__formatting')
 
       if (element) {
-        const parent = element.parentNode
-        if (parent) {
-          // parent.setAttribute('style', 'overflow-y: initial;')
-        }
-
         clearInterval(checkInterval)
-        resolve(parent)
+        resolve(element)
       }
-    }, 200)
+    }, 500)
   })
 }
 
@@ -40,8 +35,6 @@ export default {
   components: {
     TheEntry,
   },
-  setup() {},
-  data() {},
   beforeCreate() {
     const pinia = createPinia()
 
@@ -50,7 +43,14 @@ export default {
     const store = useStore()
     store.initConfig()
   },
-  mounted() {},
+  async mounted() {
+    // this.$refs.root.parentNode.setAttribute(
+    //   'style',
+    //   'position:absolute;right:28px;bottom:8px;z-index:99999999;'
+    // )
+    // console.log('Mounted!!')
+    // console.log('root element: ', this.$refs.root)
+  },
 }
 </script>
 
@@ -58,7 +58,7 @@ export default {
 .container {
   position: absolute;
   right: 8px;
-  bottom: 46px;
+  bottom: 4px;
   z-index: 99999999;
 }
 </style>
