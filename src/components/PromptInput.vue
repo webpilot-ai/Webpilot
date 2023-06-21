@@ -69,7 +69,9 @@ const refInput = ref(null)
 
 onMounted(() => {
   refInput.value.focus()
-  refInput.value.select()
+  setTimeout(() => {
+    refInput.value.select()
+  }, 100)
 })
 
 const placeholderText = computed(() => {
