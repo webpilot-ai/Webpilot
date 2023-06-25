@@ -3,6 +3,8 @@
 </template>
 
 <script setup>
+import '@/featureFlagsConfig'
+
 import {createApp} from 'vue'
 
 import {createPinia} from 'pinia'

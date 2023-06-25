@@ -15,6 +15,7 @@ import IllustrationPinGuide from '@/components/icon/IllustrationPinGuide.vue'
 .wrap {
   h3 {
     margin: 0 0 16px;
+    color: #4f5aff;
     font-weight: 400;
     font-size: 24px;
     line-height: 34px;

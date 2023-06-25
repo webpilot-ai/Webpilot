@@ -10,14 +10,10 @@
           <li
             v-for="(item, index) in steps"
             :key="index"
-            :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === item + 1}"
+            :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === item}"
           >
             {{ item }}
           </li>
-          <!-- <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 1}">1</li>
-          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 2}">2</li>
-          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 3}">3</li>
-          <li :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === 4}">4</li> -->
         </ul>
         <div :class="setup.infoInputArea">
           <!-- Step One -->
@@ -72,7 +68,7 @@ import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
 import StepFour from './StepFour.vue'
 
-const steps = [1, 2, 3]
+const steps = [1, 2, 3, 4]
 
 const userStore = useUserStore()
 const {getUser} = userStore

@@ -1,8 +1,8 @@
 <template>
   <div :class="stepTwo.wrap">
     <h3>{{ $gettext('Choosing Service') }}</h3>
-    <!-- <div v-if="isSignedIn === true" :class="stepTwo.general"> -->
-    <div v-if="false" :class="stepTwo.general">
+    <div v-if="isSignedIn === true" :class="stepTwo.general">
+      <!-- <div v-if="false" :class="stepTwo.general"> -->
       <div :class="stepTwo.radio">
         <input
           id="option1"
@@ -12,11 +12,9 @@
           value="general"
           @change="handleOptionChange"
         />
-        <label v-if="isSignedIn === true" for="option1"
-          >Use Free OpenAI GPT API from Webpilot</label
-        >
+        <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
       </div>
-      <p>You can use Webpilot API for free up to X times</p>
+      <p>Use Webpilot API for FREE up to 50 times/week</p>
     </div>
     <div :class="stepTwo.personal">
       <div :class="stepTwo.radio">
@@ -116,8 +114,8 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue', 'change'])
 
-// const selectedOption = ref(props.modelValue.selectedOption)
-const selectedOption = ref('personal')
+const selectedOption = ref(props.modelValue.selectedOption)
+// const selectedOption = ref('personal')
 const authKey = ref(props.modelValue.authKey)
 const isSelfHost = ref(false)
 const selfHostUrl = ref(props.modelValue.selfHostUrl)
@@ -177,6 +175,7 @@ const onChange = () => {
 
   h3 {
     margin: 0 0 16px;
+    color: #4f5aff;
     font-weight: 400;
     font-size: 24px;
     line-height: 34px;
@@ -209,8 +208,12 @@ const onChange = () => {
   }
 
   p {
-    margin: 0;
+    margin: 0 24px;
     padding: 0 25px;
+    color: #292929;
+    background-image: url('../images/icon-gift.png');
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
   }
 }
 
@@ -229,6 +232,7 @@ const onChange = () => {
   }
 
   label {
+    color: #292929;
     font-size: 18px;
     cursor: pointer;
   }
