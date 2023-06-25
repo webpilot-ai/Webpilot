@@ -8,7 +8,7 @@ export const API_PATH = '/v1/chat/completions'
 
 export const defaultConfig = {
   // general | personal
-  apiOrigin: 'personal',
+  apiOrigin: 'general',
   /** Open AI or selfhost api key */
   authKey: '',
   /** Is auth successed */

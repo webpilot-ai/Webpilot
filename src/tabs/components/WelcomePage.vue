@@ -17,9 +17,9 @@
         </ul>
         <div :class="setup.infoInputArea">
           <!-- Step One -->
-          <StepOne v-if="stepIndex === 1" :skip="handleSkip" />
+          <!-- <StepOne v-if="stepIndex === 1" :skip="handleSkip" /> -->
           <!-- Setp Two -->
-          <StepTwo v-else-if="stepIndex === 2" v-model="authInfo" />
+          <StepTwo v-if="stepIndex === 2" v-model="authInfo" />
           <!-- Setp Three -->
           <StepThree v-else-if="stepIndex === 3" />
           <!-- Setp Four -->
@@ -27,7 +27,7 @@
           <!-- NEXT BUTTON -->
           <div :class="setup.btnGroup">
             <WebpilotButton
-              v-if="stepIndex > 2"
+              v-if="stepIndex > 1"
               type="ghost"
               value="BACK"
               @click="handleGoBackBtn"
@@ -63,7 +63,7 @@ import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
 import useAskAi from '@/hooks/useAskAi'
 
-import StepOne from './StepOne.vue'
+// import StepOne from './StepOne.vue'
 import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
 import StepFour from './StepFour.vue'
@@ -72,7 +72,6 @@ const steps = [1, 2, 3, 4]
 
 const userStore = useUserStore()
 const {getUser} = userStore
-
 getUser()
 
 const toast = useToast()
@@ -82,16 +81,13 @@ const {loading, askAi} = useAskAi()
 
 /** Step Index */
 const stepIndex = ref(2)
+
 /** AuthInfo */
 const authInfo = ref({
-  authKey: '',
-  selfHostUrl: '',
-  selectedOption: 'general',
+  authKey: storeConfig.config.authKey,
+  selfHostUrl: storeConfig.config.selfHostUrl,
+  selectedOption: storeConfig.config.apiOrigin,
 })
-
-const handleSkip = () => {
-  stepIndex.value = 2
-}
 
 const checkAuthKey = async () => {
   const {selectedOption} = authInfo.value
@@ -103,10 +99,10 @@ const checkAuthKey = async () => {
   }
 
   // check toekn and self host change
-  if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
-    stepIndex.value = 3
-    return
-  }
+  // if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
+  //   stepIndex.value = 3
+  //   return
+  // }
 
   try {
     await askAi({
@@ -115,14 +111,24 @@ const checkAuthKey = async () => {
       url: selfHostUrl === '' ? null : selfHostUrl,
     })
 
-    storeConfig.setConfig({
-      ...storeConfig.config,
-      isAuth: true,
-      authKey,
-      isFinishSetup: true,
-      selfHostUrl: selfHostUrl !== '' ? selfHostUrl : '',
-    })
-    stepIndex.value = 3
+    // 选择 Free API时，authKey 和 selfHostUrl 用于占位，不更新 store
+    if (selectedOption === 'general') {
+      storeConfig.setConfig({
+        ...storeConfig.config,
+        isAuth: true,
+        isFinishSetup: true,
+        apiOrigin: selectedOption,
+      })
+    } else {
+      storeConfig.setConfig({
+        ...storeConfig.config,
+        isAuth: true,
+        isFinishSetup: true,
+        apiOrigin: selectedOption,
+        authKey,
+        selfHostUrl,
+      })
+    }
   } catch (error) {
     toast.open({
       message: 'Incorrect API Key. Please check with the provider',
@@ -135,22 +141,19 @@ const checkAuthKey = async () => {
 const handleNextBtn = async () => {
   if (stepIndex.value === 2) {
     await checkAuthKey()
+    stepIndex.value++
   } else if (stepIndex.value === 3) {
-    stepIndex.value = 4
+    stepIndex.value++
   } else if (stepIndex.value === 4) {
     window.close()
   }
 }
 
 const handleGoBackBtn = () => {
-  if (stepIndex.value === 1) return
-
   if (stepIndex.value === 2) {
-    stepIndex.value = 1
-  } else if (stepIndex.value === 3) {
-    stepIndex.value = 2
-  } else if (stepIndex.value === 4) {
-    stepIndex.value = 3
+    chrome.tabs.goBack()
+  } else {
+    stepIndex.value -= 1
   }
 }
 </script>

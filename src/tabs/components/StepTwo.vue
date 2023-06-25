@@ -1,7 +1,7 @@
 <template>
   <div :class="stepTwo.wrap">
     <h3>{{ $gettext('Choosing Service') }}</h3>
-    <div v-if="isSignedIn === true" :class="stepTwo.general">
+    <div :class="stepTwo.general">
       <!-- <div v-if="false" :class="stepTwo.general"> -->
       <div :class="stepTwo.radio">
         <input
@@ -60,19 +60,6 @@
               <label for="self_host">{{ $gettext('Self Host') }}</label>
             </div>
           </div>
-          <!-- <div v-if="isSelfHost" :class="stepTwo.selfHostInput">
-            <input
-              v-model="selfHostUrl"
-              placeholder="Enter your base address"
-              @change="onChangeHostUrl"
-            />
-            <WebpilotAlert
-              v-if="(error || success) && isSelfHost"
-              style="margin-top: 8px"
-              :tips="alertInfo.tips"
-              :type="alertInfo.type"
-            />
-          </div> -->
         </div>
       </div>
       <template v-if="isSelfHost">
@@ -94,16 +81,15 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import {storeToRefs} from 'pinia'
+// import {storeToRefs} from 'pinia'
 
-import useUserStore from '@/stores/user'
+// import useUserStore from '@/stores/user'
 
 import HelpTips from '@/components/HelpTips.vue'
 import {$gettext} from '@/utils/i18n'
-// import WebpilotAlert from '@/components/WebpilotAlert.vue'
 
-const userStore = useUserStore()
-const {isSignedIn} = storeToRefs(userStore)
+// const userStore = useUserStore()
+// const {isSignedIn} = storeToRefs(userStore)
 
 const props = defineProps({
   modelValue: {
