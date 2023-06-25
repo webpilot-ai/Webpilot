@@ -2,7 +2,7 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div v-if="isSignedIn === true" :class="advanced.general">
+      <div :class="advanced.general">
         <!-- <div v-if="false" :class="advanced.general"> -->
         <div :class="advanced.radio">
           <input
@@ -179,7 +179,7 @@ import {WEBPILOT_OPENAI} from '@/config'
 import SwitchButton from './components/SwitchButton.vue'
 
 const userStore = useUserStore()
-const {usage, isSignedIn} = storeToRefs(userStore)
+const {usage} = storeToRefs(userStore)
 const {getUsage} = userStore
 
 const store = useStore()

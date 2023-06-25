@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isSignedIn === true" :class="index.container">
+  <div v-if="config.isAuth" :class="index.container">
     <div :class="index.main">
       <!-- header -->
       <div :class="index.header">
@@ -52,6 +52,7 @@ import {ref} from 'vue'
 
 import {storeToRefs} from 'pinia'
 
+import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
 
 import AdvancedView from './AdvancedView.vue'
@@ -60,14 +61,14 @@ import AboutView from './AboutView.vue'
 
 const active = ref('advanced')
 
+const store = useStore()
+const {config} = storeToRefs(store)
 const userStore = useUserStore()
-const {isSignedIn} = storeToRefs(userStore)
-
+// const {isSignedIn} = storeToRefs(userStore)
 const {getUser} = userStore
-
 getUser()
 
-if (!isSignedIn) {
+if (!config.value.isAuth) {
   const signURL = 'http://localhost/'
 
   chrome.tabs.getCurrent(tab => {
