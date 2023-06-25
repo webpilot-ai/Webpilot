@@ -1,5 +1,5 @@
 <template>
-  <div :class="index.container">
+  <div v-if="isSignedIn === true" :class="index.container">
     <div :class="index.main">
       <!-- header -->
       <div :class="index.header">
@@ -31,7 +31,7 @@
       <!-- body -->
       <div :class="index.body">
         <AdvancedView v-show="active == 'advanced'" />
-        <AccountView v-show="active == 'account'" />
+        <!-- <AccountView v-show="active == 'account'" /> -->
         <AboutView v-show="active == 'about'" />
       </div>
 
@@ -50,18 +50,31 @@
 import '@assets/styles/reset.scss'
 import {ref} from 'vue'
 
+import {storeToRefs} from 'pinia'
+
 import useUserStore from '@/stores/user'
 
 import AdvancedView from './AdvancedView.vue'
-import AccountView from './AccountView.vue'
+// import AccountView from './AccountView.vue'
 import AboutView from './AboutView.vue'
 
 const active = ref('advanced')
 
 const userStore = useUserStore()
+const {isSignedIn} = storeToRefs(userStore)
+
 const {getUser} = userStore
 
 getUser()
+
+if (!isSignedIn) {
+  const signURL = 'http://localhost/'
+
+  chrome.tabs.getCurrent(tab => {
+    const tabId = tab.id
+    chrome.tabs.update(tabId, {url: signURL})
+  })
+}
 </script>
 
 <style module="index" lang="scss">

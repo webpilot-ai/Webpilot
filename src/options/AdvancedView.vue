@@ -189,7 +189,6 @@ const {loading, success, error, askAi} = useAskAi()
 const {config} = storeToRefs(store)
 
 const selectedOption = ref(config.value.apiOrigin || 'general')
-console.log('selectedOption=======> ', selectedOption)
 // const selectedOption = ref('personal')
 
 const saveAuthKey = ref(config.value.authKey)
