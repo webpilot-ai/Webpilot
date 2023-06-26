@@ -20,6 +20,14 @@
             <span :style="{width: usage.percent}"></span>
           </div>
           <p>{{ usage.current }} / {{ usage.total }} available</p>
+          <Popper arrow :class="advanced.popper" hover>
+            <span :class="advanced.help">?</span>
+            <template #content>
+              <div :class="advanced.popoverText">
+                API limits to 50 times per week. It refreshes every Monday at 0:00 UTC+0
+              </div>
+            </template>
+          </Popper>
         </div>
       </div>
       <div :class="[advanced.personal, selectedOption === 'personal' ? advanced.active : '']">
@@ -167,6 +175,8 @@ import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
+
+import Popper from 'vue3-popper'
 
 import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
@@ -482,6 +492,7 @@ const hideAlert = () => {
 .progressBar {
   width: 300px;
   height: 24px;
+  overflow: hidden;
   background: #edeff2;
   border-radius: 20px;
 
@@ -618,5 +629,39 @@ const hideAlert = () => {
 
 .activeWebpilotTitle {
   margin-top: 12px !important;
+}
+
+.help {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  color: #585b58;
+  border: 1px solid #585b58;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+    background: #585b58;
+  }
+}
+
+:root {
+  --popper-theme-background-color: #fff;
+  --popper-theme-background-color-hover: #fff;
+  --popper-theme-text-color: #585b58;
+  --popper-theme-border-width: 1px;
+  --popper-theme-border-style: solid;
+  --popper-theme-border-color: rgb(220 222 225 / 100%);
+  --popper-theme-border-radius: 6px;
+  --popper-theme-padding: 6px;
+  --popper-theme-box-shadow: 0 6px 30px -6px rgb(0 0 0 / 25%);
+}
+
+.popoverText {
+  width: 160px;
+  font-weight: 500;
 }
 </style>
