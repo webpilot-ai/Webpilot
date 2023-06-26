@@ -1,7 +1,7 @@
 <template>
   <div :class="stepTwo.wrap">
     <h3>{{ $gettext('Choosing Service') }}</h3>
-    <div :class="stepTwo.general">
+    <div :class="[stepTwo.general, selectedOption === 'general' ? stepTwo.active : '']">
       <!-- <div v-if="false" :class="stepTwo.general"> -->
       <div :class="stepTwo.radio">
         <input
@@ -14,9 +14,9 @@
         />
         <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
       </div>
-      <p>Use Webpilot API for FREE up to 50 times/week</p>
+      <p v-if="selectedOption === 'general'">Use Webpilot API for FREE up to 50 times/week</p>
     </div>
-    <div :class="stepTwo.personal">
+    <div :class="[stepTwo.personal, selectedOption === 'personal' ? stepTwo.active : '']">
       <div :class="stepTwo.radio">
         <input
           id="option2"
@@ -29,7 +29,7 @@
         <label for="option2">{{ $gettext('OpenAI(Default)') }}</label>
       </div>
       <div>
-        <div :class="stepTwo.apiItem">
+        <div v-if="selectedOption === 'personal'" :class="stepTwo.apiItem">
           <input
             v-model="authKey"
             :class="stepTwo.input"
@@ -59,22 +59,23 @@
               <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
               <label for="self_host">{{ $gettext('Self Host') }}</label>
             </div>
+
+            <template v-if="isSelfHost">
+              <input
+                v-model="selfHostUrl"
+                :class="stepTwo.input"
+                :placeholder="$gettext('https://api.openai.com')"
+                type="text"
+                @change="onChange"
+              />
+              <HelpTips
+                url="https://github.com/webpilot-ai/ai-proxy"
+                :value="$gettext('How to self host API?')"
+              />
+            </template>
           </div>
         </div>
       </div>
-      <template v-if="isSelfHost">
-        <input
-          v-model="selfHostUrl"
-          :class="stepTwo.input"
-          :placeholder="$gettext('https://api.openai.com')"
-          type="text"
-          @change="onChange"
-        />
-        <HelpTips
-          url="https://github.com/webpilot-ai/ai-proxy"
-          :value="$gettext('How to self host API?')"
-        />
-      </template>
     </div>
   </div>
 </template>
@@ -151,14 +152,6 @@ const onChange = () => {
     margin-right: 8px;
   }
 
-  .header {
-    display: flex;
-    align-items: center;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 25px;
-  }
-
   h3 {
     margin: 0 0 16px;
     color: #4f5aff;
@@ -167,6 +160,15 @@ const onChange = () => {
     line-height: 34px;
     text-align: center;
   }
+}
+
+.general,
+.personal {
+  color: #585b58;
+}
+
+.active {
+  color: #292929;
 }
 
 .input {
@@ -218,7 +220,6 @@ const onChange = () => {
   }
 
   label {
-    color: #292929;
     font-size: 18px;
     cursor: pointer;
   }
@@ -236,15 +237,7 @@ const onChange = () => {
   }
 }
 
-.haveAuthKey::placeholder {
-  color: #292929;
-}
-
 .host {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 360px;
   margin-top: 16px;
 }
 
