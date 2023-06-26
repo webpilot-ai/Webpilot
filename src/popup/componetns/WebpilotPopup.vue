@@ -38,13 +38,12 @@ const store = useStore()
 onBeforeMount(async () => {
   // check welcode guide
   if (!store.config.isFinishSetup) {
-    let result = await chrome?.tabs?.query({
+    const [tab] = await chrome.tabs.query({
       active: true,
       currentWindow: true,
     })
 
-    result = Array.isArray(result) ? result[0] : result
-    const {url: currentUrl} = result
+    const currentUrl = tab?.url
 
     // can't get current open page url
     if (currentUrl === undefined) return

@@ -118,19 +118,11 @@ const handleOptionChange = event => {
 
   selectedOption.value = value
 
-  switch (value) {
-    case 'general':
-      emits('update:modelValue', {
-        selectedOption: 'general',
-      })
-      break
-    default:
-      emits('update:modelValue', {
-        selectedOption: 'personal',
-      })
-
-      break
-  }
+  emits('update:modelValue', {
+    authKey: authKey.value,
+    selfHostUrl: selfHostUrl.value,
+    selectedOption: value,
+  })
 }
 
 const onChange = () => {
@@ -140,6 +132,7 @@ const onChange = () => {
   emits('update:modelValue', {
     authKey: authKey.value,
     selfHostUrl: selfHostUrl.value,
+    selectedOption: selectedOption.value,
   })
 }
 </script>

@@ -34,6 +34,7 @@
             />
             <WebpilotButton
               v-if="stepIndex !== 1"
+              :disalbed="buttonDisabled"
               :loading="loading"
               :value="stepIndex === 4 ? 'DONE' : 'NEXT'"
               @click="handleNextBtn"
@@ -52,7 +53,7 @@
 <script setup>
 import '@assets/styles/reset.scss'
 
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 import {useToast} from 'vue-toast-notification'
 
 import useStore from '@/stores/store'
@@ -87,6 +88,12 @@ const authInfo = ref({
   authKey: storeConfig.config.authKey,
   selfHostUrl: storeConfig.config.selfHostUrl,
   selectedOption: storeConfig.config.apiOrigin || 'general',
+})
+
+const buttonDisabled = computed(() => {
+  return (
+    stepIndex.value === 2 && authInfo.value.selectedOption === 'personal' && !authInfo.value.authKey
+  )
 })
 
 const checkAuthKey = async () => {

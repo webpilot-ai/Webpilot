@@ -58,15 +58,22 @@ const handleClick = () => {
   padding: 8px 16px;
   font-weight: 500;
   font-size: 14px !important;
-  line-height: 20px !important;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 5px 15px 0 rgb(0 0 0 / 8%), 0 2px 4px 0 rgb(0 0 0 / 11%);
+  }
 }
 
 .primary {
   color: #fff;
   background-color: #4f5aff;
+
+  &:active {
+    background: #292f8e;
+  }
 }
 
 .ghost {
@@ -78,6 +85,14 @@ const handleClick = () => {
   color: #fff;
   background-color: #929497;
   cursor: not-allowed;
+
+  &:hover {
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: #929497;
+  }
 }
 
 .loading {

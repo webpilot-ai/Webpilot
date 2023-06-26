@@ -95,6 +95,7 @@
       </div>
       <WebpilotButton
         :auto-hide="true"
+        :disalbed="selectedOption === 'personal' && authKey === ''"
         :loading="loading"
         style="width: 143px; margin-top: auto"
         :value="$gettext('Save Changes')"
