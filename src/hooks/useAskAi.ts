@@ -4,6 +4,8 @@ import useStore from '@/stores/store'
 import {WEBPILOT_OPENAI} from '@/config'
 import {askOpenAI, parseStream} from '@/io'
 
+import {$gettext} from '@/utils/i18n'
+
 const getPrompt = (referenceText, command) => {
   return [
     {
@@ -104,6 +106,12 @@ export default function useAskAi() {
             authKey: '',
             isAuth: false,
           })
+
+          throw err
+        } else if (err.response && err.response.status === 402) {
+          errorMessage.value = $gettext(
+            'Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday.'
+          )
 
           throw err
         } else {

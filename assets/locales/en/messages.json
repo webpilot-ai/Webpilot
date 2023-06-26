@@ -50,6 +50,9 @@
   "Extension_Settings": {
     "message": "Extension Settings"
   },
+  "Free_usage_for_this_week_has_been_exhausted__50_times_week___You_can_input_your_OpenAI_API_Key_in_the_settings_page_for_unlimited_use__or_wait_for_the_quota_refresh_at_0_00_UTC_0_on_Monday_": {
+    "message": "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
+  },
   "How_to_self_host_API_": {
     "message": "How to self host API?"
   },

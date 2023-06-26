@@ -18,10 +18,10 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: src/options/AdvancedView.vue:130
 #: src/options/AdvancedView.vue:142
-#: src/options/AdvancedView.vue:73
-#: src/options/AdvancedView.vue:74
+#: src/options/AdvancedView.vue:154
+#: src/options/AdvancedView.vue:83
+#: src/options/AdvancedView.vue:84
 msgid "Active Webpilot"
 msgstr ""
 
@@ -39,10 +39,10 @@ msgstr ""
 msgid "Ask a question about this webpage"
 msgstr ""
 
-#: src/options/AdvancedView.vue:140
 #: src/options/AdvancedView.vue:152
-#: src/options/AdvancedView.vue:83
-#: src/options/AdvancedView.vue:84
+#: src/options/AdvancedView.vue:164
+#: src/options/AdvancedView.vue:93
+#: src/options/AdvancedView.vue:94
 msgid "Change Shortcut"
 msgstr ""
 
@@ -60,16 +60,16 @@ msgstr ""
 msgid "Current Webpage Not Supported"
 msgstr ""
 
-#: src/options/AdvancedView.vue:109
-#: src/options/AdvancedView.vue:52
-#: src/options/AdvancedView.vue:53
+#: src/options/AdvancedView.vue:121
+#: src/options/AdvancedView.vue:62
+#: src/options/AdvancedView.vue:63
 msgid "Display Mode"
 msgstr ""
 
-#: src/options/AdvancedView.vue:135
 #: src/options/AdvancedView.vue:147
-#: src/options/AdvancedView.vue:78
-#: src/options/AdvancedView.vue:79
+#: src/options/AdvancedView.vue:159
+#: src/options/AdvancedView.vue:88
+#: src/options/AdvancedView.vue:89
 msgid "Display Webpilot"
 msgstr ""
 
@@ -78,21 +78,25 @@ msgstr ""
 msgid "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:38
+#: src/tabs/components/StepTwo.vue:36
 msgid "Enter your API Key"
 msgstr ""
 
-#: src/options/AdvancedView.vue:107
-#: src/options/AdvancedView.vue:50
-#: src/options/AdvancedView.vue:51
+#: src/options/AdvancedView.vue:119
+#: src/options/AdvancedView.vue:60
+#: src/options/AdvancedView.vue:61
 msgid "Extension Settings"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:90
+#: src/hooks/useAskAi.ts:112
+msgid "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
+msgstr ""
+
+#: src/tabs/components/StepTwo.vue:73
 msgid "How to self host API?"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:84
+#: src/tabs/components/StepTwo.vue:67
 msgid "https://api.openai.com"
 msgstr ""
 
@@ -128,7 +132,7 @@ msgstr ""
 msgid "New tab and blank pages"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:31
+#: src/tabs/components/StepTwo.vue:29
 msgid "OpenAI(Default)"
 msgstr ""
 
@@ -137,7 +141,7 @@ msgstr ""
 msgid "Opensource AI Assistant On All Websites"
 msgstr ""
 
-#: src/options/AdvancedView.vue:135
+#: src/options/AdvancedView.vue:147
 msgid "Pop Up"
 msgstr ""
 
@@ -154,7 +158,7 @@ msgstr ""
 msgid "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
 msgstr ""
 
-#: src/options/AdvancedView.vue:100
+#: src/options/AdvancedView.vue:112
 msgid "Save Changes"
 msgstr ""
 
@@ -162,7 +166,7 @@ msgstr ""
 msgid "Select text first, hit shortcut next, gain better results."
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:62
+#: src/tabs/components/StepTwo.vue:60
 msgid "Self Host"
 msgstr ""
 
@@ -170,7 +174,7 @@ msgstr ""
 msgid "Show WebPilot icon when selecting text"
 msgstr ""
 
-#: src/options/AdvancedView.vue:122
+#: src/options/AdvancedView.vue:134
 msgid "Side Bar"
 msgstr ""
 
@@ -190,9 +194,9 @@ msgstr ""
 
 #: src/tabs/components/StepTwo.vue:29
 #: src/tabs/components/StepTwo.vue:30
-#: src/tabs/components/StepTwo.vue:39
-#: src/tabs/components/StepTwo.vue:46
-#: src/tabs/components/StepTwo.vue:52
+#: src/tabs/components/StepTwo.vue:37
+#: src/tabs/components/StepTwo.vue:44
+#: src/tabs/components/StepTwo.vue:50
 msgid "To get it, open this link and click “Create new secret key”."
 msgstr ""
 
@@ -207,9 +211,9 @@ msgstr ""
 msgid "Webpilot is open source"
 msgstr ""
 
-#: src/options/AdvancedView.vue:136
 #: src/options/AdvancedView.vue:148
-#: src/options/AdvancedView.vue:79
-#: src/options/AdvancedView.vue:80
+#: src/options/AdvancedView.vue:160
+#: src/options/AdvancedView.vue:89
+#: src/options/AdvancedView.vue:90
 msgid "when text is selected"
 msgstr ""
