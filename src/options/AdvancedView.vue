@@ -18,7 +18,7 @@
         <div :class="advanced.usage">
           <div :class="[advanced.progressBar, selectedOption === 'general' ? advanced.active : '']">
             <span
-              :class="usage.percent === '100%' ? 'none' : ''"
+              :class="usage.percent === '100%' ? advanced.none : ''"
               :style="{width: usage.percent}"
             ></span>
           </div>
