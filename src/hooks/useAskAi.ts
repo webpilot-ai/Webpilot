@@ -1,6 +1,7 @@
 import {ref, toRaw} from 'vue'
 
 import useStore from '@/stores/store'
+import {WEBPILOT_OPENAI} from '@/config'
 import {askOpenAI, parseStream} from '@/io'
 
 const getPrompt = (referenceText, command) => {
@@ -64,11 +65,19 @@ export default function useAskAi() {
       model.model = 'gpt-3.5-turbo-16k'
     }
 
+    let storeAuthKey = store.config.authKey
+    let storeHostUrl = store.config.selfHostUrl
+
+    if (store.config.apiOrigin === 'general') {
+      storeAuthKey = WEBPILOT_OPENAI.AUTH_KEY
+      storeHostUrl = WEBPILOT_OPENAI.HOST_URL
+    }
+
     return askOpenAI({
-      authKey: authKey === '' ? store.config.authKey : authKey,
+      authKey: authKey || storeAuthKey,
       model,
       message,
-      baseURL: url === null || url === undefined ? store.config.selfHostUrl : url,
+      baseURL: url || storeHostUrl,
     })
       .then(streamReader => {
         loading.value = false
