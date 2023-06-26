@@ -49,16 +49,18 @@ onBeforeMount(async () => {
     // can't get current open page url
     if (currentUrl === undefined) return
 
+    const signURL = 'https://account.webpilot.ai/'
     const welcomeUrl = chrome?.runtime?.getURL('tabs/index.html')
 
     // aready in welcome page
-    if (currentUrl === welcomeUrl) {
+    if (currentUrl === signURL || currentUrl === welcomeUrl) {
       closeWindow()
       return
     }
 
-    window.open(welcomeUrl)
+    chrome.tabs.create({url: signURL})
     closeWindow()
+    // window.open(welcomeUrl)
     return
   }
 
