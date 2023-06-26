@@ -2,16 +2,26 @@ import {Storage} from '@plasmohq/storage'
 
 import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
-import {NEW_TAB_ID} from '../index'
-
 const extensionURL = chrome.runtime.getURL('./tabs/index.html')
+
+const getCurrentTabId = async () => {
+  const queryOptions = {
+    active: true,
+    lastFocusedWindow: true,
+    url: ['https://account.webpilot.ai/*', 'http://localhost/*'],
+  }
+  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  const [tab] = await chrome.tabs.query(queryOptions)
+  return tab?.id
+}
 
 const handler = async req => {
   const storage = new Storage()
-  const tabId = await storage.get(NEW_TAB_ID)
+  const tabId = await getCurrentTabId()
 
-  chrome.tabs.update(tabId, {url: extensionURL})
-  storage.remove(NEW_TAB_ID)
+  if (tabId) {
+    chrome.tabs.update({url: extensionURL})
+  }
 
   const {credential} = req.body
   storage.set(GOOGLE_CREDENTIAL, credential)

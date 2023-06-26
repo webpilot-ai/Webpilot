@@ -86,7 +86,7 @@ const stepIndex = ref(2)
 const authInfo = ref({
   authKey: storeConfig.config.authKey,
   selfHostUrl: storeConfig.config.selfHostUrl,
-  selectedOption: storeConfig.config.apiOrigin,
+  selectedOption: storeConfig.config.apiOrigin || 'general',
 })
 
 const checkAuthKey = async () => {
