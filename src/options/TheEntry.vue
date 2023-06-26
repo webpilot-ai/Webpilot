@@ -69,7 +69,8 @@ const {getUser} = userStore
 getUser()
 
 if (!config.value.isAuth) {
-  const signURL = 'http://localhost/'
+  // const signURL = 'http://localhost/'
+  const signURL = 'https://account.webpilot.ai/'
 
   chrome.tabs.getCurrent(tab => {
     const tabId = tab.id
