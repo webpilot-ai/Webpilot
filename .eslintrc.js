@@ -7,6 +7,6 @@ module.exports = {
     project: ['./tsconfig.json'],
   },
   rules: {
-    'import/no-unresolved': [2, {ignore: ['data-url:']}],
+    'import/no-unresolved': [2, {ignore: ['data-url:', 'data-base64:']}],
   },
 }

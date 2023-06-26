@@ -38,7 +38,7 @@
       <!-- footer -->
       <div :class="index.footer">
         <span>{{ $gettext('Webpilot is open source') }}</span>
-        <a href="https://github.com/Fluentify-IO/Fluentify" rel="noreferrer" target="_blank">
+        <a href="https://github.com/webpilot-ai/Webpilot" rel="noreferrer" target="_blank">
           {{ $gettext('Star on Github') }}
         </a>
       </div>

@@ -160,11 +160,10 @@
 </template>
 
 <script setup>
+import WebpilotLogo from 'data-base64:~assets/icon.png'
+
 import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
-
-// eslint-disable-next-line import/no-unresolved
-import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
@@ -188,8 +187,7 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref(config.value.apiOrigin || 'general')
-// const selectedOption = ref('personal')
+const selectedOption = ref(config.value.apiOrigin)
 
 const saveAuthKey = ref(config.value.authKey)
 
@@ -198,7 +196,7 @@ const authKey = ref('')
 const authKeyPlaceHolder = ref('Enter your API Key from OpenAI')
 
 const updatePlaceHolder = () => {
-  const key = saveAuthKey.value === '' ? store.config.authKey : saveAuthKey.value
+  const key = saveAuthKey.value || store.config.authKey
 
   if (key === '' || !key) return 'Enter your API Key from OpenAI'
 
@@ -249,15 +247,9 @@ const alertInfo = computed(() => {
   }
 })
 
-// Model Type
-const llmModel = ref(config.value.model.model)
-
 // Self Host
 const isSelfHost = ref(!!config.value.selfHostUrl)
 const selfHostUrl = ref(config.value.selfHostUrl)
-
-const currentAuthKey = ref(config.value.authKey)
-const currentHostUrl = ref(config.value.selfHostUrl)
 
 const handleOptionChange = event => {
   const {value} = event.target
@@ -266,28 +258,14 @@ const handleOptionChange = event => {
 
   switch (value) {
     case 'general':
-      currentAuthKey.value = WEBPILOT_OPENAI.AUTH_KEY
-      currentHostUrl.value = WEBPILOT_OPENAI.HOST_URL
-      llmModel.value = WEBPILOT_OPENAI.MODEL
       getUsage()
       break
     default:
-      currentAuthKey.value = saveAuthKey.value
-      currentHostUrl.value = selfHostUrl.value
-      llmModel.value = 'gpt-3.5-turbo'
       break
   }
 }
 
 const save = async () => {
-  store.setConfig({
-    ...store.config,
-    model: {
-      ...store.config.model,
-      model: llmModel.value,
-    },
-  })
-
   if (
     selectedOption.value === store.config.apiOrigin &&
     saveAuthKey.value === store.config.authKey &&
@@ -296,21 +274,34 @@ const save = async () => {
     return
   }
 
+  const authKey = selectedOption.value === 'general' ? WEBPILOT_OPENAI.AUTH_KEY : saveAuthKey.value
+  const url = selectedOption.value === 'general' ? WEBPILOT_OPENAI.HOST_URL : selfHostUrl.value
+
   // Check Toekn validation
   await askAi({
-    authKey: saveAuthKey.value,
+    authKey,
     command: 'Say hi.',
-    url: selfHostUrl.value,
+    url,
   })
 
-  store.setConfig({
-    ...store.config,
-    apiOrigin: selectedOption.value,
-    isAuth: true,
-    authKey: saveAuthKey.value,
-    isFinishSetup: true,
-    selfHostUrl: selfHostUrl.value || '',
-  })
+  // 选择 Free API时，authKey 和 selfHostUrl 用于占位，不更新 store
+  if (selectedOption.value === 'general') {
+    store.setConfig({
+      ...store.config,
+      isAuth: true,
+      isFinishSetup: true,
+      apiOrigin: selectedOption,
+    })
+  } else {
+    store.setConfig({
+      ...store.config,
+      apiOrigin: selectedOption.value,
+      isAuth: true,
+      isFinishSetup: true,
+      authKey,
+      selfHostUrl: url,
+    })
+  }
 }
 
 const chekcCloseSelfHost = () => {
