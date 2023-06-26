@@ -2,7 +2,7 @@
   <div :class="advanced.main">
     <div :class="[advanced.api, advanced.panel]">
       <span :class="advanced.title">{{ $gettext('API Settings') }}</span>
-      <div :class="advanced.general">
+      <div :class="[advanced.general, selectedOption === 'general' ? advanced.active : '']">
         <!-- <div v-if="false" :class="advanced.general"> -->
         <div :class="advanced.radio">
           <input
@@ -15,12 +15,14 @@
           />
           <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
         </div>
-        <div v-if="selectedOption === 'general'">
-          <h4>Your Usage</h4>
-          <p>{{ usage.current }} / {{ usage.total }}</p>
+        <div :class="advanced.usage">
+          <div :class="[advanced.progressBar, selectedOption === 'general' ? advanced.active : '']">
+            <span :style="{width: usage.percent}"></span>
+          </div>
+          <p>{{ usage.current }} / {{ usage.total }} available</p>
         </div>
       </div>
-      <div :class="advanced.personal">
+      <div :class="[advanced.personal, selectedOption === 'personal' ? advanced.active : '']">
         <div :class="advanced.radio">
           <input
             id="option2"
@@ -181,6 +183,8 @@ const userStore = useUserStore()
 const {usage} = storeToRefs(userStore)
 const {getUsage} = userStore
 
+getUsage()
+
 const store = useStore()
 
 const {loading, success, error, askAi} = useAskAi()
@@ -256,13 +260,12 @@ const handleOptionChange = event => {
 
   selectedOption.value = value
 
-  switch (value) {
-    case 'general':
-      getUsage()
-      break
-    default:
-      break
-  }
+  // switch (value) {
+  //   case 'general':
+  //     break
+  //   default:
+  //     break
+  // }
 }
 
 const save = async () => {
@@ -425,6 +428,16 @@ const hideAlert = () => {
   min-height: 430px;
 }
 
+.general,
+.personal {
+  color: #585b58;
+}
+
+.active {
+  color: #292929;
+  opacity: 1;
+}
+
 .general {
   h4 {
     font-weight: 400;
@@ -450,6 +463,32 @@ const hideAlert = () => {
   label {
     font-size: 18px;
     cursor: pointer;
+  }
+}
+
+.usage {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 24px;
+  opacity: 0.7;
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.progressBar {
+  width: 300px;
+  height: 24px;
+  background: #edeff2;
+  border-radius: 20px;
+
+  span {
+    display: block;
+    height: 100%;
+    background: rgb(79 90 255 / 20%);
+    border-radius: 20px;
   }
 }
 
