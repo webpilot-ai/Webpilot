@@ -17,7 +17,10 @@
         </div>
         <div :class="advanced.usage">
           <div :class="[advanced.progressBar, selectedOption === 'general' ? advanced.active : '']">
-            <span :style="{width: usage.percent}"></span>
+            <span
+              :class="usage.percent === '100%' ? 'none' : ''"
+              :style="{width: usage.percent}"
+            ></span>
           </div>
           <p>{{ usage.current }} / {{ usage.total }} available</p>
           <Popper arrow :class="advanced.popper" hover>
@@ -490,6 +493,7 @@ const hideAlert = () => {
 }
 
 .progressBar {
+  position: relative;
   width: 300px;
   height: 24px;
   overflow: hidden;
@@ -501,6 +505,20 @@ const hideAlert = () => {
     height: 100%;
     background: rgb(79 90 255 / 20%);
     border-radius: 20px;
+  }
+
+  .none {
+    position: absolute;
+    top: 0;
+    right: 0; /* Adjust the ending position of the lines */
+    bottom: 0;
+    left: 10px; /* Adjust the starting position of the lines */
+    background: none;
+    background-image: linear-gradient(to right, rgb(146 148 151 / 20%) 1px, transparent 1px);
+    background-repeat: repeat-x;
+    background-size: 15px 100%; /* Adjust the width of each line */
+    transform: skew(-40deg);
+    content: '';
   }
 }
 
