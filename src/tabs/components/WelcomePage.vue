@@ -112,6 +112,11 @@ const checkAuthKey = async () => {
     selfHostUrl = WEBPILOT_OPENAI.HOST_URL
   }
 
+  await storeConfig.setConfig({
+    ...storeConfig.config,
+    apiOrigin: selectedOption,
+  })
+
   // check toekn and self host change
   // if (authKey === storeConfig.config.authKey && selfHostUrl === storeConfig.config.selfHostUrl) {
   //   stepIndex.value = 3
