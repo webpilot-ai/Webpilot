@@ -35,7 +35,7 @@
             :class="stepTwo.input"
             :placeholder="$gettext('Enter your API Key')"
             type="text"
-            @change="onChange"
+            @input="onChange"
           />
           <!-- <WebpilotAlert
             v-if="(error || success) && !isSelfHost"
@@ -126,9 +126,6 @@ const handleOptionChange = event => {
 }
 
 const onChange = () => {
-  if (selectedOption.value === 'general') {
-    return
-  }
   emits('update:modelValue', {
     authKey: authKey.value,
     selfHostUrl: selfHostUrl.value,

@@ -15,7 +15,7 @@
           />
           <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
         </div>
-        <div :class="advanced.usage">
+        <div v-if="usage.current > -1" :class="advanced.usage">
           <div :class="[advanced.progressBar, selectedOption === 'general' ? advanced.active : '']">
             <span
               :class="usage.percent === '100%' ? advanced.none : ''"
@@ -61,6 +61,7 @@
               type="text"
               @blur="onBlurSetAuthkey"
               @focus="onEditAuthKey"
+              @input="onChangeAuthkey"
             />
             <WebpilotAlert
               v-if="(error || success) && !isSelfHost"
@@ -234,7 +235,6 @@ updatePlaceHolder()
 const onEditAuthKey = () => {
   // use saved temp key first
   authKeyPlaceHolder.value = ''
-
   if (saveAuthKey.value !== '') {
     authKey.value = saveAuthKey.value
     return
@@ -245,11 +245,13 @@ const onEditAuthKey = () => {
   saveAuthKey.value = key
 }
 
+const onChangeAuthkey = () => {
+  saveAuthKey.value = authKey.value
+}
+
 const onBlurSetAuthkey = () => {
   // if (authKey.value !== '') {
-  saveAuthKey.value = authKey.value
   // }
-
   authKey.value = ''
   updatePlaceHolder()
 }

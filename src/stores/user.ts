@@ -6,7 +6,7 @@ import {getUser as getUserInfo, getAPIUsage} from '@/apiService'
 const useUserStore = defineStore('user', () => {
   const user = ref(null)
   const isSignedIn = ref(false)
-  const usage = ref({current: 0, total: 50, percent: '0'})
+  const usage = ref({current: -1, total: 50, percent: '0'})
 
   async function getUser() {
     const response = await getUserInfo()
