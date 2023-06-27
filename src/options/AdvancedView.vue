@@ -303,6 +303,11 @@ const save = async () => {
     return
   }
 
+  await store.setConfig({
+    ...store.config,
+    apiOrigin: selectedOption.value,
+  })
+
   const authKey = selectedOption.value === 'general' ? WEBPILOT_OPENAI.AUTH_KEY : saveAuthKey.value
   const url = selectedOption.value === 'general' ? WEBPILOT_OPENAI.HOST_URL : selfHostUrl.value
 
