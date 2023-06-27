@@ -40,6 +40,9 @@
               @click="handleNextBtn"
             />
           </div>
+          <div :class="setup.warn">
+            <WebpilotAlert v-if="showWarn" :tips="errorMessage" :type="'error'" />
+          </div>
         </div>
       </div>
       <div :class="setup.githubInfo">
@@ -54,7 +57,9 @@
 import '@assets/styles/reset.scss'
 
 import {ref, computed} from 'vue'
-import {useToast} from 'vue-toast-notification'
+// import {useToast} from 'vue-toast-notification'
+// import 'vue-toast-notification/dist/theme-sugar.css'
+// import 'vue-toast-notification/dist/theme-bootstrap.css'
 
 import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
@@ -62,6 +67,7 @@ import {WEBPILOT_OPENAI} from '@/config'
 
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
+import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import useAskAi from '@/hooks/useAskAi'
 
 // import StepOne from './StepOne.vue'
@@ -70,15 +76,16 @@ import StepThree from './StepThree.vue'
 import StepFour from './StepFour.vue'
 
 const steps = [1, 2, 3, 4]
+const showWarn = ref(false)
 
 const userStore = useUserStore()
 const {getUser} = userStore
 getUser()
 
-const toast = useToast()
+// const toast = useToast()
 const storeConfig = useStore()
 
-const {loading, askAi} = useAskAi()
+const {loading, askAi, errorMessage} = useAskAi()
 
 /** Step Index */
 const stepIndex = ref(2)
@@ -136,19 +143,35 @@ const checkAuthKey = async () => {
         selfHostUrl,
       })
     }
+    stepIndex.value = 3
   } catch (error) {
-    toast.open({
-      message: 'Incorrect API Key. Please check with the provider',
-      type: 'error',
-      position: 'top',
-    })
+    showWarn.value = true
+
+    if (error?.response?.status === 402) {
+      storeConfig.setConfig({
+        ...storeConfig.config,
+        isAuth: true,
+        isFinishSetup: true,
+      })
+
+      setTimeout(() => {
+        stepIndex.value = 3
+        showWarn.value = false
+      }, 600)
+    }
+
+    // toast.open({
+    //   message: 'Incorrect API Key. Please check with the provider',
+    //   type: 'error',
+    //   position: 'top',
+    // })
   }
 }
 
 const handleNextBtn = async () => {
   if (stepIndex.value === 2) {
     await checkAuthKey()
-    stepIndex.value++
+    // stepIndex.value++
   } else if (stepIndex.value === 3) {
     stepIndex.value++
   } else if (stepIndex.value === 4) {
@@ -303,6 +326,10 @@ const handleGoBackBtn = () => {
   button:nth-child(2) {
     margin-left: 8px;
   }
+}
+
+.warn {
+  margin-top: 20px;
 }
 
 .githubInfo {
