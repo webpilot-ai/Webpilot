@@ -22,11 +22,11 @@ const getPrompt = (referenceText, command, isAskPage = true) => {
   return [
     {
       role: 'assistant',
-      content: `f"For your next input, I will do without any explanation: {${command}}"`,
+      content: `For your next input, I will do without any explanation: ${command}`,
     },
     {
       role: 'user',
-      content: `f"{${referenceText}}"`,
+      content: `${referenceText}`,
     },
   ]
 }
