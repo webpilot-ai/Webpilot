@@ -17,9 +17,9 @@ export async function askOpenAI({authKey, model, message, baseURL = null} = {}) 
   requestModel.messages = message
   requestModel.stream = true
 
-  const prefixURL = baseURL || OPENAI_BASE_URL
+  let prefixURL = baseURL || OPENAI_BASE_URL
   if (prefixURL.endsWith('/')) {
-    prefixURL.substring(0, prefixURL.length - 1)
+    prefixURL = prefixURL.substring(0, prefixURL.length - 1)
   }
   const url = `${prefixURL}${API_PATH}`
 
