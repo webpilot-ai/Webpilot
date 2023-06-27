@@ -65,7 +65,6 @@
             <WebpilotAlert
               v-if="(error || success) && !isSelfHost"
               :auto-hide="true"
-              style="margin-top: 8px"
               :tips="alertInfo.tips"
               :type="alertInfo.type"
               @on-hide="hideAlert"
@@ -306,30 +305,32 @@ const save = async () => {
   const url = selectedOption.value === 'general' ? WEBPILOT_OPENAI.HOST_URL : selfHostUrl.value
 
   // Check Toekn validation
-  await askAi({
-    authKey,
-    command: 'Say hi.',
-    url,
-  })
-
-  // 选择 Free API时，authKey 和 selfHostUrl 用于占位，不更新 store
-  if (selectedOption.value === 'general') {
-    store.setConfig({
-      ...store.config,
-      isAuth: true,
-      isFinishSetup: true,
-      apiOrigin: selectedOption.value,
-    })
-  } else {
-    store.setConfig({
-      ...store.config,
-      apiOrigin: selectedOption.value,
-      isAuth: true,
-      isFinishSetup: true,
+  try {
+    await askAi({
       authKey,
-      selfHostUrl: url,
+      command: 'Say hi.',
+      url,
     })
-  }
+
+    // 选择 Free API时，authKey 和 selfHostUrl 用于占位，不更新 store
+    if (selectedOption.value === 'general') {
+      store.setConfig({
+        ...store.config,
+        isAuth: true,
+        isFinishSetup: true,
+        apiOrigin: selectedOption.value,
+      })
+    } else {
+      store.setConfig({
+        ...store.config,
+        apiOrigin: selectedOption.value,
+        isAuth: true,
+        isFinishSetup: true,
+        authKey,
+        selfHostUrl: url,
+      })
+    }
+  } catch (error) {}
 }
 
 const chekcCloseSelfHost = () => {
@@ -454,22 +455,23 @@ const hideAlert = () => {
   min-height: 430px;
 }
 
-.general,
-.personal {
-  color: #585b58;
-}
-
-.active {
-  color: #292929;
-  opacity: 1;
-}
-
 .general {
+  color: #585b58;
+
   h4 {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
   }
+}
+
+.personal {
+  margin: 0 0 10px;
+}
+
+.active {
+  color: #292929;
+  opacity: 1;
 }
 
 .radio {

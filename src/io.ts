@@ -28,6 +28,11 @@ export async function askOpenAI({authKey, model, message, baseURL = null} = {}) 
 
   const key = authKey === WEBPILOT_OPENAI.AUTH_KEY ? webpilotKey : authKey
 
+  // const error = new Error()
+  // error.response = {status: 402}
+  // throw error
+  // return
+
   return fetch(url, {
     method: 'POST',
     headers: {

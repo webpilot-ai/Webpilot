@@ -1,5 +1,5 @@
 <template>
-  <div v-if="config.isAuth" :class="index.container">
+  <div v-if="config.isFinishSetup" :class="index.container">
     <div :class="index.main">
       <!-- header -->
       <div :class="index.header">
@@ -68,7 +68,7 @@ const userStore = useUserStore()
 const {getUser} = userStore
 getUser()
 
-if (!config.value.isAuth) {
+if (!config.value.isFinishSetup) {
   // const signURL = 'http://localhost/'
   const signURL = 'https://account.webpilot.ai/'
 

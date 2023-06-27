@@ -104,6 +104,7 @@ export default function useAskAi() {
           store.setConfig({
             ...store.config,
             authKey: '',
+            selfHostUrl: '',
             isAuth: false,
           })
 
