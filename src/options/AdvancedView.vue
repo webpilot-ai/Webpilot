@@ -32,7 +32,7 @@
             </template>
           </Popper>
         </div>
-        <div v-if="usage.percent !== '100%'" :class="advanced.limited">
+        <div v-if="usage.percent === '100%'" :class="advanced.limited">
           <WebpilotAlert :tips="'Used up all free API calls'" :type="'error'" />
           <a @click="onChangePlan">Switch to use own API</a>
         </div>
