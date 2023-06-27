@@ -32,6 +32,10 @@
             </template>
           </Popper>
         </div>
+        <div v-if="usage.percent !== '100%'" :class="advanced.limited">
+          <WebpilotAlert :tips="'Used up all free API calls'" :type="'error'" />
+          <a @click="onChangePlan">Switch to use own API</a>
+        </div>
       </div>
       <div :class="[advanced.personal, selectedOption === 'personal' ? advanced.active : '']">
         <div :class="advanced.radio">
@@ -285,6 +289,10 @@ const handleOptionChange = event => {
   // }
 }
 
+const onChangePlan = () => {
+  selectedOption.value = 'personal'
+}
+
 const save = async () => {
   if (
     selectedOption.value === store.config.apiOrigin &&
@@ -488,6 +496,7 @@ const hideAlert = () => {
   display: flex;
   gap: 8px;
   align-items: center;
+  margin-bottom: 6px;
   padding: 0 24px;
   opacity: 0.7;
 
@@ -523,6 +532,22 @@ const hideAlert = () => {
     background-size: 15px 100%; /* Adjust the width of each line */
     transform: skew(-40deg);
     content: '';
+  }
+}
+
+.limited {
+  display: flex;
+  padding: 0 24px;
+  font-weight: 500;
+
+  a {
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    color: #4f5aff;
+    text-decoration: underline;
+    background: linear-gradient(0deg, rgb(79 90 255 / 10%), rgb(79 90 255 / 10%)), #fff;
+    cursor: pointer;
   }
 }
 
