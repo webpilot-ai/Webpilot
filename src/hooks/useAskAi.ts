@@ -6,15 +6,27 @@ import {askOpenAI, parseStream} from '@/io'
 
 import {$gettext} from '@/utils/i18n'
 
-const getPrompt = (referenceText, command) => {
+const getPrompt = (referenceText, command, isAskPage = true) => {
+  if (isAskPage) {
+    return [
+      {
+        role: 'assistant',
+        content: referenceText,
+      },
+      {
+        role: 'user',
+        content: command,
+      },
+    ]
+  }
   return [
     {
       role: 'assistant',
-      content: referenceText,
+      content: `f"For your next input, I will do without any explanation: {${command}}"`,
     },
     {
       role: 'user',
-      content: command,
+      content: `f"{${referenceText}}"`,
     },
   ]
 }
@@ -54,7 +66,7 @@ export default function useAskAi() {
 
     let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
-    const message = getPrompt(text, command)
+    const message = getPrompt(text, command, isAskPage)
 
     loading.value = true
     generating.value = true
