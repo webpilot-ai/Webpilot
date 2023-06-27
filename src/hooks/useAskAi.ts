@@ -85,6 +85,10 @@ export default function useAskAi() {
     if (store.config.apiOrigin === 'general') {
       storeAuthKey = WEBPILOT_OPENAI.AUTH_KEY
       storeHostUrl = WEBPILOT_OPENAI.HOST_URL
+    } else {
+      if (storeHostUrl === WEBPILOT_OPENAI.HOST_URL) {
+        storeHostUrl = ''
+      }
     }
 
     return askOpenAI({

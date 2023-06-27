@@ -328,8 +328,8 @@ const save = async () => {
         apiOrigin: selectedOption.value,
         isAuth: true,
         isFinishSetup: true,
-        authKey,
-        selfHostUrl: url,
+        authKey: saveAuthKey.value,
+        selfHostUrl: selfHostUrl.value,
       })
     }
   } catch (error) {}
