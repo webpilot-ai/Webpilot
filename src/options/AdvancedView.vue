@@ -106,7 +106,7 @@
       </div>
       <WebpilotButton
         :auto-hide="true"
-        :disalbed="selectedOption === 'personal' && authKey === ''"
+        :disalbed="selectedOption === 'personal' && saveAuthKey === ''"
         :loading="loading"
         style="width: 143px; margin-top: auto"
         :value="$gettext('Save Changes')"
@@ -205,7 +205,7 @@ const {loading, success, error, askAi} = useAskAi()
 
 const {config} = storeToRefs(store)
 
-const selectedOption = ref(config.value.apiOrigin || 'general')
+const selectedOption = ref(config.value.apiOrigin)
 
 const saveAuthKey = ref(config.value.authKey)
 
@@ -214,9 +214,12 @@ const authKey = ref('')
 const authKeyPlaceHolder = ref('Enter your API Key from OpenAI')
 
 const updatePlaceHolder = () => {
-  const key = saveAuthKey.value || store.config.authKey
+  const key = saveAuthKey.value
 
-  if (key === '' || !key) return 'Enter your API Key from OpenAI'
+  if (key === '' || !key) {
+    authKeyPlaceHolder.value = 'Enter your API Key from OpenAI'
+    return 'Enter your API Key from OpenAI'
+  }
 
   const startText = key.substring(0, 3)
   const endText = key.substring(key.length - 4, key.length)
@@ -240,9 +243,9 @@ const onEditAuthKey = () => {
 }
 
 const onBlurSetAuthkey = () => {
-  if (authKey.value !== '') {
-    saveAuthKey.value = authKey.value
-  }
+  // if (authKey.value !== '') {
+  saveAuthKey.value = authKey.value
+  // }
 
   authKey.value = ''
   updatePlaceHolder()
@@ -307,7 +310,7 @@ const save = async () => {
       ...store.config,
       isAuth: true,
       isFinishSetup: true,
-      apiOrigin: selectedOption,
+      apiOrigin: selectedOption.value,
     })
   } else {
     store.setConfig({
@@ -396,7 +399,8 @@ const hideAlert = () => {
     margin-top: 8px;
     margin-bottom: 12px;
     padding-left: 8px;
-    color: #929497;
+
+    /* color: #929497; */
     font-size: 14px;
     line-height: 20px;
     border: 1px solid #dcdee1;
@@ -528,7 +532,7 @@ const hideAlert = () => {
 }
 
 .haveAuthKey::placeholder {
-  color: #292929;
+  color: #929497;
 }
 
 .host {

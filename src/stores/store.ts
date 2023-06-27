@@ -20,6 +20,10 @@ const useStore = defineStore('store', () => {
     const storedConfig = await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)
     if (storedConfig && typeof storedConfig === 'object') {
       config.value = storedConfig
+      // 对于保存了 key 的老用户，手动设置 apiOrigin
+      if (storedConfig.apiOrigin === undefined) {
+        config.value.apiOrigin = 'personal'
+      }
     }
   }
 

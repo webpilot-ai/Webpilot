@@ -87,7 +87,7 @@ const stepIndex = ref(2)
 const authInfo = ref({
   authKey: storeConfig.config.authKey,
   selfHostUrl: storeConfig.config.selfHostUrl,
-  selectedOption: storeConfig.config.apiOrigin || 'general',
+  selectedOption: storeConfig.config.apiOrigin,
 })
 
 const buttonDisabled = computed(() => {

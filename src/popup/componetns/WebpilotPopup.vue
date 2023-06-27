@@ -37,7 +37,7 @@ const store = useStore()
 
 onBeforeMount(async () => {
   // check welcode guide
-  if (!store.config.isFinishSetup) {
+  if (!store.config.isFinishSetup || !store.config.isAuth) {
     const [tab] = await chrome.tabs.query({
       active: true,
       currentWindow: true,
@@ -63,12 +63,13 @@ onBeforeMount(async () => {
     return
   }
 
+  // options 页面会判断 isAuth，这里逻辑无效了
   // check auth state
-  if (!store.config.isAuth) {
-    sendToBackground({name: 'openSetting'})
-    closeWindow()
-    return
-  }
+  // if (!store.config.isAuth) {
+  //   sendToBackground({name: 'openSetting'})
+  //   closeWindow()
+  //   return
+  // }
 
   // check current page
   const isKeepOpen = await sendToBackground({

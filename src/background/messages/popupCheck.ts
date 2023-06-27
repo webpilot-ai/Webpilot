@@ -5,7 +5,7 @@ import {MESSAGING_EVENT} from '@/config'
 const handler = async (req, res) => {
   const queryOptions = {active: true, currentWindow: true}
   const [tab] = await chrome.tabs.query(queryOptions)
-  const {url} = tab
+  const url = tab?.url
 
   let keepPopupOpen = true
 
