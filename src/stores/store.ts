@@ -2,7 +2,7 @@ import {ref} from 'vue'
 import {defineStore} from 'pinia'
 import {Storage} from '@plasmohq/storage'
 
-import {WEBPILOT_CONFIG_STORAGE_KEY, defaultConfig} from '@/config'
+import {WEBPILOT_CONFIG_STORAGE_KEY, defaultConfig, WEBPILOT_OPENAI} from '@/config'
 
 const useStore = defineStore('store', () => {
   const storage = new Storage()
@@ -20,9 +20,13 @@ const useStore = defineStore('store', () => {
     const storedConfig = await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)
     if (storedConfig && typeof storedConfig === 'object') {
       config.value = storedConfig
-      // 对于保存了 key 的老用户，手动设置 apiOrigin
-      if (storedConfig.apiOrigin === undefined) {
+
+      // 对于保存了 key 的老用户，进行部分数据修正
+      if (config.value.apiOrigin === undefined) {
         config.value.apiOrigin = 'personal'
+      }
+      if (config.value.selfHostUrl === WEBPILOT_OPENAI.HOST_URL) {
+        config.value.selfHostUrl = ''
       }
     }
   }

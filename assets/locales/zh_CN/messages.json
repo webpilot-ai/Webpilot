@@ -68,9 +68,6 @@
   "New_tab_and_blank_pages": {
     "message": "新标签页和空白页"
   },
-  "OpenAI_Default_": {
-    "message": "OpenAI（默认）"
-  },
   "Opensource_AI_Assistant_On_All_Websites": {
     "message": "Opensource AI Assistant On All Websites"
   },
@@ -112,6 +109,12 @@
   },
   "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
     "message": "打开这个链接后，点击 “Create new secret key”，以获取你的Key."
+  },
+  "Use_my_OpenAI_API_key": {
+    "message": "使用我自己的 OpenAI API key"
+  },
+  "Use_WebPilot_free_credit": {
+    "message": "使用 WebPilot 提供的免费额度"
   },
   "Using_WebPilot": {
     "message": "使用WebPilot"

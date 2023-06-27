@@ -13,7 +13,7 @@
             value="general"
             @change="handleOptionChange"
           />
-          <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
+          <label for="option1">{{ $gettext('Use WebPilot free credit') }}</label>
         </div>
         <div v-if="usage.current > -1" :class="advanced.usage">
           <div :class="[advanced.progressBar, selectedOption === 'general' ? advanced.active : '']">
@@ -22,7 +22,7 @@
               :style="{width: usage.percent}"
             ></span>
           </div>
-          <p>{{ usage.current }} / {{ usage.total }} available</p>
+          <p>{{ usage.current }} / {{ usage.total }} used</p>
           <Popper arrow :class="advanced.popper" hover>
             <span :class="advanced.help">?</span>
             <template #content>
@@ -47,7 +47,7 @@
             value="personal"
             @change="handleOptionChange"
           />
-          <label for="option2">Set up your OpenAI API</label>
+          <label for="option2">{{ $gettext('Use my OpenAI API key') }}</label>
         </div>
         <div v-if="selectedOption === 'personal'">
           <div :class="advanced.apiItem">

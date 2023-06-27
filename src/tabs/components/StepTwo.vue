@@ -12,7 +12,7 @@
           value="general"
           @change="handleOptionChange"
         />
-        <label for="option1">Use Free OpenAI GPT API from Webpilot</label>
+        <label for="option1">{{ $gettext('Use WebPilot free credit') }}</label>
       </div>
       <p v-if="selectedOption === 'general'">Use Webpilot API for FREE up to 50 times/week</p>
     </div>
@@ -26,7 +26,7 @@
           value="personal"
           @change="handleOptionChange"
         />
-        <label for="option2">{{ $gettext('OpenAI(Default)') }}</label>
+        <label for="option2">{{ $gettext('Use my OpenAI API key') }}</label>
       </div>
       <div>
         <div v-if="selectedOption === 'personal'" :class="stepTwo.apiItem">

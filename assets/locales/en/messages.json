@@ -68,9 +68,6 @@
   "New_tab_and_blank_pages": {
     "message": "New tab and blank pages"
   },
-  "OpenAI_Default_": {
-    "message": "OpenAI(Default)"
-  },
   "Opensource_AI_Assistant_On_All_Websites": {
     "message": "Opensource AI Assistant On All Websites"
   },
@@ -112,6 +109,12 @@
   },
   "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
     "message": "To get it, open this link and click “Create new secret key”."
+  },
+  "Use_my_OpenAI_API_key": {
+    "message": "Use my OpenAI API key"
+  },
+  "Use_WebPilot_free_credit": {
+    "message": "Use WebPilot free credit"
   },
   "Using_WebPilot": {
     "message": "Using WebPilot"
