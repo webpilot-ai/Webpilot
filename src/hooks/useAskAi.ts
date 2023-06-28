@@ -117,12 +117,14 @@ export default function useAskAi() {
         if (err.response && err.response.status === 401) {
           errorMessage.value = err.response?.data?.error?.message
 
-          store.setConfig({
-            ...store.config,
-            authKey: '',
-            selfHostUrl: '',
-            isAuth: false,
-          })
+          if (store.config.apiOrigin !== 'general') {
+            store.setConfig({
+              ...store.config,
+              authKey: '',
+              selfHostUrl: '',
+              isAuth: false,
+            })
+          }
 
           throw err
         } else if (err.response && err.response.status === 402) {
