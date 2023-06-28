@@ -150,6 +150,16 @@ const checkAuthKey = async () => {
     }
     stepIndex.value = 3
   } catch (error) {
+    if (selectedOption === 'general' && error?.response?.status === 401) {
+      const signURL = 'https://account.webpilot.ai/'
+
+      chrome.tabs.getCurrent(tab => {
+        const tabId = tab.id
+        chrome.tabs.update(tabId, {url: signURL})
+      })
+      return
+    }
+
     showWarn.value = true
 
     if (error?.response?.status === 402) {

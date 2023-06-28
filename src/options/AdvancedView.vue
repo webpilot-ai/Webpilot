@@ -337,7 +337,16 @@ const save = async () => {
         selfHostUrl: selfHostUrl.value,
       })
     }
-  } catch (error) {}
+  } catch (error) {
+    if (selectedOption.value === 'general' && error?.response?.status === 401) {
+      const signURL = 'https://account.webpilot.ai/'
+
+      chrome.tabs.getCurrent(tab => {
+        const tabId = tab.id
+        chrome.tabs.update(tabId, {url: signURL})
+      })
+    }
+  }
 }
 
 const chekcCloseSelfHost = () => {
