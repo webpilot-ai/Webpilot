@@ -8,6 +8,10 @@
       <section :class="$style.tips" @click="showShareInfo">
         Amazing Webpilot, telling friends!
       </section>
+      <section v-if="isCopied" :class="$style.copySuccess">
+        <IconCheckmark></IconCheckmark>
+        {{ copyResult }}
+      </section>
       <WebpilotButton :class="$style.copyBtn" value="COPY" @click="handleCopy" />
     </section>
   </section>
@@ -17,17 +21,20 @@
 import {ref, watch, computed} from 'vue'
 
 import copyToClipboard from 'copy-to-clipboard'
-import {useToast} from 'vue-toast-notification'
+// import {useToast} from 'vue-toast-notification'
 import Markdown from 'vue3-markdown-it'
 // eslint-disable-next-line import/no-unresolved
 import 'highlight.js/styles/monokai.css'
 
 import WebpilotButton from './WebpilotButton.vue'
+import IconCheckmark from './icon/IconCheckmark.vue'
 
 const refMarkdown = ref(null)
 const isAutoScroll = ref(true)
+const isCopied = ref(false)
+const copyResult = ref('')
 
-const toast = useToast()
+// const toast = useToast()
 
 const props = defineProps({
   modelValue: {
@@ -93,11 +100,23 @@ watch(result, () => {
 const handleCopy = () => {
   const text = props.modelValue
   const isSuccessCopy = copyToClipboard(text)
-  toast.open({
-    message: isSuccessCopy ? 'Copy success!' : 'Copy Failed',
-    type: isSuccessCopy ? 'success' : 'error',
-    position: 'top',
-  })
+
+  isCopied.value = true
+  setTimeout(() => {
+    isCopied.value = false
+  }, 3000)
+
+  if (isSuccessCopy) {
+    copyResult.value = 'Copied'
+  } else {
+    copyResult.value = 'Copy Failed'
+  }
+
+  // toast.open({
+  //   message: isSuccessCopy ? 'Copy success!' : 'Copy Failed',
+  //   type: isSuccessCopy ? 'success' : 'error',
+  //   position: 'top',
+  // })
 }
 </script>
 
@@ -161,6 +180,7 @@ const handleCopy = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   margin-top: 8px !important;
 }
@@ -176,7 +196,19 @@ const handleCopy = () => {
   text-decoration-line: underline;
 }
 
-.copyBtn {
-  margin-left: auto !important;
+.copySuccess {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: 0 8px 0 auto;
+  color: #292929;
+  font-weight: 600;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    background: #318619;
+    border-radius: 50%;
+  }
 }
 </style>
