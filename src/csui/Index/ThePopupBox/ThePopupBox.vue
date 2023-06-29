@@ -83,12 +83,20 @@ const selectedPrompt = reactive({
 })
 
 // keyboard
-const {Escape} = useMagicKeys()
-watch(Escape, v => {
-  if (v) {
-    emits('closePopup')
-  }
+useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.key === 'Escape') {
+      emits('closePopup')
+    }
+  },
 })
+
+// watch(Escape, v => {
+//   if (v) {
+//     emits('closePopup')
+//   }
+// })
 
 const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
 

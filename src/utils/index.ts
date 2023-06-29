@@ -23,15 +23,15 @@ export function getOS() {
 
 export function formatShortcut(keys) {
   let keyList = keys
-  const isMac = getOS() === 'Mac OS'
 
   keyList = keyList.map(item => {
-    if (item === 'Control') return isMac ? 'Cmd' : 'Ctrl'
-    if (item === 'Meta') return '⌘'
+    if (item === 'Control') return 'Ctrl'
+    if (item === 'Meta') return 'Cmd'
+    // if (item === 'Meta') return '⌘'
     return item.length === 1 ? item.toUpperCase() : item
   })
 
-  return keyList.join('+')
+  return keyList.join(' + ')
 }
 
 export function getRectFromInputAndTextarea(target) {
