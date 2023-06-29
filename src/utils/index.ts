@@ -1,5 +1,5 @@
 export function getOS() {
-  const {userAgent, platform} = window.navigator
+  const {userAgent, platform} = global.navigator
   const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K']
   const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
   const iosPlatforms = ['iPhone', 'iPad', 'iPod']

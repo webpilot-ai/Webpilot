@@ -7,7 +7,7 @@
       top: `${tailPosition.y}px`,
       left: `${tailPosition.x}px`,
     }"
-    @mouseover="handleMouseOverTail"
+    @click="handleMouseOverTail"
   >
     <img :class="$style.webpilotLogo" :src="WebpilotLogo" />
     <span>{{ shortcutText }}</span>
@@ -243,18 +243,29 @@ const shortcutText = computed(() => {
   height: 28px;
   padding: 6px 4px;
   padding-right: 6px;
-  color: #292929;
+  color: #292922;
   font-weight: 500;
   font-size: 12px;
-  line-height: 17px;
+  border: 1px solid rgb(79 90 255 / 10%);
+
+  /* line-height: 17px; */
   border-radius: 10px;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+  box-shadow: 0 5px 15px 0 rgb(0 0 0 / 8%), 0 2px 4px 0 rgb(0 0 0 / 11%);
   cursor: pointer;
 
   img {
     width: 16px;
     height: 16px;
     margin-right: 2px;
+  }
+}
+
+.webpilotTail:hover {
+  color: #4f5aff;
+
+  img {
+    background-color: rgb(79 90 255 / 20%);
+    border-radius: 3px;
   }
 }
 
