@@ -100,11 +100,11 @@ const handleSend = () => {
 
 .input {
   flex: 1;
-  height: 20px;
-  font-weight: 400;
+  height: 20px !important;
+  font-weight: 400 !important;
   font-size: 14px !important;
-  font-style: normal;
-  line-height: 20px;
+  font-style: normal !important;
+  line-height: 20px !important;
   border: none !important;
 
   &::placeholder {
