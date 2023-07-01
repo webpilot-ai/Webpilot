@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.wrap">
     <h3>Pin Webpilot for easy access</h3>
-    <div :class="$style.guide">Click <IconJigsaw />and ping Webpilot to your nav bar</div>
+    <div :class="$style.guide">Click <IconJigsaw />and pin Webpilot to your nav bar</div>
     <IllustrationPinGuide />
   </div>
 </template>
