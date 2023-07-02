@@ -262,6 +262,7 @@ const shortcutText = computed(() => {
   display: block;
   width: 24px;
   height: 24px;
+  background-color: #fff;
 }
 
 .dragHandle {

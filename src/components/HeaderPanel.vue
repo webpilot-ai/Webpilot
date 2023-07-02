@@ -69,6 +69,7 @@ const closePopup = () => {
   width: 16px;
   height: 16px;
   margin-right: 8px;
+  background-color: #fff;
 }
 
 .icon {
