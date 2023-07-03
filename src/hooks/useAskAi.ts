@@ -1,4 +1,5 @@
 import {ref, toRaw} from 'vue'
+import pangu from 'pangu'
 
 import useStore from '@/stores/store'
 import {WEBPILOT_OPENAI} from '@/config'
@@ -101,7 +102,7 @@ export default function useAskAi() {
         loading.value = false
         success.value = true
         parseStream(streamReader, reqResult => {
-          result.value = reqResult.text
+          result.value = pangu.spacing(reqResult.text)
           done.value = reqResult.done
           if (done.value) {
             generating.value = false

@@ -3,7 +3,7 @@
     "message": "Web copilot for all，免费且开源，贼好用！"
   },
   "_to_use_WebPilot_on_any_website_": {
-    "message": "，即可在任何网站上使用WebPilot。"
+    "message": "，即可在任何网站上使用 WebPilot。"
   },
   "About": {
     "message": "About"
@@ -30,7 +30,7 @@
     "message": "选择服务"
   },
   "Chrome_s_Settings__History__and_Web_Store_pages": {
-    "message": "Chrome的设置、历史记录和Web商店页面"
+    "message": "Chrome 的设置、历史记录和 Web 商店页面"
   },
   "Current_Webpage_Not_Supported": {
     "message": "当前网页不支持"
@@ -42,7 +42,7 @@
     "message": "Display Webpilot"
   },
   "Due_to_Chrome_s_constraints__Webpilot_cannot_be_activated_on_the_following_webpages_": {
-    "message": "由于Chrome的限制，Webpilot无法在以下网页上启动："
+    "message": "由于 Chrome 的限制，Webpilot 无法在以下网页上启动："
   },
   "Enter_your_API_Key": {
     "message": "输入你的 API Key"
@@ -51,7 +51,7 @@
     "message": "Extension Settings"
   },
   "Free_usage_for_this_week_has_been_exhausted__50_times_week___You_can_input_your_OpenAI_API_Key_in_the_settings_page_for_unlimited_use__or_wait_for_the_quota_refresh_at_0_00_UTC_0_on_Monday_": {
-    "message": "本周免费额度已用尽（50次/周）。您可在设置页面填写自己的 OpenAI API Key 以实现无限使用，或等待周一UTC+0 0:00刷新额度。"
+    "message": "本周免费额度已用尽（50 次/周）。您可在设置页面填写自己的 OpenAI API Key 以实现无限使用，或等待周一 UTC+0 0:00 刷新额度。"
   },
   "How_to_self_host_API_": {
     "message": "How to self host API?"
@@ -93,7 +93,7 @@
     "message": "Self Host"
   },
   "Show_WebPilot_icon_when_selecting_text": {
-    "message": "选择文本时显示WebPilot图标"
+    "message": "选择文本时显示 WebPilot 图标"
   },
   "Side_Bar": {
     "message": "Side Bar"
@@ -108,7 +108,7 @@
     "message": "概括主要内容"
   },
   "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
-    "message": "打开这个链接后，点击 “Create new secret key”，以获取你的Key."
+    "message": "打开这个链接后，点击 “Create new secret key”，以获取你的 Key."
   },
   "Use_my_OpenAI_API_key": {
     "message": "使用我自己的 OpenAI API key"
@@ -117,7 +117,7 @@
     "message": "使用 WebPilot 提供的免费额度"
   },
   "Using_WebPilot": {
-    "message": "使用WebPilot"
+    "message": "使用 WebPilot"
   },
   "Webpilot_is_open_source": {
     "message": "Webpilot is open source"
