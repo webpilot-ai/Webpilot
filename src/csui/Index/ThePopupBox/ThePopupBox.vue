@@ -123,18 +123,67 @@ watch(
 
 const showError = ref(false)
 
+const getPageContent = () => {
+  const cloneNode = document.cloneNode(true)
+  return new Readability(cloneNode).parse().textContent
+}
+
+const getPageMeta = () => {
+  const meta = {}
+  let cnt = 0
+
+  function processMetaElement(element) {
+    const name = element.getAttribute('name')
+    const property = element.getAttribute('property')
+    const content = element.getAttribute('content')
+
+    if (content) {
+      if (property) {
+        if (property.startsWith('og:image')) {
+          return true
+        }
+        if (property.startsWith('og:')) {
+          meta[property] = content
+          cnt += 1
+          return true
+        }
+      }
+      if (name) {
+        if (name.startsWith('article:')) {
+          meta[name] = content
+          cnt += 1
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  const metaElements = document.querySelectorAll('meta')
+  for (let i = 0; i < metaElements.length; i++) {
+    processMetaElement(metaElements[i])
+    if (cnt > 2) {
+      break
+    }
+  }
+
+  return meta
+}
+
+const getPageReference = () => {
+  const content = getPageContent()
+  const meta = getPageMeta()
+
+  return {content, meta}
+}
+
 const popUpAskIA = async () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
 
-  let article = ''
-  if (props.isAskPage) {
-    const cloneNode = document.cloneNode(true)
-    article = new Readability(cloneNode).parse()
-  }
-
   try {
     await askAi({
-      referenceText: props.isAskPage ? article.textContent : store.selectedText,
+      referenceText: props.isAskPage ? getPageReference() : store.selectedText,
       command,
       isAskPage: props.isAskPage,
     })

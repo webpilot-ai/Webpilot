@@ -12,12 +12,15 @@ const getPrompt = (referenceText, command, isAskPage = true) => {
   if (isAskPage) {
     return [
       {
-        role: 'assistant',
-        content: referenceText,
+        role: 'system',
+        content: `Please refer to the provided webpage to answer the questions. The webpage contains content and metadata, which can be identified by the markers "Content:" and "Meta:". The metadata adheres to The Open Graph protocol guidelines.`,
       },
       {
         role: 'user',
-        content: command,
+        content: `Question: ${command}
+
+        Content: ${referenceText.content}
+        Meta: ${JSON.stringify(referenceText.meta)}`,
       },
     ]
   }
@@ -28,7 +31,7 @@ const getPrompt = (referenceText, command, isAskPage = true) => {
     },
     {
       role: 'user',
-      content: `${referenceText}`,
+      content: referenceText.trim(),
     },
   ]
 }
@@ -67,9 +70,9 @@ export default function useAskAi() {
 
     if (!referenceText && !command) return askOpenAI()
 
-    let text = referenceText === '' ? store.selectedText : referenceText
-    text = text.trim()
+    const text = referenceText || store.selectedText
     const message = getPrompt(text, command, isAskPage)
+
     const currentConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || store.config
 
     loading.value = true
