@@ -1,7 +1,6 @@
 import {$gettext} from './utils/i18n'
-import {getOS} from './utils/index'
-
-const customShortcut = getOS() === 'Mac OS' ? ['Meta', '`'] : ['Control', '`']
+// import {getOS} from './utils/index'
+// const customShortcut = getOS() === 'Mac OS' ? ['Meta', '`'] : ['Control', '`']
 
 export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 
@@ -23,7 +22,7 @@ export const defaultConfig = {
   /** Self host url */
   selfHostUrl: '',
   /** Custom shortcut for show popup (akspage) */
-  customShortcut,
+  customShortcut: ['Control', '`'],
   /** Chose display mode
    * popUp
    * sideBar */
