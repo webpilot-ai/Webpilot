@@ -12,15 +12,15 @@ const getPrompt = (referenceText, command, isAskPage = true) => {
   if (isAskPage) {
     return [
       {
-        role: 'system',
-        content: `Please refer to the provided webpage to answer the questions. The webpage contains content and metadata, which can be identified by the markers "Content:" and "Meta:". The metadata adheres to The Open Graph protocol guidelines.`,
-      },
-      {
-        role: 'user',
-        content: `Question: ${command}
+        role: 'assistant',
+        content: `This is a webpage contains content and metadata, which can be identified by the markers "Content:" and "Meta:". The metadata adheres to The Open Graph protocol guidelines.
 
         Content: ${referenceText.content}
         Meta: ${JSON.stringify(referenceText.meta)}`,
+      },
+      {
+        role: 'user',
+        content: command,
       },
     ]
   }
