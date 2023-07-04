@@ -1,8 +1,9 @@
 import {ref, toRaw} from 'vue'
+import {Storage} from '@plasmohq/storage'
 import pangu from 'pangu'
 
 import useStore from '@/stores/store'
-import {WEBPILOT_OPENAI} from '@/config'
+import {WEBPILOT_OPENAI, WEBPILOT_CONFIG_STORAGE_KEY} from '@/config'
 import {askOpenAI, parseStream} from '@/io'
 
 import {$gettext} from '@/utils/i18n'
@@ -42,6 +43,7 @@ export default function useAskAi() {
   const errorMessage = ref('')
 
   const store = useStore()
+  const storage = new Storage()
 
   const resetState = () => {
     loading.value = false
@@ -68,22 +70,23 @@ export default function useAskAi() {
     let text = referenceText === '' ? store.selectedText : referenceText
     text = text.trim()
     const message = getPrompt(text, command, isAskPage)
+    const currentConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || store.config
 
     loading.value = true
     generating.value = true
 
     const model = {
-      ...toRaw(store.config.model),
+      ...toRaw(currentConfig.model),
     }
     if (isAskPage) {
       // 全局 popup，默认使用 16k 接口
       model.model = 'gpt-3.5-turbo-16k'
     }
 
-    let storeAuthKey = store.config.authKey
-    let storeHostUrl = store.config.selfHostUrl
+    let storeAuthKey = currentConfig.authKey
+    let storeHostUrl = currentConfig.selfHostUrl
 
-    if (store.config.apiOrigin === 'general') {
+    if (currentConfig.apiOrigin === 'general') {
       storeAuthKey = WEBPILOT_OPENAI.AUTH_KEY
       storeHostUrl = WEBPILOT_OPENAI.HOST_URL
     } else {
@@ -118,9 +121,9 @@ export default function useAskAi() {
         if (err.response && err.response.status === 401) {
           errorMessage.value = err.response?.data?.error?.message
 
-          if (store.config.apiOrigin !== 'general') {
+          if (currentConfig.apiOrigin !== 'general') {
             store.setConfig({
-              ...store.config,
+              ...currentConfig,
               authKey: '',
               selfHostUrl: '',
               isAuth: false,

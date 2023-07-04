@@ -142,8 +142,7 @@ const popUpAskIA = async () => {
     if (selectedPrompt.index === -1) {
       storage.set(lastKey, inputCommand.value)
 
-      store.setConfig({
-        ...store.config,
+      store.updateConfig({
         latestPresetPromptIndex: -1,
       })
     }
@@ -168,8 +167,7 @@ const handleChanegPrompt = promptInfo => {
   selectedPrompt.prompt = prompt
   inputCommand.value = prompt.command
 
-  store.setConfig({
-    ...store.config,
+  store.updateConfig({
     latestPresetPromptIndex: index,
   })
 
@@ -194,8 +192,7 @@ const handleSavePrompt = prompt => {
   const {prompts} = config.value
   prompts[selectedPrompt.index] = prompt
 
-  store.setConfig({
-    ...store.config,
+  store.updateConfig({
     prompts,
     latestPresetPromptIndex: selectedPrompt.index,
   })

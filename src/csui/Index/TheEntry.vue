@@ -134,8 +134,7 @@ watch(shortcut, v => {
 
   // show popup by shortcut remove shortkey tips
   if (store.config.showShortcutTips) {
-    store.setConfig({
-      ...store.config,
+    store.updateConfig({
       showShortcutTips: false,
     })
   }
