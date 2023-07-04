@@ -175,7 +175,7 @@ const getPageReference = () => {
   const content = getPageContent()
   const meta = getPageMeta()
 
-  return {content, meta}
+  return JSON.stringify({content, ...meta})
 }
 
 const popUpAskIA = async () => {
