@@ -142,9 +142,6 @@ const getPageContent = () => {
   const customContent = getCustomContent()
 
   return customContent
-  // return `${document.body.innerText}\n${
-  //   document.querySelector('#read-only-cursor-text-area')?.value
-  // }`
 }
 
 const getPageMeta = () => {
@@ -197,9 +194,9 @@ const getPageMeta = () => {
 
 const getCustomContent = () => {
   const customContent = {
-    content: document.body.innerText,
     title: document.title,
     ...getPageMeta(),
+    content: document.body.innerText,
   }
 
   const regex = /github\.com\/(?:[\w-]+\/)*blob\//
@@ -212,13 +209,24 @@ const getCustomContent = () => {
 
 const getPageReference = () => {
   let reference = ''
-  const content = getPageContent()
+  const pageContent = getPageContent()
+  let code = ''
+  let content = ''
 
-  for (const [key, value] of Object.entries(content)) {
+  for (const [key, value] of Object.entries(pageContent)) {
     if (value) {
+      if (key === 'code') {
+        code = `${key}: ${value}\n`
+        continue
+      }
+      if (key === 'content') {
+        content = `${key}: ${value}`
+        continue
+      }
       reference += `${key}: ${value}\n`
     }
   }
+  reference += code + content
 
   return reference
 }
