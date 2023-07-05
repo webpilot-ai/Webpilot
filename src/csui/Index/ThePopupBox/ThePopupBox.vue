@@ -38,7 +38,7 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from 'vue'
-import {Readability} from '@mozilla/readability'
+import {Readability, isProbablyReaderable} from '@mozilla/readability'
 import {Storage} from '@plasmohq/storage'
 
 import {useMagicKeys} from '@vueuse/core'
@@ -125,7 +125,26 @@ const showError = ref(false)
 
 const getPageContent = () => {
   const cloneNode = document.cloneNode(true)
-  return new Readability(cloneNode).parse().textContent
+
+  if (isProbablyReaderable(cloneNode)) {
+    try {
+      const article = new Readability(cloneNode).parse()
+      const pageContent = {
+        ...article,
+      }
+      pageContent.content = pageContent.textContent
+      delete pageContent.textContent
+
+      return pageContent
+    } catch {}
+  }
+
+  const customContent = getCustomContent()
+
+  return customContent
+  // return `${document.body.innerText}\n${
+  //   document.querySelector('#read-only-cursor-text-area')?.value
+  // }`
 }
 
 const getPageMeta = () => {
@@ -154,6 +173,11 @@ const getPageMeta = () => {
           cnt += 1
           return true
         }
+        if (name.startsWith('description')) {
+          meta[name] = content
+          cnt += 1
+          return true
+        }
       }
     }
 
@@ -163,7 +187,7 @@ const getPageMeta = () => {
   const metaElements = document.querySelectorAll('meta')
   for (let i = 0; i < metaElements.length; i++) {
     processMetaElement(metaElements[i])
-    if (cnt > 2) {
+    if (cnt > 10) {
       break
     }
   }
@@ -171,11 +195,32 @@ const getPageMeta = () => {
   return meta
 }
 
-const getPageReference = () => {
-  const content = getPageContent()
-  const meta = getPageMeta()
+const getCustomContent = () => {
+  const customContent = {
+    content: document.body.innerText,
+    title: document.title,
+    ...getPageMeta(),
+  }
 
-  return JSON.stringify({content, ...meta})
+  const regex = /github\.com\/(?:[\w-]+\/)*blob\//
+  if (regex.test(window.location.href)) {
+    customContent.code = document.querySelector('#read-only-cursor-text-area')?.value
+  }
+
+  return customContent
+}
+
+const getPageReference = () => {
+  let reference = ''
+  const content = getPageContent()
+
+  for (const [key, value] of Object.entries(content)) {
+    if (value) {
+      reference += `${key}: ${value}\n`
+    }
+  }
+
+  return reference
 }
 
 const popUpAskIA = async () => {

@@ -240,8 +240,7 @@ const shortcutText = computed(() => {
   display: flex;
   align-items: center;
   height: 28px;
-  padding: 6px 4px;
-  padding-right: 6px;
+  padding: 6px;
   color: #292922;
   font-weight: 500;
   font-size: 12px;
@@ -255,7 +254,7 @@ const shortcutText = computed(() => {
   img {
     width: 16px;
     height: 16px;
-    margin-right: 2px;
+    margin-right: 4px;
   }
 }
 
