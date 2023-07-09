@@ -238,6 +238,7 @@ const shortcutText = computed(() => {
   @include popup;
 
   display: flex;
+  flex-direction: inherit;
   align-items: center;
   height: 28px;
   padding: 6px;
@@ -255,6 +256,7 @@ const shortcutText = computed(() => {
     width: 16px;
     height: 16px;
     margin-right: 4px;
+    filter: none !important;
   }
 }
 
