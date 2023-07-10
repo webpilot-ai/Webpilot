@@ -30,6 +30,7 @@
     "@plasmohq/storage": "^1.6.1",
     "@vueuse/core": "^10.1.2",
     "copy-to-clipboard": "^3.3.3",
+    "js-tiktoken": "^1.0.7",
     "jsonfile": "^6.1.0",
     "pangu": "^4.0.7",
     "pinia": "^2.0.36",
