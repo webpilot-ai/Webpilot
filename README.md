@@ -1,7 +1,7 @@
 # To those who are confused about the "unverified" status in the ChatGPT Plugin.
 There's no need to worry, it's just a plugin update that is currently pending review.
 
-I submitted an updated version of the WebPilot's ChatGPT Plugin Thusday, which makes it faster, more accurate, and more powerful. According to ChatGPT's rules, plugin updates require a version review, which typically takes around 3 business days to complete (usually done by the next day). During the review process, the plugin will be marked as unverified and new users won't be able to install it (existing users are unaffected and can already use the more powerful new version in advance).
+I submitted an updated version of the WebPilot's ChatGPT Plugin Thusday, which makes it faster, more accurate, and more powerful. According to ChatGPT's rules, plugin updates require a version review, which typically takes around 3 business days to complete. During the review process, the plugin will be marked as unverified and new users won't be able to install it (existing users are unaffected and can already use the more powerful new version in advance).
 
 # Webpilot
 
