@@ -103,6 +103,7 @@ const handleSend = () => {
   width: 100% !important;
   max-width: none !important;
   height: 20px !important;
+  color: rgb(0 0 0);
   font-weight: 400;
   font-size: 14px !important;
   font-style: normal;
