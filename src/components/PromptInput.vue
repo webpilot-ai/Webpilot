@@ -103,10 +103,10 @@ const handleSend = () => {
   width: 100% !important;
   max-width: none !important;
   height: 20px !important;
-  font-weight: 400;
+  font-weight: 400 !important;
   font-size: 14px !important;
-  font-style: normal;
-  line-height: 20px;
+  font-style: normal !important;
+  line-height: 20px !important;
   background: #fff !important;
   border: none !important;
 
