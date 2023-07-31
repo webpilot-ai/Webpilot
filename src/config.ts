@@ -1,4 +1,6 @@
 import {$gettext} from './utils/i18n'
+// import {getOS} from './utils/index'
+// const customShortcut = getOS() === 'Mac OS' ? ['Meta', '`'] : ['Control', '`']
 
 export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 

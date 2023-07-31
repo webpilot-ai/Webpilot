@@ -1,6 +1,6 @@
 {
   "name": "webpilot",
-  "version": "0.9.3",
+  "version": "0.9.709",
   "author": "webpilot.ai",
   "displayName": "Webpilot - Copilot for All, Free & Open",
   "description": "__MSG_extensionDescription__",
@@ -30,7 +30,9 @@
     "@plasmohq/storage": "^1.6.1",
     "@vueuse/core": "^10.1.2",
     "copy-to-clipboard": "^3.3.3",
+    "js-tiktoken": "^1.0.7",
     "jsonfile": "^6.1.0",
+    "pangu": "^4.0.7",
     "pinia": "^2.0.36",
     "plasmo": "0.76.3",
     "vue": "3.2.47",

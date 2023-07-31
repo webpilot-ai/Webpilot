@@ -2,7 +2,7 @@
   <section :class="$style.headerPanel">
     <section :class="$style.headerLogos">
       <img :class="$style.logo" :src="WebpilotLogo" />
-      <section>Webpilot</section>
+      <span>Webpilot</span>
     </section>
     <section :class="$style.headerIcons">
       <Popper :class="$style.popover" hover offset-distance="8" placement="top">
@@ -45,12 +45,14 @@ const closePopup = () => {
 <style lang="scss" module>
 .headerPanel {
   display: flex;
+  flex-direction: row;
   height: 24px;
   margin-bottom: 8px !important;
 }
 
 .headerLogos {
   display: flex;
+  flex-direction: row;
   align-items: center;
   color: #292929;
   font-weight: 400;
@@ -61,6 +63,7 @@ const closePopup = () => {
 
 .headerIcons {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   margin-left: auto !important;
 }
@@ -69,6 +72,8 @@ const closePopup = () => {
   width: 16px;
   height: 16px;
   margin-right: 8px;
+  background-color: #fff;
+  filter: none !important;
 }
 
 .icon {

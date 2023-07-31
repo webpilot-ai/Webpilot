@@ -100,11 +100,14 @@ const handleSend = () => {
 
 .input {
   flex: 1;
+  width: 100% !important;
+  max-width: none !important;
   height: 20px !important;
   font-weight: 400 !important;
   font-size: 14px !important;
   font-style: normal !important;
   line-height: 20px !important;
+  background: #fff !important;
   border: none !important;
 
   &::placeholder {
@@ -112,6 +115,11 @@ const handleSend = () => {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+  }
+
+  &::selection {
+    color: #fff;
+    background: rgb(79 90 255 / 80%);
   }
 
   &:focus {

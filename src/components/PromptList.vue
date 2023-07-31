@@ -55,6 +55,7 @@ const handleAddPrompt = () => {
 <style lang="scss" module>
 .promptList {
   display: flex;
+  flex-direction: row;
   height: 24px;
   margin-top: 4px !important;
   margin-bottom: 8px !important;

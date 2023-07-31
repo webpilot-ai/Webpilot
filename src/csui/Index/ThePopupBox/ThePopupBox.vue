@@ -38,7 +38,7 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref, watch} from 'vue'
-import {Readability} from '@mozilla/readability'
+import {Readability, isProbablyReaderable} from '@mozilla/readability'
 import {Storage} from '@plasmohq/storage'
 
 import {useMagicKeys} from '@vueuse/core'
@@ -83,12 +83,20 @@ const selectedPrompt = reactive({
 })
 
 // keyboard
-const {Escape} = useMagicKeys()
-watch(Escape, v => {
-  if (v) {
-    emits('closePopup')
-  }
+useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.key === 'Escape') {
+      emits('closePopup')
+    }
+  },
 })
+
+// watch(Escape, v => {
+//   if (v) {
+//     emits('closePopup')
+//   }
+// })
 
 const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
 
@@ -115,18 +123,120 @@ watch(
 
 const showError = ref(false)
 
+const getPageContent = () => {
+  const cloneNode = document.cloneNode(true)
+
+  if (isProbablyReaderable(cloneNode)) {
+    try {
+      const article = new Readability(cloneNode).parse()
+      const pageContent = {
+        ...article,
+      }
+      pageContent.content = pageContent.textContent
+      delete pageContent.textContent
+
+      return pageContent
+    } catch {}
+  }
+
+  const customContent = getCustomContent()
+
+  return customContent
+}
+
+const getPageMeta = () => {
+  const meta = {}
+  let cnt = 0
+
+  function processMetaElement(element) {
+    const name = element.getAttribute('name')
+    const property = element.getAttribute('property')
+    const content = element.getAttribute('content')
+
+    if (content) {
+      if (property) {
+        if (property.startsWith('og:image')) {
+          return true
+        }
+        if (property.startsWith('og:')) {
+          meta[property] = content
+          cnt += 1
+          return true
+        }
+      }
+      if (name) {
+        if (name.startsWith('article:')) {
+          meta[name] = content
+          cnt += 1
+          return true
+        }
+        if (name.startsWith('description')) {
+          meta[name] = content
+          cnt += 1
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  const metaElements = document.querySelectorAll('meta')
+  for (let i = 0; i < metaElements.length; i++) {
+    processMetaElement(metaElements[i])
+    if (cnt > 10) {
+      break
+    }
+  }
+
+  return meta
+}
+
+const getCustomContent = () => {
+  const customContent = {
+    title: document.title,
+    ...getPageMeta(),
+    content: document.body.innerText,
+  }
+
+  const regex = /github\.com\/(?:[\w-]+\/)*blob\//
+  if (regex.test(window.location.href)) {
+    customContent.code = document.querySelector('#read-only-cursor-text-area')?.value
+  }
+
+  return customContent
+}
+
+const getPageReference = () => {
+  let reference = ''
+  const pageContent = getPageContent()
+  let code = ''
+  let content = ''
+
+  for (const [key, value] of Object.entries(pageContent)) {
+    if (value) {
+      if (key === 'code') {
+        code = `${key}: ${value}\n`
+        continue
+      }
+      if (key === 'content') {
+        content = `${key}: ${value}`
+        continue
+      }
+      reference += `${key}: ${value}\n`
+    }
+  }
+  reference += code + content
+
+  return reference
+}
+
 const popUpAskIA = async () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
 
-  let article = ''
-  if (props.isAskPage) {
-    const cloneNode = document.cloneNode(true)
-    article = new Readability(cloneNode).parse()
-  }
-
   try {
     await askAi({
-      referenceText: props.isAskPage ? article.textContent : store.selectedText,
+      referenceText: props.isAskPage ? getPageReference() : store.selectedText,
       command,
       isAskPage: props.isAskPage,
     })
@@ -134,8 +244,7 @@ const popUpAskIA = async () => {
     if (selectedPrompt.index === -1) {
       storage.set(lastKey, inputCommand.value)
 
-      store.setConfig({
-        ...store.config,
+      store.updateConfig({
         latestPresetPromptIndex: -1,
       })
     }
@@ -160,8 +269,7 @@ const handleChanegPrompt = promptInfo => {
   selectedPrompt.prompt = prompt
   inputCommand.value = prompt.command
 
-  store.setConfig({
-    ...store.config,
+  store.updateConfig({
     latestPresetPromptIndex: index,
   })
 
@@ -186,8 +294,7 @@ const handleSavePrompt = prompt => {
   const {prompts} = config.value
   prompts[selectedPrompt.index] = prompt
 
-  store.setConfig({
-    ...store.config,
+  store.updateConfig({
     prompts,
     latestPresetPromptIndex: selectedPrompt.index,
   })

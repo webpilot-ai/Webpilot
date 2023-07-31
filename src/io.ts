@@ -1,7 +1,54 @@
 import {Storage} from '@plasmohq/storage'
 
+import {getEncoding} from 'js-tiktoken'
+
 import {OPENAI_BASE_URL, API_PATH, WEBPILOT_OPENAI} from '@/config'
 import {GOOGLE_CREDENTIAL} from '@/apiConfig'
+
+// function getTokensNum(messages) {
+//   const encoding = getEncoding('cl100k_base')
+//   let num = 0
+//   messages.forEach(message => {
+//     num += 4
+//     for (const [key, value] of Object.entries(message)) {
+//       num += encoding.encode(value).length
+//       if (key === 'name') {
+//         num -= 1
+//       }
+//     }
+//   })
+//   num += 2
+
+//   return num
+// }
+
+// refrence to https://platform.openai.com/docs/guides/gpt/managing-tokens
+function getNewCutMessages(messages) {
+  const encoding = getEncoding('cl100k_base')
+  // 16k * 3/4
+  const maxRequstTokens = 12288
+  const newMessages = [{...messages[0], content: ''}, {...messages[1]}]
+  let remainNum = maxRequstTokens - 2
+
+  newMessages.forEach(message => {
+    remainNum -= 4
+    for (const [value] of Object.entries(message)) {
+      remainNum -= encoding.encode(value).length
+    }
+  })
+
+  if (remainNum < 0) {
+    remainNum = 0
+  }
+
+  const {content} = messages[0]
+  const contentToken = encoding.encode(content, 'all')
+  const newContentToken = contentToken.slice(0, remainNum)
+  const newContent = encoding.decode(newContentToken)
+  newMessages[0].content = newContent
+
+  return newMessages
+}
 
 let prevAbortController = null
 
@@ -14,7 +61,8 @@ export async function askOpenAI({authKey, model, message, baseURL = null} = {}) 
   if (!model) return Promise.resolve()
 
   const requestModel = {...model}
-  requestModel.messages = message
+  requestModel.messages =
+    requestModel.model === 'gpt-3.5-turbo-16k' ? getNewCutMessages(message) : message
   requestModel.stream = true
 
   let prefixURL = baseURL || OPENAI_BASE_URL

@@ -122,8 +122,10 @@ if (!config.value.isFinishSetup) {
 .logo {
   display: flex;
   flex-direction: row;
+  height: 48px;
 
   img {
+    height: 100%;
     margin: 4px 24px 4px 4px;
   }
 

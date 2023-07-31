@@ -40,6 +40,14 @@ const useStore = defineStore('store', () => {
     saveToLocalStorage(config.value)
   }
 
+  // 现在的 setConfig，更新 options 后，每个 tab 需要 reload 才生效
+  // 逐步替换为 updateConfig，获取最新的 localsorage
+  async function updateConfig(newConfig) {
+    const storedConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || config.value
+    config.value = {...storedConfig, ...newConfig}
+    saveToLocalStorage(config.value)
+  }
+
   function setPrompts(prompts) {
     config.value = {
       ...config.value,
@@ -55,6 +63,7 @@ const useStore = defineStore('store', () => {
     setSelectedText,
     setPrompts,
     setConfig,
+    updateConfig,
   }
 })
 

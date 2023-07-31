@@ -1,5 +1,5 @@
 export function getOS() {
-  const {userAgent, platform} = window.navigator
+  const {userAgent, platform} = global.navigator
   const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K']
   const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
   const iosPlatforms = ['iPhone', 'iPad', 'iPod']
@@ -23,15 +23,15 @@ export function getOS() {
 
 export function formatShortcut(keys) {
   let keyList = keys
-  const isMac = getOS() === 'Mac OS'
 
   keyList = keyList.map(item => {
-    if (item === 'Control') return isMac ? 'Cmd' : 'Ctrl'
-    if (item === 'Meta') return '⌘'
+    if (item === 'Control') return 'Ctrl'
+    if (item === 'Meta') return 'Cmd'
+    // if (item === 'Meta') return '⌘'
     return item.length === 1 ? item.toUpperCase() : item
   })
 
-  return keyList.join('+')
+  return keyList.join(' + ')
 }
 
 export function getRectFromInputAndTextarea(target) {

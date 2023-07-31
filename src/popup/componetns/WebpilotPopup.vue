@@ -23,61 +23,60 @@
 <script setup>
 import '@assets/styles/reset.scss'
 
-import {onBeforeMount} from 'vue'
-import {sendToBackground} from '@plasmohq/messaging'
+// import {onBeforeMount} from 'vue'
+// import {sendToBackground} from '@plasmohq/messaging'
 
 import {$gettext} from '@/utils/i18n'
 
 import HeaderPanel from '@/components/HeaderPanel.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import TipsShortcut from '@/components/TipsShortcut.vue'
-import useStore from '@/stores/store'
+// import useStore from '@/stores/store'
 
-const store = useStore()
+// const store = useStore()
 
-onBeforeMount(async () => {
-  // check welcode guide
-  if (!store.config.isFinishSetup || !store.config.isAuth) {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    })
+// onBeforeMount(async () => {
+//   // check welcode guide
+//   if (!store.config.isFinishSetup || !store.config.isAuth) {
+//     const [tab] = await chrome.tabs.query({
+//       active: true,
+//       currentWindow: true,
+//     })
 
-    const currentUrl = tab?.url
+//     const currentUrl = tab?.url
 
-    // can't get current open page url
-    if (currentUrl === undefined) return
+//     // can't get current open page url
+//     if (currentUrl === undefined) return
 
-    const signURL = 'https://account.webpilot.ai/'
-    const welcomeUrl = chrome?.runtime?.getURL('tabs/index.html')
+//     const signURL = 'https://account.webpilot.ai/'
+//     const welcomeUrl = chrome?.runtime?.getURL('tabs/index.html')
 
-    // aready in welcome page
-    if (currentUrl === signURL || currentUrl === welcomeUrl) {
-      closeWindow()
-      return
-    }
+//     // aready in welcome page
+//     if (currentUrl === signURL || currentUrl === welcomeUrl) {
+//       closeWindow()
+//       return
+//     }
 
-    chrome.tabs.create({url: signURL})
-    closeWindow()
-    // window.open(welcomeUrl)
-    return
-  }
+//     chrome.tabs.create({url: signURL})
+//     closeWindow()
+//     // window.open(welcomeUrl)
+//   }
 
-  // options 页面会判断 isAuth，这里逻辑无效了
-  // check auth state
-  // if (!store.config.isAuth) {
-  //   sendToBackground({name: 'openSetting'})
-  //   closeWindow()
-  //   return
-  // }
+//   // options 页面会判断 isAuth，这里逻辑无效了
+//   // check auth state
+//   // if (!store.config.isAuth) {
+//   //   sendToBackground({name: 'openSetting'})
+//   //   closeWindow()
+//   //   return
+//   // }
 
-  // check current page
-  const isKeepOpen = await sendToBackground({
-    name: 'popupCheck',
-  })
+//   // check current page
+//   // const isKeepOpen = await sendToBackground({
+//   //   name: 'popupCheck',
+//   // })
 
-  if (!isKeepOpen) window.close()
-})
+//   // if (!isKeepOpen) window.close()
+// })
 
 const closeWindow = () => {
   window.close()
