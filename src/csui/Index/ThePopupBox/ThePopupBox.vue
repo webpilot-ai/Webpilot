@@ -2,7 +2,7 @@
   <section
     :class="{
       [$style.container]: true,
-      [$style.showProptEditor]: showEditor,
+      [$style.showPromptEditor]: showEditor,
     }"
   >
     <HeaderPanel @on-close="handleClosePopup" />
@@ -11,7 +11,7 @@
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
-      @on-change="handleChanegPrompt"
+      @on-change="handleChangePrompt"
       @on-edit-prompt="handleEditPrompt"
     />
     <PromptInput
@@ -19,14 +19,14 @@
       :disabled="aiThinking"
       :loading="aiThinking"
       :selected-text="store.selectedText"
-      @on-change="handeInputCommandChnage"
+      @on-change="handleInputCommandChange"
       @on-submit="popUpAskIA"
     />
     <WebpilotAlert v-if="showError" style="margin-top: 8px" :tips="errorMessage" type="error" />
     <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" />
     <PromptResult v-model="result" />
     <PromptEditor
-      :disable-delete="disableDeletePropmt"
+      :disable-delete="disableDeletePrompt"
       :prompt="selectedPrompt.prompt"
       :show-editor="showEditor"
       @on-delete="handleDeletePrompt"
@@ -263,7 +263,7 @@ const handleShowEditor = () => {
   showEditor.value = true
 }
 
-const handleChanegPrompt = promptInfo => {
+const handleChangePrompt = promptInfo => {
   const {index, prompt} = promptInfo
   selectedPrompt.index = index
   selectedPrompt.prompt = prompt
@@ -276,7 +276,7 @@ const handleChanegPrompt = promptInfo => {
   popUpAskIA()
 }
 
-const handeInputCommandChnage = () => {
+const handleInputCommandChange = () => {
   selectedPrompt.index = -1
 }
 
@@ -316,7 +316,7 @@ const handleAddPrompt = () => {
   handleShowEditor()
 }
 
-const disableDeletePropmt = computed(() => {
+const disableDeletePrompt = computed(() => {
   return store.config.prompts.length === 1
 })
 
@@ -334,7 +334,7 @@ const handleClosePopup = () => {
   font-size: 24px;
 }
 
-.showProptEditor {
+.showPromptEditor {
   height: 341px;
 }
 </style>
