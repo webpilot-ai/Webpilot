@@ -3,17 +3,17 @@
     <nav :class="index['setting-nav']">
       <IconLogoWithText :class="index['setting-nav-logo']" />
       <NavItem
-        :actived="activedTab === TabList.Account"
+        :activated="activatedTab === TabList.Account"
         :name="TabList.Account"
         @change="onChangeTab"
       />
       <NavItem
-        :actived="activedTab === TabList.Extension"
+        :activated="activatedTab === TabList.Extension"
         :name="TabList.Extension"
         @change="onChangeTab"
       />
       <NavItem
-        :actived="activedTab === TabList.About"
+        :activated="activatedTab === TabList.About"
         :name="TabList.About"
         @change="onChangeTab"
       />
@@ -55,15 +55,15 @@ const TabList = {
   About: 'About',
 }
 
-const activedTab = ref(TabList.Account)
+const activatedTab = ref(TabList.Account)
 
 const onChangeTab = tabName => {
-  activedTab.value = tabName
+  activatedTab.value = tabName
 }
 
 const currentComponent = computed(() => {
-  if (activedTab.value === TabList.About) return AboutView
-  if (activedTab.value === TabList.Extension) return ExtensionView
+  if (activatedTab.value === TabList.About) return AboutView
+  if (activatedTab.value === TabList.Extension) return ExtensionView
   return AccountView
 })
 </script>
