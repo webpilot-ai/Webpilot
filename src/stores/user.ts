@@ -1,7 +1,13 @@
 import {ref} from 'vue'
 import {defineStore} from 'pinia'
 
+import {Storage} from '@plasmohq/storage'
+
 import {getUser as getUserInfo, getAPIUsage} from '@/apiService'
+import {defaultConfig} from '@/config'
+import {GOOGLE_CREDENTIAL} from '@/apiConfig'
+
+import useStore from './store'
 
 const useUserStore = defineStore('user', () => {
   const user = ref(null)
@@ -25,7 +31,22 @@ const useUserStore = defineStore('user', () => {
     usage.value = {current, total, percent}
   }
 
-  return {user, isSignedIn, getUser, usage, getUsage}
+  function unlink() {
+    const store = useStore()
+    const storage = new Storage()
+
+    // remove google credential
+    storage.set(GOOGLE_CREDENTIAL, '')
+
+    // reset config
+    store.updateConfig(defaultConfig)
+
+    // go init page page
+    const signURL = 'https://account.webpilot.ai/'
+    chrome.tabs.create({url: signURL})
+  }
+
+  return {user, isSignedIn, getUser, usage, getUsage, unlink}
 })
 
 export default useUserStore

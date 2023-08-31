@@ -1,4 +1,5 @@
 {
   "prettier.endOfLine": "cr",
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "cSpell.words": ["openai", "Webpilot"]
 }

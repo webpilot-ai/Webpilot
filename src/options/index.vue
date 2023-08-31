@@ -4,6 +4,7 @@
 
 <script setup>
 import '@/featureFlagsConfig'
+import './index.css'
 
 import {createApp} from 'vue'
 
@@ -13,6 +14,7 @@ import {i18nPlugin} from '@/utils/i18n'
 import useStore from '@/stores/store'
 
 import TheEntry from './TheEntry.vue'
+// import OldTheEntry from './OldTheEntry.vue'
 
 const app = createApp(TheEntry)
 const pinia = createPinia()
