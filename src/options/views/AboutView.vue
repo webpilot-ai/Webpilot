@@ -85,7 +85,7 @@ onMounted(() => {
   box-shadow: 0 8px 10px 0 rgb(149 157 165 / 10%);
 }
 
-.card-avatar {
+.card-avatar > img {
   width: 48px;
   min-width: 48px;
   height: 48px;
