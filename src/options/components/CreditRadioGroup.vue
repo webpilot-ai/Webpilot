@@ -6,10 +6,13 @@
         v-model="picked"
         :class="$style['input-radio']"
         type="radio"
-        :value="OPTIONS.webpilot"
+        :value="CREDIT_SOURCES.WEBPILOT"
         @change="onChange"
       />
-      <label :class="picked !== OPTIONS.webpilot || $style['radio-activated']" for="webpilot">
+      <label
+        :class="picked !== CREDIT_SOURCES.WEBPILOT || $style['radio-activated']"
+        for="webpilot"
+      >
         Webpilot Credit
       </label>
     </div>
@@ -19,10 +22,10 @@
         v-model="picked"
         :class="$style['input-radio']"
         type="radio"
-        :value="OPTIONS.openai"
+        :value="CREDIT_SOURCES.OPENAI"
         @change="onChange"
       />
-      <label :class="picked !== OPTIONS.openai || $style['radio-activated']" for="openai">
+      <label :class="picked !== CREDIT_SOURCES.OPENAI || $style['radio-activated']" for="openai">
         Open AI Credits
       </label>
     </div>
@@ -30,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
-const OPTIONS = {
-  webpilot: 'webpilot',
-  openai: 'openAI',
+const CREDIT_SOURCES = {
+  WEBPILOT: 'webpilot',
+  OPENAI: 'openAI',
 }
 
 const props = defineProps({
@@ -44,13 +47,21 @@ const props = defineProps({
   },
 })
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'change'])
 
 const picked = ref(props.modelValue)
 
 const onChange = () => {
   emits('update:modelValue', picked.value)
+  emits('change')
 }
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    picked.value = newValue
+  }
+)
 </script>
 
 <style lang="scss" module>

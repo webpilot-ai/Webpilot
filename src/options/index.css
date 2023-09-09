@@ -10,6 +10,7 @@
   --color-nav-background-color: #fff;
   --color-main-background-color: #fdfdfd;
 
+  box-sizing: border-box;
   font-family: var(--default-font-family);
 }
 

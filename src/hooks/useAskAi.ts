@@ -3,7 +3,7 @@ import {Storage} from '@plasmohq/storage'
 import pangu from 'pangu'
 
 import useStore from '@/stores/store'
-import {WEBPILOT_OPENAI, WEBPILOT_CONFIG_STORAGE_KEY} from '@/config'
+import {WEBPILOT_OPENAI, WEBPILOT_CONFIG_STORAGE_KEY, API_ORIGINS} from '@/config'
 import {askOpenAI, parseStream} from '@/io'
 
 import {$gettext} from '@/utils/i18n'
@@ -65,7 +65,10 @@ export default function useAskAi() {
     authKey = '',
     url = null,
     isAskPage = false,
+    apiOrigin = null,
   } = {}) => {
+    console.log('Call ask ai')
+
     // clean result
     resetState()
 
@@ -83,16 +86,22 @@ export default function useAskAi() {
       ...toRaw(currentConfig.model),
     }
     if (isAskPage) {
-      // 全局 popup，默认使用 16k 接口
+      // 全局 popup，默认使用 16k 接口`
       model.model = 'gpt-3.5-turbo-16k'
     }
 
     let storeAuthKey = currentConfig.authKey
     let storeHostUrl = currentConfig.selfHostUrl
+    const currentApiOrigin = apiOrigin || currentConfig.apiOrigin
 
-    if (currentConfig.apiOrigin === 'general') {
+    if (currentApiOrigin === API_ORIGINS.GENERAL) {
       storeAuthKey = WEBPILOT_OPENAI.AUTH_KEY
       storeHostUrl = WEBPILOT_OPENAI.HOST_URL
+    } else if (currentApiOrigin === API_ORIGINS.AZURE) {
+      const {selfHostUrl, azureApiVersion, azureDeploymentID} = currentConfig
+
+      // https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#completions
+      storeHostUrl = `https://${selfHostUrl}.openai.azure.com/openai/deployments/${azureDeploymentID}/chat/completions?api-version=${azureApiVersion}`
     } else {
       if (storeHostUrl === WEBPILOT_OPENAI.HOST_URL) {
         storeHostUrl = ''
@@ -104,6 +113,7 @@ export default function useAskAi() {
       model,
       message,
       baseURL: url || storeHostUrl,
+      apiOrigin,
     })
       .then(streamReader => {
         loading.value = false
@@ -125,12 +135,21 @@ export default function useAskAi() {
         if (err.response && err.response.status === 401) {
           errorMessage.value = err.response?.data?.error?.message
 
-          if (currentConfig.apiOrigin !== 'general') {
+          if (currentApiOrigin !== 'general') {
             store.setConfig({
               ...currentConfig,
               authKey: '',
               selfHostUrl: '',
               isAuth: false,
+            })
+          } else {
+            store.setConfig({
+              ...currentConfig,
+              authKey: '',
+              selfHostUrl: '',
+              isAuth: false,
+              azureApiVersion: '',
+              azureDeploymentID: '',
             })
           }
 

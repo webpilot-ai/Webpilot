@@ -1,9 +1,22 @@
 <template>
   <div :class="$style['openai-credit-wrap']">
-    <ServerTypeSelector v-model="serverName" @change="onServerTypeChange" />
+    <ServerTypeSelector v-model="serverName" />
 
     <template v-if="serverName === SERVER_NAME.OPENAI_OFFICIAL">
       <WebpilotInput v-model="openAIOfficialFrom.apiKey" placeholder="API key from OpenAI" />
+
+      <SettingAlert
+        v-if="success || error"
+        :color="success ? '#318619' : '#CC0000'"
+        inline
+        :title="success ? 'Successfully added API Key' : 'Invalid Key'"
+      >
+        <template #icon>
+          <IconAlertSuccess v-if="success" />
+          <IconAlertError v-else />
+        </template>
+      </SettingAlert>
+
       <div :class="$style['openai-guide']">
         <SettingAlert title="How">
           <template #desc>
@@ -28,23 +41,45 @@
       <WebpilotInput v-model="azureProxyForm.deploymentID" placeholder="DEPLOYMENT_ID" />
     </template>
 
-    <WebpilotButton
-      :class="$style['save-btn']"
-      :disalbed="isDisableSaveConfig"
-      value="SAVE CHANGES"
-    />
-    isDisableSaveConfig: {{ isDisableSaveConfig }}
+    <div :class="$style['btn-wrap']">
+      <WebpilotButton
+        :class="$style['save-btn']"
+        :disalbed="isDisableSaveConfig"
+        :loading="loading"
+        value="SAVE CHANGES"
+        @click="save"
+      />
+      <template v-if="serverName === SERVER_NAME.AZURE_PROXY">
+        <SettingAlert
+          v-if="success || error"
+          :color="success ? '#318619' : '#CC0000'"
+          inline
+          :title="success ? 'Success' : 'Failed to update'"
+        >
+          <template #icon>
+            <IconAlertSuccess v-if="success" />
+            <IconAlertError v-else />
+          </template>
+        </SettingAlert>
+      </template>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, reactive, ref} from 'vue'
+import {computed, reactive, ref, onMounted, watch} from 'vue'
 
-import {SERVER_NAME} from '@/config'
+import {API_ORIGINS, OPENAI_BASE_URL, SERVER_NAME} from '@/config'
+import useAskAi from '@/hooks/useAskAi'
 import WebpilotButton from '@/components/WebpilotButton.vue'
+import useStore from '@/stores/store'
+import IconAlertSuccess from '@/components/icon/IconAlertSuccess.vue'
+import IconAlertError from '@/components/icon/IconAlertError.vue'
 
 import ServerTypeSelector from './ServerTypeSelector.vue'
 import WebpilotInput from './WebpilotInput.vue'
 import SettingAlert from './SettingAlert.vue'
+
+const store = useStore()
 
 const openAIOfficialFrom = reactive({
   apiKey: '',
@@ -63,6 +98,28 @@ const azureProxyForm = reactive({
 })
 
 const serverName = ref(SERVER_NAME.OPENAI_OFFICIAL)
+
+onMounted(() => {
+  const {apiOrigin} = store.config
+
+  if (apiOrigin === API_ORIGINS.OPENAI) {
+    const {authKey} = store.config
+    serverName.value = SERVER_NAME.OPENAI_OFFICIAL
+    openAIOfficialFrom.apiKey = authKey
+  } else if (apiOrigin === API_ORIGINS.OPENAI_PROXY) {
+    const {authKey, selfHostUrl} = store.config
+    serverName.value = SERVER_NAME.OPENAI_PROXY
+    openAiProxyForm.apiKey = authKey
+    openAiProxyForm.apiHost = selfHostUrl
+  } else if (apiOrigin === API_ORIGINS.AZURE) {
+    const {authKey, selfHostUrl, azureApiVersion, azureDeploymentID} = store.config
+    serverName.value = SERVER_NAME.AZURE_PROXY
+    azureProxyForm.apiHost = selfHostUrl
+    azureProxyForm.apiKey = authKey
+    azureProxyForm.apiVersion = azureApiVersion
+    azureProxyForm.deploymentID = azureDeploymentID
+  }
+})
 
 const isDisableSaveConfig = computed(() => {
   if (serverName.value === SERVER_NAME.OPENAI_OFFICIAL) {
@@ -86,6 +143,79 @@ const isDisableSaveConfig = computed(() => {
 
   return false
 })
+
+const {loading, success, error, askAi} = useAskAi()
+
+const save = async () => {
+  // check config change
+
+  // check token
+  try {
+    let authKey = ''
+    let apiHost = ''
+    let apiOrigin = API_ORIGINS.OPENAI
+
+    // OpenAI Official
+    if (serverName.value === SERVER_NAME.OPENAI_OFFICIAL) {
+      authKey = openAIOfficialFrom.apiKey
+      apiHost = OPENAI_BASE_URL
+    }
+
+    // OpenAIProxy
+    if (serverName.value === SERVER_NAME.OPENAI_PROXY) {
+      authKey = openAiProxyForm.apiKey
+      apiHost = openAiProxyForm.apiHost
+      apiOrigin = API_ORIGINS.OPENAI_PROXY
+    }
+
+    // Azure API
+    if (serverName.value === SERVER_NAME.AZURE_PROXY) {
+      apiOrigin = API_ORIGINS.AZURE
+      authKey = azureProxyForm.apiKey
+      apiHost = `https://${azureProxyForm.apiHost}.openai.azure.com/openai/deployments/${azureProxyForm.deploymentID}/chat/completions?api-version=${azureProxyForm.apiVersion}`
+    }
+
+    await askAi({
+      authKey,
+      command: 'Say hi',
+      url: apiHost,
+      apiOrigin,
+      azureApiVersion: azureProxyForm.apiVersion === '' ? null : azureProxyForm.apiVersion,
+      azureDeploymentID: azureProxyForm.deploymentID === '' ? null : azureProxyForm.deploymentID,
+    })
+
+    // update config
+    if (serverName.value !== SERVER_NAME.AZURE_PROXY) {
+      store.setConfig({
+        ...store.config,
+        apiOrigin,
+        isAuth: true,
+        isFinishSetup: true,
+        authKey,
+        selfHostUrl: apiHost,
+      })
+    } else {
+      store.setConfig({
+        ...store.config,
+        apiOrigin,
+        isAuth: true,
+        isFinishSetup: true,
+        authKey,
+        selfHostUrl: azureProxyForm.apiHost,
+        azureApiVersion: azureProxyForm.apiVersion,
+        azureDeploymentID: azureProxyForm.deploymentID,
+      })
+    }
+  } catch (error) {}
+}
+
+watch(serverName, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    loading.value = false
+    error.value = false
+    success.value = false
+  }
+})
 </script>
 
 <style lang="scss" module>
@@ -94,8 +224,14 @@ const isDisableSaveConfig = computed(() => {
   row-gap: 16px;
 }
 
+.btn-wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  column-gap: 16px;
+}
+
 .save-btn {
   width: 143px;
-  margin-top: 24px;
 }
 </style>

@@ -9,11 +9,14 @@ export const OPENAI_BASE_URL = 'https://api.openai.com'
 export const API_PATH = '/v1/chat/completions'
 
 export const defaultConfig = {
-  // general | personal
+  /**
+   * general: use webpilot
+   * personal: use openai or third party
+   * */
   apiOrigin: 'general',
   /** Open AI or selfhost api key */
   authKey: '',
-  /** Is auth successed */
+  /** Is auth succeeded */
   isAuth: false,
   /** If user not set token at welcome page set false */
   isFinishSetup: false,
@@ -21,6 +24,10 @@ export const defaultConfig = {
   autoPopup: true,
   /** Self host url */
   selfHostUrl: '',
+  /** Azure specify ApiVersion */
+  azureApiVersion: '',
+  /** Azure specify deploymentID */
+  azureDeploymentID: '',
   /** Custom shortcut for show popup (akspage) */
   customShortcut: ['Control', '`'],
   /** Chose display mode
@@ -31,7 +38,7 @@ export const defaultConfig = {
   latestPresetPromptIndex: 0,
   /** Show shortcut state, once trigger popup by shortcut set to false */
   showShortcutTips: true,
-  /** Constom preset prompts */
+  /** Custom preset prompts */
   prompts: [
     {
       title: $gettext('Summarize'),
@@ -98,6 +105,17 @@ export const WEBPILOT_OPENAI = {
 export const LAST_PROMPT_STORAGE_KEY = {
   COMMON: 'LAST_COMMON',
   SELECTED: 'LAST_SELECTED',
+}
+
+export const API_ORIGINS = {
+  /** Webpilot Server */
+  GENERAL: 'general',
+  /** OpenAI server or proxy */
+  OPENAI: 'openAI',
+  /** Selfhost server */
+  OPENAI_PROXY: 'OpenAIProxy',
+  /** Azure server */
+  AZURE: 'azure',
 }
 
 export const SERVER_NAME = {

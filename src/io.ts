@@ -2,7 +2,7 @@ import {Storage} from '@plasmohq/storage'
 
 import {getEncoding} from 'js-tiktoken'
 
-import {OPENAI_BASE_URL, API_PATH, WEBPILOT_OPENAI} from '@/config'
+import {OPENAI_BASE_URL, API_PATH, WEBPILOT_OPENAI, API_ORIGINS} from '@/config'
 import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
 // function getTokensNum(messages) {
@@ -52,7 +52,8 @@ function getNewCutMessages(messages) {
 
 let prevAbortController = null
 
-export async function askOpenAI({authKey, model, message, baseURL = null} = {}) {
+export async function askOpenAI({authKey, model, message, baseURL = null, apiOrigin} = {}) {
+  // abort control
   const abortController = new AbortController()
 
   if (prevAbortController) prevAbortController.abort()
@@ -60,16 +61,19 @@ export async function askOpenAI({authKey, model, message, baseURL = null} = {}) 
 
   if (!model) return Promise.resolve()
 
+  // Reassemble model and process long content request
   const requestModel = {...model}
   requestModel.messages =
     requestModel.model === 'gpt-3.5-turbo-16k' ? getNewCutMessages(message) : message
   requestModel.stream = true
 
+  // Assemble url
   let prefixURL = baseURL || OPENAI_BASE_URL
+
   if (prefixURL.endsWith('/')) {
     prefixURL = prefixURL.substring(0, prefixURL.length - 1)
   }
-  const url = `${prefixURL}${API_PATH}`
+  const url = apiOrigin === API_ORIGINS.AZURE ? prefixURL : `${prefixURL}${API_PATH}`
 
   const storage = new Storage()
   const webpilotKey = await storage.get(GOOGLE_CREDENTIAL)
@@ -81,12 +85,20 @@ export async function askOpenAI({authKey, model, message, baseURL = null} = {}) 
   // throw error
   // return
 
+  const headers =
+    apiOrigin === API_ORIGINS.AZURE
+      ? {
+          'Content-Type': 'application/json',
+          'api-key': key,
+        }
+      : {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${key}`,
+        }
+
   return fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${key}`,
-    },
+    headers,
     body: JSON.stringify(requestModel),
     signal: abortController.signal,
   }).then(async response => {

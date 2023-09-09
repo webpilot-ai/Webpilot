@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -29,10 +29,18 @@ const value = ref(props.modelValue)
 const onChange = () => {
   emits('update:modelValue', value.value)
 }
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    value.value = newValue
+  }
+)
 </script>
 
 <style lang="scss" module>
 .webpilot-input {
+  box-sizing: border-box;
   width: 360px;
   height: 36px;
   padding: 8px;
