@@ -48,6 +48,17 @@ const props = defineProps({
   background: #fff;
   border: 1px solid #4f5aff33;
   border-radius: 10px;
+
+  a:visited {
+    color: var(--color-brand-primary);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .setting-alert-frame {
+    background: #323558;
+    border-color: #585c8a;
+  }
 }
 
 .icon-wrap {

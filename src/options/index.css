@@ -14,7 +14,12 @@
   font-family: var(--default-font-family);
 }
 
-:root[theme='dark'] {
-  --color-light: rgb(0 0 0);
-  --color-primary: #1f1f1f;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-label-text: #fff;
+    --color-baseline-text: #fff;
+    --color-nav-background-color: #323558;
+    --color-main-background-color: #292d3f;
+    --color-icon-default-and-secondary-text: #fff;
+  }
 }

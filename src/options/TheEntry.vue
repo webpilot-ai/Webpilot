@@ -2,6 +2,7 @@
   <div :class="index['setting-page-wrap']">
     <nav :class="index['setting-nav']">
       <IconLogoWithText :class="index['setting-nav-logo']" />
+      <IconLogoWithTextDark :class="index['setting-nav-logo-dark']" />
       <NavItem
         :activated="activatedTab === TabList.Account"
         :name="TabList.Account"
@@ -31,6 +32,7 @@ import {storeToRefs} from 'pinia'
 import useStore from '@/stores/store'
 
 import IconLogoWithText from './images/icon-logo-with-text.vue'
+import IconLogoWithTextDark from './images/icon-logo-with-text-dark.vue'
 import NavItem from './components/NavItem.vue'
 import AccountView from './views/AccountView.vue'
 import ExtensionView from './views/ExtensionView.vue'
@@ -92,6 +94,10 @@ body {
   margin-left: 12px;
 }
 
+.setting-nav-logo-dark {
+  display: none;
+}
+
 .main {
   padding: 36px 48px;
   padding-bottom: 14px;
@@ -101,5 +107,27 @@ body {
     var(--color-main-background-color) 36px,
     var(--color-main-background-color)
   );
+}
+
+@media (prefers-color-scheme: dark) {
+  .main {
+    background-color: var(--color-main-background-color);
+    background-image: linear-gradient(
+      to right,
+      rgba(0 0 0 / 5%),
+      var(--color-main-background-color) 36px,
+      var(--color-main-background-color)
+    );
+  }
+
+  .setting-nav-logo {
+    display: none;
+  }
+
+  .setting-nav-logo-dark {
+    display: block;
+    margin-bottom: 57px;
+    margin-left: 12px;
+  }
 }
 </style>

@@ -52,6 +52,18 @@ watch(
   border-radius: 5px;
 }
 
+@media (prefers-color-scheme: dark) {
+  .webpilot-input {
+    background: #323558;
+    border-color: #585c8a;
+    outline: none;
+  }
+
+  .webpilot-input:focus {
+    border-color: #fff;
+  }
+}
+
 .webpilot-input::placeholder {
   color: var(--label-text, #929497);
   font-weight: 400;

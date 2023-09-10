@@ -111,7 +111,14 @@ const resetShortCut = () => {
   cursor: pointer;
 }
 
+@media (prefers-color-scheme: dark) {
+  .reset {
+    color: #929497;
+  }
+}
+
 .shortcut {
+  box-sizing: border-box;
   width: 140px;
   height: 36px;
   margin-right: 8px;

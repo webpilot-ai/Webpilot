@@ -149,4 +149,22 @@ const currentLogo = computed(() => {
 .select-option:hover {
   background: linear-gradient(0deg, rgb(79 90 255 / 20%) 0%, rgb(79 90 255 / 20%) 100%), #fff;
 }
+
+@media (prefers-color-scheme: dark) {
+  .select-btn {
+    background-color: #323558;
+    border-color: #585c8a;
+  }
+
+  .options-wrap {
+    ul {
+      background-color: #323558;
+      border-color: #585c8a;
+    }
+  }
+
+  .select-option:hover {
+    background: #585c8a;
+  }
+}
 </style>

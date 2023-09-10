@@ -90,6 +90,7 @@ onMounted(() => {
   min-width: 48px;
   height: 48px;
   margin-right: 8px;
+  border-radius: 50%;
 }
 
 .card-title {
@@ -165,6 +166,17 @@ onMounted(() => {
 @media screen and (width <= 800px) {
   .contributors-wrap {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .contributor-card {
+    background: #323558;
+    box-shadow: none;
+  }
+
+  .card-desc {
+    color: #dcdffe;
   }
 }
 </style>

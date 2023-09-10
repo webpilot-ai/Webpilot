@@ -108,4 +108,10 @@ const onChange = () => {
 .nav-label {
   margin-left: 16px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .nav-item:hover {
+    background-color: #585c8a;
+  }
+}
 </style>
