@@ -113,7 +113,7 @@ export default function useAskAi() {
       model,
       message,
       baseURL: url || storeHostUrl,
-      apiOrigin,
+      apiOrigin: currentApiOrigin,
     })
       .then(streamReader => {
         loading.value = false
