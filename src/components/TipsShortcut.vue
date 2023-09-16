@@ -30,7 +30,7 @@ const shortcut = computed(() => {
   color: #929497;
   font-weight: 500;
   font-size: 12px;
-  line-height: 17px;
+  line-height: 20px;
 }
 
 .shortcutKeys {
