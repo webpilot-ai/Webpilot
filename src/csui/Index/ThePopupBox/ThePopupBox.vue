@@ -5,15 +5,20 @@
       [$style.showPromptEditor]: showEditor,
     }"
   >
-    <HeaderPanel @on-close="handleClosePopup" />
-    <PromptList
+    <!-- <HeaderPanel @on-close="handleClosePopup" /> -->
+    <FloatControlButtons
+      :class="$style.control"
+      :show-setting="showSetting"
+      @on-close="handleClosePopup"
+    />
+    <!-- <PromptList
       v-if="!isAskPage"
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
       @on-change="handleChangePrompt"
       @on-edit-prompt="handleEditPrompt"
-    />
+    /> -->
     <PromptInput
       v-model="inputCommand"
       :disabled="aiThinking"
@@ -22,8 +27,8 @@
       @on-change="handleInputCommandChange"
       @on-submit="popUpAskIA"
     />
-    <WebpilotAlert v-if="showError" style="margin-top: 8px" :tips="errorMessage" type="error" />
-    <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" />
+    <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
+    <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
     <PromptResult v-model="result" />
     <PromptEditor
       :disable-delete="disableDeletePrompt"
@@ -46,10 +51,11 @@ import {storeToRefs} from 'pinia'
 
 import {LAST_PROMPT_STORAGE_KEY} from '@/config'
 
-import HeaderPanel from '@/components/HeaderPanel.vue'
+// import HeaderPanel from '@/components/HeaderPanel.vue'
+import FloatControlButtons from '@/components/FloatControlButtons.vue'
 import PromptInput from '@/components/PromptInput.vue'
-import ShortcutTips from '@/components/ShortcutTips.vue'
-import PromptList from '@/components/PromptList.vue'
+// import ShortcutTips from '@/components/ShortcutTips.vue'
+// import PromptList from '@/components/PromptList.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useStore from '@/stores/store'
@@ -259,34 +265,34 @@ const handleCloseEditor = () => {
   showEditor.value = false
 }
 
-const handleShowEditor = () => {
-  showEditor.value = true
-}
+// const handleShowEditor = () => {
+//   showEditor.value = true
+// }
 
-const handleChangePrompt = promptInfo => {
-  const {index, prompt} = promptInfo
-  selectedPrompt.index = index
-  selectedPrompt.prompt = prompt
-  inputCommand.value = prompt.command
+// const handleChangePrompt = promptInfo => {
+//   const {index, prompt} = promptInfo
+//   selectedPrompt.index = index
+//   selectedPrompt.prompt = prompt
+//   inputCommand.value = prompt.command
 
-  store.updateConfig({
-    latestPresetPromptIndex: index,
-  })
+//   store.updateConfig({
+//     latestPresetPromptIndex: index,
+//   })
 
-  popUpAskIA()
-}
+//   popUpAskIA()
+// }
 
 const handleInputCommandChange = () => {
   selectedPrompt.index = -1
 }
 
-const handleEditPrompt = promptInfo => {
-  const {index, prompt} = promptInfo
-  selectedPrompt.index = index
-  selectedPrompt.prompt = prompt
+// const handleEditPrompt = promptInfo => {
+//   const {index, prompt} = promptInfo
+//   selectedPrompt.index = index
+//   selectedPrompt.prompt = prompt
 
-  handleShowEditor()
-}
+//   handleShowEditor()
+// }
 
 const handleSavePrompt = prompt => {
   selectedPrompt.prompt = prompt
@@ -310,11 +316,11 @@ const handleDeletePrompt = () => {
   handleCloseEditor()
 }
 
-const handleAddPrompt = () => {
-  selectedPrompt.index = store.config.prompts.length
-  selectedPrompt.prompt = {title: '', command: ''}
-  handleShowEditor()
-}
+// const handleAddPrompt = () => {
+//   selectedPrompt.index = store.config.prompts.length
+//   selectedPrompt.prompt = {title: '', command: ''}
+//   handleShowEditor()
+// }
 
 const disableDeletePrompt = computed(() => {
   return store.config.prompts.length === 1
@@ -323,18 +329,30 @@ const disableDeletePrompt = computed(() => {
 const handleClosePopup = () => {
   emits('closePopup')
 }
+
+const showSetting = computed(() => {
+  return !!result.value && result.value !== ''
+})
 </script>
 
 <style lang="scss" module>
+.control {
+  position: absolute;
+  right: -44px;
+}
+
 .container {
   position: relative;
-  padding: 16px;
-  padding-top: 12px;
+  padding: 8px;
   color: #000;
   font-size: 24px;
 }
 
 .showPromptEditor {
   height: 341px;
+}
+
+.alert {
+  margin-top: 8px;
 }
 </style>

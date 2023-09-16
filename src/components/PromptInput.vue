@@ -1,5 +1,6 @@
 <template>
   <section :class="{[$style.promptInput]: true}">
+    <img :class="$style.logo" :src="WebpilotLogo" />
     <input
       ref="refInput"
       v-model="localModelValue"
@@ -24,6 +25,8 @@
 
 <script setup>
 import {ref, computed, onMounted} from 'vue'
+
+import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import {$gettext} from '@/utils/i18n'
 
@@ -87,6 +90,12 @@ const handleSend = () => {
 </script>
 
 <style lang="scss" module>
+.logo {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
 .promptInput {
   display: flex;
   flex-direction: row;
@@ -94,7 +103,9 @@ const handleSend = () => {
   box-sizing: border-box;
   height: 36px;
   padding: 8px;
-  border: 1px solid #dcdee1;
+
+  // border: 1px solid #dcdee1;
+  background-color: #92949714;
   border-radius: 5px;
 }
 
@@ -108,7 +119,6 @@ const handleSend = () => {
   font-size: 14px !important;
   font-style: normal !important;
   line-height: 20px !important;
-  background: #fff !important;
   border: none !important;
 
   &::placeholder {
@@ -132,9 +142,9 @@ const handleSend = () => {
     text-overflow: ellipsis;
   }
 
-  &:disabled {
-    background-color: #fff;
-  }
+  // &:disabled {
+  //   background-color: #fff;
+  // }
 }
 
 .actionIcon {

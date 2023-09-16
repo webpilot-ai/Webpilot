@@ -196,8 +196,8 @@ const tailPosition = computed(() => {
 })
 
 const popupPosition = computed(() => {
-  const x = window.innerWidth / 2 - 480 / 2
-  const y = 50
+  const x = window.innerWidth / 2 - 612 / 2
+  const y = 100
   return {x, y}
 })
 
@@ -213,7 +213,7 @@ const shortcutText = computed(() => {
   text-align: center;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 }
 
 .popupBoxContainer {
@@ -222,17 +222,17 @@ const shortcutText = computed(() => {
   position: fixed;
   top: 10%;
   left: 2%;
-  width: 480px;
+  width: 612px;
 }
 
-.sidebarContainer {
-  @include popup;
+// .sidebarContainer {
+//   @include popup;
 
-  top: 10%;
-  right: 0;
-  width: 200px;
-  height: 500px;
-}
+//   top: 10%;
+//   right: 0;
+//   width: 200px;
+//   height: 500px;
+// }
 
 .webpilotTail {
   @include popup;
