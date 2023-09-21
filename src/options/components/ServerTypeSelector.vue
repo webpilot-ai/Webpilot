@@ -38,6 +38,7 @@ import {SERVER_NAME, SERVER_TYPE} from '@/config'
 
 import IconCerat from '../images/icon-caret.vue'
 import IconLogoOpenai from '../images/icon-logo-openai.vue'
+import IconLogoOpenaiProxy from '../images/icon-logo-openai-proxy.vue'
 import IconLogoMicrosoft from '../images/icon-logo-microsoft.vue'
 import IconConfirmation from '../images/icon-confirmation.vue'
 
@@ -72,13 +73,8 @@ const onOptionChange = value => {
 }
 
 const currentLogo = computed(() => {
-  if (
-    props.modelValue === SERVER_NAME.OPENAI_OFFICIAL ||
-    props.modelValue === SERVER_NAME.OPENAI_PROXY
-  ) {
-    return IconLogoOpenai
-  }
-
+  if (props.modelValue === SERVER_NAME.OPENAI_OFFICIAL) return IconLogoOpenai
+  if (props.modelValue === SERVER_NAME.OPENAI_PROXY) return IconLogoOpenaiProxy
   return IconLogoMicrosoft
 })
 </script>
@@ -115,7 +111,8 @@ const currentLogo = computed(() => {
 }
 
 .select-logo {
-  margin-right: 8px;
+  // margin-right: 8px;
+  padding: 6px 8px 0 0;
 }
 
 .select-caret {

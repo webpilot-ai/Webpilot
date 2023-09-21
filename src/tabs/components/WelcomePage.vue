@@ -1,56 +1,51 @@
 <template>
-  <div :class="setup.setup">
-    <div :class="setup.title">
+  <section :class="setup.container">
+    <!-- <div :class="setup.title">
       <IconLogoAndText />
       <h1>Opensource | AI Assistant on All Websites</h1>
-    </div>
-    <main :class="setup.main">
-      <div :class="setup.form">
-        <ul :class="setup.steps">
-          <li
-            v-for="(item, index) in steps"
-            :key="index"
-            :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === item}"
-          >
-            {{ item }}
-          </li>
-        </ul>
-        <div :class="setup.infoInputArea">
-          <!-- Step One -->
-          <!-- <StepOne v-if="stepIndex === 1" :skip="handleSkip" /> -->
-          <!-- Setp Two -->
-          <StepTwo v-if="stepIndex === 2" v-model="authInfo" />
-          <!-- Setp Three -->
-          <StepThree v-else-if="stepIndex === 3" />
-          <!-- Setp Four -->
-          <StepFour v-else-if="stepIndex === 4" />
-          <!-- NEXT BUTTON -->
-          <div :class="setup.btnGroup">
-            <WebpilotButton
-              v-if="stepIndex > 1"
-              type="ghost"
-              value="BACK"
-              @click="handleGoBackBtn"
-            />
-            <WebpilotButton
-              v-if="stepIndex !== 1"
-              :disalbed="buttonDisabled"
-              :loading="loading"
-              :value="stepIndex === 4 ? 'DONE' : 'NEXT'"
-              @click="handleNextBtn"
-            />
-          </div>
-          <div :class="setup.warn">
-            <WebpilotAlert v-if="showWarn" :tips="errorMessage" :type="'error'" />
-          </div>
+    </div> -->
+    <!-- <main :class="setup.main"> -->
+    <article :class="setup.form">
+      <ul :class="setup.steps">
+        <li
+          v-for="(item, index) in steps"
+          :key="index"
+          :class="{[setup.stepItem]: true, [setup.stepItemActive]: stepIndex === item}"
+        >
+          {{ item }}
+        </li>
+      </ul>
+      <div :class="setup.infoInputArea">
+        <!-- Step One -->
+        <!-- <StepOne v-if="stepIndex === 1" :skip="handleSkip" /> -->
+        <!-- Setp Two -->
+        <StepTwo v-if="stepIndex === 2" v-model="authInfo" @on-prev="handleGoBackBtn" />
+        <!-- Setp Three -->
+        <StepThree v-else-if="stepIndex === 3" @on-prev="handleGoBackBtn" />
+        <!-- Setp Four -->
+        <StepFour v-else-if="stepIndex === 4" @on-prev="handleGoBackBtn" />
+        <!-- NEXT BUTTON -->
+        <div :class="setup.btnGroup">
+          <WebpilotButton
+            v-if="stepIndex !== 1"
+            :disalbed="buttonDisabled"
+            :loading="loading"
+            :value="stepIndex === 4 ? 'START NOW' : 'NEXT'"
+            @click="handleNextBtn"
+          />
+        </div>
+        <div v-if="showWarn" :class="setup.warn">
+          <WebpilotAlert :tips="errorMessage" :type="'error'" />
         </div>
       </div>
-      <div :class="setup.githubInfo">
+    </article>
+    <IconLogoAndText />
+    <!-- <div :class="setup.githubInfo">
         <span>Webpilot is opensource </span>
         <a href="https://github.com/webpilot-ai/Webpilot" target="_blank">Star on Github</a>
-      </div>
-    </main>
-  </div>
+      </div> -->
+    <!-- </main> -->
+  </section>
 </template>
 
 <script setup>
@@ -103,6 +98,14 @@ const buttonDisabled = computed(() => {
   )
 })
 
+const goToLogin = () => {
+  const signURL = 'https://account.webpilot.ai/'
+  chrome.tabs.getCurrent(tab => {
+    const tabId = tab.id
+    chrome.tabs.update(tabId, {url: signURL})
+  })
+}
+
 const checkAuthKey = async () => {
   const {selectedOption} = authInfo.value
   let {authKey, selfHostUrl} = authInfo.value
@@ -130,7 +133,7 @@ const checkAuthKey = async () => {
       url: selfHostUrl === '' ? null : selfHostUrl,
     })
 
-    // 选择 Free API时，authKey 和 selfHostUrl 用于占位，不更新 store
+    // when selecting the Free API, the authKey and selfHostUrl are used for placeholders and do not update the store.
     if (selectedOption === 'general') {
       storeConfig.setConfig({
         ...storeConfig.config,
@@ -151,12 +154,7 @@ const checkAuthKey = async () => {
     stepIndex.value = 3
   } catch (error) {
     if (selectedOption === 'general' && error?.response?.status === 401) {
-      const signURL = 'https://account.webpilot.ai/'
-
-      chrome.tabs.getCurrent(tab => {
-        const tabId = tab.id
-        chrome.tabs.update(tabId, {url: signURL})
-      })
+      goToLogin()
       return
     }
 
@@ -204,14 +202,19 @@ const handleGoBackBtn = () => {
 </script>
 
 <style module="setup" lang="scss">
-.setup {
+.container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   width: 100vw;
   height: 100vh;
-  padding: 24px 32px 0;
-  background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
-  backdrop-filter: blur(5px);
+  padding-bottom: 24px;
+
+  // padding: 24px 32px 0;
+  // background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
+  // backdrop-filter: blur(5px);
+  background-color: #edeff2;
 }
 
 .title {
@@ -267,16 +270,16 @@ const handleGoBackBtn = () => {
   }
 
   /* Hover state of the scrollbar thumb */
-  &::-webkit-scrollbar-thumb:hover {
-    /* background-color: #555; */
-  }
+  // &::-webkit-scrollbar-thumb:hover {
+  //   background-color: #555;
+  // }
 }
 
 .steps {
   display: flex;
   flex-direction: row;
   margin: 0;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
   padding: 0;
   list-style-type: none;
 }
@@ -309,11 +312,11 @@ const handleGoBackBtn = () => {
 
 .form {
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
-  width: 480px;
-  margin-top: auto;
-  margin-bottom: auto;
+  justify-content: center;
+  width: 560px;
 
   .formTitle {
     font-weight: 400;
@@ -323,24 +326,22 @@ const handleGoBackBtn = () => {
 }
 
 .infoInputArea {
-  position: relative;
-  width: 480px;
-  min-height: 400px;
-  margin-top: 24px;
-  padding: 24px;
-  background: #fff;
-  border-radius: 0 10px 10px;
+  display: flex;
+  flex-direction: column;
+  width: 560px;
+  min-height: 480px;
+  padding: 36px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px 0 rgb(149 157 165 / 20%);
+  transition: height 0.2s;
 }
 
 .btnGroup {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
   display: flex;
-
-  button:nth-child(2) {
-    margin-left: 8px;
-  }
+  flex: 1;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .warn {

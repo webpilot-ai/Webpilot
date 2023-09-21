@@ -4,17 +4,17 @@ msgstr ""
 
 #: src/tabs/components/StepThree.vue:7
 #: src/tabs/components/StepThree.vue:8
-msgid " to use WebPilot on any website."
+msgid " to use"
 msgstr ""
 
-#: src/options/TheEntry.vue:22
-#: src/options/TheEntry.vue:23
-#: src/options/TheEntry.vue:26
+#: src/options/OldTheEntry.vue:22
+#: src/options/OldTheEntry.vue:23
+#: src/options/OldTheEntry.vue:26
 msgid "About"
 msgstr ""
 
-#: src/options/TheEntry.vue:19
-#: src/options/TheEntry.vue:20
+#: src/options/OldTheEntry.vue:19
+#: src/options/OldTheEntry.vue:20
 msgid "Account"
 msgstr ""
 
@@ -25,9 +25,15 @@ msgstr ""
 msgid "Active Webpilot"
 msgstr ""
 
-#: src/options/TheEntry.vue:13
-#: src/options/TheEntry.vue:14
+#: src/options/OldTheEntry.vue:13
+#: src/options/OldTheEntry.vue:14
 msgid "Advanced"
+msgstr ""
+
+#: src/tabs/components/StepFour.vue:4
+#: src/tabs/components/StepFour.vue:5
+#: src/tabs/components/StepFour.vue:6
+msgid "and pin Webpilot to your nav bar"
 msgstr ""
 
 #: src/options/AdvancedView.vue:3
@@ -35,7 +41,7 @@ msgstr ""
 msgid "API Settings"
 msgstr ""
 
-#: src/components/PromptInput.vue:43
+#: src/components/PromptInput.vue:46
 msgid "Ask a question about this webpage"
 msgstr ""
 
@@ -43,17 +49,19 @@ msgstr ""
 #: src/options/AdvancedView.vue:168
 #: src/options/AdvancedView.vue:97
 #: src/options/AdvancedView.vue:98
+#: src/tabs/components/StepThree.vue:10
+#: src/tabs/components/StepThree.vue:11
 msgid "Change Shortcut"
-msgstr ""
-
-#: src/tabs/components/StepTwo.vue:2
-#: src/tabs/components/StepTwo.vue:3
-msgid "Choosing Service"
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:14
 #: src/popup/componetns/WebpilotPopup.vue:15
 msgid "Chrome's Settings, History, and Web Store pages"
+msgstr ""
+
+#: src/tabs/components/StepFour.vue:3
+#: src/tabs/components/StepFour.vue:4
+msgid "Click"
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:5
@@ -73,13 +81,19 @@ msgstr ""
 msgid "Display Webpilot"
 msgstr ""
 
+#: src/tabs/components/StepThree.vue:16
+msgid "Display Webpilot icon when text is selected"
+msgstr ""
+
 #: src/popup/componetns/WebpilotPopup.vue:10
 #: src/popup/componetns/WebpilotPopup.vue:9
 msgid "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:36
-msgid "Enter your API Key"
+#: src/tabs/components/StepTwo.vue:16
+#: src/tabs/components/StepTwo.vue:17
+#: src/tabs/components/StepTwo.vue:31
+msgid "Enjoy Webpilot AI for"
 msgstr ""
 
 #: src/options/AdvancedView.vue:123
@@ -88,19 +102,30 @@ msgstr ""
 msgid "Extension Settings"
 msgstr ""
 
-#: src/hooks/useAskAi.ts:129
+#: src/tabs/components/StepTwo.vue:18
+#: src/tabs/components/StepTwo.vue:19
+#: src/tabs/components/StepTwo.vue:33
+#: src/tabs/components/StepTwo.vue:35
+msgid "For more usage, you can add a paid plan later"
+msgstr ""
+
+#: src/tabs/components/StepTwo.vue:16
+#: src/tabs/components/StepTwo.vue:17
+#: src/tabs/components/StepTwo.vue:31
+#: src/tabs/components/StepTwo.vue:32
+msgid "FREE"
+msgstr ""
+
+#: src/hooks/useAskAi.ts:158
 msgid "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:73
-msgid "How to self host API?"
+#: src/tabs/components/StepThree.vue:2
+#: src/tabs/components/StepThree.vue:3
+msgid "How to Use"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:67
-msgid "https://api.openai.com"
-msgstr ""
-
-#: src/config.ts:46
+#: src/config.ts:55
 msgid ""
 "Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [element], [2], [3] {environment}, [4], [5], [6] {style settings}\n"
 "\n"
@@ -123,7 +148,7 @@ msgid ""
 "        Do not show things like \"[1]\"\"[element]\" in your response."
 msgstr ""
 
-#: src/config.ts:45
+#: src/config.ts:54
 msgid "MidJourney Prompt"
 msgstr ""
 
@@ -132,25 +157,29 @@ msgstr ""
 msgid "New tab and blank pages"
 msgstr ""
 
-#: src/options/TheEntry.vue:8
-#: src/options/TheEntry.vue:9
+#: src/tabs/components/StepTwo.vue:25
+msgid "OpenAI Credits"
+msgstr ""
+
+#: src/options/OldTheEntry.vue:8
+#: src/options/OldTheEntry.vue:9
 msgid "Opensource AI Assistant On All Websites"
+msgstr ""
+
+#: src/tabs/components/StepFour.vue:2
+#: src/tabs/components/StepFour.vue:3
+msgid "Pin Webpilot"
 msgstr ""
 
 #: src/options/AdvancedView.vue:151
 msgid "Pop Up"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:5
-#: src/tabs/components/StepThree.vue:6
-msgid "Press "
-msgstr ""
-
-#: src/config.ts:39
+#: src/config.ts:48
 msgid "Refine"
 msgstr ""
 
-#: src/config.ts:40
+#: src/config.ts:49
 msgid "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
 msgstr ""
 
@@ -158,63 +187,67 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:23
-msgid "Select text first, hit shortcut next, gain better results."
+#: src/tabs/components/StepThree.vue:5
+#: src/tabs/components/StepThree.vue:6
+msgid "Select text, and press "
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:60
-msgid "Self Host"
-msgstr ""
-
-#: src/tabs/components/StepThree.vue:16
-msgid "Show WebPilot icon when selecting text"
+#: src/tabs/components/StepTwo.vue:2
+#: src/tabs/components/StepTwo.vue:3
+msgid "Set up API"
 msgstr ""
 
 #: src/options/AdvancedView.vue:138
 msgid "Side Bar"
 msgstr ""
 
-#: src/options/TheEntry.vue:38
-#: src/options/TheEntry.vue:39
-#: src/options/TheEntry.vue:42
+#: src/options/OldTheEntry.vue:38
+#: src/options/OldTheEntry.vue:39
+#: src/options/OldTheEntry.vue:42
 msgid "Star on Github"
 msgstr ""
 
-#: src/config.ts:35
+#: src/config.ts:44
 msgid "Summarize"
 msgstr ""
 
-#: src/config.ts:36
+#: src/config.ts:45
 msgid "Summarize and express these words concisely"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:29
-#: src/tabs/components/StepTwo.vue:30
-#: src/tabs/components/StepTwo.vue:37
-#: src/tabs/components/StepTwo.vue:44
-#: src/tabs/components/StepTwo.vue:50
+#: src/tabs/components/StepTwo.vue:68
+#: src/tabs/components/StepTwo.vue:69
+#: src/tabs/components/StepTwo.vue:83
 msgid "To get it, open this link and click “Create new secret key”."
 msgstr ""
 
+#: src/tabs/components/StepTwo.vue:17
+#: src/tabs/components/StepTwo.vue:18
+#: src/tabs/components/StepTwo.vue:32
+#: src/tabs/components/StepTwo.vue:34
+msgid "up to 50 times/week"
+msgstr ""
+
 #: src/options/AdvancedView.vue:50
-#: src/tabs/components/StepTwo.vue:29
 msgid "Use my OpenAI API key"
 msgstr ""
 
 #: src/options/AdvancedView.vue:16
-#: src/tabs/components/StepTwo.vue:15
 msgid "Use WebPilot free credit"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:2
-#: src/tabs/components/StepThree.vue:3
-msgid "Using WebPilot"
+#: src/tabs/components/StepTwo.vue:14
+msgid "Webpilot Credit"
 msgstr ""
 
-#: src/options/TheEntry.vue:36
-#: src/options/TheEntry.vue:37
-#: src/options/TheEntry.vue:40
+#: src/options/OldTheEntry.vue:36
+#: src/options/OldTheEntry.vue:37
+#: src/options/OldTheEntry.vue:40
 msgid "Webpilot is open source"
+msgstr ""
+
+#: src/tabs/components/StepThree.vue:23
+msgid "Webpilot will answer based on the current page if no text is selected"
 msgstr ""
 
 #: src/options/AdvancedView.vue:152

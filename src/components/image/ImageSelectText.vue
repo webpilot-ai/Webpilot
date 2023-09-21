@@ -2,9 +2,9 @@
   <div :class="$style.svgContainer">
     <svg
       fill="none"
-      height="90"
+      height="88"
       viewBox="0 0 185 90"
-      width="185"
+      width="183"
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect fill="white" height="89" rx="10.5" stroke="#DCDEE1" width="184" x="0.5" y="0.5" />

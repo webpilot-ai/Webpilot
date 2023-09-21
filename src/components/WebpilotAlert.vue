@@ -8,11 +8,11 @@
     }"
   >
     <slot name="icon">
-      <section :style="$style.icon">
+      <article :class="$style.icon">
         <IconInfo v-if="type === ALERT_TYPE.INFO" />
         <IconSuccess v-if="type === ALERT_TYPE.SUCCESS" />
         <IconError v-if="type === ALERT_TYPE.ERROR" />
-      </section>
+      </article>
     </slot>
     {{ tips }}
   </section>
@@ -65,7 +65,7 @@ const ALERT_TYPE = {
 .tips {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 6px;
   align-items: center;
   width: fit-content;
   min-height: 27px;
@@ -78,8 +78,7 @@ const ALERT_TYPE = {
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
+  display: flex;
 }
 
 .tipsSuccess {

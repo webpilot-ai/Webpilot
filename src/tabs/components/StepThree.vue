@@ -1,26 +1,26 @@
 <template>
   <div :class="stepThree.wrap">
-    <h3>{{ $gettext('Using WebPilot') }}</h3>
+    <WelcomeTitle @on-prev="goBack">{{ $gettext('How to Use') }}</WelcomeTitle>
 
     <h2 :class="stepThree.shortcutGuideTitle">
-      <span>{{ $gettext('Press ') }}</span>
+      <span>{{ $gettext('Select text, and press ') }}</span>
       <span :class="stepThree.shotcut">{{ shotcut }}</span>
-      <span>{{ $gettext(' to use WebPilot on any website.') }}</span>
+      <span>{{ $gettext(' to use') }}</span>
     </h2>
     <div :class="stepThree.changeShorcut">
-      <span>Change Shortcut</span>
+      <span>{{ $gettext('Change Shortcut') }}</span>
       <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShotcutChange" />
     </div>
     <WebpilotCheckbox
       v-model="autoPopup"
-      :label="$gettext('Show WebPilot icon when selecting text')"
+      :label="$gettext('Display Webpilot icon when text is selected')"
       style="margin-top: 16px"
       @change="onAutoPopupChange"
     />
-    <IllustrationSelectText style="margin-top: 12px" />
+    <ImageSelectText style="margin-top: 12px" />
     <WebpilotAlert
       style="margin-top: 6px"
-      :tips="$gettext('Select text first, hit shortcut next, gain better results.')"
+      :tips="$gettext('Webpilot will answer based on the current page if no text is selected')"
       type="info"
     />
     <div v-if="false" :class="stepThree.displayMode">
@@ -42,7 +42,7 @@ import {$gettext} from '@/utils/i18n'
 
 import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
-import IllustrationSelectText from '@/components/icon/IllustrationSelectText.vue'
+import ImageSelectText from '@/components/image/ImageSelectText.vue'
 import DisplayMode from '@/components/DisplayMode.vue'
 import useStore from '@/stores/store'
 
@@ -50,7 +50,13 @@ import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import {formatShortcut} from '@/utils/index'
 
+import WelcomeTitle from './WelcomeTitle.vue'
+
 const store = useStore()
+
+const emits = defineEmits(['onPrev'])
+
+const goBack = () => emits('onPrev')
 
 const {config} = storeToRefs(store)
 
@@ -86,21 +92,22 @@ const shotcut = computed(() => {
 </script>
 
 <style module="stepThree" lang="scss">
-.wrap {
-  h3 {
-    margin: 0 0 16px;
-    color: #4f5aff;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 34px;
-    text-align: center;
-  }
-}
+// .wrap {
+//   h3 {
+//     margin: 0 0 16px;
+//     color: #4f5aff;
+//     font-weight: 400;
+//     font-size: 24px;
+//     line-height: 34px;
+//     text-align: center;
+//   }
+// }
 
 .shortcutGuideTitle {
+  margin-top: 32px;
   font-weight: 400;
   font-size: 18px;
-  line-height: 25px;
+  line-height: 1;
 
   .shotcut {
     padding: 2px 4px;
@@ -114,7 +121,6 @@ const shotcut = computed(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 8px;
 
   span {
     margin-right: 12px;
