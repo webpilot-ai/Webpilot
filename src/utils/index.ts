@@ -27,6 +27,7 @@ export function formatShortcut(keys) {
   keyList = keyList.map(item => {
     if (item === 'Control') return 'Ctrl'
     if (item === 'Meta') return 'Cmd'
+    if (item.charCodeAt() === 160) return 'Space'
     // if (item === 'Meta') return '⌘'
     return item.length === 1 ? item.toUpperCase() : item
   })

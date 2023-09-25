@@ -2,8 +2,9 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: src/tabs/components/StepThree.vue:7
-#: src/tabs/components/StepThree.vue:8
+#: src/tabs/components/StepThree.vue:13
+#: src/tabs/components/StepThree.vue:14
+#: src/tabs/components/StepThree.vue:17
 msgid " to use"
 msgstr ""
 
@@ -49,8 +50,9 @@ msgstr ""
 #: src/options/AdvancedView.vue:168
 #: src/options/AdvancedView.vue:97
 #: src/options/AdvancedView.vue:98
-#: src/tabs/components/StepThree.vue:10
-#: src/tabs/components/StepThree.vue:11
+#: src/tabs/components/StepThree.vue:16
+#: src/tabs/components/StepThree.vue:17
+#: src/tabs/components/StepThree.vue:20
 msgid "Change Shortcut"
 msgstr ""
 
@@ -81,7 +83,7 @@ msgstr ""
 msgid "Display Webpilot"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:16
+#: src/tabs/components/StepThree.vue:25
 msgid "Display Webpilot icon when text is selected"
 msgstr ""
 
@@ -90,9 +92,9 @@ msgstr ""
 msgid "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:16
-#: src/tabs/components/StepTwo.vue:17
-#: src/tabs/components/StepTwo.vue:31
+#: src/tabs/components/StepTwo.vue:22
+#: src/tabs/components/StepTwo.vue:23
+#: src/tabs/components/StepTwo.vue:41
 msgid "Enjoy Webpilot AI for"
 msgstr ""
 
@@ -102,17 +104,17 @@ msgstr ""
 msgid "Extension Settings"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:18
-#: src/tabs/components/StepTwo.vue:19
-#: src/tabs/components/StepTwo.vue:33
-#: src/tabs/components/StepTwo.vue:35
+#: src/tabs/components/StepTwo.vue:24
+#: src/tabs/components/StepTwo.vue:25
+#: src/tabs/components/StepTwo.vue:43
+#: src/tabs/components/StepTwo.vue:45
 msgid "For more usage, you can add a paid plan later"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:16
-#: src/tabs/components/StepTwo.vue:17
-#: src/tabs/components/StepTwo.vue:31
-#: src/tabs/components/StepTwo.vue:32
+#: src/tabs/components/StepTwo.vue:22
+#: src/tabs/components/StepTwo.vue:23
+#: src/tabs/components/StepTwo.vue:41
+#: src/tabs/components/StepTwo.vue:42
 msgid "FREE"
 msgstr ""
 
@@ -157,7 +159,7 @@ msgstr ""
 msgid "New tab and blank pages"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:25
+#: src/tabs/components/StepTwo.vue:35
 msgid "OpenAI Credits"
 msgstr ""
 
@@ -215,16 +217,16 @@ msgstr ""
 msgid "Summarize and express these words concisely"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:68
-#: src/tabs/components/StepTwo.vue:69
-#: src/tabs/components/StepTwo.vue:83
+#: src/tabs/components/StepTwo.vue:74
+#: src/tabs/components/StepTwo.vue:75
+#: src/tabs/components/StepTwo.vue:93
 msgid "To get it, open this link and click “Create new secret key”."
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:17
-#: src/tabs/components/StepTwo.vue:18
-#: src/tabs/components/StepTwo.vue:32
-#: src/tabs/components/StepTwo.vue:34
+#: src/tabs/components/StepTwo.vue:23
+#: src/tabs/components/StepTwo.vue:24
+#: src/tabs/components/StepTwo.vue:42
+#: src/tabs/components/StepTwo.vue:44
 msgid "up to 50 times/week"
 msgstr ""
 
@@ -236,7 +238,7 @@ msgstr ""
 msgid "Use WebPilot free credit"
 msgstr ""
 
-#: src/tabs/components/StepTwo.vue:14
+#: src/tabs/components/StepTwo.vue:19
 msgid "Webpilot Credit"
 msgstr ""
 
@@ -246,7 +248,7 @@ msgstr ""
 msgid "Webpilot is open source"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:23
+#: src/tabs/components/StepThree.vue:32
 msgid "Webpilot will answer based on the current page if no text is selected"
 msgstr ""
 
