@@ -12,12 +12,18 @@
         :activated="activatedTab === TabList.Extension"
         :name="TabList.Extension"
         @change="onChangeTab"
-      />
+      >
+        <template #outline><IconNavExtensionOutline /> </template>
+        <template #filled><IconNavExtensionFilled /> </template>
+      </NavItem>
       <NavItem
         :activated="activatedTab === TabList.About"
         :name="TabList.About"
         @change="onChangeTab"
-      />
+      >
+        <template #outline><IconNavAboutOutline /> </template>
+        <template #filled><IconNavAboutFilled /> </template>
+      </NavItem>
     </nav>
     <main :class="index.main">
       <component :is="currentComponent" />
@@ -33,6 +39,11 @@ import useStore from '@/stores/store'
 
 import IconLogoWithText from './images/icon-logo-with-text.vue'
 import IconLogoWithTextDark from './images/icon-logo-with-text-dark.vue'
+import IconNavExtensionFilled from './images/icon-nav-extension-filled.vue'
+import IconNavExtensionOutline from './images/icon-nav-extension-outline.vue'
+import IconNavAboutOutline from './images/icon-nav-about-outline.vue'
+import IconNavAboutFilled from './images/icon-nav-about-filled.vue'
+
 import NavItem from './components/NavItem.vue'
 import AccountView from './views/AccountView.vue'
 import ExtensionView from './views/ExtensionView.vue'

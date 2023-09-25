@@ -59,6 +59,8 @@ const onChange = () => {
 
 .icon-outline {
   display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .active-nav {
@@ -66,6 +68,8 @@ const onChange = () => {
 
   .icon-filled {
     display: block;
+    width: 24px;
+    height: 24px;
   }
 
   .icon-outline {
@@ -93,6 +97,8 @@ const onChange = () => {
 
   .icon-filled {
     display: block;
+    width: 24px;
+    height: 24px;
   }
 
   .icon-outline {
