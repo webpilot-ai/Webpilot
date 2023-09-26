@@ -40,6 +40,7 @@
 <script setup>
 import '@assets/styles/reset.scss'
 
+// import {ref, computed, onMounted} from 'vue'
 import {ref, computed} from 'vue'
 
 import useAskAi from '@/hooks/useAskAi'
@@ -52,6 +53,8 @@ import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
 import StepFour from './StepFour.vue'
 
+const DEFAULT_SERVICE = 'general'
+// const CUSTOM_SERVICE = 'personal'
 const {askAi, success, error, loading, errorMessage} = useAskAi()
 const steps = [1, 2, 3, 4]
 const userStore = useUserStore()
@@ -64,7 +67,7 @@ const showWarn = ref(false)
 const authInfo = ref({
   selectedOption: storeConfig.config.apiOrigin,
   serverName: SERVER_NAME.OPENAI_OFFICIAL,
-  openAIOfficialFrom: {
+  openAIOfficialForm: {
     apiKey: storeConfig.config.authKey,
   },
   openAiProxyForm: {
@@ -78,6 +81,36 @@ const authInfo = ref({
     deploymentID: storeConfig.config.azureDeploymentID,
   },
 })
+// onMounted(() => {
+//   const {apiOrigin} = storeConfig.config
+
+//   if (apiOrigin === DEFAULT_SERVICE) {
+//     authInfo.value.selectedOption = DEFAULT_SERVICE
+//     return
+//   }
+//   authInfo.value.selectedOption = CUSTOM_SERVICE
+
+//   if (apiOrigin === API_ORIGINS.OPENAI) {
+//     authInfo.value.serverName = SERVER_NAME.OPENAI_OFFICIAL
+//     authInfo.value.openAIOfficialForm.apiKey = storeConfig.config.authKey
+//   } else if (apiOrigin === API_ORIGINS.OPENAI_PROXY) {
+//     authInfo.value.serverName = SERVER_NAME.OPENAI_PROXY
+//     const {authKey, selfHostUrl} = storeConfig.config
+//     authInfo.value.openAiProxyForm = {
+//       apiKey: authKey,
+//       apiHost: selfHostUrl,
+//     }
+//   } else if (apiOrigin === API_ORIGINS.AZURE) {
+//     authInfo.value.serverName = SERVER_NAME.AZURE_PROXY
+//     const {authKey, selfHostUrl, azureApiVersion, azureDeploymentID} = storeConfig.config
+//     authInfo.value.azureProxyForm = {
+//       apiHost: selfHostUrl,
+//       apiKey: authKey,
+//       apiVersion: azureApiVersion,
+//       deploymentID: azureDeploymentID,
+//     }
+//   }
+// })
 
 const handleNextBtn = async () => {
   if (stepIndex.value === 2) {
@@ -109,11 +142,11 @@ const goToLogin = () => {
 }
 
 const buttonDisabled = computed(() => {
-  if (authInfo.value.selectedOption === 'general') return false
+  if (authInfo.value.selectedOption === DEFAULT_SERVICE) return false
   const {serverName} = authInfo.value
 
   if (serverName === SERVER_NAME.OPENAI_OFFICIAL) {
-    const {apiKey} = authInfo.value.openAIOfficialFrom
+    const {apiKey} = authInfo.value.openAIOfficialForm
     return !apiKey || apiKey === ''
   }
 
@@ -135,19 +168,18 @@ const buttonDisabled = computed(() => {
 })
 
 const saveForm = async () => {
-  console.log('form', JSON.parse(JSON.stringify(authInfo.value)))
   showWarn.value = false
   const {selectedOption} = authInfo.value
   const info = {command: 'Say hi'}
-  const generalMode = selectedOption === 'general'
+  const generalMode = selectedOption === DEFAULT_SERVICE
   try {
     const {serverName} = authInfo.value
     if (generalMode) {
       info.authKey = WEBPILOT_OPENAI.AUTH_KEY
     } else if (serverName === SERVER_NAME.OPENAI_OFFICIAL) {
       // OpenAI Official
-      const {openAIOfficialFrom} = authInfo.value
-      info.authKey = openAIOfficialFrom.apiKey
+      const {openAIOfficialForm} = authInfo.value
+      info.authKey = openAIOfficialForm.apiKey
       info.url = OPENAI_BASE_URL
       info.apiOrigin = API_ORIGINS.OPENAI
     } else if (serverName === SERVER_NAME.OPENAI_PROXY) {
@@ -165,7 +197,6 @@ const saveForm = async () => {
     } else {
       throw new Error('api not match')
     }
-    console.log('send', info)
     await askAi(info)
 
     const data = {
@@ -185,7 +216,6 @@ const saveForm = async () => {
         data.azureDeploymentID = azureProxyForm.deploymentID
       }
     }
-    console.log('save', data)
     storeConfig.setConfig(data)
     stepIndex.value = 3
   } catch (error) {

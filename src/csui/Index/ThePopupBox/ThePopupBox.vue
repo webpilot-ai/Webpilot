@@ -29,6 +29,14 @@
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
+    <!-- <PromptMenu
+      v-if="!isAskPage"
+      :prompts="store.config.prompts"
+      :selected-index="selectedPrompt.index"
+      @on-add-prompt="handleAddPrompt"
+      @on-change="handleChangePrompt"
+      @on-edit-prompt="handleEditPrompt"
+    /> -->
     <PromptResult v-model="result" />
     <PromptEditor
       :disable-delete="disableDeletePrompt"
@@ -56,6 +64,7 @@ import FloatControlButtons from '@/components/FloatControlButtons.vue'
 import PromptInput from '@/components/PromptInput.vue'
 // import ShortcutTips from '@/components/ShortcutTips.vue'
 // import PromptList from '@/components/PromptList.vue'
+// import PromptMenu from '@/components/PromptMenu.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useStore from '@/stores/store'

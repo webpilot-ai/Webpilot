@@ -5,7 +5,7 @@
       <li
         :class="[
           stepTwo['selector__radio'],
-          {[stepTwo['selector__radio--active']]: selectedOption === 'general'},
+          {[stepTwo['selector__radio--active']]: selectedOption === DEFAULT_SERVICE},
         ]"
       >
         <input
@@ -14,7 +14,7 @@
           :class="stepTwo['radio-body']"
           name="option"
           type="radio"
-          value="general"
+          :value="DEFAULT_SERVICE"
           @change="handleOptionChange"
         />
         <label for="option1">{{ $gettext('Webpilot Credit') }}</label>
@@ -22,7 +22,7 @@
       <li
         :class="[
           stepTwo['selector__radio'],
-          {[stepTwo['selector__radio--active']]: selectedOption === 'personal'},
+          {[stepTwo['selector__radio--active']]: selectedOption === CUSTOM_SERVICE},
         ]"
       >
         <input
@@ -31,14 +31,14 @@
           :class="stepTwo['radio-body']"
           name="option"
           type="radio"
-          value="personal"
+          :value="CUSTOM_SERVICE"
           @change="handleOptionChange"
         />
         <label for="option2">{{ $gettext('OpenAI Credits') }}</label>
       </li>
     </ol>
     <article>
-      <section v-if="selectedOption === 'general'" :class="stepTwo.introduction">
+      <section v-if="selectedOption === DEFAULT_SERVICE" :class="stepTwo.introduction">
         <article :class="stepTwo['introduction-detail']">
           <span
             >{{ $gettext('Enjoy Webpilot AI for') }} <b>{{ $gettext('FREE') }}</b></span
@@ -48,12 +48,12 @@
         </article>
         <ImageFreePlan />
       </section>
-      <section v-if="selectedOption === 'personal'" :class="stepTwo.configuration">
+      <section v-if="selectedOption === CUSTOM_SERVICE" :class="stepTwo.configuration">
         <ServerTypeSelector v-model="serverName" :class="stepTwo['dropdown-menu']" />
 
         <template v-if="serverName === SERVER_NAME.OPENAI_OFFICIAL">
           <WebpilotInput
-            v-model="openAIOfficialFrom.apiKey"
+            v-model="openAIOfficialForm.apiKey"
             :class="stepTwo.gap"
             placeholder="API key from OpenAI"
           />
@@ -119,7 +119,7 @@
 <script setup>
 import {ref, watch, defineProps} from 'vue'
 
-import useStore from '@/stores/store'
+// import useStore from '@/stores/store'
 import {SERVER_NAME} from '@/config'
 import {$gettext} from '@/utils/i18n'
 import ImageFreePlan from '@/components/image/ImageFreePlan.vue'
@@ -131,6 +131,8 @@ import WebpilotAlert from '@/components/WebpilotAlert.vue'
 
 import WelcomeTitle from './WelcomeTitle.vue'
 
+const DEFAULT_SERVICE = 'general'
+const CUSTOM_SERVICE = 'personal'
 const props = defineProps({
   modelValue: {
     type: Object,
@@ -161,26 +163,20 @@ const props = defineProps({
     default: '',
   },
 })
-const store = useStore()
+// const storeConfig = useStore()
 const emits = defineEmits(['update:modelValue', 'onPrev', 'onNext', 'onRefresh'])
 const goBack = () => emits('onPrev')
 const onNext = () => emits('onNext')
 
-const selectedOption = ref(store.config.apiOrigin)
-const serverName = ref(SERVER_NAME.OPENAI_OFFICIAL)
-const openAIOfficialFrom = ref({
-  apiKey: '',
-})
-const openAiProxyForm = ref({
-  apiKey: '',
-  apiHost: '',
-})
-const azureProxyForm = ref({
-  apiKey: '',
-  apiHost: '',
-  apiVersion: '',
-  deploymentID: '',
-})
+const selectedOption = ref(
+  props.modelValue.selectedOption === DEFAULT_SERVICE ? DEFAULT_SERVICE : CUSTOM_SERVICE
+)
+const serverName = ref(props.modelValue.serverName || SERVER_NAME.OPENAI_OFFICIAL)
+const openAIOfficialForm = ref(props.modelValue.openAIOfficialForm || {apiKey: ''})
+const openAiProxyForm = ref(props.modelValue.openAiProxyForm || {apiKey: '', apiHost: ''})
+const azureProxyForm = ref(
+  props.modelValue.azureProxyForm || {apiKey: '', apiHost: '', apiVersion: '', deploymentID: ''}
+)
 
 const handleOptionChange = event => {
   const {value} = event.target
@@ -203,11 +199,11 @@ watch(serverName, (newValue, oldValue) => {
   })
 })
 watch(
-  openAIOfficialFrom,
+  openAIOfficialForm,
   newValue => {
     emits('update:modelValue', {
       ...props.modelValue,
-      openAIOfficialFrom: newValue,
+      openAIOfficialForm: newValue,
     })
   },
   {deep: true}
@@ -270,7 +266,6 @@ watch(
   border: 1px solid #4f5aff;
   border-radius: 16px;
   cursor: pointer;
-  appearance: none;
   appearance: none;
 
   &:checked {

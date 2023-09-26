@@ -24,12 +24,8 @@
     }"
   >
     <ThePopupBox id="webpilot_popup" :is-ask-page="isAskPage" @close-popup="handleClosePopup" />
-    <section ref="refDragHandle" :class="$style.dragHandle"></section>
+    <section v-if="false" ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
-
-  <!-- <section :class="$style.sidebarContainer">
-    <TheSidebar />
-  </section> -->
 </template>
 
 <script setup>
@@ -214,7 +210,9 @@ const shortcutText = computed(() => {
   text-align: center;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+
+  // box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
 }
 
 .popupBoxContainer {

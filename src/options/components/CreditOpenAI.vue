@@ -3,7 +3,7 @@
     <ServerTypeSelector v-model="serverName" />
 
     <template v-if="serverName === SERVER_NAME.OPENAI_OFFICIAL">
-      <WebpilotInput v-model="openAIOfficialFrom.apiKey" placeholder="API key from OpenAI" />
+      <WebpilotInput v-model="openAIOfficialForm.apiKey" placeholder="API key from OpenAI" />
 
       <SettingAlert
         v-if="success || error"
@@ -81,7 +81,7 @@ import SettingAlert from './SettingAlert.vue'
 
 const store = useStore()
 
-const openAIOfficialFrom = reactive({
+const openAIOfficialForm = reactive({
   apiKey: '',
 })
 
@@ -105,7 +105,7 @@ onMounted(() => {
   if (apiOrigin === API_ORIGINS.OPENAI) {
     const {authKey} = store.config
     serverName.value = SERVER_NAME.OPENAI_OFFICIAL
-    openAIOfficialFrom.apiKey = authKey
+    openAIOfficialForm.apiKey = authKey
   } else if (apiOrigin === API_ORIGINS.OPENAI_PROXY) {
     const {authKey, selfHostUrl} = store.config
     serverName.value = SERVER_NAME.OPENAI_PROXY
@@ -123,7 +123,7 @@ onMounted(() => {
 
 const isDisableSaveConfig = computed(() => {
   if (serverName.value === SERVER_NAME.OPENAI_OFFICIAL) {
-    const {apiKey} = openAIOfficialFrom
+    const {apiKey} = openAIOfficialForm
     return apiKey === '' || !apiKey
   }
 
@@ -157,7 +157,7 @@ const save = async () => {
 
     // OpenAI Official
     if (serverName.value === SERVER_NAME.OPENAI_OFFICIAL) {
-      authKey = openAIOfficialFrom.apiKey
+      authKey = openAIOfficialForm.apiKey
       apiHost = OPENAI_BASE_URL
     }
 

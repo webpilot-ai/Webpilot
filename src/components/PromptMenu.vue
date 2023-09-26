@@ -1,26 +1,24 @@
 <template>
-  <section :class="$style.promptList">
-    <PromptListItem
+  <ol :class="$style.list">
+    <li
       v-for="(item, index) in prompts"
       :key="index"
-      :active="selectedIndex === index"
-      :class="$style.propmtItem"
-      :title="item.title"
+      :class="[$style.item, {[$style['item--activate']]: selectedIndex === index}]"
       @click="() => handleSelectPrompt(index)"
       @on-edit="() => handleEditPrompt(index)"
-    />
-
-    <PromptListItem :active="false" :class="$style.propmtItem" title="+" @click="handleAddPrompt" />
-  </section>
+    >
+      <h1 :class="$style.name">{{ item.title }}</h1>
+      <p :class="$style.describe">{{ item.command }}</p>
+    </li>
+    <!-- <li :active="false" :class="$style.propmtItem" title="+" @click="handleAddPrompt" /> -->
+  </ol>
 </template>
 
 <script setup>
 import {toRaw} from 'vue'
-
-import PromptListItem from './PromptListItem.vue'
+// import PromptListItem from './PromptListItem.vue'
 
 const emits = defineEmits(['onChange', 'onEditPrompt', 'onAddPrompt'])
-
 const props = defineProps({
   prompts: {
     type: Array,
@@ -47,13 +45,13 @@ const handleEditPrompt = index => {
   })
 }
 
-const handleAddPrompt = () => {
-  emits('onAddPrompt')
-}
+// const handleAddPrompt = () => {
+//   emits('onAddPrompt')
+// }
 </script>
 
 <style lang="scss" module>
-.promptList {
+.list {
   display: flex;
   flex-direction: row;
   height: 24px;
@@ -64,7 +62,17 @@ const handleAddPrompt = () => {
   line-height: 17px;
 }
 
-.propmtItem + .propmtItem {
-  margin-left: 8px !important;
+.item {
+  display: flex;
 }
+
+// .item--activate {
+// }
+.name {
+  border: 1px;
+}
+
+// .describe {
+//   margin-left: 8px !important;
+// }
 </style>

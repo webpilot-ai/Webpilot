@@ -184,6 +184,7 @@ const handleCopy = () => {
   pre {
     margin: 0.5rem 0;
     padding: 0;
+    background-color: #272822;
   }
 
   code {

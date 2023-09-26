@@ -4,11 +4,11 @@
   --webpilot-theme-icon-default-and-secondary-text: #585b58;
   --webpilot-theme-main-background-color: #fff;
   --webpilot-theme-baseline-text: #292929;
-  --webpilot-theme-main-background-shadow: #959da533;
+  --webpilot-theme-main-background-shadow: rgb(149 157 165 / 20%);
 
   /* only text link or title need to change */
   --webpilot-theme-brand-primary: #4f5aff;
-  --webpilot-theme-stoke-and-hover-status: #4f5aff33;
+  --webpilot-theme-stoke-and-hover-status: rgb(79 90 255 / 20%);
   --webpilot-theme-brightness-number: 1;
   --webpilot-theme-invert-number: 0;
 }
@@ -18,7 +18,7 @@
     --webpilot-theme-icon-default-and-secondary-text: #4f5aff33;
     --webpilot-theme-main-background-color: #323558;
     --webpilot-theme-baseline-text: #fff;
-    --webpilot-theme-main-background-shadow: #fff;
+    --webpilot-theme-main-background-shadow: rgb(84 132 181 / 20%);
     --webpilot-theme-brand-primary: #5e80ff;
     --webpilot-theme-stoke-and-hover-status: #585c8a;
     --webpilot-theme-brightness-number: 3;
