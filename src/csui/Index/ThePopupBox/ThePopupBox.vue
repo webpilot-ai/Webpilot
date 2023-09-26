@@ -346,6 +346,8 @@ const showSetting = computed(() => {
   padding: 8px;
   color: #000;
   font-size: 24px;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
+  border-radius: 10px;
 }
 
 .showPromptEditor {

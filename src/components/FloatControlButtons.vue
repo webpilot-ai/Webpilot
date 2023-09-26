@@ -1,18 +1,18 @@
 <template>
   <ul>
-    <li>
+    <li :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.box"><IconClose :class="$style.ico" @click="closePopup" /></div>
+        <div :class="$style.btn"><IconClose :class="$style.ico" @click="closePopup" /></div>
         <template #content>
-          <span :class="$style['popover-text']">Close</span>
+          <span :class="$style.popover">Close</span>
         </template>
       </Popper>
     </li>
-    <li v-show="showSetting">
+    <li v-show="showSetting" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.box"><IconGear :class="$style.ico" @click="openSettingPage" /></div>
+        <div :class="$style.btn"><IconGear :class="$style.ico" @click="openSettingPage" /></div>
         <template #content>
-          <span :class="$style['popover-text']">Settings</span>
+          <span :class="$style.popover">Settings</span>
         </template>
       </Popper>
     </li>
@@ -46,21 +46,26 @@ const closePopup = () => {
 
 <style lang="scss" module>
 .box {
+  margin-bottom: 16px;
+}
+
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
-  background-color: #fff;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
   border-radius: 8px;
 }
 
 .ico {
   width: 24px;
   height: 24px;
+  filter: brightness(var(--webpilot-theme-brightness-number));
 }
 
-.popover-text {
+.popover {
   padding: 4px 8px;
   color: #fff;
   font-weight: 500;

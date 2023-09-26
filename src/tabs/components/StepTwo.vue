@@ -162,7 +162,7 @@ const props = defineProps({
   },
 })
 const store = useStore()
-const emits = defineEmits(['update:modelValue', 'onPrev', 'onNext'])
+const emits = defineEmits(['update:modelValue', 'onPrev', 'onNext', 'onRefresh'])
 const goBack = () => emits('onPrev')
 const onNext = () => emits('onNext')
 
@@ -270,7 +270,6 @@ watch(
   border: 1px solid #4f5aff;
   border-radius: 16px;
   cursor: pointer;
-  appearance: none;
   appearance: none;
   appearance: none;
 

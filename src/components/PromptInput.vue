@@ -112,12 +112,12 @@ const handleSend = () => {
   width: 100% !important;
   max-width: none !important;
   height: 20px !important;
-  color: #000;
+  color: var(--webpilot-theme-baseline-text, #000);
   font-weight: 400 !important;
   font-size: 14px !important;
   font-style: normal !important;
   line-height: 20px !important;
-  background-color: #fff;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
   border: none !important;
 
   &::placeholder {

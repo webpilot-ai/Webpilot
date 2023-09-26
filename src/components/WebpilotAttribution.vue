@@ -12,6 +12,7 @@ import WebpilotLogo from 'data-base64:~assets/icon.png'
 <style lang="scss" module>
 .wrap {
   display: flex;
+  align-items: center;
 }
 
 .logo {

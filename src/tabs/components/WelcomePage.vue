@@ -178,12 +178,14 @@ const saveForm = async () => {
       data.apiOrigin = info.apiOrigin
       data.authKey = info.authKey
       data.selfHostUrl = info.url
-      if (serverName.value === SERVER_NAME.AZURE_PROXY) {
+      if (serverName === SERVER_NAME.AZURE_PROXY) {
         const {azureProxyForm} = authInfo.value
+        data.selfHostUrl = azureProxyForm.apiHost
         data.azureApiVersion = azureProxyForm.apiVersion
         data.azureDeploymentID = azureProxyForm.deploymentID
       }
     }
+    console.log('save', data)
     storeConfig.setConfig(data)
     stepIndex.value = 3
   } catch (error) {
