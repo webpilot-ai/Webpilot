@@ -43,14 +43,6 @@ export default {
     const store = useStore()
     store.initConfig()
   },
-  async mounted() {
-    // this.$refs.root.parentNode.setAttribute(
-    //   'style',
-    //   'position:absolute;right:28px;bottom:8px;z-index:99999999;'
-    // )
-    // console.log('Mounted!!')
-    // console.log('root element: ', this.$refs.root)
-  },
 }
 </script>
 

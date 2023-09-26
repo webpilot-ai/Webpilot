@@ -1,10 +1,10 @@
 <template>
   <section :class="{[$style.promptInput]: true}">
-    <img :class="$style.logo" :src="WebpilotLogo" />
+    <!-- <img :class="$style.logo" :src="WebpilotLogo" /> -->
     <input
       ref="refInput"
       v-model="localModelValue"
-      :class="{[$style.input]: true, [$style.promptInputDisabled]: disabled}"
+      :class="{[$style['input-area']]: true, [$style.promptInputDisabled]: disabled}"
       :disabled="disabled"
       :placeholder="placeholderText"
       type="text"
@@ -26,7 +26,7 @@
 <script setup>
 import {ref, computed, onMounted} from 'vue'
 
-import WebpilotLogo from 'data-base64:~assets/icon.png'
+// import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import {$gettext} from '@/utils/i18n'
 
@@ -103,22 +103,21 @@ const handleSend = () => {
   box-sizing: border-box;
   height: 36px;
   padding: 8px;
-
-  // border: 1px solid #dcdee1;
-  background-color: #92949714;
+  border: 1px solid #dcdee1;
   border-radius: 5px;
 }
 
-.input {
+.input-area {
   flex: 1;
   width: 100% !important;
   max-width: none !important;
   height: 20px !important;
-  color: rgb(0 0 0);
+  color: #000;
   font-weight: 400 !important;
   font-size: 14px !important;
   font-style: normal !important;
   line-height: 20px !important;
+  background-color: #fff;
   border: none !important;
 
   &::placeholder {
@@ -141,13 +140,10 @@ const handleSend = () => {
   &:placeholder-shown {
     text-overflow: ellipsis;
   }
-
-  // &:disabled {
-  //   background-color: #fff;
-  // }
 }
 
 .actionIcon {
+  display: flex;
   cursor: pointer;
 }
 

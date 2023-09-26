@@ -4,9 +4,9 @@
       [$style.button]: true,
       [$style.primary]: type === ButtonType.PRIMARY,
       [$style.ghost]: type === ButtonType.GHOST,
-      [$style.disabled]: disalbed || loading,
+      [$style.disabled]: disabled || loading,
     }"
-    :disabled="disalbed"
+    :disabled="disabled"
     @click="handleClick"
   >
     <IconLoading v-if="loading" :class="$style.loading" />
@@ -37,14 +37,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  disalbed: {
+  disabled: {
     type: Boolean,
     default: false,
   },
 })
 
 const handleClick = () => {
-  if (props.disalbed) return
+  if (props.disabled) return
   emits('click')
 }
 </script>

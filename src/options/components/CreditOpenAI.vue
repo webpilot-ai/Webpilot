@@ -44,7 +44,7 @@
     <div :class="$style['btn-wrap']">
       <WebpilotButton
         :class="$style['save-btn']"
-        :disalbed="isDisableSaveConfig"
+        :disabled="isDisableSaveConfig"
         :loading="loading"
         value="SAVE CHANGES"
         @click="save"

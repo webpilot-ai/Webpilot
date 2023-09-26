@@ -11,6 +11,7 @@
         <input
           id="option1"
           v-model="selectedOption"
+          :class="stepTwo['radio-body']"
           name="option"
           type="radio"
           value="general"
@@ -27,6 +28,7 @@
         <input
           id="option2"
           v-model="selectedOption"
+          :class="stepTwo['radio-body']"
           name="option"
           type="radio"
           value="personal"
@@ -55,18 +57,6 @@
             :class="stepTwo.gap"
             placeholder="API key from OpenAI"
           />
-
-          <SettingAlert
-            v-if="success || error"
-            :class="stepTwo.gap"
-            :color="success ? '#318619' : '#CC0000'"
-            inline:title="success ? 'Successfully added API Key' : 'Invalid Key'"
-          >
-            <template #icon>
-              <IconAlertSuccess v-if="success" />
-              <IconAlertError v-else />
-            </template>
-          </SettingAlert>
 
           <article :class="[stepTwo.guide]">
             <SettingAlert :class="stepTwo['guide-content']" title="How">
@@ -116,135 +106,132 @@
           />
         </template>
       </section>
-      <!-- <div v-if="selectedOption === 'personal'" :class="stepTwo.apiItem">
-        <input
-          v-model="authKey"
-          :class="stepTwo.input"
-          :placeholder="$gettext('Enter your API Key')"
-          type="text"
-          @input="handleAPIKeyChange"
-        />
-        <div :class="stepTwo.apiKeyGuide">
-          <p>
-            {{ $gettext('To get it, open this link and click “Create new secret key”.') }}
-            <a href="https://platform.openai.com/account/api-keys" target="_blank">
-              Open AI > API Keys</a
-            >
-          </p>
-        </div>
-        <div v-if="selectedOption === 'personal'" :class="stepTwo.host">
-          <div :class="stepTwo.selfHost">
-            <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-            <label for="self_host">{{ $gettext('Self Host') }}</label>
-          </div>
-          <template v-if="isSelfHost">
-            <input
-              v-model="selfHostUrl"
-              :class="stepTwo.input"
-              :placeholder="$gettext('https://api.openai.com')"
-              type="text"
-              @change="onChange"
-            />
-            <HelpTips
-              url="https://github.com/webpilot-ai/ai-proxy"
-              :value="$gettext('How to self host API?')"
-            />
-          </template>
-        </div>
-      </div> -->
+      <div v-if="isWarning" :class="stepTwo['warn-txt']">
+        <WebpilotAlert :tips="errorMessage" :type="'error'" />
+      </div>
+      <footer :class="stepTwo['nav-btn']">
+        <WebpilotButton :disabled="isFreezing" :loading="loading" :value="'NEXT'" @click="onNext" />
+      </footer>
     </article>
   </section>
 </template>
 
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
+import {ref, watch, defineProps} from 'vue'
 
 import useStore from '@/stores/store'
-// import {API_ORIGINS, OPENAI_BASE_URL, SERVER_NAME} from '@/config'
-import {API_ORIGINS, SERVER_NAME} from '@/config'
+import {SERVER_NAME} from '@/config'
 import {$gettext} from '@/utils/i18n'
-
 import ImageFreePlan from '@/components/image/ImageFreePlan.vue'
-import IconAlertSuccess from '@/components/icon/IconAlertSuccess.vue'
-import IconAlertError from '@/components/icon/IconAlertError.vue'
-
 import SettingAlert from '@/options/components/SettingAlert.vue'
 import ServerTypeSelector from '@/options/components/ServerTypeSelector.vue'
 import WebpilotInput from '@/options/components/WebpilotInput.vue'
+import WebpilotButton from '@/components/WebpilotButton.vue'
+import WebpilotAlert from '@/components/WebpilotAlert.vue'
 
 import WelcomeTitle from './WelcomeTitle.vue'
-
-// const handleAPIKeyChange = () => {
-//   emits('update:modelValue', {
-//     authKey: authKey.value,
-//     selfHostUrl: selfHostUrl.value,
-//     selectedOption: selectedOption.value,
-//   })
-// }
 
 const props = defineProps({
   modelValue: {
     type: Object,
-    required: true,
+    default: () => ({}),
+  },
+  isFreezing: {
+    type: Boolean,
+    default: true,
+  },
+  isWarning: {
+    type: Boolean,
+    default: false,
+  },
+  success: {
+    type: Boolean,
+    default: false,
+  },
+  error: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  errorMessage: {
+    type: String,
+    default: '',
   },
 })
 const store = useStore()
-const emits = defineEmits(['update:modelValue', 'change'])
-const selectedOption = ref(props.modelValue.selectedOption)
-const authKey = ref(props.modelValue.authKey)
-const isSelfHost = ref(false)
-const selfHostUrl = ref(props.modelValue.selfHostUrl)
-const serverName = ref(SERVER_NAME.OPENAI_OFFICIAL)
+const emits = defineEmits(['update:modelValue', 'onPrev', 'onNext'])
+const goBack = () => emits('onPrev')
+const onNext = () => emits('onNext')
 
-const openAIOfficialFrom = reactive({
+const selectedOption = ref(store.config.apiOrigin)
+const serverName = ref(SERVER_NAME.OPENAI_OFFICIAL)
+const openAIOfficialFrom = ref({
   apiKey: '',
 })
-
-const openAiProxyForm = reactive({
+const openAiProxyForm = ref({
   apiKey: '',
   apiHost: '',
 })
-
-const azureProxyForm = reactive({
+const azureProxyForm = ref({
   apiKey: '',
   apiHost: '',
   apiVersion: '',
   deploymentID: '',
 })
 
-onMounted(() => {
-  if (props.modelValue.selfHostUrl !== '') isSelfHost.value = true
-})
-
 const handleOptionChange = event => {
   const {value} = event.target
   selectedOption.value = value
-  emits('update:modelValue', {
-    authKey: authKey.value,
-    selfHostUrl: selfHostUrl.value,
-    selectedOption: value,
-  })
-
-  const {apiOrigin} = store.config
-
-  if (apiOrigin === API_ORIGINS.OPENAI) {
-    const {authKey} = store.config
-    serverName.value = SERVER_NAME.OPENAI_OFFICIAL
-    openAIOfficialFrom.apiKey = authKey
-  } else if (apiOrigin === API_ORIGINS.OPENAI_PROXY) {
-    const {authKey, selfHostUrl} = store.config
-    serverName.value = SERVER_NAME.OPENAI_PROXY
-    openAiProxyForm.apiKey = authKey
-    openAiProxyForm.apiHost = selfHostUrl
-  } else if (apiOrigin === API_ORIGINS.AZURE) {
-    const {authKey, selfHostUrl, azureApiVersion, azureDeploymentID} = store.config
-    serverName.value = SERVER_NAME.AZURE_PROXY
-    azureProxyForm.apiHost = selfHostUrl
-    azureProxyForm.apiKey = authKey
-    azureProxyForm.apiVersion = azureApiVersion
-    azureProxyForm.deploymentID = azureDeploymentID
-  }
 }
+
+watch(selectedOption, newValue => {
+  emits('update:modelValue', {
+    ...props.modelValue,
+    selectedOption: newValue,
+  })
+})
+watch(serverName, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    emits('onRefresh')
+  }
+  emits('update:modelValue', {
+    ...props.modelValue,
+    serverName: newValue,
+  })
+})
+watch(
+  openAIOfficialFrom,
+  newValue => {
+    emits('update:modelValue', {
+      ...props.modelValue,
+      openAIOfficialFrom: newValue,
+    })
+  },
+  {deep: true}
+)
+watch(
+  openAiProxyForm,
+  newValue => {
+    emits('update:modelValue', {
+      ...props.modelValue,
+      openAiProxyForm: newValue,
+    })
+  },
+  {deep: true}
+)
+watch(
+  azureProxyForm,
+  newValue => {
+    emits('update:modelValue', {
+      ...props.modelValue,
+      azureProxyForm: newValue,
+    })
+  },
+  {deep: true}
+)
 </script>
 
 <style module="stepTwo" lang="scss">
@@ -263,15 +250,8 @@ const handleOptionChange = event => {
   margin: 0 0 4px;
   line-height: 25px;
 
-  input {
-    width: 16px;
-    height: 16px;
-    margin: 0 8px 0 0;
-    border: 1px solid #4f5aff;
-    cursor: pointer;
-  }
-
   label {
+    width: 105px;
     font-size: 14px;
     line-height: 1;
     cursor: pointer;
@@ -280,6 +260,34 @@ const handleOptionChange = event => {
   &--active label {
     color: #292929;
     font-weight: 600;
+  }
+}
+
+.radio-body {
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  border: 1px solid #4f5aff;
+  border-radius: 16px;
+  cursor: pointer;
+  appearance: none;
+  appearance: none;
+  appearance: none;
+
+  &:checked {
+    position: relative;
+  }
+
+  &:checked::before {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #4f5aff;
+    border-radius: 50%;
+    content: '';
   }
 }
 
@@ -337,5 +345,16 @@ const handleOptionChange = event => {
   .guide-content {
     text-align: left;
   }
+}
+
+.nav-btn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 88px;
+}
+
+.warn-txt {
+  margin-top: 20px;
 }
 </style>

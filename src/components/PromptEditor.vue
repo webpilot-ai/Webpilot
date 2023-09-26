@@ -19,7 +19,7 @@
       </section>
       <section :class="$style.btnGroup">
         <WebpilotButton
-          :disalbed="disableDelete"
+          :disabled="disableDelete"
           type="ghost"
           value="DELETE"
           @click="handleDelete"

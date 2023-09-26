@@ -7,19 +7,24 @@
       }}</span
     >
     <ImagePinGuide :class="$style.picture" />
+    <footer :class="$style['nav-btn']">
+      <WebpilotButton :value="'START NOW'" @click="onNext" />
+    </footer>
   </section>
 </template>
 
 <script setup>
 import {$gettext} from '@/utils/i18n'
+import WebpilotButton from '@/components/WebpilotButton.vue'
 import IconJigsaw from '@/components/icon/IconJigsaw.vue'
 import ImagePinGuide from '@/components/image/ImagePinGuide.vue'
 
 import WelcomeTitle from './WelcomeTitle.vue'
 
-const emits = defineEmits(['onPrev'])
+const emits = defineEmits(['onPrev', 'onNext'])
 
 const goBack = () => emits('onPrev')
+const onNext = () => emits('onNext')
 </script>
 
 <style module lang="scss">
@@ -45,5 +50,12 @@ const goBack = () => emits('onPrev')
 
 .picture {
   display: inline-block;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 182px;
 }
 </style>

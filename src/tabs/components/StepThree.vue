@@ -1,5 +1,5 @@
 <template>
-  <div :class="stepThree.wrap">
+  <div>
     <WelcomeTitle @on-prev="goBack">{{ $gettext('How to Use') }}</WelcomeTitle>
 
     <h2 :class="stepThree['shortcut-guide']">
@@ -32,14 +32,9 @@
       :tips="$gettext('Webpilot will answer based on the current page if no text is selected')"
       type="info"
     />
-    <!-- <div v-if="false" :class="stepThree.displayMode">
-      <h2 :class="stepThree.title">Display mode</h2>
-      <DisplayMode
-        v-model="mode"
-        style="margin-top: 2px; margin-bottom: 55px"
-        @change="osDisplayModeChange"
-      />
-    </div> -->
+    <footer :class="stepThree['nav-btn']">
+      <WebpilotButton :value="'NEXT'" @click="onNext" />
+    </footer>
   </div>
 </template>
 
@@ -51,8 +46,8 @@ import {$gettext} from '@/utils/i18n'
 
 import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
+import WebpilotButton from '@/components/WebpilotButton.vue'
 import ImageSelectText from '@/components/image/ImageSelectText.vue'
-// import DisplayMode from '@/components/DisplayMode.vue'
 import useStore from '@/stores/store'
 
 import ShortcutInput from '@/components/ShortcutInput.vue'
@@ -63,16 +58,16 @@ import WelcomeTitle from './WelcomeTitle.vue'
 
 const store = useStore()
 
-const emits = defineEmits(['onPrev'])
+const emits = defineEmits(['onPrev', 'onNext'])
 
 const goBack = () => emits('onPrev')
+const onNext = () => emits('onNext')
 
 const {config} = storeToRefs(store)
 
 const {customShortcut} = config.value
 
 const autoPopup = ref(config.value.autoPopup)
-// const mode = ref(config.value.displayMode)
 
 const onShortcutChange = customShortcut => {
   store.setConfig({
@@ -87,13 +82,6 @@ const onAutoPopupChange = value => {
     autoPopup: value,
   })
 }
-
-// const osDisplayModeChange = value => {
-//   store.setConfig({
-//     ...store.config,
-//     displayMode: value,
-//   })
-// }
 
 const shortcuts = computed(() => formatShortcut(store.config.customShortcut).split(' + '))
 </script>
@@ -162,16 +150,10 @@ const shortcuts = computed(() => formatShortcut(store.config.customShortcut).spl
   }
 }
 
-// .displayMode {
-//   display: flex;
-//   flex-direction: column;
-//   margin-top: 48px;
-
-//   .title {
-//     color: #292929;
-//     font-weight: 400;
-//     font-size: 18px;
-//     line-height: 25px;
-//   }
-// }
+.nav-btn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 66px;
+}
 </style>

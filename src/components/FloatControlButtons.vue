@@ -1,18 +1,18 @@
 <template>
   <ul>
-    <li :class="$style.box">
+    <li>
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <IconClose :class="$style.ico" @click="closePopup" />
+        <div :class="$style.box"><IconClose :class="$style.ico" @click="closePopup" /></div>
         <template #content>
-          <span :class="$style.popoverText">Close</span>
+          <span :class="$style['popover-text']">Close</span>
         </template>
       </Popper>
     </li>
-    <li v-show="showSetting" :class="$style.box">
+    <li v-show="showSetting">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <IconGear :class="$style.ico" @click="openSettingPage" />
+        <div :class="$style.box"><IconGear :class="$style.ico" @click="openSettingPage" /></div>
         <template #content>
-          <span :class="$style.popoverText">Settings</span>
+          <span :class="$style['popover-text']">Settings</span>
         </template>
       </Popper>
     </li>
@@ -51,7 +51,6 @@ const closePopup = () => {
   justify-content: center;
   width: 36px;
   height: 36px;
-  margin-bottom: 16px;
   background-color: #fff;
   border-radius: 8px;
 }
@@ -61,7 +60,7 @@ const closePopup = () => {
   height: 24px;
 }
 
-.popoverText {
+.popover-text {
   padding: 4px 8px;
   color: #fff;
   font-weight: 500;
