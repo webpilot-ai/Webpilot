@@ -183,16 +183,15 @@ const handleOptionChange = event => {
   selectedOption.value = value
 }
 
-watch(selectedOption, newValue => {
+watch(selectedOption, (newValue, oldValue) => {
+  if (newValue !== oldValue) emits('onRefresh')
   emits('update:modelValue', {
     ...props.modelValue,
     selectedOption: newValue,
   })
 })
 watch(serverName, (newValue, oldValue) => {
-  if (newValue !== oldValue) {
-    emits('onRefresh')
-  }
+  if (newValue !== oldValue) emits('onRefresh')
   emits('update:modelValue', {
     ...props.modelValue,
     serverName: newValue,
@@ -247,7 +246,7 @@ watch(
   line-height: 25px;
 
   label {
-    width: 105px;
+    width: 112px;
     font-size: 14px;
     line-height: 1;
     cursor: pointer;

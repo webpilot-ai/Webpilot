@@ -6,7 +6,7 @@
         $gettext('and pin Webpilot to your nav bar')
       }}</span
     >
-    <ImagePinGuide :class="$style.picture" />
+    <ImagePinGuide />
     <footer :class="$style['nav-btn']">
       <WebpilotButton :value="'START NOW'" @click="onNext" />
     </footer>
@@ -46,10 +46,6 @@ const onNext = () => emits('onNext')
     height: 16px;
     margin: 0 4px;
   }
-}
-
-.picture {
-  display: inline-block;
 }
 
 .nav-btn {

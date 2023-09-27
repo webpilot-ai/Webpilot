@@ -31,7 +31,7 @@
 <script setup>
 import {computed, ref, watch} from 'vue'
 import '@assets/styles/csui-reset.scss'
-import './index.css'
+import '@assets/styles/csui-theme.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
 

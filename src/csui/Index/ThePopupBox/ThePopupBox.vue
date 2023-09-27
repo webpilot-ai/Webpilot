@@ -25,12 +25,13 @@
       :loading="aiThinking"
       :selected-text="store.selectedText"
       @on-change="handleInputCommandChange"
-      @on-submit="popUpAskIA"
+      @on-submit="popUpAskAi"
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
     <!-- <PromptMenu
       v-if="!isAskPage"
+      :activate="!isAskPage"
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
@@ -246,7 +247,7 @@ const getPageReference = () => {
   return reference
 }
 
-const popUpAskIA = async () => {
+const popUpAskAi = async () => {
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
 
   try {
@@ -288,7 +289,7 @@ const handleCloseEditor = () => {
 //     latestPresetPromptIndex: index,
 //   })
 
-//   popUpAskIA()
+//   popUpAskAi()
 // }
 
 const handleInputCommandChange = () => {
@@ -347,6 +348,7 @@ const showSetting = computed(() => {
 <style lang="scss" module>
 .control {
   position: absolute;
+  top: 8px;
   right: -44px;
 }
 

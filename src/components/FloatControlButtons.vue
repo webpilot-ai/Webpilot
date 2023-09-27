@@ -47,6 +47,7 @@ const closePopup = () => {
 <style lang="scss" module>
 .box {
   margin-bottom: 16px;
+  list-style: none;
 }
 
 .btn {

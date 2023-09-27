@@ -132,6 +132,7 @@ const clearStatus = () => {
   loading.value = false
   error.value = false
   success.value = false
+  showWarn.value = false
 }
 const goToLogin = () => {
   const signURL = 'https://account.webpilot.ai/'
