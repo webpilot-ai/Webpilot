@@ -51,6 +51,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  showMenu: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 // const emits = defineEmits(['update:modelValue'])
@@ -136,30 +140,26 @@ const handleCopy = () => {
   flex-direction: column;
   align-items: start;
 
-  // margin-top: 16px !important;
-  margin-top: 8px;
+  // margin-top: 8px;
+  padding: 0 8px 8px;
   color: #292929;
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
+  border-radius: 10px;
 }
 
 .markdownWrap {
-  // width: 448px;
   width: 596px;
   height: 116px;
-
-  // margin-top: 4px;
   padding: 8px;
   overflow-x: hidden;
   overflow-y: auto;
-  color: #000;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   text-align: left;
-
-  // border: 1px solid #dcdee1;
   background-color: #f8f8f8;
   border-radius: 5px;
   resize: none;
@@ -179,6 +179,8 @@ const handleCopy = () => {
 
   p {
     margin: 0;
+    color: #000;
+    line-height: 1.6;
   }
 
   pre {

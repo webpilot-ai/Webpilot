@@ -42,7 +42,7 @@ msgstr ""
 msgid "API Settings"
 msgstr ""
 
-#: src/components/PromptInput.vue:46
+#: src/components/PromptInput.vue:48
 msgid "Ask a question about this webpage"
 msgstr ""
 

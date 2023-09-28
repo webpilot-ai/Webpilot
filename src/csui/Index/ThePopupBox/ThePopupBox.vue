@@ -8,11 +8,11 @@
     <!-- <HeaderPanel @on-close="handleClosePopup" /> -->
     <FloatControlButtons
       :class="$style.control"
-      :show-setting="showSetting"
+      :show-setting="foundResult"
       @on-close="handleClosePopup"
     />
     <!-- <PromptList
-      v-if="!isAskPage"
+      v-if="showPrompts"
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
@@ -24,21 +24,23 @@
       :disabled="aiThinking"
       :loading="aiThinking"
       :selected-text="store.selectedText"
+      :show-menu="showPrompts"
       @on-change="handleInputCommandChange"
       @on-submit="popUpAskAi"
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
-    <!-- <PromptMenu
-      v-if="!isAskPage"
-      :activate="!isAskPage"
+    <PromptMenu
+      v-if="showPrompts"
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
+      :tab-index="chooseIndex"
       @on-add-prompt="handleAddPrompt"
       @on-change="handleChangePrompt"
       @on-edit-prompt="handleEditPrompt"
-    /> -->
-    <PromptResult v-model="result" />
+      @on-mouse-over="handleHoverPrompt"
+    />
+    <PromptResult v-model="result" :show-menu="showPrompts" />
     <PromptEditor
       :disable-delete="disableDeletePrompt"
       :prompt="selectedPrompt.prompt"
@@ -65,7 +67,7 @@ import FloatControlButtons from '@/components/FloatControlButtons.vue'
 import PromptInput from '@/components/PromptInput.vue'
 // import ShortcutTips from '@/components/ShortcutTips.vue'
 // import PromptList from '@/components/PromptList.vue'
-// import PromptMenu from '@/components/PromptMenu.vue'
+import PromptMenu from '@/components/PromptMenu.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useStore from '@/stores/store'
@@ -90,6 +92,7 @@ const props = defineProps({
 
 const showEditor = ref(false)
 const inputCommand = ref('')
+const chooseIndex = ref(-1)
 const selectedPrompt = reactive({
   index: -1,
   prompt: {
@@ -105,6 +108,11 @@ useMagicKeys({
     if (e.key === 'Escape') {
       emits('closePopup')
     }
+    if (!showPrompts.value || e.type !== 'keyup') return
+    const index = chooseIndex.value
+    if (e.key === 'Tab') chooseIndex.value = (index + 1) % store.config.prompts.length
+    if (e.key === 'Enter') handleChangePrompt({index, prompt: store.config.prompts[index]})
+    e.preventDefault()
   },
 })
 
@@ -126,6 +134,7 @@ onMounted(async () => {
   const index = store.config.latestPresetPromptIndex
   if (index >= 0 && store.config.prompts[index]) {
     selectedPrompt.index = index
+    chooseIndex.value = index
     selectedPrompt.prompt = store.config.prompts[index]
   }
 })
@@ -275,34 +284,39 @@ const handleCloseEditor = () => {
   showEditor.value = false
 }
 
-// const handleShowEditor = () => {
-//   showEditor.value = true
-// }
+const handleShowEditor = () => {
+  showEditor.value = true
+}
 
-// const handleChangePrompt = promptInfo => {
-//   const {index, prompt} = promptInfo
-//   selectedPrompt.index = index
-//   selectedPrompt.prompt = prompt
-//   inputCommand.value = prompt.command
+const handleChangePrompt = promptInfo => {
+  const {index, prompt} = promptInfo
+  selectedPrompt.index = index
+  chooseIndex.value = index
+  selectedPrompt.prompt = prompt
+  inputCommand.value = prompt.command
 
-//   store.updateConfig({
-//     latestPresetPromptIndex: index,
-//   })
+  store.updateConfig({
+    latestPresetPromptIndex: index,
+  })
 
-//   popUpAskAi()
-// }
+  popUpAskAi()
+}
+const handleHoverPrompt = ({index}) => {
+  chooseIndex.value = index
+}
 
 const handleInputCommandChange = () => {
   selectedPrompt.index = -1
+  chooseIndex.value = -1
 }
 
-// const handleEditPrompt = promptInfo => {
-//   const {index, prompt} = promptInfo
-//   selectedPrompt.index = index
-//   selectedPrompt.prompt = prompt
+const handleEditPrompt = promptInfo => {
+  const {index, prompt} = promptInfo
+  selectedPrompt.index = index
+  selectedPrompt.prompt = prompt
 
-//   handleShowEditor()
-// }
+  handleShowEditor()
+}
 
 const handleSavePrompt = prompt => {
   selectedPrompt.prompt = prompt
@@ -326,23 +340,27 @@ const handleDeletePrompt = () => {
   handleCloseEditor()
 }
 
-// const handleAddPrompt = () => {
-//   selectedPrompt.index = store.config.prompts.length
-//   selectedPrompt.prompt = {title: '', command: ''}
-//   handleShowEditor()
-// }
+const handleAddPrompt = () => {
+  selectedPrompt.index = store.config.prompts.length
+  selectedPrompt.prompt = {title: '', command: ''}
+  handleShowEditor()
+}
 
 const disableDeletePrompt = computed(() => {
   return store.config.prompts.length === 1
 })
 
+const foundResult = computed(() => {
+  return !!result.value && result.value !== ''
+})
+
+const showPrompts = computed(() => {
+  return !props.isAskPage && !foundResult.value
+})
+
 const handleClosePopup = () => {
   emits('closePopup')
 }
-
-const showSetting = computed(() => {
-  return !!result.value && result.value !== ''
-})
 </script>
 
 <style lang="scss" module>
@@ -354,11 +372,12 @@ const showSetting = computed(() => {
 
 .container {
   position: relative;
-  padding: 8px;
-  color: #000;
-  font-size: 24px;
-  background-color: var(--webpilot-theme-main-background-color, #fff);
-  border-radius: 10px;
+
+  // padding: 8px;
+  // color: #000;
+  // font-size: 24px;
+  // background-color: var(--webpilot-theme-main-background-color, #fff);
+  // border-radius: 10px;
 }
 
 .showPromptEditor {

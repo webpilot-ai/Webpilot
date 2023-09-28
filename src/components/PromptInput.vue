@@ -1,25 +1,27 @@
 <template>
-  <section :class="{[$style.promptInput]: true}">
-    <!-- <img :class="$style.logo" :src="WebpilotLogo" /> -->
-    <input
-      ref="refInput"
-      v-model="localModelValue"
-      :class="{[$style['input-area']]: true, [$style.promptInputDisabled]: disabled}"
-      :disabled="disabled"
-      :placeholder="placeholderText"
-      type="text"
-      @keydown.enter="handleSend"
-    />
-    <section
-      :class="{[$style.actionIcon]: true, [$style.promptInputDisabled]: disabled}"
-      @click="handleSend"
-    >
-      <template v-if="!loading">
-        <IconSend v-if="modelValue == ''" />
-        <IconSendFill v-else />
-      </template>
-      <IconLoading v-else :class="$style.loading" />
-    </section>
+  <section :class="$style.frame">
+    <article :class="[$style.container, {[$style['container--unfold']]: showMenu}]">
+      <!-- <img :class="$style.logo" :src="WebpilotLogo" /> -->
+      <input
+        ref="refInput"
+        v-model="localModelValue"
+        :class="{[$style['input-area']]: true, [$style.promptInputDisabled]: disabled}"
+        :disabled="disabled"
+        :placeholder="placeholderText"
+        type="text"
+        @keydown.enter="handleSend"
+      />
+      <div
+        :class="{[$style.actionIcon]: true, [$style.promptInputDisabled]: disabled}"
+        @click="handleSend"
+      >
+        <template v-if="!loading">
+          <IconSend v-if="modelValue == ''" />
+          <IconSendFill v-else />
+        </template>
+        <IconLoading v-else :class="$style.loading" />
+      </div>
+    </article>
   </section>
 </template>
 
@@ -54,6 +56,10 @@ const props = defineProps({
     default: '',
   },
   loading: {
+    type: Boolean,
+    default: false,
+  },
+  showMenu: {
     type: Boolean,
     default: false,
   },
@@ -96,7 +102,13 @@ const handleSend = () => {
   margin-right: 6px;
 }
 
-.promptInput {
+.frame {
+  padding: 8px 8px 0;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
+  border-radius: 10px;
+}
+
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -105,6 +117,12 @@ const handleSend = () => {
   padding: 8px;
   border: 1px solid #dcdee1;
   border-radius: 5px;
+
+  &--unfold {
+    border-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
 .input-area {
@@ -112,7 +130,7 @@ const handleSend = () => {
   width: 100% !important;
   max-width: none !important;
   height: 20px !important;
-  color: var(--webpilot-theme-baseline-text, #000);
+  color: var(--webpilot-theme-icon-default-and-secondary-text, #000);
   font-weight: 400 !important;
   font-size: 14px !important;
   font-style: normal !important;
