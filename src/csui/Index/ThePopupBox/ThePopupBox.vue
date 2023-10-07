@@ -368,6 +368,7 @@ const handleClosePopup = () => {
   position: absolute;
   top: 8px;
   right: -44px;
+  margin: 0 !important;
 }
 
 .container {

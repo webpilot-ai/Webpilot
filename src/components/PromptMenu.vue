@@ -15,12 +15,10 @@
       </li>
     </ol>
     <article :class="$style.footer">
-      <span :class="$style['footer__keys']">Tab</span>
-      <p :class="$style['footer__tips']">Choose prompts</p>
-      <span :class="$style['footer__keys']"
-        ><IconSmallBack :class="$style['footer__icon']" />Enter</span
-      >
-      <p :class="$style['footer__tips']">Search</p>
+      <span :class="$style.keys">Tab</span>
+      <p :class="$style.tips">Choose prompts</p>
+      <span :class="$style.keys"><IconSmallBack :class="$style.icon" />Enter</span>
+      <p :class="$style.tips">Search</p>
     </article>
   </section>
 </template>
@@ -94,32 +92,33 @@ const handleHoverPrompt = index => {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
   }
-}
 
-.name {
-  flex: none;
-  width: 74px;
-  margin: 0 6px;
-  padding: 0 6px;
-  color: #929497;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 20px;
-  border: 1px solid #dcdee1;
-  border-radius: 10px;
-}
+  .name {
+    flex: none;
+    width: 74px;
+    margin: 0 6px;
+    padding: 0 6px;
+    color: #929497;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    border: 1px solid #dcdee1;
+    border-radius: 10px;
+  }
 
-.describe {
-  color: #929497;
-  font-size: 14px;
-  text-align: left;
-}
+  .describe {
+    margin: 0;
+    color: #929497;
+    font-size: 14px;
+    text-align: left;
+  }
 
-.name,
-.describe {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  .name,
+  .describe {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .item--activate {
@@ -140,29 +139,29 @@ const handleHoverPrompt = index => {
   justify-content: flex-end;
   padding: 8px 0;
 
-  &__keys {
+  .keys {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 12px;
+    margin: 0 0 0 12px;
     padding: 0 4px;
     border: 1px solid #929497;
     border-radius: 4px;
   }
 
-  &__tips {
+  .tips {
     margin: 0 8px;
   }
 
-  &__keys,
-  &__tips {
+  .keys,
+  .tips {
     color: #929497;
     font-weight: 600;
     font-size: 10px;
     line-height: 20px;
   }
 
-  &__icon {
+  .icon {
     padding: 2px 2px 0 0;
   }
 }
