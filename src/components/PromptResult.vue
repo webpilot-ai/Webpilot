@@ -113,7 +113,7 @@ watch(result, () => {
 
 const handleCopy = () => {
   const text = props.modelValue
-  const isSuccessCopy = copyToClipboard(text)
+  const isSuccessCopy = copyToClipboard(text, {format: 'text/plain'})
 
   isCopied.value = true
   setTimeout(() => {
@@ -139,8 +139,7 @@ const handleCopy = () => {
   display: flex;
   flex-direction: column;
   align-items: start;
-
-  // margin-top: 8px;
+  margin-top: 8px;
   padding: 0 8px 8px;
   color: #292929;
   font-weight: 500;
@@ -218,6 +217,7 @@ const handleCopy = () => {
   width: 24px;
   height: 24px;
   transform: translate(140px, -35px);
+  cursor: pointer;
 }
 
 .tips {
