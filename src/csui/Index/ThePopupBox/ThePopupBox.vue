@@ -3,12 +3,13 @@
     :class="{
       [$style.container]: true,
       [$style.showPromptEditor]: showEditor,
+      [$style['container--jaw']]: !showPrompts && !showResult,
     }"
   >
     <!-- <HeaderPanel @on-close="handleClosePopup" /> -->
     <FloatControlButtons
       :class="$style.control"
-      :show-setting="foundResult"
+      :show-setting="showResult"
       @on-close="handleClosePopup"
     />
     <!-- <PromptList
@@ -350,12 +351,12 @@ const disableDeletePrompt = computed(() => {
   return store.config.prompts.length === 1
 })
 
-const foundResult = computed(() => {
+const showResult = computed(() => {
   return !!result.value && result.value !== ''
 })
 
 const showPrompts = computed(() => {
-  return !props.isAskPage && !foundResult.value
+  return !props.isAskPage && !showResult.value
 })
 
 const handleClosePopup = () => {
@@ -373,6 +374,10 @@ const handleClosePopup = () => {
 
 .container {
   position: relative;
+
+  &--jaw {
+    padding-bottom: 8px;
+  }
 
   // padding: 8px;
   // color: #000;
