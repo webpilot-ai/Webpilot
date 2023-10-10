@@ -42,8 +42,13 @@ msgstr ""
 msgid "API Settings"
 msgstr ""
 
-#: src/components/PromptInput.vue:48
+#: src/components/PromptInput.vue:49
 msgid "Ask a question about this webpage"
+msgstr ""
+
+#: src/components/FloatControlButtons.vue:14
+#: src/components/FloatControlButtons.vue:15
+msgid "Back"
 msgstr ""
 
 #: src/options/AdvancedView.vue:156
@@ -56,6 +61,12 @@ msgstr ""
 msgid "Change Shortcut"
 msgstr ""
 
+#: src/components/PromptMenu.vue:16
+#: src/components/PromptMenu.vue:17
+#: src/components/PromptMenu.vue:28
+msgid "Choose prompts"
+msgstr ""
+
 #: src/popup/componetns/WebpilotPopup.vue:14
 #: src/popup/componetns/WebpilotPopup.vue:15
 msgid "Chrome's Settings, History, and Web Store pages"
@@ -66,8 +77,21 @@ msgstr ""
 msgid "Click"
 msgstr ""
 
+#: src/components/FloatControlButtons.vue:6
+#: src/components/FloatControlButtons.vue:7
+msgid "Close"
+msgstr ""
+
 #: src/popup/componetns/WebpilotPopup.vue:5
 msgid "Current Webpage Not Supported"
+msgstr ""
+
+#: src/components/PromptEditor.vue:17
+#: src/components/PromptEditor.vue:19
+#: src/components/PromptEditor.vue:24
+#: src/components/PromptEditor.vue:31
+#: src/components/PromptEditor.vue:34
+msgid "DELETE"
 msgstr ""
 
 #: src/options/AdvancedView.vue:125
@@ -189,6 +213,19 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
+#: src/components/PromptEditor.vue:21
+#: src/components/PromptEditor.vue:23
+#: src/components/PromptEditor.vue:28
+#: src/components/PromptEditor.vue:38
+msgid "SAVE PROMPT"
+msgstr ""
+
+#: src/components/PromptMenu.vue:18
+#: src/components/PromptMenu.vue:19
+#: src/components/PromptMenu.vue:30
+msgid "Search"
+msgstr ""
+
 #: src/tabs/components/StepThree.vue:5
 #: src/tabs/components/StepThree.vue:6
 msgid "Select text, and press "
@@ -197,6 +234,11 @@ msgstr ""
 #: src/tabs/components/StepTwo.vue:2
 #: src/tabs/components/StepTwo.vue:3
 msgid "Set up API"
+msgstr ""
+
+#: src/components/FloatControlButtons.vue:22
+#: src/components/FloatControlButtons.vue:23
+msgid "Settings"
 msgstr ""
 
 #: src/options/AdvancedView.vue:138

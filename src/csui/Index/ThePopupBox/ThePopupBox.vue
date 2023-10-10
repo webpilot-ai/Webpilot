@@ -2,16 +2,11 @@
   <section
     :class="{
       [$style.container]: true,
-      [$style.showPromptEditor]: showEditor,
-      [$style['container--jaw']]: !showPrompts && !showResult,
+      [$style['container--jaw']]: !showResult && !showPrompts,
     }"
   >
-    <!-- <HeaderPanel @on-close="handleClosePopup" /> -->
-    <FloatControlButtons
-      :class="$style.control"
-      :show-setting="showResult"
-      @on-close="handleClosePopup"
-    />
+    <!-- [$style.showPromptEditor]: showEditor,
+    <HeaderPanel @on-close="handleClosePopup" /> -->
     <!-- <PromptList
       v-if="showPrompts"
       :prompts="store.config.prompts"
@@ -27,10 +22,19 @@
       :selected-text="store.selectedText"
       :show-menu="showPrompts"
       @on-change="handleInputCommandChange"
+      @on-focus="handleInputFocus"
       @on-submit="popUpAskAi"
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
+    <PromptResult v-model="result" :show-shadow="showMenu" />
+    <FloatControlButtons
+      v-show="!showEditor"
+      :show-back="showMenu"
+      :show-setting="showResult"
+      @on-back="handlePopupTurnBack"
+      @on-close="handleClosePopup"
+    />
     <PromptMenu
       v-if="showPrompts"
       :prompts="store.config.prompts"
@@ -41,11 +45,10 @@
       @on-edit-prompt="handleEditPrompt"
       @on-mouse-over="handleHoverPrompt"
     />
-    <PromptResult v-model="result" :show-menu="showPrompts" />
     <PromptEditor
+      v-if="showEditor"
       :disable-delete="disableDeletePrompt"
       :prompt="selectedPrompt.prompt"
-      :show-editor="showEditor"
       @on-delete="handleDeletePrompt"
       @on-hide="handleCloseEditor"
       @on-save="handleSavePrompt"
@@ -81,7 +84,7 @@ const store = useStore()
 
 const {config} = storeToRefs(store)
 
-const {loading: aiThinking, result, errorMessage, askAi} = useAskAi()
+const {loading: aiThinking, result, errorMessage, askAi, generating} = useAskAi()
 
 const emits = defineEmits(['closePopup'])
 const props = defineProps({
@@ -92,6 +95,7 @@ const props = defineProps({
 })
 
 const showEditor = ref(false)
+const showMenu = ref(false)
 const inputCommand = ref('')
 const chooseIndex = ref(-1)
 const selectedPrompt = reactive({
@@ -109,11 +113,20 @@ useMagicKeys({
     if (e.key === 'Escape') {
       emits('closePopup')
     }
-    if (!showPrompts.value || e.type !== 'keyup') return
-    const index = chooseIndex.value
-    if (e.key === 'Tab') chooseIndex.value = (index + 1) % store.config.prompts.length
-    if (e.key === 'Enter') handleChangePrompt({index, prompt: store.config.prompts[index]})
-    e.preventDefault()
+    if (!showPrompts.value) return
+    let index = chooseIndex.value
+    if (e.key === 'Tab' && e.type === 'keydown') {
+      const {length} = store.config.prompts
+      if (e.shiftKey && index === -1) chooseIndex.value = length - 1
+      else if (e.shiftKey) chooseIndex.value = (--index + length) % length
+      else chooseIndex.value = ++index % length
+      e.preventDefault()
+    }
+    if (e.key === 'Enter' && e.type === 'keyup') {
+      if (index === -1) popUpAskAi()
+      else handleChangePrompt({index, prompt: store.config.prompts[index]})
+      e.preventDefault()
+    }
   },
 })
 
@@ -258,6 +271,7 @@ const getPageReference = () => {
 }
 
 const popUpAskAi = async () => {
+  showMenu.value = false
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
 
   try {
@@ -311,6 +325,11 @@ const handleInputCommandChange = () => {
   chooseIndex.value = -1
 }
 
+const handleInputFocus = () => {
+  if (showPrompts.value && !showResult.value) inputCommand.value = ''
+  if (!showPrompts.value && showResult.value) showMenu.value = true
+}
+
 const handleEditPrompt = promptInfo => {
   const {index, prompt} = promptInfo
   selectedPrompt.index = index
@@ -356,22 +375,23 @@ const showResult = computed(() => {
 })
 
 const showPrompts = computed(() => {
-  return !props.isAskPage && !showResult.value
+  return (
+    (showMenu.value || (!props.isAskPage && !showResult.value)) &&
+    !aiThinking.value &&
+    !generating.value &&
+    !showEditor.value
+  )
 })
 
 const handleClosePopup = () => {
   emits('closePopup')
 }
+const handlePopupTurnBack = () => {
+  showMenu.value = false
+}
 </script>
 
 <style lang="scss" module>
-.control {
-  position: absolute;
-  top: 8px;
-  right: -44px;
-  margin: 0 !important;
-}
-
 .container {
   position: relative;
 
@@ -386,9 +406,9 @@ const handleClosePopup = () => {
   // border-radius: 10px;
 }
 
-.showPromptEditor {
-  height: 341px;
-}
+// .showPromptEditor {
+//   height: 341px;
+// }
 
 .alert {
   margin-top: 8px;

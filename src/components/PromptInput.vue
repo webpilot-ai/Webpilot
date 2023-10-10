@@ -9,6 +9,7 @@
         :disabled="disabled"
         :placeholder="placeholderText"
         type="text"
+        @focus="handleFocus"
         @keydown.enter="handleSend"
       />
       <div
@@ -26,7 +27,7 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from 'vue'
+import {ref, computed} from 'vue'
 
 // import WebpilotLogo from 'data-base64:~assets/icon.png'
 
@@ -36,7 +37,7 @@ import IconSend from './icon/IconSend.vue'
 import IconSendFill from './icon/IconSendFill.vue'
 import IconLoading from './icon/IconLoading.vue'
 
-const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit'])
+const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit', 'onFocus'])
 
 const props = defineProps({
   modelValue: {
@@ -76,12 +77,12 @@ const localModelValue = computed({
 // Auto focus
 const refInput = ref(null)
 
-onMounted(() => {
-  refInput.value.focus()
-  setTimeout(() => {
-    refInput.value.select()
-  }, 100)
-})
+// onMounted(() => {
+//   refInput.value.focus()
+//   setTimeout(() => {
+//     refInput.value.select()
+//   }, 100)
+// })
 
 const placeholderText = computed(() => {
   if (props.selectedText === '') return props.placeholder
@@ -93,19 +94,23 @@ const handleSend = () => {
   if (props.disabled) return
   emits('onSubmit')
 }
+const handleFocus = () => {
+  emits('onFocus')
+}
 </script>
 
 <style lang="scss" module>
-.logo {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
-}
+// .logo {
+//   width: 16px;
+//   height: 16px;
+//   margin-right: 6px;
+// }
 
 .frame {
   padding: 8px 8px 0;
   background-color: var(--webpilot-theme-main-background-color, #fff);
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .container {

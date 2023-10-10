@@ -24,7 +24,7 @@
     }"
   >
     <ThePopupBox id="webpilot_popup" :is-ask-page="isAskPage" @close-popup="handleClosePopup" />
-    <section v-if="false" ref="refDragHandle" :class="$style.dragHandle"></section>
+    <section ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
 </template>
 
@@ -278,9 +278,9 @@ const shortcutText = computed(() => {
 .dragHandle {
   position: absolute;
   top: 0;
-  left: 140px;
-  width: 200px;
-  height: 36px;
+  left: 0;
+  width: 612px;
+  height: 8px;
   cursor: move;
   user-select: none;
 }

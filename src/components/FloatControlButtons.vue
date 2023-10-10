@@ -1,10 +1,18 @@
 <template>
-  <ul>
-    <li :class="$style.box">
+  <ul :class="$style.control">
+    <li v-show="!showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn"><IconClose :class="$style.ico" @click="closePopup" /></div>
+        <div :class="$style.btn"><IconClose :class="$style.ico" @click="popupClose" /></div>
         <template #content>
-          <span :class="$style.popover">Close</span>
+          <span :class="$style.popover">{{ $gettext('Close') }}</span>
+        </template>
+      </Popper>
+    </li>
+    <li v-show="showBack" :class="$style.box">
+      <Popper hover offset-distance="14" offset-skid="-4" placement="right">
+        <div :class="$style.btn"><IconBigBack :class="$style.ico" @click="popupBack" /></div>
+        <template #content>
+          <span :class="$style.popover">{{ $gettext('Back') }}</span>
         </template>
       </Popper>
     </li>
@@ -12,7 +20,7 @@
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
         <div :class="$style.btn"><IconGear :class="$style.ico" @click="openSettingPage" /></div>
         <template #content>
-          <span :class="$style.popover">Settings</span>
+          <span :class="$style.popover">{{ $gettext('Settings') }}</span>
         </template>
       </Popper>
     </li>
@@ -23,7 +31,10 @@
 import {sendToBackground} from '@plasmohq/messaging'
 import Popper from 'vue3-popper'
 
+import {$gettext} from '@/utils/i18n'
+
 import IconClose from './icon/IconClose.vue'
+import IconBigBack from './icon/IconBigBack.vue'
 import IconGear from './icon/IconGear.vue'
 
 defineProps({
@@ -31,20 +42,35 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  showBack: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-const emits = defineEmits(['onClose'])
+const emits = defineEmits(['onClose', 'onBack'])
 
 const openSettingPage = () => {
   sendToBackground({name: 'openSetting'})
 }
 
-const closePopup = () => {
+const popupClose = () => {
   emits('onClose')
+}
+const popupBack = () => {
+  emits('onBack')
 }
 </script>
 
 <style lang="scss" module>
+.control {
+  position: absolute;
+  top: 8px;
+  right: -44px;
+  margin: 0 !important;
+  padding: 0;
+}
+
 .box {
   margin-bottom: 16px;
   list-style: none;
@@ -73,6 +99,7 @@ const closePopup = () => {
   font-weight: 500;
   font-size: 12px;
   line-height: 17px;
+  white-space: nowrap;
   background-color: black;
   border-radius: 5px;
 }

@@ -26,8 +26,14 @@
   "Ask_a_question_about_this_webpage": {
     "message": "向这个网页提问"
   },
+  "Back": {
+    "message": "Back"
+  },
   "Change_Shortcut": {
     "message": "更改快捷键"
+  },
+  "Choose_prompts": {
+    "message": "Choose prompts"
   },
   "Chrome_s_Settings__History__and_Web_Store_pages": {
     "message": "Chrome 的设置、历史记录和 Web 商店页面"
@@ -35,8 +41,14 @@
   "Click": {
     "message": "Click"
   },
+  "Close": {
+    "message": "Close"
+  },
   "Current_Webpage_Not_Supported": {
     "message": "当前网页不支持"
+  },
+  "DELETE": {
+    "message": "DELETE"
   },
   "Display_Mode": {
     "message": "Display Mode"
@@ -98,11 +110,20 @@
   "Save_Changes": {
     "message": "Save Changes"
   },
+  "SAVE_PROMPT": {
+    "message": "SAVE PROMPT"
+  },
+  "Search": {
+    "message": "Search"
+  },
   "Select_text__and_press_": {
     "message": "Select text, and press "
   },
   "Set_up_API": {
     "message": "Set up API"
+  },
+  "Settings": {
+    "message": "Settings"
   },
   "Side_Bar": {
     "message": "Side Bar"

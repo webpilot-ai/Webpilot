@@ -1,10 +1,10 @@
 <template>
-  <section v-show="showResult" :class="$style.promptResultWrap">
+  <section v-show="showResult" :class="$style.container">
     <!-- <section>Webpilot says</section> -->
-    <div ref="refMarkdown" :class="$style.markdownWrap" @scroll="onScroll">
+    <div ref="refMarkdown" :class="$style.container__content" @scroll="onScroll">
       <Markdown :source="result" />
     </div>
-    <article :class="$style.footer">
+    <article :class="$style.container__footer">
       <!-- <section :class="$style.tips" @click="showShareInfo">
         Amazing Webpilot, telling friends!
       </section> -->
@@ -13,13 +13,27 @@
         {{ copyResult }}
       </section>
       <WebpilotButton :class="$style.copyBtn" value="COPY" @click="handleCopy" /> -->
-      <TipsShortcut :class="$style.shortcut" />
-      <section :class="$style.copyControl">
-        <IconCopiedDone v-if="isCopied" :class="$style.copyBtn" value="COPY" @click="handleCopy" />
-        <IconCopyAvailable v-else :class="$style.copyBtn" value="COPY" @click="handleCopy" />
+      <TipsShortcut />
+      <section :class="$style.control">
+        <article :class="$style['control-move']" @mousedown="onDragStart">
+          <p :class="$style['control-move__bar']"></p>
+        </article>
+        <IconCopiedDone
+          v-if="isCopied"
+          :class="$style['control__copy-btn']"
+          value="COPY"
+          @click="handleCopy"
+        />
+        <IconCopyAvailable
+          v-else
+          :class="$style['control__copy-btn']"
+          value="COPY"
+          @click="handleCopy"
+        />
         <WebpilotAttribution />
       </section>
     </article>
+    <aside v-if="showShadow" :class="$style.container__shadow" />
   </section>
 </template>
 
@@ -51,7 +65,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  showMenu: {
+  showShadow: {
     type: Boolean,
     default: false,
   },
@@ -132,15 +146,46 @@ const handleCopy = () => {
   //   position: 'top',
   // })
 }
+
+let isDragging = false
+let startY = 0
+let startHeight = 0
+
+const onDragStart = event => {
+  isDragging = true
+  startY = event.clientY
+  startHeight = refMarkdown.value.offsetHeight
+  window.addEventListener('mousemove', onDragMove)
+  window.addEventListener('mouseup', onDragEnd)
+}
+
+const onDragMove = event => {
+  if (!isDragging) return
+  const deltaY = event.clientY - startY
+  const newHeight = startHeight + deltaY
+  if (newHeight < 226) return
+  // if (newHeight < 116) return
+  if (newHeight > window.innerHeight * 0.8) return
+  refMarkdown.value.style.height = `${newHeight}px`
+}
+
+const onDragEnd = () => {
+  isDragging = false
+  window.removeEventListener('mousemove', onDragMove)
+  window.removeEventListener('mouseup', onDragEnd)
+}
 </script>
 
 <style lang="scss" module>
-.promptResultWrap {
+.container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin-top: 8px;
-  padding: 0 8px 8px;
+
+  // margin-top: 8px;
+  // padding: 0 8px 8px;
+  padding: 8px;
   color: #292929;
   font-weight: 500;
   font-size: 12px;
@@ -149,9 +194,23 @@ const handleCopy = () => {
   border-radius: 10px;
 }
 
-.markdownWrap {
+.container__shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0 / 50%);
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  backdrop-filter: blur(2px);
+}
+
+.container__content {
   width: 596px;
-  height: 116px;
+
+  // height: 116px;
+  height: 226px;
   padding: 8px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -199,21 +258,35 @@ const handleCopy = () => {
   }
 }
 
-.footer {
+.container__footer {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   margin-top: 8px !important;
+  user-select: none;
 }
 
-.copyControl {
+.control {
   display: flex;
-  align-content: center;
 }
 
-.copyBtn {
+.control-move {
+  margin-right: 72px;
+  padding: 9px 0;
+  cursor: row-resize;
+
+  & .control-move__bar {
+    width: 120px;
+    height: 6px;
+    margin: 0;
+    background-color: #dcdee1;
+    border-radius: 20px;
+  }
+}
+
+.control__copy-btn {
   width: 24px;
   height: 24px;
   transform: translate(140px, -35px);
@@ -231,19 +304,19 @@ const handleCopy = () => {
   text-decoration-line: underline;
 }
 
-.copySuccess {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin: 0 8px 0 auto;
-  color: #292929;
-  font-weight: 600;
+// .copySuccess {
+//   display: flex;
+//   gap: 6px;
+//   align-items: center;
+//   margin: 0 8px 0 auto;
+//   color: #292929;
+//   font-weight: 600;
 
-  svg {
-    width: 16px;
-    height: 16px;
-    background: #318619;
-    border-radius: 50%;
-  }
-}
+//   svg {
+//     width: 16px;
+//     height: 16px;
+//     background: #318619;
+//     border-radius: 50%;
+//   }
+// }
 </style>
