@@ -53,6 +53,7 @@ onMounted(() => {
 .about-view {
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
   color: var(--color-baseline-text);
   font-weight: 400;
@@ -70,6 +71,7 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   row-gap: 12px;
+  column-gap: max(8px, 2%);
 }
 
 .contributor-card {
@@ -163,9 +165,20 @@ onMounted(() => {
   }
 }
 
-@media screen and (width <= 800px) {
+@media screen and (width <= 700px) {
   .contributors-wrap {
-    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+  }
+
+  .contributor-card {
+    width: 174px;
+    height: 102px;
+    padding: 16px;
+    padding-top: 24px;
+  }
+
+  .card-avatar {
+    display: none;
   }
 }
 

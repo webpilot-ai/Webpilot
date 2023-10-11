@@ -120,4 +120,19 @@ const onChange = () => {
     background-color: #585c8a;
   }
 }
+
+@media only screen and (width <= 700px) {
+  .nav-label {
+    display: none;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 7px 0;
+  }
+}
 </style>
