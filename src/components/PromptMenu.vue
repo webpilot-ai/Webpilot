@@ -20,7 +20,6 @@
           <IconPencilHover v-else-if="editStateArr[index] === 'hover'" />
           <IconPencil v-else />
         </div>
-        <!-- <li :active="false" :class="$style.propmtItem" title="+" @click="handleAddPrompt" /> -->
       </li>
     </ol>
     <article :class="$style.footer">
@@ -85,10 +84,6 @@ const handleMouseOver = (event, index) => {
   if (editStateArr.value[index] === 'press') return
   editStateArr.value[index] = 'hover'
 }
-
-// const handleAddPrompt = () => {
-//   emits('onAddPrompt')
-// }
 </script>
 
 <style lang="scss" module>
@@ -110,16 +105,17 @@ const handleMouseOver = (event, index) => {
 .item {
   display: flex;
   padding: 8px 0;
-  border-right: 1px solid #dcdee1;
-  border-left: 1px solid #dcdee1;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+  border-right: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
+  border-left: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   cursor: pointer;
 
   &:first-of-type {
-    border-top: 1px solid #dcdee1;
+    border-top: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   }
 
   &:last-of-type {
-    border-bottom: 1px solid #dcdee1;
+    border-bottom: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
   }
@@ -129,18 +125,18 @@ const handleMouseOver = (event, index) => {
     width: 74px;
     margin: 0 6px;
     padding: 0 6px;
-    color: #929497;
+    color: var(--webpilot-theme-main-text-color, #292929);
     font-weight: 600;
     font-size: 12px;
     line-height: 20px;
-    border: 1px solid #dcdee1;
+    border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
     border-radius: 10px;
   }
 
   .describe {
     flex: 1;
     margin: 0;
-    color: #929497;
+    color: var(--webpilot-theme-main-text-color, #292929);
     font-size: 14px;
     line-height: 22px;
     text-align: left;
@@ -155,11 +151,14 @@ const handleMouseOver = (event, index) => {
 }
 
 .item--activate {
-  background-color: #edeeff;
+  background-color: var(--webpilot-theme-stoke-and-hover-status, #fff);
 
   .name {
-    color: #4f5aff;
-    border-color: #4f5aff;
+    color: var(--webpilot-theme-brand-primary, #4f5aff);
+    background-color: var(--webpilot-theme-main-background-color, #fff);
+
+    // color: #4f5aff;
+    // border-color: #4f5aff;
   }
 
   .describe {
@@ -191,7 +190,7 @@ const handleMouseOver = (event, index) => {
     justify-content: center;
     margin: 0 0 0 12px;
     padding: 0 4px;
-    border: 1px solid #929497;
+    border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
     border-radius: 4px;
   }
 
@@ -201,7 +200,7 @@ const handleMouseOver = (event, index) => {
 
   .keys,
   .tips {
-    color: #929497;
+    color: var(--webpilot-theme-main-text-color, #292929);
     font-weight: 600;
     font-size: 10px;
     line-height: 20px;

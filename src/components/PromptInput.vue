@@ -12,6 +12,12 @@
         @focus="handleFocus"
         @keydown.enter="handleSend"
       />
+      <InteractiveIcon
+        v-if="showSavePrompt"
+        :class="$style['container__collect']"
+        type="collect"
+        @click="handleAddNewPrompt"
+      />
       <div
         :class="{[$style.actionIcon]: true, [$style.promptInputDisabled]: disabled}"
         @click="handleSend"
@@ -33,11 +39,12 @@ import {ref, computed} from 'vue'
 
 import {$gettext} from '@/utils/i18n'
 
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 import IconSend from './icon/IconSend.vue'
 import IconSendFill from './icon/IconSendFill.vue'
 import IconLoading from './icon/IconLoading.vue'
 
-const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit', 'onFocus'])
+const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit', 'onFocus', 'onAddPrompt'])
 
 const props = defineProps({
   modelValue: {
@@ -64,6 +71,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showCollect: {
+    type: Boolean,
+    default: false,
+  },
+  prompts: {
+    type: Array,
+    required: true,
+    default: () => [],
+  },
 })
 
 const localModelValue = computed({
@@ -89,6 +105,10 @@ const placeholderText = computed(() => {
 
   return `Or ask a question about “${props.selectedText}”`
 })
+const showSavePrompt = computed(() => {
+  if (!props.showCollect) return false
+  return props.prompts.every(v => v.command !== props.modelValue)
+})
 
 const handleSend = () => {
   if (props.disabled) return
@@ -96,6 +116,9 @@ const handleSend = () => {
 }
 const handleFocus = () => {
   emits('onFocus')
+}
+const handleAddNewPrompt = () => {
+  emits('onAddPrompt', props.modelValue)
 }
 </script>
 
@@ -108,9 +131,10 @@ const handleFocus = () => {
 
 .frame {
   padding: 8px 8px 0;
-  background-color: var(--webpilot-theme-main-background-color, #fff);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+
+  // background-color: var(--webpilot-theme-main-background-color, #fff);
+  // border-top-left-radius: 10px;
+  // border-top-right-radius: 10px;
 }
 
 .container {
@@ -120,7 +144,8 @@ const handleFocus = () => {
   box-sizing: border-box;
   height: 36px;
   padding: 8px;
-  border: 1px solid #dcdee1;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   border-radius: 5px;
 
   &--unfold {
@@ -135,12 +160,12 @@ const handleFocus = () => {
   width: 100% !important;
   max-width: none !important;
   height: 20px !important;
-  color: var(--webpilot-theme-icon-default-and-secondary-text, #000);
+  color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 400 !important;
   font-size: 14px !important;
   font-style: normal !important;
   line-height: 20px !important;
-  background-color: var(--webpilot-theme-main-background-color, #fff);
+  background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none !important;
 
   &::placeholder {
@@ -163,6 +188,10 @@ const handleFocus = () => {
   &:placeholder-shown {
     text-overflow: ellipsis;
   }
+}
+
+.container__collect {
+  margin-right: 12px;
 }
 
 .actionIcon {

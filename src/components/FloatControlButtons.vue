@@ -2,7 +2,9 @@
   <ul :class="$style.control">
     <li v-show="!showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn"><IconClose :class="$style.ico" @click="popupClose" /></div>
+        <div :class="$style.btn">
+          <InteractiveIcon :class="$style.ico" type="close" @click="popupClose" />
+        </div>
         <template #content>
           <span :class="$style.popover">{{ $gettext('Close') }}</span>
         </template>
@@ -10,7 +12,9 @@
     </li>
     <li v-show="showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn"><IconBigBack :class="$style.ico" @click="popupBack" /></div>
+        <div :class="$style.btn">
+          <InteractiveIcon :class="$style.ico" type="previous" @click="popupBack" />
+        </div>
         <template #content>
           <span :class="$style.popover">{{ $gettext('Back') }}</span>
         </template>
@@ -18,7 +22,9 @@
     </li>
     <li v-show="showSetting" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn"><IconGear :class="$style.ico" @click="openSettingPage" /></div>
+        <div :class="$style.btn">
+          <InteractiveIcon :class="$style.ico" type="setting" @click="openSettingPage" />
+        </div>
         <template #content>
           <span :class="$style.popover">{{ $gettext('Settings') }}</span>
         </template>
@@ -33,9 +39,7 @@ import Popper from 'vue3-popper'
 
 import {$gettext} from '@/utils/i18n'
 
-import IconClose from './icon/IconClose.vue'
-import IconBigBack from './icon/IconBigBack.vue'
-import IconGear from './icon/IconGear.vue'
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 
 defineProps({
   showSetting: {

@@ -10,7 +10,7 @@
       ></textarea>
       <IconSendFill :class="$style.content__send" />
       <article :class="$style.content__back">
-        <IconBigBack @click="handleHideEditor" />
+        <InteractiveIcon type="previous" @click="handleHideEditor" />
       </article>
     </section>
     <section :class="$style.container__footer">
@@ -18,7 +18,7 @@
         <input
           v-model="title"
           :class="[$style['form-name__txt'], {[$style['form-name__txt--focus']]: nameFocused}]"
-          :placeholder="prompt.title"
+          :placeholder="prompt.title || 'Add Name'"
           type="text"
           @blur="onNameInputBlur"
           @focus="onNameInputFocus"
@@ -26,17 +26,19 @@
         <IconPencilEdit v-if="nameFocused" :class="$style['form-name__ico']" />
         <IconPencil v-else :class="$style['form-name__ico']" />
       </article>
-      <article
-        :class="[$style['form-button'], $style['form-button--delete']]"
+      <InteractiveIcon
+        v-show="disableDelete"
+        :class="$style['form-button']"
+        :label="$gettext('DELETE')"
+        type="delete"
         @click="handleDelete"
-      >
-        <IconDelete />
-        <span :class="$style['form-button__txt']">{{ $gettext('DELETE') }}</span>
-      </article>
-      <article :class="[$style['form-button'], $style['form-button--save']]" @click="handleSave">
-        <IconSave />
-        <span :class="$style['form-button__txt']">{{ $gettext('SAVE PROMPT') }}</span>
-      </article>
+      />
+      <InteractiveIcon
+        :class="$style['form-button']"
+        :label="$gettext('SAVE PROMPT')"
+        type="save"
+        @click="handleSave"
+      />
     </section>
   </article>
   <!-- </section> -->
@@ -47,14 +49,11 @@ import {ref, onMounted, watch, nextTick, watchEffect} from 'vue'
 
 import {$gettext} from '@/utils/i18n'
 
-// import IconSend from './icon/IconSend.vue'
 import IconPencil from '@/components/icon/IconPencil.vue'
 import IconPencilEdit from '@/components/icon/IconPencilEdit.vue'
 
 import IconSendFill from './icon/IconSendFill.vue'
-import IconBigBack from './icon/IconBigBack.vue'
-import IconSave from './icon/IconSave.vue'
-import IconDelete from './icon/IconDelete.vue'
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 
 const emits = defineEmits(['onDelete', 'onSave', 'onHide'])
 const props = defineProps({
@@ -143,7 +142,7 @@ const onNameInputBlur = () => {
   left: 0;
   width: 100%;
   padding: 8px;
-  background-color: #fff;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
   border-radius: 10px;
   box-shadow: 0 8px 24px rgb(149 157 165 / 20%);
 }
@@ -153,7 +152,7 @@ const onNameInputBlur = () => {
   display: flex;
   flex-direction: row;
   padding: 8px 0 8px 8px;
-  border: 1px solid #dcdee1;
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   border-radius: 5px;
 }
 
@@ -163,12 +162,12 @@ const onNameInputBlur = () => {
   max-height: 196px;
   padding: 0 42px 0 0;
   overflow-y: auto;
-  color: #292929;
+  color: var(--webpilot-theme-main-text-color, #292929);
   font-size: 14px !important;
   line-height: 20px !important;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none;
   outline: none;
-  appearance: none;
   appearance: none;
   appearance: none;
   resize: none;
@@ -215,10 +214,11 @@ const onNameInputBlur = () => {
 .form-name__txt {
   width: 62px;
   padding: 0;
-  color: #929497;
+  color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 600 !important;
   font-size: 12px !important;
   line-height: 20px;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
   border: 0;
   outline: none;
 }
@@ -233,28 +233,32 @@ const onNameInputBlur = () => {
   margin-left: 2px;
 }
 
-.form-button {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.form-button:last-of-type {
+  margin-left: 40px;
 }
 
-.form-button__txt {
-  margin-left: 4px;
-  font-weight: 600;
-  font-size: 14px;
-}
+// .form-button {
+//   display: flex;
+//   align-items: center;
+//   cursor: pointer;
+// }
 
-.form-button__txt:hover {
-  text-decoration: underline;
-}
+// .form-button__txt {
+//   margin-left: 4px;
+//   font-weight: 600;
+//   font-size: 14px;
+// }
 
-.form-button--delete {
-  margin-right: 40px;
-  color: #585b58;
-}
+// .form-button__txt:hover {
+//   text-decoration: underline;
+// }
 
-.form-button--save {
-  color: #4f5aff;
-}
+// .form-button--delete {
+//   margin-right: 40px;
+//   color: #585b58;
+// }
+
+// .form-button--save {
+//   color: #4f5aff;
+// }
 </style>

@@ -18,7 +18,7 @@
         <article :class="$style['control-move']" @mousedown="onDragStart">
           <p :class="$style['control-move__bar']"></p>
         </article>
-        <IconCopiedDone
+        <!-- <IconCopiedDone
           v-if="isCopied"
           :class="$style['control__copy-btn']"
           value="COPY"
@@ -29,7 +29,8 @@
           :class="$style['control__copy-btn']"
           value="COPY"
           @click="handleCopy"
-        />
+        /> -->
+        <InteractiveIcon :class="$style['control__copy-btn']" type="copy" @click="handleCopy" />
         <WebpilotAttribution />
       </section>
     </article>
@@ -48,15 +49,16 @@ import 'highlight.js/styles/monokai.css'
 
 // import WebpilotButton from './WebpilotButton.vue'
 // import IconCheckmark from './icon/IconCheckmark.vue'
-import IconCopyAvailable from './icon/IconCopyAvailable.vue'
-import IconCopiedDone from './icon/IconCopiedDone.vue'
+// import IconCopyAvailable from './icon/IconCopyAvailable.vue'
+// import IconCopiedDone from './icon/IconCopiedDone.vue'
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 import TipsShortcut from './TipsShortcut.vue'
 import WebpilotAttribution from './WebpilotAttribution.vue'
 
 const refMarkdown = ref(null)
 const isAutoScroll = ref(true)
-const isCopied = ref(false)
-const copyResult = ref('')
+// const isCopied = ref(false)
+// const copyResult = ref('')
 
 // const toast = useToast()
 
@@ -127,18 +129,19 @@ watch(result, () => {
 
 const handleCopy = () => {
   const text = props.modelValue
-  const isSuccessCopy = copyToClipboard(text, {format: 'text/plain'})
+  copyToClipboard(text, {format: 'text/plain'})
+  // const isSuccessCopy = copyToClipboard(text, {format: 'text/plain'})
 
-  isCopied.value = true
-  setTimeout(() => {
-    isCopied.value = false
-  }, 3000)
+  // isCopied.value = true
+  // setTimeout(() => {
+  //   isCopied.value = false
+  // }, 3000)
 
-  if (isSuccessCopy) {
-    copyResult.value = 'Copied'
-  } else {
-    copyResult.value = 'Copy Failed'
-  }
+  // if (isSuccessCopy) {
+  //   copyResult.value = 'Copied'
+  // } else {
+  //   copyResult.value = 'Copy Failed'
+  // }
 
   // toast.open({
   //   message: isSuccessCopy ? 'Copy success!' : 'Copy Failed',
@@ -191,7 +194,8 @@ const onDragEnd = () => {
   font-size: 12px;
   line-height: 20px;
   background-color: var(--webpilot-theme-main-background-color, #fff);
-  border-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .container__shadow {

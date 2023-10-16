@@ -208,8 +208,9 @@ const shortcutText = computed(() => {
   position: fixed;
   z-index: 99999999999;
   text-align: center;
-  background-color: #fff;
-  border-radius: 10px;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
+
+  // border-radius: 10px;
 
   // box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
   box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
@@ -222,6 +223,8 @@ const shortcutText = computed(() => {
   top: 10%;
   left: 2%;
   width: 612px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 // .sidebarContainer {
@@ -244,6 +247,7 @@ const shortcutText = computed(() => {
   color: #292922;
   font-weight: 500;
   font-size: 12px;
+  background-color: #fff;
   border: 1px solid rgb(79 90 255 / 10%);
 
   /* line-height: 17px; */

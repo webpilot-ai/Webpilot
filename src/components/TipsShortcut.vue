@@ -44,7 +44,8 @@ const shortcut = computed(() => {
   font-weight: 400;
   font-size: 14px !important;
   line-height: 20px;
-  background-color: var(--webpilot-theme-main-background-color, #fff);
+
+  // background-color: var(--webpilot-theme-main-background-color, #fff);
   border: 1px solid #929497;
   border-radius: 5px;
 }

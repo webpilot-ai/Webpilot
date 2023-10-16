@@ -1,8 +1,10 @@
 /* Theme Color */
 
 :root {
+  --webpilot-theme-main-text-color: #929497;
   --webpilot-theme-icon-default-and-secondary-text: #585b58;
   --webpilot-theme-main-background-color: #fff;
+  --webpilot-theme-content-background-color: #fff;
   --webpilot-theme-baseline-text: #292929;
   --webpilot-theme-main-background-shadow: rgb(149 157 165 / 20%);
 
@@ -15,11 +17,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --webpilot-theme-main-text-color: #fff;
     --webpilot-theme-icon-default-and-secondary-text: #4f5aff33;
-    --webpilot-theme-main-background-color: #323558;
+    --webpilot-theme-main-background-color: #292d3f;
+    --webpilot-theme-content-background-color: #323558;
     --webpilot-theme-baseline-text: #fff;
     --webpilot-theme-main-background-shadow: rgb(84 132 181 / 20%);
-    --webpilot-theme-brand-primary: #5e80ff;
+
+    // --webpilot-theme-brand-primary: #5e80ff;
+    --webpilot-theme-brand-primary: #fff;
     --webpilot-theme-stoke-and-hover-status: #585c8a;
     --webpilot-theme-brightness-number: 3;
     --webpilot-theme-invert-number: 1;

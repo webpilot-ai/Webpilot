@@ -19,8 +19,11 @@
       v-model="inputCommand"
       :disabled="aiThinking"
       :loading="aiThinking"
+      :prompts="store.config.prompts"
       :selected-text="store.selectedText"
+      :show-collect="showResult && !aiThinking && !showPrompts"
       :show-menu="showPrompts"
+      @on-add-prompt="handleAddPrompt"
       @on-change="handleInputCommandChange"
       @on-focus="handleInputFocus"
       @on-submit="popUpAskAi"
@@ -40,7 +43,6 @@
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
       :tab-index="chooseIndex"
-      @on-add-prompt="handleAddPrompt"
       @on-change="handleChangePrompt"
       @on-edit-prompt="handleEditPrompt"
       @on-mouse-over="handleHoverPrompt"
@@ -302,6 +304,9 @@ const handleCloseEditor = () => {
 const handleShowEditor = () => {
   showEditor.value = true
 }
+const handleShowMenu = () => {
+  showMenu.value = true
+}
 
 const handleChangePrompt = promptInfo => {
   const {index, prompt} = promptInfo
@@ -327,7 +332,7 @@ const handleInputCommandChange = () => {
 
 const handleInputFocus = () => {
   if (showPrompts.value && !showResult.value) inputCommand.value = ''
-  if (!showPrompts.value && showResult.value) showMenu.value = true
+  if (!showPrompts.value && showResult.value) handleShowMenu()
 }
 
 const handleEditPrompt = promptInfo => {
@@ -360,15 +365,14 @@ const handleDeletePrompt = () => {
   handleCloseEditor()
 }
 
-const handleAddPrompt = () => {
+const handleAddPrompt = command => {
   selectedPrompt.index = store.config.prompts.length
-  selectedPrompt.prompt = {title: '', command: ''}
+  selectedPrompt.prompt = {title: '', command}
+  handleShowMenu()
   handleShowEditor()
 }
 
-const disableDeletePrompt = computed(() => {
-  return store.config.prompts.length === 1
-})
+const disableDeletePrompt = computed(() => store.config.prompts.length === 1)
 
 const showResult = computed(() => {
   return !!result.value && result.value !== ''
