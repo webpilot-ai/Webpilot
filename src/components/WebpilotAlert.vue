@@ -9,7 +9,7 @@
   >
     <slot name="icon">
       <article :class="$style.icon">
-        <IconInfo v-if="type === ALERT_TYPE.INFO" />
+        <IconAlertInfo v-if="type === ALERT_TYPE.INFO" />
         <IconSuccess v-if="type === ALERT_TYPE.SUCCESS" />
         <IconError v-if="type === ALERT_TYPE.ERROR" />
       </article>
@@ -22,7 +22,7 @@
 import {ref} from 'vue'
 import {onClickOutside} from '@vueuse/core'
 
-import IconInfo from './icon/IconAlertInfo.vue'
+import IconAlertInfo from './icon/IconAlertInfo.vue'
 import IconError from './icon/IconAlertError.vue'
 import IconSuccess from './icon/IconAlertSuccess.vue'
 

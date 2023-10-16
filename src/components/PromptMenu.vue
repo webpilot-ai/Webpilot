@@ -35,7 +35,7 @@
 <script setup>
 import {toRaw, ref} from 'vue'
 
-import IconSmallBack from '@/components/icon/IconSmallBack.vue'
+import IconSmallBack from '@/components/icon/IconEnter.vue'
 import IconPencil from '@/components/icon/IconPencil.vue'
 import IconPencilEdit from '@/components/icon/IconPencilEdit.vue'
 import IconPencilHover from '@/components/icon/IconPencilHover.vue'
