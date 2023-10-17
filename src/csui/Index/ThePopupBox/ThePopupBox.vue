@@ -2,7 +2,8 @@
   <section
     :class="{
       [$style.container]: true,
-      [$style['container--jaw']]: !showResult && !showPrompts,
+      [$style['container--alone']]: !showResult && !showPrompts,
+      [$style['container--joint']]: !showResult && showPrompts,
     }"
   >
     <!-- [$style.showPromptEditor]: showEditor,
@@ -23,8 +24,9 @@
       :selected-text="store.selectedText"
       :show-collect="showResult && !aiThinking && !showPrompts"
       :show-menu="showPrompts"
+      :show-prefix="showLogo"
       @on-add-prompt="handleAddPrompt"
-      @on-change="handleInputCommandChange"
+      @on-change="handleCommandChange"
       @on-focus="handleInputFocus"
       @on-submit="popUpAskAi"
     />
@@ -98,6 +100,7 @@ const props = defineProps({
 
 const showEditor = ref(false)
 const showMenu = ref(false)
+const showLogo = ref(true)
 const inputCommand = ref('')
 const chooseIndex = ref(-1)
 const selectedPrompt = reactive({
@@ -292,6 +295,7 @@ const popUpAskAi = async () => {
     }
 
     showError.value = false
+    showLogo.value = false
   } catch {
     showError.value = true
   }
@@ -325,7 +329,7 @@ const handleHoverPrompt = ({index}) => {
   chooseIndex.value = index
 }
 
-const handleInputCommandChange = () => {
+const handleCommandChange = () => {
   selectedPrompt.index = -1
   chooseIndex.value = -1
 }
@@ -398,21 +402,19 @@ const handlePopupTurnBack = () => {
 <style lang="scss" module>
 .container {
   position: relative;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
 
-  &--jaw {
+  &--alone {
     padding-bottom: 8px;
   }
 
-  // padding: 8px;
-  // color: #000;
-  // font-size: 24px;
-  // background-color: var(--webpilot-theme-main-background-color, #fff);
-  // border-radius: 10px;
+  &--joint {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
-
-// .showPromptEditor {
-//   height: 341px;
-// }
 
 .alert {
   margin-top: 8px;

@@ -23,8 +23,9 @@
           @blur="onNameInputBlur"
           @focus="onNameInputFocus"
         />
-        <IconPencilEdit v-if="nameFocused" :class="$style['form-name__ico']" />
-        <IconPencil v-else :class="$style['form-name__ico']" />
+        <!-- <IconPencilEdit v-if="nameFocused" :class="$style['form-name__ico']" />
+        <IconPencil v-else :class="$style['form-name__ico']" /> -->
+        <InteractiveIcon :class="$style['form-name__ico']" type="pencil" />
       </article>
       <InteractiveIcon
         v-show="disableDelete"
@@ -49,10 +50,6 @@ import {ref, onMounted, watch, nextTick, watchEffect} from 'vue'
 
 import {$gettext} from '@/utils/i18n'
 
-import IconPencil from '@/components/icon/IconPencil.vue'
-import IconPencilEdit from '@/components/icon/IconPencilEdit.vue'
-
-import IconSendFill from './icon/IconSendFill.vue'
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 
 const emits = defineEmits(['onDelete', 'onSave', 'onHide'])
@@ -168,7 +165,6 @@ const onNameInputBlur = () => {
   background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none;
   outline: none;
-  appearance: none;
   appearance: none;
   resize: none;
 }

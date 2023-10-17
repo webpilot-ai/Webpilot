@@ -162,6 +162,7 @@ watch(delayHover, hoverState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightClick.svg');
 }
 
+// no disable status
 .img-delete--default {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightDefault.svg');
 }
@@ -186,6 +187,7 @@ watch(delayHover, hoverState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightHover.svg');
 }
 
+// no disable status
 .img-save--click {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
 }
@@ -212,6 +214,19 @@ watch(delayHover, hoverState => {
 
 .img-setting--hover {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightHover.svg');
+}
+
+// no disable status
+.img-pencil--click {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightClick.svg');
+}
+
+.img-pencil--default {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightDefault.svg');
+}
+
+.img-pencil--hover {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightHover.svg');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -317,6 +332,18 @@ watch(delayHover, hoverState => {
 
   .img-setting--hover {
     background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkHover.svg');
+  }
+
+  .img-pencil--click {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkClick.svg');
+  }
+
+  .img-pencil--default {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkDefault.svg');
+  }
+
+  .img-pencil--hover {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkHover.svg');
   }
 }
 </style>

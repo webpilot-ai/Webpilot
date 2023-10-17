@@ -117,7 +117,7 @@
 </template>
 
 <script setup>
-import {ref, watch, defineProps} from 'vue'
+import {ref, watch} from 'vue'
 
 // import useStore from '@/stores/store'
 import {SERVER_NAME} from '@/config'

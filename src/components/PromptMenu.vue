@@ -9,16 +9,8 @@
       >
         <h1 :class="$style.name" @click="() => handleSelectPrompt(index)">{{ item.title }}</h1>
         <p :class="$style.describe" @click="() => handleSelectPrompt(index)">{{ item.command }}</p>
-        <div
-          v-show="tabIndex === index"
-          :class="$style.pen"
-          @click="() => handleEditPrompt(index)"
-          @mouseout="event => handleMouseOut(event, index)"
-          @mouseover="event => handleMouseOver(event, index)"
-        >
-          <IconPencilEdit v-if="editStateArr[index] === 'press'" />
-          <IconPencilHover v-else-if="editStateArr[index] === 'hover'" />
-          <IconPencil v-else />
+        <div v-show="tabIndex === index" :class="$style.pen" @click="() => handleEditPrompt(index)">
+          <InteractiveIcon type="pencil" />
         </div>
       </li>
     </ol>
@@ -32,15 +24,14 @@
 </template>
 
 <script setup>
-import {toRaw, ref} from 'vue'
+import {toRaw} from 'vue'
 
 import IconSmallBack from '@/components/icon/IconEnter.vue'
-import IconPencil from '@/components/icon/IconPencil.vue'
-import IconPencilEdit from '@/components/icon/IconPencilEdit.vue'
-import IconPencilHover from '@/components/icon/IconPencilHover.vue'
+
 import {$gettext} from '@/utils/i18n'
 
-const editStateArr = ref(['normal', 'normal', 'normal'])
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
+
 const emits = defineEmits(['onChange', 'onEditPrompt', 'onAddPrompt', 'onMouseOver'])
 const props = defineProps({
   prompts: {
@@ -70,19 +61,10 @@ const handleHoverPrompt = index => {
 }
 
 const handleEditPrompt = index => {
-  editStateArr.value[index] = 'press'
   emits('onEditPrompt', {
     index,
     prompt: toRaw(props.prompts[index]),
   })
-}
-const handleMouseOut = (event, index) => {
-  if (event.target !== event.currentTarget) editStateArr.value[index] = 'normal'
-}
-const handleMouseOver = (event, index) => {
-  if (event.target === event.currentTarget) return
-  if (editStateArr.value[index] === 'press') return
-  editStateArr.value[index] = 'hover'
 }
 </script>
 

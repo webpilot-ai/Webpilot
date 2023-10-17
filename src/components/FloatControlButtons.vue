@@ -106,5 +106,6 @@ const popupBack = () => {
   white-space: nowrap;
   background-color: black;
   border-radius: 5px;
+  user-select: none;
 }
 </style>

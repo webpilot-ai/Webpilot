@@ -42,7 +42,7 @@ msgstr ""
 msgid "API Settings"
 msgstr ""
 
-#: src/components/PromptInput.vue:56
+#: src/components/PromptInput.vue:50
 msgid "Ask a question about this webpage"
 msgstr ""
 
@@ -61,9 +61,9 @@ msgstr ""
 msgid "Change Shortcut"
 msgstr ""
 
-#: src/components/PromptMenu.vue:15
-#: src/components/PromptMenu.vue:16
-#: src/components/PromptMenu.vue:27
+#: src/components/PromptMenu.vue:13
+#: src/components/PromptMenu.vue:14
+#: src/components/PromptMenu.vue:19
 msgid "Choose prompts"
 msgstr ""
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Current Webpage Not Supported"
 msgstr ""
 
-#: src/components/PromptEditor.vue:32
+#: src/components/PromptEditor.vue:33
 msgid "DELETE"
 msgstr ""
 
@@ -209,13 +209,13 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: src/components/PromptEditor.vue:38
+#: src/components/PromptEditor.vue:39
 msgid "SAVE PROMPT"
 msgstr ""
 
-#: src/components/PromptMenu.vue:17
-#: src/components/PromptMenu.vue:18
-#: src/components/PromptMenu.vue:29
+#: src/components/PromptMenu.vue:15
+#: src/components/PromptMenu.vue:16
+#: src/components/PromptMenu.vue:21
 msgid "Search"
 msgstr ""
 

@@ -1,11 +1,11 @@
 <template>
   <section :class="$style.frame">
     <article :class="[$style.container, {[$style['container--unfold']]: showMenu}]">
-      <!-- <img :class="$style.logo" :src="WebpilotLogo" /> -->
+      <img v-show="showPrefix" :class="$style.logo" :src="WebpilotLogo" />
       <input
         ref="refInput"
         v-model="localModelValue"
-        :class="{[$style['input-area']]: true, [$style.promptInputDisabled]: disabled}"
+        :class="{[$style['input-area']]: true, [$style['input-area--not-available']]: disabled}"
         :disabled="disabled"
         :placeholder="placeholderText"
         type="text"
@@ -18,16 +18,12 @@
         type="collect"
         @click="handleAddNewPrompt"
       />
-      <div
-        :class="{[$style.actionIcon]: true, [$style.promptInputDisabled]: disabled}"
+      <SendButton
+        :activate="modelValue !== ''"
+        :disabled="disabled"
+        :loading="loading"
         @click="handleSend"
-      >
-        <template v-if="!loading">
-          <IconSend v-if="modelValue == ''" />
-          <IconSendFill v-else />
-        </template>
-        <IconLoading v-else :class="$style.loading" />
-      </div>
+      />
     </article>
   </section>
 </template>
@@ -35,14 +31,12 @@
 <script setup>
 import {ref, computed} from 'vue'
 
-// import WebpilotLogo from 'data-base64:~assets/icon.png'
+import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import {$gettext} from '@/utils/i18n'
 
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
-import IconSend from './icon/IconSend.vue'
-import IconSendFill from './icon/IconSendFill.vue'
-import IconLoading from './icon/IconLoading.vue'
+import SendButton from './SendButton/SendButton.vue'
 
 const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit', 'onFocus', 'onAddPrompt'])
 
@@ -72,6 +66,10 @@ const props = defineProps({
     default: false,
   },
   showCollect: {
+    type: Boolean,
+    default: false,
+  },
+  showPrefix: {
     type: Boolean,
     default: false,
   },
@@ -123,11 +121,11 @@ const handleAddNewPrompt = () => {
 </script>
 
 <style lang="scss" module>
-// .logo {
-//   width: 16px;
-//   height: 16px;
-//   margin-right: 6px;
-// }
+.logo {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
 
 .frame {
   padding: 8px 8px 0;
@@ -188,33 +186,13 @@ const handleAddNewPrompt = () => {
   &:placeholder-shown {
     text-overflow: ellipsis;
   }
+
+  &--not-available {
+    cursor: not-allowed;
+  }
 }
 
 .container__collect {
   margin-right: 12px;
-}
-
-.actionIcon {
-  display: flex;
-  cursor: pointer;
-}
-
-.promptInputDisabled {
-  cursor: not-allowed;
-}
-
-.loading {
-  cursor: not-allowed;
-  animation: rotation 1s infinite linear;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(359deg);
-  }
 }
 </style>

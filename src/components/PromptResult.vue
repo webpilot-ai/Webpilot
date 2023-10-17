@@ -222,7 +222,7 @@ const onDragEnd = () => {
   font-size: 14px;
   line-height: 20px;
   text-align: left;
-  background-color: #f8f8f8;
+  background-color: var(--webpilot-theme-content-background-color, #fff) !important;
   border-radius: 5px;
   resize: none;
 
@@ -241,24 +241,25 @@ const onDragEnd = () => {
 
   p {
     margin: 0;
-    color: #000;
+    color: var(--webpilot-theme-baseline-text, #292929) !important;
     line-height: 1.6;
   }
 
   pre {
     margin: 0.5rem 0;
     padding: 0;
-    background-color: #272822;
+    background-color: #272822 !important;
   }
 
   code {
     // padding: 0.5rem !important;
     padding: 0 5px;
+    background: #dcdcdc !important;
     border-radius: 5px;
 
-    &:not([class]) {
-      background-color: #dcdcdc;
-    }
+    // &:not([class]) {
+    //   background-color: #dcdcdc;
+    // }
   }
 }
 
@@ -293,7 +294,7 @@ const onDragEnd = () => {
 .control__copy-btn {
   width: 24px;
   height: 24px;
-  transform: translate(140px, -35px);
+  transform: translate(135px, -40px);
   cursor: pointer;
 }
 
