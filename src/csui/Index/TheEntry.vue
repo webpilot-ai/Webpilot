@@ -212,7 +212,6 @@ const shortcutText = computed(() => {
   // background-color: var(--webpilot-theme-main-background-color, #fff);
   // border-radius: 10px;
   // box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
-  // box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
 }
 
 .popupBoxContainer {
@@ -256,17 +255,19 @@ const shortcutText = computed(() => {
     width: 16px;
     height: 16px;
     margin-right: 4px;
+    background: transparent;
     filter: none !important;
   }
 }
 
 .webpilotTail:hover {
   color: #4f5aff;
+  background-color: #dcdeff;
 
-  img {
-    background-color: rgb(79 90 255 / 20%);
-    border-radius: 3px;
-  }
+  // img {
+  //   background-color: rgb(79 90 255 / 20%);
+  //   border-radius: 3px;
+  // }
 }
 
 .webpilotLogo {

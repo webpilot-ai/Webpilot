@@ -56,6 +56,7 @@
       @on-delete="handleDeletePrompt"
       @on-hide="handleCloseEditor"
       @on-save="handleSavePrompt"
+      @on-send="handleAskPrompt"
     />
   </section>
 </template>
@@ -358,6 +359,12 @@ const handleSavePrompt = prompt => {
     latestPresetPromptIndex: selectedPrompt.index,
   })
   handleCloseEditor()
+}
+
+const handleAskPrompt = command => {
+  showEditor.value = false
+  inputCommand.value = command
+  popUpAskAi()
 }
 
 const handleDeletePrompt = () => {

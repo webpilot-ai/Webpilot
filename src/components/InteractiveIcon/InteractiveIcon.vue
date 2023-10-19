@@ -2,11 +2,12 @@
   <section
     v-if="type"
     ref="node"
-    :class="[$style.ico, {[$style['ico--empty']]: !label}, $style[`img-${type}--${status}`]]"
+    :class="[$style.ico, {[$style['ico--empty']]: !label}, $style[iconClassName]]"
+    :style="{fontSize: `${size}px`}"
   >
     <article
       v-if="label"
-      :class="[$style.txt, $style[`txt-${type}`], $style[`txt-${type}--${status}`]]"
+      :class="[$style.txt, $style[`txt-${type}`], $style[`txt-${type}--${state}`]]"
     >
       {{ label }}
     </article>
@@ -17,7 +18,7 @@
 import {ref, computed, watch} from 'vue'
 import {useMousePressed, useElementHover} from '@vueuse/core'
 
-const ICON_STATUS = {
+const ICON_STATE = {
   DEFAULT: 'default',
   HOVER: 'hover',
   CLICK: 'click',
@@ -26,30 +27,52 @@ const ICON_STATUS = {
 
 const node = ref(null)
 const isHovered = ref(false)
+const isClicked = ref(false)
 const delayHover = useElementHover(node)
-const {pressed: isClicked} = useMousePressed({target: node})
+const {pressed: delayClick} = useMousePressed({target: node})
 
 const props = defineProps({
   type: {type: String, default: ''},
   disable: {type: String, default: ''},
   hoverDelay: {type: Number, default: 0},
+  clickDelay: {type: Number, default: 0},
   label: {type: String, default: ''},
+  size: {type: Number, default: 24},
+  // value 0 means do not handle hover state
+  // value 1 implies control hover state as a normal state
+  // value 2 implies control hover state as an active state
+  hoverState: {type: Number, default: 0},
 })
 
-const status = computed(() => {
-  if (props.disable) return ICON_STATUS.DISABLE
-  if (isClicked.value) return ICON_STATUS.CLICK
-  if (isHovered.value) return ICON_STATUS.HOVER
-  return ICON_STATUS.DEFAULT
+const state = computed(() => {
+  if (props.disable) return ICON_STATE.DISABLE
+  if (isClicked.value) return ICON_STATE.CLICK
+  if (isHovered.value) return ICON_STATE.HOVER
+  return ICON_STATE.DEFAULT
+})
+const iconClassName = computed(() => {
+  if (!props.hoverState) return `img-${props.type}--${state.value}`
+  if (props.hoverState === 2) return `img-${props.type}--hover`
+  return `img-${props.type}--default`
 })
 
-let timer = null
-watch(delayHover, hoverState => {
-  if (props.hoverDelay === 0) isHovered.value = hoverState
-  else if (!hoverState) timer = setTimeout(() => (isHovered.value = false), props.hoverDelay)
+let hoverTimer = null
+watch(delayHover, currentState => {
+  if (props.hoverState > 0) return
+  if (props.hoverDelay === 0) isHovered.value = currentState
+  else if (!currentState) hoverTimer = setTimeout(() => (isHovered.value = false), props.hoverDelay)
   else {
-    clearTimeout(timer)
+    clearTimeout(hoverTimer)
     isHovered.value = true
+  }
+})
+let clickTimer = null
+watch(delayClick, currentState => {
+  if (props.hoverDelay === 0) isClicked.value = currentState
+  else if (!currentState) clickTimer = setTimeout(() => (isClicked.value = false), props.hoverDelay)
+  else {
+    clearTimeout(clickTimer)
+    isClicked.value = true
   }
 })
 </script>
@@ -57,7 +80,6 @@ watch(delayHover, hoverState => {
 <style lang="scss" module>
 .ico {
   display: flex;
-  font-size: 24px;
   background: left center / auto 100% no-repeat;
 }
 
@@ -162,7 +184,7 @@ watch(delayHover, hoverState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightClick.svg');
 }
 
-// no disable status
+// no disable state
 .img-delete--default {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightDefault.svg');
 }
@@ -187,7 +209,7 @@ watch(delayHover, hoverState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightHover.svg');
 }
 
-// no disable status
+// no disable state
 .img-save--click {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
 }
@@ -216,7 +238,7 @@ watch(delayHover, hoverState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightHover.svg');
 }
 
-// no disable status
+// no disable state
 .img-pencil--click {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightClick.svg');
 }

@@ -77,6 +77,7 @@ const handleEditPrompt = index => {
   background-color: var(--webpilot-theme-main-background-color, #fff);
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
+  box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
 }
 
 .list {

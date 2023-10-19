@@ -8,7 +8,11 @@
         :class="$style.content__textarea"
         :placeholder="prompt.command"
       ></textarea>
-      <IconSendFill :class="$style.content__send" />
+      <SendButton
+        :activate="command !== ''"
+        :class="$style.content__send"
+        @click="handleSendCommand"
+      />
       <article :class="$style.content__back">
         <InteractiveIcon type="previous" @click="handleHideEditor" />
       </article>
@@ -23,9 +27,7 @@
           @blur="onNameInputBlur"
           @focus="onNameInputFocus"
         />
-        <!-- <IconPencilEdit v-if="nameFocused" :class="$style['form-name__ico']" />
-        <IconPencil v-else :class="$style['form-name__ico']" /> -->
-        <InteractiveIcon :class="$style['form-name__ico']" type="pencil" />
+        <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" />
       </article>
       <InteractiveIcon
         v-show="disableDelete"
@@ -51,8 +53,9 @@ import {ref, onMounted, watch, nextTick, watchEffect} from 'vue'
 import {$gettext} from '@/utils/i18n'
 
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
+import SendButton from './SendButton/SendButton.vue'
 
-const emits = defineEmits(['onDelete', 'onSave', 'onHide'])
+const emits = defineEmits(['onDelete', 'onSave', 'onHide', 'onSend'])
 const props = defineProps({
   // showEditor: {
   //   type: Boolean,
@@ -107,6 +110,10 @@ const handleDelete = () => {
 
 const handleHideEditor = () => {
   emits('onHide')
+}
+
+const handleSendCommand = () => {
+  emits('onSend', command.value)
 }
 
 watchEffect(() => {
@@ -221,12 +228,6 @@ const onNameInputBlur = () => {
 
 .form-name__txt--focus {
   color: #4f5aff;
-}
-
-.form-name__ico {
-  width: 12px;
-  height: 12px;
-  margin-left: 2px;
 }
 
 .form-button:last-of-type {
