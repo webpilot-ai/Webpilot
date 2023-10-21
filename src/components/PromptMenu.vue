@@ -15,6 +15,10 @@
       </li>
     </ol>
     <article :class="$style.footer">
+      <span :class="$style.keys">Esc</span>
+      <p :class="[$style.tips, $style.fill]">
+        {{ showBack ? $gettext('Esc to back') : $gettext('Esc to close') }}
+      </p>
       <span :class="$style.keys">Tab</span>
       <p :class="$style.tips">{{ $gettext('Choose prompts') }}</p>
       <span :class="$style.keys"><IconSmallBack :class="$style.icon" />Enter</span>
@@ -46,6 +50,10 @@ const props = defineProps({
   tabIndex: {
     type: Number,
     default: -1,
+  },
+  showBack: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -164,7 +172,6 @@ const handleEditPrompt = index => {
 
 .footer {
   display: flex;
-  justify-content: flex-end;
   padding: 8px 0;
 
   .keys {
@@ -179,6 +186,11 @@ const handleEditPrompt = index => {
 
   .tips {
     margin: 0 8px;
+    line-height: 22px;
+  }
+
+  .fill {
+    margin-right: auto;
   }
 
   .keys,

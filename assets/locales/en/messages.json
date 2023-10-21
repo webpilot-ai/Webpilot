@@ -47,9 +47,6 @@
   "Current_Webpage_Not_Supported": {
     "message": "Current Webpage Not Supported"
   },
-  "DELETE": {
-    "message": "DELETE"
-  },
   "Display_Mode": {
     "message": "Display Mode"
   },
@@ -64,6 +61,12 @@
   },
   "Enjoy_Webpilot_AI_for": {
     "message": "Enjoy Webpilot AI for"
+  },
+  "Esc_to_back": {
+    "message": "Esc to back"
+  },
+  "Esc_to_close": {
+    "message": "Esc to close"
   },
   "Extension_Settings": {
     "message": "Extension Settings"
@@ -109,9 +112,6 @@
   },
   "Save_Changes": {
     "message": "Save Changes"
-  },
-  "SAVE_PROMPT": {
-    "message": "SAVE PROMPT"
   },
   "Search": {
     "message": "Search"

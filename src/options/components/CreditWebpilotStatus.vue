@@ -3,12 +3,7 @@
     <div :class="$style['credit-status']">
       <div :class="$style['credit-progress']">
         <div :class="$style['credit-progress-frame']"></div>
-        <div
-          :class="$style['credit-progress-bar']"
-          :style="{
-            width: `${0.05 * 320}px`,
-          }"
-        ></div>
+        <div :class="$style['credit-progress-bar']" :style="{width: percentage}"></div>
       </div>
       <Popper arrow arrow-padding="0" :class="$style.popper" hover offset-distance="0">
         <IconQuestions :class="$style['question-icon']" />
@@ -22,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import {computed} from 'vue'
 import Popper from 'vue3-popper'
 import {storeToRefs} from 'pinia'
 
@@ -33,9 +29,9 @@ const userStore = useUserStore()
 const {usage} = storeToRefs(userStore)
 const {getUsage} = userStore
 
-if (usage.value.current === -1) {
-  getUsage()
-}
+if (usage.value.current === -1) getUsage()
+
+const percentage = computed(() => `${(usage.value.current / usage.value.total) * 320}px`)
 </script>
 
 <style lang="scss" module>
@@ -57,7 +53,7 @@ if (usage.value.current === -1) {
 .credit-progress-frame {
   width: 320px;
   height: 24px;
-  background: #edeff2;
+  background-color: #edeff2;
   border-radius: 20px;
 }
 

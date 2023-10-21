@@ -2,16 +2,16 @@
   <!-- <section v-if="showEditor" :class="$style['background-shadow']"> -->
   <article :class="$style.container">
     <section :class="$style.container__body">
+      <SendButton
+        :activate="command !== ''"
+        :class="$style.content__send"
+        @click="handleSendCommand"
+      />
       <textarea
         ref="textareaRef"
         v-model="command"
         :class="$style.content__textarea"
         :placeholder="prompt.command"
-      ></textarea>
-      <SendButton
-        :activate="command !== ''"
-        :class="$style.content__send"
-        @click="handleSendCommand"
       />
       <article :class="$style.content__back">
         <InteractiveIcon type="previous" @click="handleHideEditor" />
@@ -30,7 +30,7 @@
         <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" />
       </article>
       <InteractiveIcon
-        v-show="disableDelete"
+        v-show="!disableDelete"
         :class="$style['form-button']"
         :label="$gettext('DELETE')"
         type="delete"
@@ -81,7 +81,7 @@ const textareaRef = ref(null)
 const autoResize = () => {
   const textarea = textareaRef.value
   if (!textarea) return
-  textarea.style.height = 'auto'
+  textarea.style.height = null
   textarea.style.height = `${textarea.scrollHeight}px`
 }
 
@@ -95,6 +95,7 @@ watch(command, () => {
 })
 
 const handleSave = () => {
+  if (!title.value) title.value = 'Prompt'
   emits('onSave', {
     title: title.value,
     command: command.value,
@@ -153,15 +154,17 @@ const onNameInputBlur = () => {
 
 .container__body {
   position: relative;
-  display: flex;
-  flex-direction: row;
+
+  // display: flex;
+  // flex-direction: row;
   padding: 8px 0 8px 8px;
   border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   border-radius: 5px;
 }
 
 .content__textarea {
-  flex: 1;
+  display: block;
+  width: 100%;
   height: 20px;
   max-height: 196px;
   padding: 0 42px 0 0;
@@ -169,9 +172,13 @@ const onNameInputBlur = () => {
   color: var(--webpilot-theme-main-text-color, #292929);
   font-size: 14px !important;
   line-height: 20px !important;
+
+  // flex: 1;
   background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none;
   outline: none;
+  appearance: none;
+  appearance: none;
   appearance: none;
   resize: none;
 }
@@ -216,13 +223,13 @@ const onNameInputBlur = () => {
 
 .form-name__txt {
   width: 62px;
-  padding: 0;
+  padding: 0 !important;
   color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 600 !important;
   font-size: 12px !important;
   line-height: 20px;
   background-color: var(--webpilot-theme-content-background-color, #fff);
-  border: 0;
+  border: 0 !important;
   outline: none;
 }
 

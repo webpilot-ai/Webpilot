@@ -15,7 +15,7 @@
       <InteractiveIcon
         v-if="showSavePrompt"
         :class="$style['container__collect']"
-        type="collect"
+        type="save"
         @click="handleAddNewPrompt"
       />
       <SendButton
@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import {ref, computed} from 'vue'
+import {ref, computed, onMounted} from 'vue'
 
 import WebpilotLogo from 'data-base64:~assets/icon.png'
 
@@ -90,13 +90,12 @@ const localModelValue = computed({
 
 // Auto focus
 const refInput = ref(null)
-
-// onMounted(() => {
-//   refInput.value.focus()
-//   setTimeout(() => {
-//     refInput.value.select()
-//   }, 100)
-// })
+onMounted(() => {
+  refInput.value.focus()
+  setTimeout(() => {
+    refInput.value.select()
+  }, 100)
+})
 
 const placeholderText = computed(() => {
   if (props.selectedText === '') return props.placeholder

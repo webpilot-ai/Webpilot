@@ -13,7 +13,7 @@
         {{ copyResult }}
       </section>
       <WebpilotButton :class="$style.copyBtn" value="COPY" @click="handleCopy" /> -->
-      <TipsShortcut />
+      <TipsShortcut :class="$style.hover" @click="openSettingPage" />
       <section :class="$style.control">
         <article :class="$style['control-move']" @mousedown="onDragStart">
           <p :class="$style['control-move__bar']"></p>
@@ -31,7 +31,7 @@
           @click="handleCopy"
         /> -->
         <InteractiveIcon :class="$style['control__copy-btn']" type="copy" @click="handleCopy" />
-        <WebpilotAttribution />
+        <WebpilotAttribution :class="$style.hover" @click="openHomePage" />
       </section>
     </article>
     <aside v-if="showShadow" :class="$style.container__shadow" />
@@ -40,7 +40,7 @@
 
 <script setup>
 import {ref, watch, computed} from 'vue'
-
+import {sendToBackground} from '@plasmohq/messaging'
 import copyToClipboard from 'copy-to-clipboard'
 // import {useToast} from 'vue-toast-notification'
 import Markdown from 'vue3-markdown-it'
@@ -177,9 +177,20 @@ const onDragEnd = () => {
   window.removeEventListener('mousemove', onDragMove)
   window.removeEventListener('mouseup', onDragEnd)
 }
+
+const openSettingPage = () => {
+  sendToBackground({name: 'openSetting'})
+}
+const openHomePage = () => {
+  window.open('https://webpilot.ai/', '_blank')
+}
 </script>
 
 <style lang="scss" module>
+@mixin hand {
+  cursor: pointer;
+}
+
 .container {
   position: relative;
   display: flex;
@@ -225,6 +236,11 @@ const onDragEnd = () => {
   background-color: var(--webpilot-theme-content-background-color, #fff) !important;
   border-radius: 5px;
   resize: none;
+  scrollbar-color: transparent transparent;
+
+  & ::-webkit-scrollbar {
+    background-color: transparent;
+  }
 
   &:focus-visible {
     outline: none;
@@ -248,18 +264,28 @@ const onDragEnd = () => {
   pre {
     margin: 0.5rem 0;
     padding: 0;
-    background-color: #272822 !important;
+    background: #363636 !important;
   }
 
   code {
     // padding: 0.5rem !important;
     padding: 0 5px;
-    background: #dcdcdc !important;
+    color: #dcdcdc !important;
+    background: #363636 !important;
     border-radius: 5px;
+
+    // span {
+    //   color: #dcdcdc;
+    // }
 
     // &:not([class]) {
     //   background-color: #dcdcdc;
+    //   color: #dcdcdc;
     // }
+  }
+
+  span {
+    color: #dcdcdc !important;
   }
 }
 
@@ -292,21 +318,27 @@ const onDragEnd = () => {
 }
 
 .control__copy-btn {
+  @include hand;
+
   width: 24px;
   height: 24px;
   transform: translate(135px, -40px);
-  cursor: pointer;
 }
 
 .tips {
+  @include hand;
+
   color: #929497;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   text-decoration: underline;
-  cursor: pointer;
   user-select: none;
   text-decoration-line: underline;
+}
+
+.hover {
+  @include hand;
 }
 
 // .copySuccess {

@@ -44,6 +44,7 @@
       v-if="showPrompts"
       :prompts="store.config.prompts"
       :selected-index="selectedPrompt.index"
+      :show-back="showMenu"
       :tab-index="chooseIndex"
       @on-change="handleChangePrompt"
       @on-edit-prompt="handleEditPrompt"
@@ -51,7 +52,7 @@
     />
     <PromptEditor
       v-if="showEditor"
-      :disable-delete="disableDeletePrompt"
+      :disable-delete="hidePromptDelete"
       :prompt="selectedPrompt.prompt"
       @on-delete="handleDeletePrompt"
       @on-hide="handleCloseEditor"
@@ -116,9 +117,15 @@ const selectedPrompt = reactive({
 useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (e.key === 'Escape') {
-      emits('closePopup')
+    // press esc
+    if (e.type === 'keyup' && e.key === 'Escape') {
+      if (showEditor.value) showEditor.value = false
+      else if (showMenu.value) showMenu.value = false
+      else emits('closePopup')
+      return
     }
+
+    // control prompts list
     if (!showPrompts.value) return
     let index = chooseIndex.value
     if (e.key === 'Tab' && e.type === 'keydown') {
@@ -142,13 +149,15 @@ useMagicKeys({
 //   }
 // })
 
-const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
+// const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
+const lastKey = LAST_PROMPT_STORAGE_KEY.COMMON
 
 onMounted(async () => {
-  const lastPrompt = (await storage.get(lastKey)) || ''
-  inputCommand.value = lastPrompt
-
-  if (props.isAskPage) return
+  // const lastPrompt = (await storage.get(lastKey)) || ''
+  // const lastPrompt = props.isAskPage ? await storage.get(lastKey) : store.selectedText
+  // inputCommand.value = lastPrompt
+  inputCommand.value = props.isAskPage ? await storage.get(lastKey) : store.selectedText
+  if (!props.isAskPage) return
 
   // init selected prompt
   const index = store.config.latestPresetPromptIndex
@@ -383,7 +392,9 @@ const handleAddPrompt = command => {
   handleShowEditor()
 }
 
-const disableDeletePrompt = computed(() => store.config.prompts.length === 1)
+const hidePromptDelete = computed(() => {
+  return store.config.prompts.length === 1 || selectedPrompt.index === store.config.prompts.length
+})
 
 const showResult = computed(() => {
   return !!result.value && result.value !== ''
@@ -424,6 +435,6 @@ const handlePopupTurnBack = () => {
 }
 
 .alert {
-  margin-top: 8px;
+  margin: 8px 8px 0;
 }
 </style>

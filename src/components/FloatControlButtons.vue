@@ -2,9 +2,10 @@
   <ul :class="$style.control">
     <li v-show="!showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn">
+        <InteractiveIcon :class="$style.btn" type="close" @click="popupClose" />
+        <!-- <div :class="$style.btn">
           <InteractiveIcon :class="$style.ico" type="close" @click="popupClose" />
-        </div>
+        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Close') }}</span>
         </template>
@@ -12,9 +13,10 @@
     </li>
     <li v-show="showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn">
+        <InteractiveIcon :class="$style.btn" type="previous" @click="popupBack" />
+        <!-- <div :class="$style.btn">
           <InteractiveIcon :class="$style.ico" type="previous" @click="popupBack" />
-        </div>
+        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Back') }}</span>
         </template>
@@ -22,9 +24,10 @@
     </li>
     <li v-show="showSetting" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
-        <div :class="$style.btn">
+        <InteractiveIcon :class="$style.btn" type="setting" @click="openSettingPage" />
+        <!-- <div :class="$style.btn">
           <InteractiveIcon :class="$style.ico" type="setting" @click="openSettingPage" />
-        </div>
+        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Settings') }}</span>
         </template>
@@ -78,24 +81,27 @@ const popupBack = () => {
 .box {
   margin-bottom: 16px;
   list-style: none;
+
+  .btn {
+    box-sizing: content-box !important;
+
+    // display: flex;
+    // width: 36px;
+    // height: 36px;
+    width: 24px;
+    height: 24px;
+    padding: 6px;
+    background-color: var(--webpilot-theme-main-background-color, #fff);
+    background-origin: content-box;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
+  }
 }
 
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background-color: var(--webpilot-theme-main-background-color, #fff);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
-}
-
-.ico {
-  width: 24px;
-  height: 24px;
-  filter: brightness(var(--webpilot-theme-brightness-number));
-}
+// .ico {
+//   flex: 1;
+//   filter: brightness(var(--webpilot-theme-brightness-number));
+// }
 
 .popover {
   padding: 4px 8px;
