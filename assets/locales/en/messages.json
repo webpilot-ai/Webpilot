@@ -71,6 +71,9 @@
   "Extension_Settings": {
     "message": "Extension Settings"
   },
+  "Find_the_questions_todo_on_the_page__analyze_them_step_by_step__and_provide_a_complete_answer__If_a_specified_starting_point_is_given__use_it_directly_without_changing": {
+    "message": "Find the questions/todo on the page, analyze them step by step, and provide a complete answer. If a specified starting point is given, use it directly without changing"
+  },
   "For_more_usage__you_can_add_a_paid_plan_later": {
     "message": "For more usage, you can add a paid plan later"
   },
@@ -80,14 +83,11 @@
   "Free_usage_for_this_week_has_been_exhausted__50_times_week___You_can_input_your_OpenAI_API_Key_in_the_settings_page_for_unlimited_use__or_wait_for_the_quota_refresh_at_0_00_UTC_0_on_Monday_": {
     "message": "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
   },
+  "Generate_a_list_of_10_long_tail_keywords_for_SEO__related_to_this_page": {
+    "message": "Generate a list of 10 long-tail keywords for SEO, related to this page"
+  },
   "How_to_Use": {
     "message": "How to Use"
-  },
-  "Let_s_draw_an_image_about_this__You_need_to_write_in_English_without_word_wraps_and_headlines__without_connection_words__back_to_back_separated_with_commas___1____element____2____3___environment____4____5____6___style_settings___________Replace__1__with_the_subject__A_image_of_____________________Replace__element__with_the_sentence_you_mentioned___________________Replace__2__with_a_list_of_creative_detailed_descriptions_about__element____________________Replace__3__with_a_list_of_detailed_descriptions_about_the_environment_of_the_scene___________________Replace__4__with_a_list_of_detailed_descriptions_about_the_mood_feelings_and_atmosphere_of_the_scene___________________Replace__5__with_a_list_of_specific_camera_model_including_specific_color_film_type_and_lens_details_as_well_as_techniques__set_a_artistic_style___________________Replace__6__with_a_list_of_multiple_directors__cinematographers__photographers__fashion_designers__cartoonist_or_artist__who_would_be_unlikely_to_collaborate_but_would_juxtapose_uniquely___________________Simply_write_the_without_explanation__replace_the_content_inside_the_brackets_with_details_about_the_content_word_inside_the_brackets_and_delete_the_brackets__Repeat_that_for_every_bracket_in_the_prompt__complex_prompt_for_an_AI_based_text_to_image_program_that_converts_a_prompt_about_a_topic_into_an_image__The_outcome_depends_on_the_prompt_s_coherence__The_topic_of_the_whole_scene_is_always_dependent_on_the_subject_that_is_replaced_with__element___always_start_the_prompt_with___imagine_prompt____don_t_use_any_line_breaks__Proper_grammar_is_unnecessary_and_details_can_be_listed___________________Do_not_show_things_like___1____element___in_your_response_": {
-    "message": "Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [element], [2], [3] {environment}, [4], [5], [6] {style settings}\n\n        Replace [1] with the subject \"A image of \";\n        \n        Replace [element] with the sentence you mentioned;\n        \n        Replace [2] with a list of creative detailed descriptions about [element];\n        \n        Replace [3] with a list of detailed descriptions about the environment of the scene;\n        \n        Replace [4] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n        \n        Replace [5] with a list of specific camera model(including specific color film type and lens details as well as techniques) set a artistic style;\n        \n        Replace [6] with a list of multiple directors, cinematographers, photographers, fashion designers, cartoonist or artist, who would be unlikely to collaborate but would juxtapose uniquely.\n        \n        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n        \n        Do not show things like \"[1]\"\"[element]\" in your response."
-  },
-  "MidJourney_Prompt": {
-    "message": "MidJourney Prompt"
   },
   "New_tab_and_blank_pages": {
     "message": "New tab and blank pages"
@@ -104,12 +104,6 @@
   "Pop_Up": {
     "message": "Pop Up"
   },
-  "Refine": {
-    "message": "Refine"
-  },
-  "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
-    "message": "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
-  },
   "Save_Changes": {
     "message": "Save Changes"
   },
@@ -118,6 +112,9 @@
   },
   "Select_text__and_press_": {
     "message": "Select text, and press "
+  },
+  "SEO": {
+    "message": "SEO"
   },
   "Set_up_API": {
     "message": "Set up API"
@@ -128,14 +125,17 @@
   "Side_Bar": {
     "message": "Side Bar"
   },
+  "Solve": {
+    "message": "Solve"
+  },
   "Star_on_Github": {
     "message": "Star on Github"
   },
   "Summarize": {
     "message": "Summarize"
   },
-  "Summarize_and_express_these_words_concisely": {
-    "message": "Summarize and express these words concisely"
+  "Summarize_in_English__concise_and_clear": {
+    "message": "Summarize in English, concise and clear"
   },
   "up_to_50_times_week": {
     "message": "up to 50 times/week"

@@ -6,7 +6,6 @@ import {WEBPILOT_CONFIG_STORAGE_KEY, defaultConfig, WEBPILOT_OPENAI} from '@/con
 
 const useStore = defineStore('store', () => {
   const storage = new Storage()
-
   const config = ref(defaultConfig)
 
   // selected text
@@ -18,6 +17,7 @@ const useStore = defineStore('store', () => {
 
   async function initConfig() {
     const storedConfig = await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)
+    console.info('get', storedConfig)
     if (storedConfig && typeof storedConfig === 'object') {
       config.value = storedConfig
 
@@ -27,6 +27,12 @@ const useStore = defineStore('store', () => {
       }
       if (config.value.selfHostUrl === WEBPILOT_OPENAI.HOST_URL) {
         config.value.selfHostUrl = ''
+      }
+      if (config.value.prompts && config.value.prompts.length) {
+        config.value.TextSelectionPrompts = config.value.prompts
+      }
+      if (config.value.latestPresetPromptIndex) {
+        config.value.latestTextSelectionPromptIndex = config.value.latestPresetPromptIndex
       }
     }
   }
@@ -41,17 +47,19 @@ const useStore = defineStore('store', () => {
   }
 
   // 现在的 setConfig，更新 options 后，每个 tab 需要 reload 才生效
-  // 逐步替换为 updateConfig，获取最新的 localsorage
+  // 逐步替换为 updateConfig，获取最新的 LocalStorage
   async function updateConfig(newConfig) {
     const storedConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || config.value
     config.value = {...storedConfig, ...newConfig}
+    console.info('set', newConfig, config.value)
     saveToLocalStorage(config.value)
   }
 
-  function setPrompts(prompts) {
+  function setPrompts(type, prompts) {
+    if (!type) return
     config.value = {
       ...config.value,
-      prompts,
+      [type]: prompts,
     }
     saveToLocalStorage(config.value)
   }

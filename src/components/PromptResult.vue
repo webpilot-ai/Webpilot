@@ -103,7 +103,7 @@ const onScroll = () => {
 }
 
 const showResult = computed(() => {
-  return !!props.modelValue && props.modelValue !== ''
+  return !!props.modelValue && props.modelValue !== '' && !props.showShadow
 })
 
 watch(showResult, v => {
@@ -273,6 +273,7 @@ const openHomePage = () => {
     color: #dcdcdc !important;
     background: #363636 !important;
     border-radius: 5px;
+    box-shadow: none !important;
 
     // span {
     //   color: #dcdcdc;

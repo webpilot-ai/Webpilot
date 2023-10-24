@@ -19,7 +19,7 @@
       <p :class="[$style.tips, $style.fill]">
         {{ showBack ? $gettext('Esc to back') : $gettext('Esc to close') }}
       </p>
-      <span :class="$style.keys">Tab</span>
+      <span :class="$style.keys">⬆︎/⬇︎</span>
       <p :class="$style.tips">{{ $gettext('Choose prompts') }}</p>
       <span :class="$style.keys"><IconSmallBack :class="$style.icon" />Enter</span>
       <p :class="$style.tips">{{ $gettext('Search') }}</p>
@@ -180,6 +180,7 @@ const handleEditPrompt = index => {
     justify-content: center;
     margin: 0 0 0 12px;
     padding: 0 4px;
+    line-height: 20px;
     border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
     border-radius: 4px;
   }
@@ -198,7 +199,6 @@ const handleEditPrompt = index => {
     color: var(--webpilot-theme-main-text-color, #292929);
     font-weight: 600;
     font-size: 10px;
-    line-height: 20px;
   }
 
   .icon {

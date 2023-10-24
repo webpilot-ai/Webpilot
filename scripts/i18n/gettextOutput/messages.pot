@@ -132,6 +132,10 @@ msgstr ""
 msgid "Extension Settings"
 msgstr ""
 
+#: src/config.ts:55
+msgid "Find the questions/todo on the page, analyze them step by step, and provide a complete answer. If a specified starting point is given, use it directly without changing"
+msgstr ""
+
 #: src/tabs/components/StepTwo.vue:24
 #: src/tabs/components/StepTwo.vue:25
 #: src/tabs/components/StepTwo.vue:45
@@ -150,36 +154,13 @@ msgstr ""
 msgid "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
 msgstr ""
 
+#: src/config.ts:51
+msgid "Generate a list of 10 long-tail keywords for SEO, related to this page"
+msgstr ""
+
 #: src/tabs/components/StepThree.vue:2
 #: src/tabs/components/StepThree.vue:3
 msgid "How to Use"
-msgstr ""
-
-#: src/config.ts:55
-msgid ""
-"Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [element], [2], [3] {environment}, [4], [5], [6] {style settings}\n"
-"\n"
-"        Replace [1] with the subject \"A image of \";\n"
-"        \n"
-"        Replace [element] with the sentence you mentioned;\n"
-"        \n"
-"        Replace [2] with a list of creative detailed descriptions about [element];\n"
-"        \n"
-"        Replace [3] with a list of detailed descriptions about the environment of the scene;\n"
-"        \n"
-"        Replace [4] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n"
-"        \n"
-"        Replace [5] with a list of specific camera model(including specific color film type and lens details as well as techniques) set a artistic style;\n"
-"        \n"
-"        Replace [6] with a list of multiple directors, cinematographers, photographers, fashion designers, cartoonist or artist, who would be unlikely to collaborate but would juxtapose uniquely.\n"
-"        \n"
-"        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n"
-"        \n"
-"        Do not show things like \"[1]\"\"[element]\" in your response."
-msgstr ""
-
-#: src/config.ts:54
-msgid "MidJourney Prompt"
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:15
@@ -205,14 +186,6 @@ msgstr ""
 msgid "Pop Up"
 msgstr ""
 
-#: src/config.ts:48
-msgid "Refine"
-msgstr ""
-
-#: src/config.ts:49
-msgid "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
-msgstr ""
-
 #: src/options/AdvancedView.vue:116
 msgid "Save Changes"
 msgstr ""
@@ -226,6 +199,10 @@ msgstr ""
 #: src/tabs/components/StepThree.vue:5
 #: src/tabs/components/StepThree.vue:6
 msgid "Select text, and press "
+msgstr ""
+
+#: src/config.ts:50
+msgid "SEO"
 msgstr ""
 
 #: src/tabs/components/StepTwo.vue:2
@@ -242,18 +219,22 @@ msgstr ""
 msgid "Side Bar"
 msgstr ""
 
+#: src/config.ts:54
+msgid "Solve"
+msgstr ""
+
 #: src/options/OldTheEntry.vue:38
 #: src/options/OldTheEntry.vue:39
 #: src/options/OldTheEntry.vue:42
 msgid "Star on Github"
 msgstr ""
 
-#: src/config.ts:44
+#: src/config.ts:46
 msgid "Summarize"
 msgstr ""
 
-#: src/config.ts:45
-msgid "Summarize and express these words concisely"
+#: src/config.ts:47
+msgid "Summarize in English, concise and clear"
 msgstr ""
 
 #: src/tabs/components/StepTwo.vue:23
