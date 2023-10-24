@@ -32,13 +32,13 @@
       <InteractiveIcon
         v-show="!disableDelete"
         :class="$style['form-button']"
-        :label="$gettext('DELETE')"
+        :label="$gettext('Delete')"
         type="delete"
         @click="handleDelete"
       />
       <InteractiveIcon
         :class="$style['form-button']"
-        :label="$gettext('SAVE PROMPT')"
+        :label="$gettext('Save')"
         type="save"
         @click="handleSave"
       />
@@ -177,7 +177,6 @@ const onNameInputBlur = () => {
   background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none;
   outline: none;
-  appearance: none;
   appearance: none;
   appearance: none;
   resize: none;

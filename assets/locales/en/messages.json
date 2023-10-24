@@ -5,17 +5,8 @@
   "_to_use": {
     "message": " to use"
   },
-  "About": {
-    "message": "About"
-  },
-  "Account": {
-    "message": "Account"
-  },
   "Active_Webpilot": {
     "message": "Active Webpilot"
-  },
-  "Advanced": {
-    "message": "Advanced"
   },
   "and_pin_Webpilot_to_your_nav_bar": {
     "message": "and pin Webpilot to your nav bar"
@@ -32,8 +23,8 @@
   "Change_Shortcut": {
     "message": "Change Shortcut"
   },
-  "Choose_prompts": {
-    "message": "Choose prompts"
+  "Choose": {
+    "message": "Choose"
   },
   "Chrome_s_Settings__History__and_Web_Store_pages": {
     "message": "Chrome's Settings, History, and Web Store pages"
@@ -43,6 +34,9 @@
   },
   "Close": {
     "message": "Close"
+  },
+  "Confirm": {
+    "message": "Confirm"
   },
   "Current_Webpage_Not_Supported": {
     "message": "Current Webpage Not Supported"
@@ -56,26 +50,26 @@
   "Display_Webpilot_icon_when_text_is_selected": {
     "message": "Display Webpilot icon when text is selected"
   },
+  "Draw": {
+    "message": "Draw"
+  },
   "Due_to_Chrome_s_constraints__Webpilot_cannot_be_activated_on_the_following_webpages_": {
     "message": "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
   },
   "Enjoy_Webpilot_AI_for": {
     "message": "Enjoy Webpilot AI for"
   },
-  "Esc_to_back": {
-    "message": "Esc to back"
+  "Explain": {
+    "message": "Explain"
   },
-  "Esc_to_close": {
-    "message": "Esc to close"
+  "Explain_it_in_English_using_words_a_middle_schooler_can_understand": {
+    "message": "Explain it in English using words a middle schooler can understand"
   },
   "Extension_Settings": {
     "message": "Extension Settings"
   },
-  "Find_the_questions_todo_on_the_page__analyze_them_step_by_step__and_provide_a_complete_answer__If_a_specified_starting_point_is_given__use_it_directly_without_changing": {
-    "message": "Find the questions/todo on the page, analyze them step by step, and provide a complete answer. If a specified starting point is given, use it directly without changing"
-  },
-  "For_more_usage__you_can_add_a_paid_plan_later": {
-    "message": "For more usage, you can add a paid plan later"
+  "Find_the_questions_todo_on_the_page__analyze_them_step_by_step__and_provide_a_complete_solution_in_the_end__If_a_specified_starting_point_is_given__use_it_directly_without_changing_": {
+    "message": "Find the questions/todo on the page, analyze them step by step, and provide a complete solution in the end. If a specified starting point is given, use it directly without changing."
   },
   "FREE": {
     "message": "FREE"
@@ -89,14 +83,14 @@
   "How_to_Use": {
     "message": "How to Use"
   },
+  "Let_s_draw_an_image_about_this__You_need_to_write_in_English_without_word_wraps_and_headlines__without_connection_words__back_to_back_separated_with_commas___1____2____3____4___environment____5____6___style_settings__________Replace__1__with_the_subject__A_image_of____________Replace__2__with_the_sentence_you_mentioned__________Replace__3__with_a_list_of_creative_detailed_descriptions_about__element____________Replace__4__with_a_list_of_detailed_descriptions_about_the_environment_of_the_scene__________Replace__5__with_a_list_of_detailed_descriptions_about_the_mood_feelings_and_atmosphere_of_the_scene__________Replace__6__with_an_appropriate_director_or_artist__If_he_she_is_a_historical_figure__include_his_her_country_and_dynasty__________Simply_write_the_without_explanation__replace_the_content_inside_the_brackets_with_details_about_the_content_word_inside_the_brackets_and_delete_the_brackets__Repeat_that_for_every_bracket_in_the_prompt__complex_prompt_for_an_AI_based_text_to_image_program_that_converts_a_prompt_about_a_topic_into_an_image__The_outcome_depends_on_the_prompt_s_coherence__The_topic_of_the_whole_scene_is_always_dependent_on_the_subject_that_is_replaced_with__element___always_start_the_prompt_with___imagine_prompt____don_t_use_any_line_breaks__Proper_grammar_is_unnecessary_and_details_can_be_listed__________Do_not_show_things_like___1____element___in_your_response_": {
+    "message": "Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [2], [3], [4] {environment}, [5], [6] {style settings}\n        Replace [1] with the subject \"A image of \";\n        Replace [2] with the sentence you mentioned;\n        Replace [3] with a list of creative detailed descriptions about [element]; \n        Replace [4] with a list of detailed descriptions about the environment of the scene;\n        Replace [5] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n        Replace [6] with an appropriate director or artist. If he/she is a historical figure, include his/her country and dynasty.\n        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n        Do not show things like \"[1]\"\"[element]\" in your response."
+  },
   "New_tab_and_blank_pages": {
     "message": "New tab and blank pages"
   },
   "OpenAI_Credits": {
     "message": "OpenAI Credits"
-  },
-  "Opensource_AI_Assistant_On_All_Websites": {
-    "message": "Opensource AI Assistant On All Websites"
   },
   "Pin_Webpilot": {
     "message": "Pin Webpilot"
@@ -104,11 +98,14 @@
   "Pop_Up": {
     "message": "Pop Up"
   },
+  "Refine": {
+    "message": "Refine"
+  },
+  "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
+    "message": "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
+  },
   "Save_Changes": {
     "message": "Save Changes"
-  },
-  "Search": {
-    "message": "Search"
   },
   "Select_text__and_press_": {
     "message": "Select text, and press "
@@ -122,14 +119,14 @@
   "Settings": {
     "message": "Settings"
   },
+  "Setup_your_own_API_key__to_enjoy_more": {
+    "message": "Setup your own API key, to enjoy more"
+  },
   "Side_Bar": {
     "message": "Side Bar"
   },
   "Solve": {
     "message": "Solve"
-  },
-  "Star_on_Github": {
-    "message": "Star on Github"
   },
   "Summarize": {
     "message": "Summarize"
@@ -148,9 +145,6 @@
   },
   "Webpilot_Credit": {
     "message": "Webpilot Credit"
-  },
-  "Webpilot_is_open_source": {
-    "message": "Webpilot is open source"
   },
   "Webpilot_will_answer_based_on_the_current_page_if_no_text_is_selected": {
     "message": "Webpilot will answer based on the current page if no text is selected"

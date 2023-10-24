@@ -1,8 +1,8 @@
 <template>
   <section v-show="showResult" :class="$style.container">
     <!-- <section>Webpilot says</section> -->
-    <div ref="refMarkdown" :class="$style.container__content" @scroll="onScroll">
-      <Markdown :source="result" />
+    <div ref="refMarkdown" :class="$style.container__content" contenteditable @scroll="onScroll">
+      <Markdown id="webpilot-content" :source="result" />
     </div>
     <article :class="$style.container__footer">
       <!-- <section :class="$style.tips" @click="showShareInfo">
@@ -249,44 +249,6 @@ const openHomePage = () => {
   &:focus {
     border-color: #dcdee1;
     outline: none;
-  }
-
-  * {
-    font-size: 14px;
-  }
-
-  p {
-    margin: 0;
-    color: var(--webpilot-theme-baseline-text, #292929) !important;
-    line-height: 1.6;
-  }
-
-  pre {
-    margin: 0.5rem 0;
-    padding: 0;
-    background: #363636 !important;
-  }
-
-  code {
-    // padding: 0.5rem !important;
-    padding: 0 5px;
-    color: #dcdcdc !important;
-    background: #363636 !important;
-    border-radius: 5px;
-    box-shadow: none !important;
-
-    // span {
-    //   color: #dcdcdc;
-    // }
-
-    // &:not([class]) {
-    //   background-color: #dcdcdc;
-    //   color: #dcdcdc;
-    // }
-  }
-
-  span {
-    color: #dcdcdc !important;
   }
 }
 

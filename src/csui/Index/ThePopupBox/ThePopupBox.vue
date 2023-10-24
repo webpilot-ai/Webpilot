@@ -403,14 +403,17 @@ const handleDeletePrompt = () => {
 }
 
 const handleAddPrompt = command => {
-  selectedPrompt.index = currentPrompts.value.length
+  selectedPrompt.index = currentPrompts.value ? currentPrompts.value.length : 0
   selectedPrompt.prompt = {title: '', command}
   handleShowMenu()
   handleShowEditor()
 }
 
 const hidePromptDelete = computed(() => {
-  return currentPrompts.value.length === 1 || selectedPrompt.index === currentPrompts.value.length
+  return (
+    currentPrompts.value.length === 1 ||
+    (currentPrompts.value && selectedPrompt.index === currentPrompts.value.length)
+  )
 })
 
 const showResult = computed(() => {

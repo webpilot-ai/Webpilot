@@ -8,27 +8,11 @@ msgstr ""
 msgid " to use"
 msgstr ""
 
-#: src/options/OldTheEntry.vue:22
-#: src/options/OldTheEntry.vue:23
-#: src/options/OldTheEntry.vue:26
-msgid "About"
-msgstr ""
-
-#: src/options/OldTheEntry.vue:19
-#: src/options/OldTheEntry.vue:20
-msgid "Account"
-msgstr ""
-
 #: src/options/AdvancedView.vue:146
 #: src/options/AdvancedView.vue:158
 #: src/options/AdvancedView.vue:87
 #: src/options/AdvancedView.vue:88
 msgid "Active Webpilot"
-msgstr ""
-
-#: src/options/OldTheEntry.vue:13
-#: src/options/OldTheEntry.vue:14
-msgid "Advanced"
 msgstr ""
 
 #: src/tabs/components/StepFour.vue:4
@@ -48,6 +32,9 @@ msgstr ""
 
 #: src/components/FloatControlButtons.vue:20
 #: src/components/FloatControlButtons.vue:21
+#: src/components/PromptMenu.vue:14
+#: src/components/PromptMenu.vue:15
+#: src/components/PromptMenu.vue:20
 msgid "Back"
 msgstr ""
 
@@ -64,7 +51,7 @@ msgstr ""
 #: src/components/PromptMenu.vue:17
 #: src/components/PromptMenu.vue:18
 #: src/components/PromptMenu.vue:23
-msgid "Choose prompts"
+msgid "Choose"
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:14
@@ -79,7 +66,16 @@ msgstr ""
 
 #: src/components/FloatControlButtons.vue:10
 #: src/components/FloatControlButtons.vue:9
+#: src/components/PromptMenu.vue:14
+#: src/components/PromptMenu.vue:15
+#: src/components/PromptMenu.vue:20
 msgid "Close"
+msgstr ""
+
+#: src/components/PromptMenu.vue:19
+#: src/components/PromptMenu.vue:20
+#: src/components/PromptMenu.vue:25
+msgid "Confirm"
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:5
@@ -103,6 +99,10 @@ msgstr ""
 msgid "Display Webpilot icon when text is selected"
 msgstr ""
 
+#: src/config.ts:71
+msgid "Draw"
+msgstr ""
+
 #: src/popup/componetns/WebpilotPopup.vue:10
 #: src/popup/componetns/WebpilotPopup.vue:9
 msgid "Due to Chrome's constraints, Webpilot cannot be activated on the following webpages:"
@@ -114,16 +114,12 @@ msgstr ""
 msgid "Enjoy Webpilot AI for"
 msgstr ""
 
-#: src/components/PromptMenu.vue:14
-#: src/components/PromptMenu.vue:15
-#: src/components/PromptMenu.vue:20
-msgid "Esc to back"
+#: src/config.ts:61
+msgid "Explain"
 msgstr ""
 
-#: src/components/PromptMenu.vue:14
-#: src/components/PromptMenu.vue:15
-#: src/components/PromptMenu.vue:20
-msgid "Esc to close"
+#: src/config.ts:62
+msgid "Explain it in English using words a middle schooler can understand"
 msgstr ""
 
 #: src/options/AdvancedView.vue:123
@@ -132,15 +128,8 @@ msgstr ""
 msgid "Extension Settings"
 msgstr ""
 
-#: src/config.ts:55
-msgid "Find the questions/todo on the page, analyze them step by step, and provide a complete answer. If a specified starting point is given, use it directly without changing"
-msgstr ""
-
-#: src/tabs/components/StepTwo.vue:24
-#: src/tabs/components/StepTwo.vue:25
-#: src/tabs/components/StepTwo.vue:45
-#: src/tabs/components/StepTwo.vue:47
-msgid "For more usage, you can add a paid plan later"
+#: src/config.ts:54
+msgid "Find the questions/todo on the page, analyze them step by step, and provide a complete solution in the end. If a specified starting point is given, use it directly without changing."
 msgstr ""
 
 #: src/tabs/components/StepTwo.vue:22
@@ -154,13 +143,26 @@ msgstr ""
 msgid "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
 msgstr ""
 
-#: src/config.ts:51
+#: src/config.ts:50
 msgid "Generate a list of 10 long-tail keywords for SEO, related to this page"
 msgstr ""
 
 #: src/tabs/components/StepThree.vue:2
 #: src/tabs/components/StepThree.vue:3
 msgid "How to Use"
+msgstr ""
+
+#: src/config.ts:72
+msgid ""
+"Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [2], [3], [4] {environment}, [5], [6] {style settings}\n"
+"        Replace [1] with the subject \"A image of \";\n"
+"        Replace [2] with the sentence you mentioned;\n"
+"        Replace [3] with a list of creative detailed descriptions about [element]; \n"
+"        Replace [4] with a list of detailed descriptions about the environment of the scene;\n"
+"        Replace [5] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n"
+"        Replace [6] with an appropriate director or artist. If he/she is a historical figure, include his/her country and dynasty.\n"
+"        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n"
+"        Do not show things like \"[1]\"\"[element]\" in your response."
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:15
@@ -172,11 +174,6 @@ msgstr ""
 msgid "OpenAI Credits"
 msgstr ""
 
-#: src/options/OldTheEntry.vue:8
-#: src/options/OldTheEntry.vue:9
-msgid "Opensource AI Assistant On All Websites"
-msgstr ""
-
 #: src/tabs/components/StepFour.vue:2
 #: src/tabs/components/StepFour.vue:3
 msgid "Pin Webpilot"
@@ -186,14 +183,16 @@ msgstr ""
 msgid "Pop Up"
 msgstr ""
 
-#: src/options/AdvancedView.vue:116
-msgid "Save Changes"
+#: src/config.ts:65
+msgid "Refine"
 msgstr ""
 
-#: src/components/PromptMenu.vue:19
-#: src/components/PromptMenu.vue:20
-#: src/components/PromptMenu.vue:25
-msgid "Search"
+#: src/config.ts:66
+msgid "Refine text, review and revise problems in spelling, grammar, punctuation, word usage, and sentence structure"
+msgstr ""
+
+#: src/options/AdvancedView.vue:116
+msgid "Save Changes"
 msgstr ""
 
 #: src/tabs/components/StepThree.vue:5
@@ -201,7 +200,7 @@ msgstr ""
 msgid "Select text, and press "
 msgstr ""
 
-#: src/config.ts:50
+#: src/config.ts:49
 msgid "SEO"
 msgstr ""
 
@@ -215,25 +214,26 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: src/tabs/components/StepTwo.vue:24
+#: src/tabs/components/StepTwo.vue:25
+#: src/tabs/components/StepTwo.vue:45
+#: src/tabs/components/StepTwo.vue:47
+msgid "Setup your own API key, to enjoy more"
+msgstr ""
+
 #: src/options/AdvancedView.vue:138
 msgid "Side Bar"
 msgstr ""
 
-#: src/config.ts:54
+#: src/config.ts:53
 msgid "Solve"
 msgstr ""
 
-#: src/options/OldTheEntry.vue:38
-#: src/options/OldTheEntry.vue:39
-#: src/options/OldTheEntry.vue:42
-msgid "Star on Github"
-msgstr ""
-
-#: src/config.ts:46
+#: src/config.ts:45
 msgid "Summarize"
 msgstr ""
 
-#: src/config.ts:47
+#: src/config.ts:46
 msgid "Summarize in English, concise and clear"
 msgstr ""
 
@@ -254,12 +254,6 @@ msgstr ""
 
 #: src/tabs/components/StepTwo.vue:20
 msgid "Webpilot Credit"
-msgstr ""
-
-#: src/options/OldTheEntry.vue:36
-#: src/options/OldTheEntry.vue:37
-#: src/options/OldTheEntry.vue:40
-msgid "Webpilot is open source"
 msgstr ""
 
 #: src/tabs/components/StepThree.vue:32

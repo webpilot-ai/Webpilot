@@ -1,0 +1,64 @@
+<template>
+  <svg
+    height="24px"
+    viewBox="0 0 24 24"
+    width="24px"
+    x="0px"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    y="0px"
+  >
+    <g stroke-width="2" transform="translate(0, 0)">
+      <rect
+        fill="none"
+        height="8"
+        stroke="#444444"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        stroke-width="2"
+        width="8"
+        x="2"
+        y="2"
+      ></rect>
+      <rect
+        data-color="color-2"
+        fill="none"
+        height="7.071"
+        stroke="#444444"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        stroke-width="2"
+        transform="translate(1.03 14.485) rotate(-45)"
+        width="7.071"
+        x="14.464"
+        y="2.464"
+      ></rect>
+      <rect
+        fill="none"
+        height="8"
+        stroke="#444444"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        stroke-width="2"
+        width="8"
+        x="14"
+        y="14"
+      ></rect>
+      <rect
+        fill="none"
+        height="8"
+        stroke="#444444"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        stroke-width="2"
+        width="8"
+        x="2"
+        y="14"
+      ></rect>
+    </g>
+  </svg>
+</template>

@@ -44,7 +44,7 @@
             >{{ $gettext('Enjoy Webpilot AI for') }} <b>{{ $gettext('FREE') }}</b></span
           >
           <span>{{ $gettext('up to 50 times/week') }}</span>
-          <p>{{ $gettext('For more usage, you can add a paid plan later') }}</p>
+          <p>{{ $gettext('Setup your own API key, to enjoy more') }}</p>
         </article>
         <ImageFreePlan />
       </section>

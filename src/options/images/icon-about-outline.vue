@@ -1,0 +1,39 @@
+<template>
+  <svg
+    height="24px"
+    viewBox="0 0 24 24"
+    width="24px"
+    x="0px"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    y="0px"
+  >
+    <g stroke-width="2" transform="translate(0, 0)">
+      <circle
+        cx="12"
+        cy="12"
+        fill="none"
+        r="11"
+        stroke="#444444"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        stroke-width="2"
+      ></circle>
+      <line
+        data-color="color-2"
+        fill="none"
+        stroke="#444444"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        stroke-width="2"
+        x1="12"
+        x2="12"
+        y1="11"
+        y2="17"
+      ></line>
+      <circle cx="12" cy="7" data-color="color-2" data-stroke="none" fill="#444444" r="1"></circle>
+    </g>
+  </svg>
+</template>

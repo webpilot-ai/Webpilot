@@ -1,4 +1,53 @@
+/* stylelint-disable */
 #webpilot-container {
-  /* stylelint-disable-next-line */
   @import './reset.scss';
+}
+
+#webpilot-content {
+
+  // p,
+  // span {
+  //   font-size: 14px;
+  //   font-weight: normal;
+  // }
+
+  p {
+    margin: 0;
+    // color: #292929 !important;
+    line-height: 1.6;
+  }
+
+  // span {
+  //   color: #dcdcdc !important;
+  // }
+
+  pre {
+    // margin: 0.5rem 0;
+    padding: 0;
+    // background: #363636 !important;
+  }
+
+  code {
+    font-size: 14px;
+    padding: 1 5px;
+    background: #fdf6e3;
+    color: #657b83;
+    border-radius: 6px;
+    box-shadow: none !important;
+  }
+
+  @import './solarized_light.scss';
+}
+
+@media (prefers-color-scheme: dark) {
+  #webpilot-content {
+    p {
+    color: #dcdcdc;
+  }
+    code {
+      background: #002b36;
+      color: #839496;}
+      
+      @import './solarized_dark.scss';
+  }
 }

@@ -17,12 +17,12 @@
     <article :class="$style.footer">
       <span :class="$style.keys">Esc</span>
       <p :class="[$style.tips, $style.fill]">
-        {{ showBack ? $gettext('Esc to back') : $gettext('Esc to close') }}
+        {{ showBack ? $gettext('Back') : $gettext('Close') }}
       </p>
       <span :class="$style.keys">⬆︎/⬇︎</span>
-      <p :class="$style.tips">{{ $gettext('Choose prompts') }}</p>
+      <p :class="$style.tips">{{ $gettext('Choose') }}</p>
       <span :class="$style.keys"><IconSmallBack :class="$style.icon" />Enter</span>
-      <p :class="$style.tips">{{ $gettext('Search') }}</p>
+      <p :class="$style.tips">{{ $gettext('Confirm') }}</p>
     </article>
   </section>
 </template>

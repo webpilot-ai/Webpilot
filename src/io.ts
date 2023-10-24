@@ -26,9 +26,9 @@ import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 function getNewCutMessages(messages) {
   const encoding = getEncoding('cl100k_base')
   // 16k * 3/4
-  const maxRequstTokens = 12288
+  const maxRequestTokens = 3200
   const newMessages = [{...messages[0], content: ''}, {...messages[1]}]
-  let remainNum = maxRequstTokens - 2
+  let remainNum = maxRequestTokens - 2
 
   newMessages.forEach(message => {
     remainNum -= 4

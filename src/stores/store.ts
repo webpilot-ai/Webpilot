@@ -17,7 +17,6 @@ const useStore = defineStore('store', () => {
 
   async function initConfig() {
     const storedConfig = await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)
-    console.info('get', storedConfig)
     if (storedConfig && typeof storedConfig === 'object') {
       config.value = storedConfig
 
@@ -28,11 +27,17 @@ const useStore = defineStore('store', () => {
       if (config.value.selfHostUrl === WEBPILOT_OPENAI.HOST_URL) {
         config.value.selfHostUrl = ''
       }
-      if (config.value.prompts && config.value.prompts.length) {
-        config.value.TextSelectionPrompts = config.value.prompts
+      if (!config.value.latestAskedQuestionPromptIndex) {
+        config.value.latestAskedQuestionPromptIndex = 0
       }
-      if (config.value.latestPresetPromptIndex) {
-        config.value.latestTextSelectionPromptIndex = config.value.latestPresetPromptIndex
+      if (!config.value.latestTextSelectionPromptIndex) {
+        config.value.latestTextSelectionPromptIndex = 0
+      }
+      if (!config.value.AskedQuestionPrompts) {
+        config.value.AskedQuestionPrompts = []
+      }
+      if (!config.value.TextSelectionPrompts) {
+        config.value.TextSelectionPrompts = []
       }
     }
   }
@@ -51,7 +56,6 @@ const useStore = defineStore('store', () => {
   async function updateConfig(newConfig) {
     const storedConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || config.value
     config.value = {...storedConfig, ...newConfig}
-    console.info('set', newConfig, config.value)
     saveToLocalStorage(config.value)
   }
 
