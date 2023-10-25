@@ -14,11 +14,14 @@
   "API_Settings": {
     "message": "API 设置"
   },
+  "Ask_a_question_about": {
+    "message": "对这个进行提问："
+  },
   "Ask_a_question_about_this_webpage": {
     "message": "向这个网页提问"
   },
   "Back": {
-    "message": "Back"
+    "message": "返回"
   },
   "Change_Shortcut": {
     "message": "更改快捷键"
@@ -38,6 +41,9 @@
   "Confirm": {
     "message": "确认"
   },
+  "Copy": {
+    "message": "复制"
+  },
   "Current_Webpage_Not_Supported": {
     "message": "当前网页不支持"
   },
@@ -51,7 +57,7 @@
     "message": "选中文字后，展示悬浮框"
   },
   "Draw": {
-    "message": "Draw"
+    "message": "画图"
   },
   "Due_to_Chrome_s_constraints__Webpilot_cannot_be_activated_on_the_following_webpages_": {
     "message": "由于 Chrome 的限制，Webpilot 无法在以下网页上启动："
@@ -60,7 +66,7 @@
     "message": "尽享 WebPilot AI，"
   },
   "Explain": {
-    "message": "Explain"
+    "message": "解释"
   },
   "Explain_it_in_English_using_words_a_middle_schooler_can_understand": {
     "message": "用初中生可以懂的话来解释，说中文"
@@ -99,7 +105,7 @@
     "message": "弹窗"
   },
   "Refine": {
-    "message": "Refine"
+    "message": "润色"
   },
   "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
     "message": "润色该段文字，修正语法、错字和段落结构，使其更通顺、易读"

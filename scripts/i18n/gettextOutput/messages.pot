@@ -26,7 +26,11 @@ msgstr ""
 msgid "API Settings"
 msgstr ""
 
-#: src/components/PromptInput.vue:50
+#: src/components/PromptInput.vue:107
+msgid "Ask a question about"
+msgstr ""
+
+#: src/components/PromptInput.vue:54
 msgid "Ask a question about this webpage"
 msgstr ""
 
@@ -76,6 +80,11 @@ msgstr ""
 #: src/components/PromptMenu.vue:20
 #: src/components/PromptMenu.vue:25
 msgid "Confirm"
+msgstr ""
+
+#: src/components/FloatControlButtons.vue:42
+#: src/components/FloatControlButtons.vue:43
+msgid "Copy"
 msgstr ""
 
 #: src/popup/componetns/WebpilotPopup.vue:5
@@ -139,7 +148,7 @@ msgstr ""
 msgid "FREE"
 msgstr ""
 
-#: src/hooks/useAskAi.ts:158
+#: src/hooks/useAskAi.ts:229
 msgid "Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday."
 msgstr ""
 

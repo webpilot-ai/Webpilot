@@ -14,6 +14,9 @@
   "API_Settings": {
     "message": "API Settings"
   },
+  "Ask_a_question_about": {
+    "message": "Ask a question about"
+  },
   "Ask_a_question_about_this_webpage": {
     "message": "Ask a question about this webpage"
   },
@@ -37,6 +40,9 @@
   },
   "Confirm": {
     "message": "Confirm"
+  },
+  "Copy": {
+    "message": "Copy"
   },
   "Current_Webpage_Not_Supported": {
     "message": "Current Webpage Not Supported"
