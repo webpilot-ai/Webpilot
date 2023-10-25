@@ -37,7 +37,8 @@
       v-show="!showEditor"
       :result="result"
       :show-back="showMenu"
-      :show-setting="showResult"
+      :show-copy="showResult"
+      :show-setting="showResult || showError"
       @on-back="handlePopupTurnBack"
       @on-close="handleClosePopup"
     />

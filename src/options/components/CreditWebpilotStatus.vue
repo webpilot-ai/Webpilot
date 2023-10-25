@@ -3,7 +3,11 @@
     <div :class="$style['credit-status']">
       <div :class="$style['credit-progress']">
         <div :class="$style['credit-progress-frame']"></div>
-        <div :class="$style['credit-progress-bar']" :style="{width: percentage}"></div>
+        <div
+          v-show="usage.current >= 0"
+          :class="$style['credit-progress-bar']"
+          :style="{width: percentage}"
+        />
       </div>
       <div :class="$style['credit-text-group']">
         <Popper arrow arrow-padding="0" :class="$style.popper" hover offset-distance="0">
@@ -12,7 +16,9 @@
             <div>API limits to 50 times per week. It refreshes every Monday at 0:00 UTC+0</div>
           </template>
         </Popper>
-        <span :class="$style['credit-text']">{{ usage.current }}/{{ usage.total }} available</span>
+        <span v-show="usage.current >= 0" :class="$style['credit-text']"
+          >{{ usage.current }}/{{ usage.total }} available</span
+        >
       </div>
     </div>
   </div>
@@ -33,7 +39,9 @@ const {getUsage} = userStore
 
 if (usage.value.current === -1) getUsage()
 
-const percentage = computed(() => `${(usage.value.current / usage.value.total) * 320}px`)
+const percentage = computed(() => {
+  return `${((usage.value.total - usage.value.current) / usage.value.total) * 320}px`
+})
 </script>
 
 <style lang="scss" module>

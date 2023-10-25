@@ -33,7 +33,7 @@
         </template>
       </Popper>
     </li>
-    <li v-show="showSetting" :class="$style.box">
+    <li v-show="showCopy" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="copy" @click="handleCopy" />
         <!-- <div :class="$style.btn">
@@ -62,6 +62,10 @@ const props = defineProps({
     default: false,
   },
   showBack: {
+    type: Boolean,
+    default: false,
+  },
+  showCopy: {
     type: Boolean,
     default: false,
   },
