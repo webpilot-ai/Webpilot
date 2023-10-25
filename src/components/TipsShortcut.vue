@@ -24,6 +24,7 @@ const shortcut = computed(() => {
 .shortcutWrap {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .shortcutText {
@@ -35,9 +36,8 @@ const shortcut = computed(() => {
 
 .shortcutKeys {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 20px;
+  max-width: 180px;
+  min-height: 20px;
   margin-left: 4px !important;
   padding: 0 2px;
   color: #929497;

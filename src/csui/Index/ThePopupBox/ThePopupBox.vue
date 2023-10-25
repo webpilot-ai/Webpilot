@@ -35,6 +35,7 @@
     <PromptResult v-model="result" :show-shadow="showMenu" />
     <FloatControlButtons
       v-show="!showEditor"
+      :result="result"
       :show-back="showMenu"
       :show-setting="showResult"
       @on-back="handlePopupTurnBack"
@@ -133,16 +134,18 @@ useMagicKeys({
     const index = chooseIndex.value
     const {length} = currentPrompts
     if (e.key === 'ArrowUp' && e.type === 'keyup') {
+      e.preventDefault()
       chooseIndex.value = index - 1 < 0 ? length - 1 : index - 1
     }
     if (e.key === 'ArrowDown' && e.type === 'keyup') {
+      e.preventDefault()
       chooseIndex.value = index + 1 >= length ? 0 : index + 1
     }
     if (e.key === 'Enter' && e.type === 'keyup') {
+      e.preventDefault()
       if (index === -1) popUpAskAi()
       else handleChangePrompt({index, prompt: currentPrompts[index]})
     }
-    e.preventDefault()
   },
 })
 
@@ -422,7 +425,7 @@ const showResult = computed(() => {
 
 const showPrompts = computed(() => {
   return (
-    (showMenu.value || (!props.isAskPage && !showResult.value)) &&
+    (showMenu.value || !showResult.value) &&
     !aiThinking.value &&
     !generating.value &&
     !showEditor.value

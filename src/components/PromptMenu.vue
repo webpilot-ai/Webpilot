@@ -21,7 +21,7 @@
       </p>
       <span :class="$style.keys">⬆︎/⬇︎</span>
       <p :class="$style.tips">{{ $gettext('Choose') }}</p>
-      <span :class="$style.keys"><IconSmallBack :class="$style.icon" />Enter</span>
+      <span :class="$style.keys"><IconEnter :class="$style.icon" />Enter</span>
       <p :class="$style.tips">{{ $gettext('Confirm') }}</p>
     </article>
   </section>
@@ -30,7 +30,7 @@
 <script setup>
 import {toRaw} from 'vue'
 
-import IconSmallBack from '@/components/icon/IconEnter.vue'
+import IconEnter from '@/components/icon/IconEnter.vue'
 
 import {$gettext} from '@/utils/i18n'
 
@@ -95,7 +95,7 @@ const handleEditPrompt = index => {
 
 .item {
   display: flex;
-  padding: 8px 0;
+  align-items: center;
   background-color: var(--webpilot-theme-content-background-color, #fff);
   border-right: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   border-left: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
@@ -113,7 +113,8 @@ const handleEditPrompt = index => {
 
   .name {
     flex: none;
-    width: 74px;
+    width: 80px;
+    height: 20px;
     margin: 0 6px;
     padding: 0 6px;
     color: var(--webpilot-theme-main-text-color, #292929);
@@ -127,6 +128,7 @@ const handleEditPrompt = index => {
   .describe {
     flex: 1;
     margin: 0;
+    padding: 8px 0;
     color: var(--webpilot-theme-main-text-color, #292929);
     font-size: 14px;
     line-height: 22px;
@@ -162,9 +164,8 @@ const handleEditPrompt = index => {
   flex: none;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 22px;
-  padding: 0 12px;
+  width: 30px;
+  height: 24px;
   overflow: hidden;
   font-size: 0;
   cursor: pointer;

@@ -30,7 +30,7 @@
           value="COPY"
           @click="handleCopy"
         /> -->
-        <InteractiveIcon :class="$style['control__copy-btn']" type="copy" @click="handleCopy" />
+        <!-- <InteractiveIcon :class="$style['control__copy-btn']" type="copy" @click="handleCopy" /> -->
         <WebpilotAttribution :class="$style.hover" @click="openHomePage" />
       </section>
     </article>
@@ -41,7 +41,7 @@
 <script setup>
 import {ref, watch, computed} from 'vue'
 import {sendToBackground} from '@plasmohq/messaging'
-import copyToClipboard from 'copy-to-clipboard'
+// import copyToClipboard from 'copy-to-clipboard'
 // import {useToast} from 'vue-toast-notification'
 import Markdown from 'vue3-markdown-it'
 // eslint-disable-next-line import/no-unresolved
@@ -51,7 +51,7 @@ import 'highlight.js/styles/monokai.css'
 // import IconCheckmark from './icon/IconCheckmark.vue'
 // import IconCopyAvailable from './icon/IconCopyAvailable.vue'
 // import IconCopiedDone from './icon/IconCopiedDone.vue'
-import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
+// import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 import TipsShortcut from './TipsShortcut.vue'
 import WebpilotAttribution from './WebpilotAttribution.vue'
 
@@ -127,28 +127,28 @@ watch(result, () => {
   refMarkdown.value.scrollTop = refMarkdown.value.scrollHeight
 })
 
-const handleCopy = () => {
-  const text = props.modelValue
-  copyToClipboard(text, {format: 'text/plain'})
-  // const isSuccessCopy = copyToClipboard(text, {format: 'text/plain'})
+// const handleCopy = () => {
+//   const text = props.modelValue
+//   copyToClipboard(text, {format: 'text/plain'})
+//   // const isSuccessCopy = copyToClipboard(text, {format: 'text/plain'})
 
-  // isCopied.value = true
-  // setTimeout(() => {
-  //   isCopied.value = false
-  // }, 3000)
+//   // isCopied.value = true
+//   // setTimeout(() => {
+//   //   isCopied.value = false
+//   // }, 3000)
 
-  // if (isSuccessCopy) {
-  //   copyResult.value = 'Copied'
-  // } else {
-  //   copyResult.value = 'Copy Failed'
-  // }
+//   // if (isSuccessCopy) {
+//   //   copyResult.value = 'Copied'
+//   // } else {
+//   //   copyResult.value = 'Copy Failed'
+//   // }
 
-  // toast.open({
-  //   message: isSuccessCopy ? 'Copy success!' : 'Copy Failed',
-  //   type: isSuccessCopy ? 'success' : 'error',
-  //   position: 'top',
-  // })
-}
+//   // toast.open({
+//   //   message: isSuccessCopy ? 'Copy success!' : 'Copy Failed',
+//   //   type: isSuccessCopy ? 'success' : 'error',
+//   //   position: 'top',
+//   // })
+// }
 
 let isDragging = false
 let startY = 0

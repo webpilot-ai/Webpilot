@@ -209,19 +209,6 @@ watch(delayClick, currentState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightHover.svg');
 }
 
-// no disable state
-.img-save--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
-}
-
-.img-save--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightDefault.svg');
-}
-
-.img-save--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightHover.svg');
-}
-
 .img-setting--click {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightClick.svg');
 }
@@ -238,7 +225,31 @@ watch(delayClick, currentState => {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightHover.svg');
 }
 
+.img-keep--click {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
+}
+
+.img-keep--default {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightDisable.svg');
+}
+
+.img-keep--hover {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightHover.svg');
+}
+
 // no disable state
+.img-save--click {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
+}
+
+.img-save--default {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightDefault.svg');
+}
+
+.img-save--hover {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightHover.svg');
+}
+
 .img-pencil--click {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightClick.svg');
 }
@@ -249,6 +260,18 @@ watch(delayClick, currentState => {
 
 .img-pencil--hover {
   background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightHover.svg');
+}
+
+.img-send--default {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SendLightDefault.svg');
+}
+
+.img-send--hover {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SendLightHover.svg');
+}
+
+.img-send--click {
+  background-image: url('data-base64:~src/components/InteractiveIcon/image/SendLightClick.svg');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -328,18 +351,6 @@ watch(delayClick, currentState => {
     background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousDarkHover.svg');
   }
 
-  .img-save--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkClick.svg');
-  }
-
-  .img-save--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkDefault.svg');
-  }
-
-  .img-save--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkHover.svg');
-  }
-
   .img-setting--click {
     background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkClick.svg');
   }
@@ -356,6 +367,31 @@ watch(delayClick, currentState => {
     background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkHover.svg');
   }
 
+  .img-keep--click {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkClick.svg');
+  }
+
+  .img-keep--default {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkDisable.svg');
+  }
+
+  .img-keep--hover {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkHover.svg');
+  }
+
+  // no disable state
+  .img-save--click {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkClick.svg');
+  }
+
+  .img-save--default {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkDefault.svg');
+  }
+
+  .img-save--hover {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkHover.svg');
+  }
+
   .img-pencil--click {
     background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkClick.svg');
   }
@@ -366,6 +402,18 @@ watch(delayClick, currentState => {
 
   .img-pencil--hover {
     background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkHover.svg');
+  }
+
+  .img-send--default {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SendDarkDefault.svg');
+  }
+
+  .img-send--hover {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SendDarkHover.svg');
+  }
+
+  .img-send--click {
+    background-image: url('data-base64:~src/components/InteractiveIcon/image/SendDarkClick.svg');
   }
 }
 </style>

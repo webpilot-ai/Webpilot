@@ -15,15 +15,17 @@
       <InteractiveIcon
         v-if="showSavePrompt"
         :class="$style['container__collect']"
-        type="save"
+        type="keep"
         @click="handleAddNewPrompt"
       />
-      <SendButton
+      <IconLoading v-if="loading" :class="$style.pending" />
+      <InteractiveIcon v-else type="send" @click="handleSend" />
+      <!-- <SendButton
         :activate="modelValue !== ''"
         :disabled="disabled"
         :loading="loading"
         @click="handleSend"
-      />
+      /> -->
     </article>
   </section>
 </template>
@@ -35,8 +37,10 @@ import WebpilotLogo from 'data-base64:~assets/icon.png'
 
 import {$gettext} from '@/utils/i18n'
 
+import IconLoading from '@/components/icon/IconLoading.vue'
+
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
-import SendButton from './SendButton/SendButton.vue'
+// import SendButton from './SendButton/SendButton.vue'
 
 const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit', 'onFocus', 'onAddPrompt'])
 
@@ -100,7 +104,7 @@ onMounted(() => {
 const placeholderText = computed(() => {
   if (props.selectedText === '') return props.placeholder
 
-  return `Or ask a question about “${props.selectedText}”`
+  return `${$gettext('Ask a question about')} "${props.selectedText}"`
 })
 const showSavePrompt = computed(() => {
   if (!props.showCollect) return false
@@ -192,6 +196,21 @@ const handleAddNewPrompt = () => {
 }
 
 .container__collect {
-  margin-right: 12px;
+  margin-right: 8px;
+}
+
+.pending {
+  cursor: not-allowed;
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
 }
 </style>

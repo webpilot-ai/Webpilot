@@ -5,7 +5,7 @@
   overflow-x: auto;
   padding: 0.5em;
   background: #fdf6e3;
-  color: #657b83;
+  color: #657b83 !important;
   -webkit-text-size-adjust: none;
 }
 
@@ -14,7 +14,7 @@
 .hljs-doctype,
 .hljs-pi,
 .lisp .hljs-string {
-  color: #93a1a1;
+  color: #93a1a1 !important;
 }
 
 /* Solarized Green */
@@ -26,7 +26,7 @@
 .hljs-request,
 .hljs-status,
 .nginx .hljs-title {
-  color: #859900;
+  color: #859900 !important;
 }
 
 /* Solarized Cyan */
@@ -40,7 +40,7 @@
 .hljs-regexp,
 .hljs-hexcolor,
 .hljs-link_url {
-  color: #2aa198;
+  color: #2aa198 !important;
 }
 
 /* Solarized Blue */
@@ -54,7 +54,7 @@
 .hljs-id,
 .css .hljs-function,
 .hljs-name {
-  color: #268bd2;
+  color: #268bd2 !important;
 }
 
 /* Solarized Yellow */
@@ -67,7 +67,7 @@
 .hljs-parent,
 .hljs-type,
 .hljs-link_reference {
-  color: #b58900;
+  color: #b58900 !important;
 }
 
 /* Solarized Orange */
@@ -84,18 +84,18 @@
 .hljs-cdata,
 .css .hljs-pseudo,
 .hljs-header {
-  color: #cb4b16;
+  color: #cb4b16 !important;
 }
 
 /* Solarized Red */
 .hljs-deletion,
 .hljs-important {
-  color: #dc322f;
+  color: #dc322f !important;
 }
 
 /* Solarized Violet */
 .hljs-link_label {
-  color: #6c71c4;
+  color: #6c71c4 !important;
 }
 
 .tex .hljs-formula {

@@ -8,16 +8,44 @@ import {askOpenAI, parseStream} from '@/io'
 
 import {$gettext} from '@/utils/i18n'
 
-const getPrompt = (referenceText, command, isAskPage = true) => {
-  if (isAskPage) {
+const getPrompt = (referenceText, command, isAskPage, previousCommand, previousAnswer) => {
+  const foundResult = !!previousAnswer && previousAnswer !== ''
+  // select mode
+  if (!isAskPage && foundResult) {
     return [
       {
         role: 'assistant',
+        content: `For your next input, I will do without any explanation: ${previousCommand}`,
+      },
+      {
+        role: 'user',
+        content: referenceText.trim(),
+      },
+      {
+        role: 'assistant',
+        content: previousAnswer,
+      },
+      {
+        role: 'user',
+        content: referenceText.trim(),
+      },
+    ]
+  }
+  // QA mode
+  if (isAskPage && foundResult) {
+    return [
+      {
+        role: 'function',
+        name: 'current_webpage',
         content: referenceText,
-        // content: `This is a webpage contains content and metadata (that adheres to The Open Graph protocol guidelines).
-
-        // Content: ${referenceText.content}
-        // Meta: ${JSON.stringify(referenceText.meta)}`,
+      },
+      {
+        role: 'user',
+        content: previousCommand,
+      },
+      {
+        role: 'assistant',
+        content: previousAnswer,
       },
       {
         role: 'user',
@@ -25,16 +53,57 @@ const getPrompt = (referenceText, command, isAskPage = true) => {
       },
     ]
   }
+  // first time select
+  if (!isAskPage) {
+    return [
+      {
+        role: 'assistant',
+        content: `For your next input, I will do without any explanation: ${command}`,
+      },
+      {
+        role: 'user',
+        content: referenceText.trim(),
+      },
+    ]
+  }
+  // first time QA
   return [
     {
-      role: 'assistant',
-      content: `For your next input, I will do without any explanation: ${command}`,
+      role: 'function',
+      name: 'current_webpage',
+      content: referenceText,
     },
     {
       role: 'user',
-      content: referenceText.trim(),
+      content: command,
     },
   ]
+  // if (isAskPage) {
+  //   return [
+  //     {
+  //       role: 'assistant',
+  //       content: referenceText,
+  //       // content: `This is a webpage contains content and metadata (that adheres to The Open Graph protocol guidelines).
+
+  //       // Content: ${referenceText.content}
+  //       // Meta: ${JSON.stringify(referenceText.meta)}`,
+  //     },
+  //     {
+  //       role: 'user',
+  //       content: command,
+  //     },
+  //   ]
+  // }
+  // return [
+  //   {
+  //     role: 'assistant',
+  //     content: `For your next input, I will do without any explanation: ${command}`,
+  //   },
+  //   {
+  //     role: 'user',
+  //     content: referenceText.trim(),
+  //   },
+  // ]
 }
 
 export default function useAskAi() {
@@ -44,6 +113,7 @@ export default function useAskAi() {
   const done = ref(false)
   const error = ref(false)
   const result = ref('')
+  const previousCommand = ref('')
   const errorMessage = ref('')
 
   const store = useStore()
@@ -64,10 +134,10 @@ export default function useAskAi() {
     command,
     authKey = '',
     url = null,
-    isAskPage = false,
+    isAskPage = true,
     apiOrigin = null,
   } = {}) => {
-    console.log('Call ask ai')
+    const previousAnswer = result.value
 
     // clean result
     resetState()
@@ -75,7 +145,7 @@ export default function useAskAi() {
     if (!referenceText && !command) return askOpenAI()
 
     const text = referenceText || store.selectedText
-    const message = getPrompt(text, command, isAskPage)
+    const message = getPrompt(text, command, isAskPage, previousCommand.value, previousAnswer)
 
     const currentConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || store.config
 
@@ -121,6 +191,7 @@ export default function useAskAi() {
         parseStream(streamReader, reqResult => {
           result.value = pangu.spacing(reqResult.text)
           done.value = reqResult.done
+          previousCommand.value = command
           if (done.value) {
             generating.value = false
           }

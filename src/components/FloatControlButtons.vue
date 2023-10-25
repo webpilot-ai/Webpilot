@@ -33,18 +33,30 @@
         </template>
       </Popper>
     </li>
+    <li v-show="showSetting" :class="$style.box">
+      <Popper hover offset-distance="14" offset-skid="-4" placement="right">
+        <InteractiveIcon :class="$style.btn" type="copy" @click="handleCopy" />
+        <!-- <div :class="$style.btn">
+          <InteractiveIcon :class="$style.ico" type="setting" @click="openSettingPage" />
+        </div> -->
+        <template #content>
+          <span :class="$style.popover">{{ $gettext('Copy') }}</span>
+        </template>
+      </Popper>
+    </li>
   </ul>
 </template>
 
 <script setup>
 import {sendToBackground} from '@plasmohq/messaging'
 import Popper from 'vue3-popper'
+import copyToClipboard from 'copy-to-clipboard'
 
 import {$gettext} from '@/utils/i18n'
 
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 
-defineProps({
+const props = defineProps({
   showSetting: {
     type: Boolean,
     default: false,
@@ -52,6 +64,10 @@ defineProps({
   showBack: {
     type: Boolean,
     default: false,
+  },
+  result: {
+    type: String,
+    default: '',
   },
 })
 
@@ -66,6 +82,9 @@ const popupClose = () => {
 }
 const popupBack = () => {
   emits('onBack')
+}
+const handleCopy = () => {
+  copyToClipboard(props.result, {format: 'text/plain'})
 }
 </script>
 

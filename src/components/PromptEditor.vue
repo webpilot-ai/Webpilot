@@ -2,11 +2,12 @@
   <!-- <section v-if="showEditor" :class="$style['background-shadow']"> -->
   <article :class="$style.container">
     <section :class="$style.container__body">
-      <SendButton
+      <!-- <SendButton
         :activate="command !== ''"
         :class="$style.content__send"
         @click="handleSendCommand"
-      />
+      /> -->
+      <InteractiveIcon :class="$style.content__send" type="send" @click="handleSendCommand" />
       <textarea
         ref="textareaRef"
         v-model="command"
@@ -53,7 +54,7 @@ import {ref, onMounted, watch, nextTick, watchEffect} from 'vue'
 import {$gettext} from '@/utils/i18n'
 
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
-import SendButton from './SendButton/SendButton.vue'
+// import SendButton from './SendButton/Index.vue'
 
 const emits = defineEmits(['onDelete', 'onSave', 'onHide', 'onSend'])
 const props = defineProps({
@@ -178,7 +179,6 @@ const onNameInputBlur = () => {
   border: none;
   outline: none;
   appearance: none;
-  appearance: none;
   resize: none;
 }
 
@@ -186,7 +186,8 @@ const onNameInputBlur = () => {
   position: absolute;
   right: 12px;
   bottom: 6px;
-  cursor: pointer;
+
+  // cursor: pointer;
 }
 
 .content__back {
@@ -215,13 +216,13 @@ const onNameInputBlur = () => {
   justify-content: space-between;
   height: 20px;
   margin-right: auto;
-  padding: 0 6px;
-  border: 1px solid #dcdeff;
+  padding: 0 5px;
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   border-radius: 10px;
 }
 
 .form-name__txt {
-  width: 62px;
+  width: 70px;
   padding: 0 !important;
   color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 600 !important;

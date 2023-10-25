@@ -240,11 +240,11 @@ const shortcutText = computed(() => {
   align-items: center;
   height: 28px;
   padding: 6px;
-  color: #292922;
+  color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 500;
   font-size: 12px;
-  background-color: #fff;
-  border: 1px solid rgb(79 90 255 / 10%);
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
 
   /* line-height: 17px; */
   border-radius: 10px;
@@ -261,8 +261,8 @@ const shortcutText = computed(() => {
 }
 
 .webpilotTail:hover {
-  color: #4f5aff;
-  background-color: #dcdeff;
+  color: var(--webpilot-theme-brand-primary, #4f5aff);
+  background-color: var(--webpilot-theme-stoke-and-hover-status, #fff);
 
   // img {
   //   background-color: rgb(79 90 255 / 20%);
