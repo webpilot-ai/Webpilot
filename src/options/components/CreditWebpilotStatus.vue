@@ -5,13 +5,15 @@
         <div :class="$style['credit-progress-frame']"></div>
         <div :class="$style['credit-progress-bar']" :style="{width: percentage}"></div>
       </div>
-      <Popper arrow arrow-padding="0" :class="$style.popper" hover offset-distance="0">
-        <IconQuestions :class="$style['question-icon']" />
-        <template #content>
-          <div>API limits to 50 times per week. It refreshes every Monday at 0:00 UTC+0</div>
-        </template>
-      </Popper>
-      <span :class="$style['credit-text']">{{ usage.current }}/{{ usage.total }} available</span>
+      <div :class="$style['credit-text-group']">
+        <Popper arrow arrow-padding="0" :class="$style.popper" hover offset-distance="0">
+          <IconQuestions :class="$style['question-icon']" />
+          <template #content>
+            <div>API limits to 50 times per week. It refreshes every Monday at 0:00 UTC+0</div>
+          </template>
+        </Popper>
+        <span :class="$style['credit-text']">{{ usage.current }}/{{ usage.total }} available</span>
+      </div>
     </div>
   </div>
 </template>
@@ -67,6 +69,11 @@ const percentage = computed(() => `${(usage.value.current / usage.value.total) *
   opacity: 0.7;
 }
 
+.credit-text-group {
+  display: flex;
+  align-items: center;
+}
+
 .question-icon {
   margin-right: 6px;
   border: 0;
@@ -80,5 +87,16 @@ const percentage = computed(() => `${(usage.value.current / usage.value.total) *
 
 .credit-text {
   margin-left: 6px;
+}
+
+@media only screen and (width <= 700px) {
+  .credit-status {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .credit-text-group {
+    margin-top: 16px;
+  }
 }
 </style>
