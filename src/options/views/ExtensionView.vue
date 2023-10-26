@@ -14,7 +14,8 @@
           @on-change="onAutoPopupChange"
         />
       </div>
-      <ImageSelectText />
+      <ImageSelectTextWithIcon v-if="store.config.autoPopup" />
+      <ImageSelectTextWithoutIcon v-else />
       <div :class="$style['shortcut-setting']">
         <span :class="$style['shortcut-setting-label']">Shortcut</span>
         <ShortcutInput v-model="shortcutKeys" @change="onChangeShortcut" />
@@ -23,8 +24,6 @@
   </div>
 </template>
 
-<script lang="ts"></script>
-
 <script lang="ts" setup>
 import {ref} from 'vue'
 import {storeToRefs} from 'pinia'
@@ -32,7 +31,8 @@ import {storeToRefs} from 'pinia'
 import useStore from '@/stores/store'
 
 import ShortcutInput from '@/components/ShortcutInput.vue'
-import ImageSelectText from '@/components/image/ImageSelectText.vue'
+import ImageSelectTextWithIcon from '@/components/image/ImageSelectTextWithIcon.vue'
+import ImageSelectTextWithoutIcon from '@/components/image/ImageSelectTextWithoutIcon.vue'
 
 import WebpilotLogo from '../images/icon-logo.vue'
 import SwitchButton from '../components/SwitchButton.vue'

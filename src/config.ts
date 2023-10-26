@@ -21,7 +21,7 @@ export const defaultConfig = {
   /** If user not set token at welcome page set false */
   isFinishSetup: false,
   /** When select text (by mouse or keyboard) show popup */
-  autoPopup: true,
+  autoPopup: false,
   /** Self host url */
   selfHostUrl: '',
   /** Azure specify ApiVersion */

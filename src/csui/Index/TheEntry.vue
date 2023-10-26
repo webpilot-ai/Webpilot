@@ -178,6 +178,7 @@ const handleClosePopup = () => {
 }
 
 const handleMouseOverTail = () => {
+  shortcutUsed.value = false
   showWebpilotPopup.value = true
 }
 

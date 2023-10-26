@@ -26,7 +26,8 @@
       style="margin-top: 16px"
       @change="onAutoPopupChange"
     />
-    <ImageSelectText style="margin-top: 12px" />
+    <ImageSelectTextWithIcon v-if="autoPopup" style="margin-top: 12px" />
+    <ImageSelectTextWithoutIcon v-else style="margin-top: 12px" />
     <WebpilotAlert
       style="margin-top: 6px"
       :tips="$gettext('Webpilot will answer based on the current page if no text is selected')"
@@ -47,7 +48,8 @@ import {$gettext} from '@/utils/i18n'
 import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
 import WebpilotButton from '@/components/WebpilotButton.vue'
-import ImageSelectText from '@/components/image/ImageSelectText.vue'
+import ImageSelectTextWithIcon from '@/components/image/ImageSelectTextWithIcon.vue'
+import ImageSelectTextWithoutIcon from '@/components/image/ImageSelectTextWithoutIcon.vue'
 import useStore from '@/stores/store'
 
 import ShortcutInput from '@/components/ShortcutInput.vue'
