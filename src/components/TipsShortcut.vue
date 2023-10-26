@@ -24,27 +24,28 @@ const shortcut = computed(() => {
 .shortcutWrap {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .shortcutText {
   color: #929497;
   font-weight: 500;
   font-size: 12px;
-  line-height: 17px;
+  line-height: 20px;
 }
 
 .shortcutKeys {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 20px;
+  max-width: 180px;
+  min-height: 20px;
   margin-left: 4px !important;
   padding: 0 2px;
   color: #929497;
   font-weight: 400;
   font-size: 14px !important;
   line-height: 20px;
-  background: #fff;
+
+  // background-color: var(--webpilot-theme-main-background-color, #fff);
   border: 1px solid #929497;
   border-radius: 5px;
 }

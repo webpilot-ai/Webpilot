@@ -1,0 +1,25 @@
+/* Theme Color */
+
+:root {
+  --default-font-family: 'PingFang SC', sans-serif;
+  --color-icon-default-and-secondary-text: #585b58;
+  --color-light-background: #4f5aff1a;
+  --color-baseline-text: #292929;
+  --color-brand-primary: #4f5aff;
+  --color-label-text: #929497;
+  --color-nav-background-color: #fff;
+  --color-main-background-color: #fdfdfd;
+
+  box-sizing: border-box;
+  font-family: var(--default-font-family);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-label-text: #fff;
+    --color-baseline-text: #fff;
+    --color-nav-background-color: #323558;
+    --color-main-background-color: #292d3f;
+    --color-icon-default-and-secondary-text: #fff;
+  }
+}

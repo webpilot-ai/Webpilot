@@ -1,193 +1,186 @@
 <template>
-  <div v-if="config.isFinishSetup" :class="index.container">
-    <div :class="index.main">
-      <!-- header -->
-      <div :class="index.header">
-        <div :class="index.logo">
-          <img alt=" logog" src="./images/Text+Logo.svg" />
-          <span :class="index.slogan">{{
-            $gettext('Opensource AI Assistant On All Websites')
-          }}</span>
-        </div>
-        <ul :class="index.tabs">
-          <li
-            :class="[index.tab, active == 'advanced' ? index.active : '']"
-            @click="active = 'advanced'"
-          >
-            {{ $gettext('Advanced') }}
-          </li>
-          <!-- <li
-            :class="[index.tab, active == 'account' ? index.active : '']"
-            @click="active = 'account'"
-          >
-            {{ $gettext('Account') }}
-          </li> -->
-          <li :class="[index.tab, active == 'about' ? index.active : '']" @click="active = 'about'">
-            {{ $gettext('About') }}
-          </li>
-        </ul>
+  <div :class="index['setting-page-wrap']">
+    <nav :class="index['setting-nav']">
+      <div :class="index['logo-with-text']">
+        <IconLogoWithText :class="index['setting-nav-logo']" />
+        <IconLogoWithTextDark :class="index['setting-nav-logo-dark']" />
       </div>
-
-      <!-- body -->
-      <div :class="index.body">
-        <AdvancedView v-show="active == 'advanced'" />
-        <!-- <AccountView v-show="active == 'account'" /> -->
-        <AboutView v-show="active == 'about'" />
-      </div>
-
-      <!-- footer -->
-      <div :class="index.footer">
-        <span>{{ $gettext('Webpilot is open source') }}</span>
-        <a href="https://github.com/webpilot-ai/Webpilot" rel="noreferrer" target="_blank">
-          {{ $gettext('Star on Github') }}
-        </a>
-      </div>
-    </div>
+      <div :class="index['logo-only']"><IconLogo /></div>
+      <NavItem
+        :activated="activatedTab === TabList.Account"
+        :name="TabList.Account"
+        @change="onChangeTab"
+      />
+      <NavItem
+        :activated="activatedTab === TabList.Extension"
+        :name="TabList.Extension"
+        @change="onChangeTab"
+      >
+        <template #outline><IconNavExtensionOutline /> </template>
+        <template #filled><IconNavExtensionFilled /> </template>
+      </NavItem>
+      <NavItem
+        :activated="activatedTab === TabList.About"
+        :name="TabList.About"
+        @change="onChangeTab"
+      >
+        <template #outline><IconNavAboutOutline /> </template>
+        <template #filled><IconNavAboutFilled /> </template>
+      </NavItem>
+    </nav>
+    <main :class="index.main">
+      <component :is="currentComponent" />
+    </main>
   </div>
 </template>
 
 <script setup>
-import '@assets/styles/reset.scss'
-import {ref} from 'vue'
-
+import {computed, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 
 import useStore from '@/stores/store'
-import useUserStore from '@/stores/user'
 
-import AdvancedView from './AdvancedView.vue'
-// import AccountView from './AccountView.vue'
-import AboutView from './AboutView.vue'
+import IconLogo from './images/icon-logo.vue'
+import IconLogoWithText from './images/icon-logo-with-text.vue'
+import IconLogoWithTextDark from './images/icon-logo-with-text-dark.vue'
+import IconNavExtensionFilled from './images/icon-nav-extension-filled.vue'
+import IconNavExtensionOutline from './images/icon-nav-extension-outline.vue'
+import IconNavAboutOutline from './images/icon-nav-about-outline.vue'
+import IconNavAboutFilled from './images/icon-nav-about-filled.vue'
 
-const active = ref('advanced')
+import NavItem from './components/NavItem.vue'
+import AccountView from './views/AccountView.vue'
+import ExtensionView from './views/ExtensionView.vue'
+import AboutView from './views/AboutView.vue'
 
+// Start setup states check
 const store = useStore()
 const {config} = storeToRefs(store)
-const userStore = useUserStore()
-// const {isSignedIn} = storeToRefs(userStore)
-const {getUser} = userStore
-getUser()
 
 if (!config.value.isFinishSetup) {
-  // const signURL = 'http://localhost/'
   const signURL = 'https://account.webpilot.ai/'
-
   chrome.tabs.getCurrent(tab => {
     const tabId = tab.id
     chrome.tabs.update(tabId, {url: signURL})
   })
 }
+// End Setup states check
+
+const TabList = {
+  Account: 'Account',
+  Extension: 'Extension',
+  About: 'About',
+}
+
+const activatedTab = ref(TabList.Account)
+
+const onChangeTab = tabName => {
+  activatedTab.value = tabName
+}
+
+const currentComponent = computed(() => {
+  if (activatedTab.value === TabList.About) return AboutView
+  if (activatedTab.value === TabList.Extension) return ExtensionView
+  return AccountView
+})
 </script>
 
 <style module="index" lang="scss">
-.container {
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-  padding: 36px 32px 0;
-  background: linear-gradient(150.76deg, #efdaff 12.93%, #b28aff 64.87%, #6f63ff 108.73%);
+body {
+  min-width: 600px;
+  margin: 0;
 }
 
-@media screen and (width <= 779px) {
-  .container {
-    padding: 18px 14px 0;
-  }
+.setting-page-wrap {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  width: 100vw;
+  height: 100vh;
+}
+
+.setting-nav {
+  box-sizing: border-box;
+  width: 240px;
+  padding: 36px 12px;
+  background-color: var(--color-nav-background-color);
+}
+
+.setting-nav-logo {
+  margin-bottom: 57px;
+  margin-left: 12px;
+}
+
+.setting-nav-logo-dark {
+  display: none;
+}
+
+.logo-only {
+  display: none;
 }
 
 .main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: calc(100vw - 18px);
-  max-width: 1438px;
-  padding: 16px;
-  overflow-y: scroll;
-  background: rgb(255 255 255 / 60%);
-  border: 1px solid #fff;
-  border-radius: 20px 20px 0 0;
+  padding: 36px 48px;
+  padding-bottom: 14px;
+  background-image: linear-gradient(
+    to right,
+    rgb(0 0 0 / 5%),
+    var(--color-main-background-color) 36px,
+    var(--color-main-background-color)
+  );
+}
 
-  &::-webkit-scrollbar {
-    width: 4px;
+@media (prefers-color-scheme: dark) {
+  .main {
+    background-color: var(--color-main-background-color);
+    background-image: linear-gradient(
+      to right,
+      rgba(0 0 0 / 5%),
+      var(--color-main-background-color) 36px,
+      var(--color-main-background-color)
+    );
   }
 
-  &::-webkit-scrollbar-button {
+  .setting-nav-logo {
     display: none;
   }
 
-  .body {
-    padding: 16px 0 0;
+  .setting-nav-logo-dark {
+    display: block;
+    margin-bottom: 57px;
+    margin-left: 12px;
   }
 }
 
-.logo {
-  display: flex;
-  flex-direction: row;
-  height: 48px;
-
-  img {
-    height: 100%;
-    margin: 4px 24px 4px 4px;
+@media only screen and (width <= 700px) {
+  .main {
+    width: 100%;
+    padding: 36px 22px;
   }
 
-  .slogan {
-    margin-top: 18px;
-    color: #777;
-    font-weight: 400;
-    font-size: 18px;
-    font-style: normal;
-    line-height: 25px;
+  .setting-page-wrap {
+    grid-template-columns: 56px 1fr;
   }
-}
 
-@media (width <= 820px) {
-  .slogan {
+  .setting-nav {
+    justify-self: center;
+    width: 36px;
+    padding: 0;
+    padding-top: 16px;
+  }
+
+  .logo-with-text {
     display: none;
   }
-}
 
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: auto;
-  font-size: 18px;
-  line-height: 25px;
+  .logo-only {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 94px;
 
-  span {
-    margin-top: 32px;
-    color: #929497;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
-
-  a {
-    color: #4f5aff;
-    text-decoration: none;
-  }
-}
-
-.tabs {
-  display: flex;
-  flex-direction: row;
-  margin: 28px 0 0;
-  padding: 0;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 34px;
-  list-style: none;
-
-  li {
-    margin: 0 24px;
-  }
-}
-
-.tab {
-  border-bottom: 4px solid rgb(255 255 255 / 0%);
-  cursor: pointer;
-}
-
-.active {
-  color: #4f5aff;
-  font-weight: 600;
-  border-bottom: 4px solid #4f5aff;
 }
 </style>

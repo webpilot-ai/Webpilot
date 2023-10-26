@@ -1,273 +1,353 @@
 <template>
-  <div :class="stepTwo.wrap">
-    <h3>{{ $gettext('Choosing Service') }}</h3>
-    <div :class="[stepTwo.general, selectedOption === 'general' ? stepTwo.active : '']">
-      <!-- <div v-if="false" :class="stepTwo.general"> -->
-      <div :class="stepTwo.radio">
+  <section :class="stepTwo.wrap">
+    <WelcomeTitle @on-prev="goBack">{{ $gettext('Set up API') }}</WelcomeTitle>
+    <ol :class="stepTwo.selector">
+      <li
+        :class="[
+          stepTwo['selector__radio'],
+          {[stepTwo['selector__radio--active']]: selectedOption === DEFAULT_SERVICE},
+        ]"
+      >
         <input
           id="option1"
           v-model="selectedOption"
+          :class="stepTwo['radio-body']"
           name="option"
           type="radio"
-          value="general"
+          :value="DEFAULT_SERVICE"
           @change="handleOptionChange"
         />
-        <label for="option1">{{ $gettext('Use WebPilot free credit') }}</label>
-      </div>
-      <p v-if="selectedOption === 'general'">Use Webpilot API for FREE up to 50 times/week</p>
-    </div>
-    <div :class="[stepTwo.personal, selectedOption === 'personal' ? stepTwo.active : '']">
-      <div :class="stepTwo.radio">
+        <label for="option1">{{ $gettext('Webpilot Credit') }}</label>
+      </li>
+      <li
+        :class="[
+          stepTwo['selector__radio'],
+          {[stepTwo['selector__radio--active']]: selectedOption === CUSTOM_SERVICE},
+        ]"
+      >
         <input
           id="option2"
           v-model="selectedOption"
+          :class="stepTwo['radio-body']"
           name="option"
           type="radio"
-          value="personal"
+          :value="CUSTOM_SERVICE"
           @change="handleOptionChange"
         />
-        <label for="option2">{{ $gettext('Use my OpenAI API key') }}</label>
-      </div>
-      <div>
-        <div v-if="selectedOption === 'personal'" :class="stepTwo.apiItem">
-          <input
-            v-model="authKey"
-            :class="stepTwo.input"
-            :placeholder="$gettext('Enter your API Key')"
-            type="text"
-            @input="onChange"
+        <label for="option2">{{ $gettext('OpenAI Credits') }}</label>
+      </li>
+    </ol>
+    <article>
+      <section v-if="selectedOption === DEFAULT_SERVICE" :class="stepTwo.introduction">
+        <article :class="stepTwo['introduction-detail']">
+          <span
+            >{{ $gettext('Enjoy Webpilot AI for') }} <b>{{ $gettext('FREE') }}</b></span
+          >
+          <span>{{ $gettext('up to 50 times/week') }}</span>
+          <p>{{ $gettext('Setup your own API key, to enjoy more') }}</p>
+        </article>
+        <ImageFreePlan />
+      </section>
+      <section v-if="selectedOption === CUSTOM_SERVICE" :class="stepTwo.configuration">
+        <ServerTypeSelector v-model="serverName" :class="stepTwo['dropdown-menu']" />
+
+        <template v-if="serverName === SERVER_NAME.OPENAI_OFFICIAL">
+          <WebpilotInput
+            v-model="openAIOfficialForm.apiKey"
+            :class="stepTwo.gap"
+            placeholder="API key from OpenAI"
           />
-          <!-- <WebpilotAlert
-            v-if="(error || success) && !isSelfHost"
-            :auto-hide="true"
-            style="margin-top: 8px"
-            :tips="alertInfo.tips"
-            :type="alertInfo.type"
-            @on-hide="hideAlert"
-          /> -->
-          <div :class="stepTwo.apiKeyGuide">
-            <p>
-              {{ $gettext('To get it, open this link and click “Create new secret key”.') }}
-              <a href="https://platform.openai.com/account/api-keys" target="_blank">
-                Open AI > API Keys</a
-              >
-            </p>
-          </div>
 
-          <div v-if="selectedOption === 'personal'" :class="stepTwo.host">
-            <div :class="stepTwo.selfHost">
-              <input id="self_host" v-model="isSelfHost" name="self_host" type="checkbox" />
-              <label for="self_host">{{ $gettext('Self Host') }}</label>
-            </div>
+          <article :class="[stepTwo.guide]">
+            <SettingAlert :class="stepTwo['guide-content']" title="How">
+              <template #desc>
+                Log into
+                <a href="https://platform.openai.com/account/api-keys" target="_blank">
+                  Open AI > API Keys</a
+                >. Click “Create new secret key”, and get yours.
+              </template>
+            </SettingAlert>
+          </article>
+        </template>
 
-            <template v-if="isSelfHost">
-              <input
-                v-model="selfHostUrl"
-                :class="stepTwo.input"
-                :placeholder="$gettext('https://api.openai.com')"
-                type="text"
-                @change="onChange"
-              />
-              <HelpTips
-                url="https://github.com/webpilot-ai/ai-proxy"
-                :value="$gettext('How to self host API?')"
-              />
-            </template>
-          </div>
-        </div>
+        <template v-else-if="serverName === SERVER_NAME.OPENAI_PROXY">
+          <WebpilotInput
+            v-model="openAiProxyForm.apiKey"
+            :class="stepTwo.gap"
+            placeholder="OPENAI_API_KEY"
+          />
+          <WebpilotInput
+            v-model="openAiProxyForm.apiHost"
+            :class="stepTwo.gap"
+            placeholder="OPENAI_API_HOST"
+          />
+        </template>
+
+        <template v-else-if="serverName === SERVER_NAME.AZURE_PROXY">
+          <WebpilotInput
+            v-model="azureProxyForm.apiKey"
+            :class="stepTwo.gap"
+            placeholder="API_KEY"
+          />
+          <WebpilotInput
+            v-model="azureProxyForm.apiHost"
+            :class="stepTwo.gap"
+            placeholder="API_HOST"
+          />
+          <WebpilotInput
+            v-model="azureProxyForm.apiVersion"
+            :class="stepTwo.gap"
+            placeholder="API_VERSION"
+          />
+          <WebpilotInput
+            v-model="azureProxyForm.deploymentID"
+            :class="stepTwo.gap"
+            placeholder="DEPLOYMENT_ID"
+          />
+        </template>
+      </section>
+      <div v-if="isWarning" :class="stepTwo['warn-txt']">
+        <WebpilotAlert :tips="errorMessage" :type="'error'" />
       </div>
-    </div>
-  </div>
+      <footer :class="stepTwo['nav-btn']">
+        <WebpilotButton :disabled="isFreezing" :loading="loading" :value="'NEXT'" @click="onNext" />
+      </footer>
+    </article>
+  </section>
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
-// import {storeToRefs} from 'pinia'
+import {ref, watch} from 'vue'
 
-// import useUserStore from '@/stores/user'
-
-import HelpTips from '@/components/HelpTips.vue'
+// import useStore from '@/stores/store'
+import {SERVER_NAME} from '@/config'
 import {$gettext} from '@/utils/i18n'
+import ImageFreePlan from '@/components/image/ImageFreePlan.vue'
+import SettingAlert from '@/options/components/SettingAlert.vue'
+import ServerTypeSelector from '@/options/components/ServerTypeSelector.vue'
+import WebpilotInput from '@/options/components/WebpilotInput.vue'
+import WebpilotButton from '@/components/WebpilotButton.vue'
+import WebpilotAlert from '@/components/WebpilotAlert.vue'
 
-// const userStore = useUserStore()
-// const {isSignedIn} = storeToRefs(userStore)
+import WelcomeTitle from './WelcomeTitle.vue'
 
+const DEFAULT_SERVICE = 'general'
+const CUSTOM_SERVICE = 'personal'
 const props = defineProps({
   modelValue: {
     type: Object,
-    required: true,
+    default: () => ({}),
+  },
+  isFreezing: {
+    type: Boolean,
+    default: true,
+  },
+  isWarning: {
+    type: Boolean,
+    default: false,
+  },
+  success: {
+    type: Boolean,
+    default: false,
+  },
+  error: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  errorMessage: {
+    type: String,
+    default: '',
   },
 })
+// const storeConfig = useStore()
+const emits = defineEmits(['update:modelValue', 'onPrev', 'onNext', 'onRefresh'])
+const goBack = () => emits('onPrev')
+const onNext = () => emits('onNext')
 
-const emits = defineEmits(['update:modelValue', 'change'])
-
-const selectedOption = ref(props.modelValue.selectedOption)
-// const selectedOption = ref('personal')
-const authKey = ref(props.modelValue.authKey)
-const isSelfHost = ref(false)
-const selfHostUrl = ref(props.modelValue.selfHostUrl)
-
-onMounted(() => {
-  if (props.modelValue.selfHostUrl !== '') {
-    isSelfHost.value = true
-  }
-})
+const selectedOption = ref(
+  props.modelValue.selectedOption === DEFAULT_SERVICE ? DEFAULT_SERVICE : CUSTOM_SERVICE
+)
+const serverName = ref(props.modelValue.serverName || SERVER_NAME.OPENAI_OFFICIAL)
+const openAIOfficialForm = ref(props.modelValue.openAIOfficialForm || {apiKey: ''})
+const openAiProxyForm = ref(props.modelValue.openAiProxyForm || {apiKey: '', apiHost: ''})
+const azureProxyForm = ref(
+  props.modelValue.azureProxyForm || {apiKey: '', apiHost: '', apiVersion: '', deploymentID: ''}
+)
 
 const handleOptionChange = event => {
   const {value} = event.target
-
   selectedOption.value = value
-
-  emits('update:modelValue', {
-    authKey: authKey.value,
-    selfHostUrl: selfHostUrl.value,
-    selectedOption: value,
-  })
 }
 
-const onChange = () => {
+watch(selectedOption, (newValue, oldValue) => {
+  if (newValue !== oldValue) emits('onRefresh')
   emits('update:modelValue', {
-    authKey: authKey.value,
-    selfHostUrl: selfHostUrl.value,
-    selectedOption: selectedOption.value,
+    ...props.modelValue,
+    selectedOption: newValue,
   })
-}
+})
+watch(serverName, (newValue, oldValue) => {
+  if (newValue !== oldValue) emits('onRefresh')
+  emits('update:modelValue', {
+    ...props.modelValue,
+    serverName: newValue,
+  })
+})
+watch(
+  openAIOfficialForm,
+  newValue => {
+    emits('update:modelValue', {
+      ...props.modelValue,
+      openAIOfficialForm: newValue,
+    })
+  },
+  {deep: true}
+)
+watch(
+  openAiProxyForm,
+  newValue => {
+    emits('update:modelValue', {
+      ...props.modelValue,
+      openAiProxyForm: newValue,
+    })
+  },
+  {deep: true}
+)
+watch(
+  azureProxyForm,
+  newValue => {
+    emits('update:modelValue', {
+      ...props.modelValue,
+      azureProxyForm: newValue,
+    })
+  },
+  {deep: true}
+)
 </script>
 
 <style module="stepTwo" lang="scss">
-.wrap {
-  .openAiIcon {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-  }
-
-  h3 {
-    margin: 0 0 16px;
-    color: #4f5aff;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 34px;
-    text-align: center;
-  }
+.selector {
+  display: flex;
+  justify-content: space-between;
+  width: 316px;
+  margin: 0 auto 24px;
+  margin-top: 36px;
+  padding: 0;
 }
 
-.general,
-.personal {
-  color: #585b58;
-}
-
-.active {
-  color: #292929;
-}
-
-.input {
-  width: 360px;
-  height: 36px;
-  margin: 8px 0 12px;
-  padding: 8px;
-  font-size: 14px;
-  line-height: 20px;
-  border: 1px solid #dcdee1;
-  border-radius: 5px;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.general {
-  margin: 0 0 36px;
-
-  h4 {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  p {
-    margin: 0 24px;
-    padding: 0 25px;
-    color: #292929;
-    background-image: url('../images/icon-gift.png');
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-  }
-}
-
-.radio {
+.selector__radio {
   display: flex;
   align-items: center;
   margin: 0 0 4px;
   line-height: 25px;
 
-  input {
-    width: 16px;
-    height: 16px;
-    margin: 0 8px 0 0;
-    border: 1px solid #4f5aff;
+  label {
+    width: 112px;
+    font-size: 14px;
+    line-height: 1;
     cursor: pointer;
   }
 
-  label {
-    font-size: 18px;
-    cursor: pointer;
+  &--active label {
+    color: #292929;
+    font-weight: 600;
   }
 }
 
-.apiItem {
-  display: flex;
-  flex-direction: column;
+.radio-body {
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  border: 1px solid #4f5aff;
+  border-radius: 16px;
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    position: relative;
+  }
+
+  &:checked::before {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #4f5aff;
+    border-radius: 50%;
+    content: '';
+  }
+}
+
+.introduction {
+  text-align: center;
+}
+
+.introduction-detail {
+  box-sizing: border-box;
+  width: 377px;
+  height: 98px;
+  margin: 0 auto;
+  padding: 12px;
+  color: #292929;
+  background-color: #f8faff;
+  border-radius: 10px;
+
+  span {
+    display: block;
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  b {
+    color: #4f5aff;
+    font-weight: 600;
+  }
 
   p {
-    margin: 0;
+    margin: 4px 0 0;
+    color: #929497;
     font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
-  }
-}
-
-.host {
-  margin-top: 16px;
-}
-
-.selfHost {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-
-  * {
-    cursor: pointer;
-  }
-
-  input {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    margin-right: 8px;
-  }
-
-  label {
-    margin-top: 0;
     font-size: 14px;
-    line-height: 20px;
-    user-select: none;
+    line-height: 1;
   }
 }
 
-.selfHostInput {
-  margin-top: 8px;
+.configuration {
+  padding-bottom: 24px;
+  text-align: center;
 
-  input {
+  .gap {
+    margin-top: 24px;
+  }
+
+  .dropdown-menu {
+    display: inline-block;
+  }
+
+  .guide {
     width: 360px;
-    height: 36px;
-    padding: 8px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    border: 1px solid #dcdee1;
-    border-radius: 5px;
+    margin: 24px auto 0;
   }
+
+  .guide-content {
+    text-align: left;
+  }
+}
+
+.nav-btn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 88px;
+}
+
+.warn-txt {
+  margin-top: 20px;
 }
 </style>

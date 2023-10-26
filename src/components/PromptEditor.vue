@@ -1,48 +1,67 @@
 <template>
-  <section v-if="showEditor" :class="$style.propmtEditorWrap">
-    <section :class="$style.editor">
-      <section :class="$style.header">
-        <span>Edit Prompt</span>
-        <IconClose :class="$style.closeIcon" @click="handleHideEditor" />
-      </section>
-      <section :class="$style.promptName">
-        <label>Name</label>
-        <input v-model="title" :class="$style.inputName" :placeholder="prompt.title" type="text" />
-      </section>
-      <section :class="$style.promptCommand">
-        <label>Prompt</label>
-        <textarea
-          v-model="command"
-          :class="$style.inputCommand"
-          :placeholder="prompt.command"
-        ></textarea>
-      </section>
-      <section :class="$style.btnGroup">
-        <WebpilotButton
-          :disalbed="disableDelete"
-          type="ghost"
-          value="DELETE"
-          @click="handleDelete"
-        />
-        <WebpilotButton :class="$style.confirmBtn" value="SAVE PROMPT" @click="handleSave" />
-      </section>
+  <!-- <section v-if="showEditor" :class="$style['background-shadow']"> -->
+  <article :class="$style.container">
+    <section :class="$style.container__body">
+      <!-- <SendButton
+        :activate="command !== ''"
+        :class="$style.content__send"
+        @click="handleSendCommand"
+      /> -->
+      <InteractiveIcon :class="$style.content__send" type="send" @click="handleSendCommand" />
+      <textarea
+        ref="textareaRef"
+        v-model="command"
+        :class="$style.content__textarea"
+        :placeholder="prompt.command"
+      />
+      <article :class="$style.content__back">
+        <InteractiveIcon type="previous" @click="handleHideEditor" />
+      </article>
     </section>
-  </section>
+    <section :class="$style.container__footer">
+      <article :class="$style['form-name']">
+        <input
+          v-model="title"
+          :class="[$style['form-name__txt'], {[$style['form-name__txt--focus']]: nameFocused}]"
+          :placeholder="prompt.title || 'Add Name'"
+          type="text"
+          @blur="onNameInputBlur"
+          @focus="onNameInputFocus"
+        />
+        <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" />
+      </article>
+      <InteractiveIcon
+        v-show="!disableDelete"
+        :class="$style['form-button']"
+        :label="$gettext('Delete')"
+        type="delete"
+        @click="handleDelete"
+      />
+      <InteractiveIcon
+        :class="$style['form-button']"
+        :label="$gettext('Save')"
+        type="save"
+        @click="handleSave"
+      />
+    </section>
+  </article>
+  <!-- </section> -->
 </template>
 
 <script setup>
-import {ref, watchEffect} from 'vue'
+import {ref, onMounted, watch, nextTick, watchEffect} from 'vue'
 
-import IconClose from './icon/IconClose.vue'
-import WebpilotButton from './WebpilotButton.vue'
+import {$gettext} from '@/utils/i18n'
 
-const emits = defineEmits(['onDelete', 'onSave', 'onHide'])
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
+// import SendButton from './SendButton/Index.vue'
 
+const emits = defineEmits(['onDelete', 'onSave', 'onHide', 'onSend'])
 const props = defineProps({
-  showEditor: {
-    type: Boolean,
-    default: false,
-  },
+  // showEditor: {
+  //   type: Boolean,
+  //   default: false,
+  // },
   prompt: {
     type: Object,
     default: () => {
@@ -57,8 +76,27 @@ const props = defineProps({
 
 const title = ref(props.prompt.title)
 const command = ref(props.prompt.command)
+const nameFocused = ref(false)
+const textareaRef = ref(null)
+
+const autoResize = () => {
+  const textarea = textareaRef.value
+  if (!textarea) return
+  textarea.style.height = null
+  textarea.style.height = `${textarea.scrollHeight}px`
+}
+
+onMounted(async () => {
+  await nextTick()
+  autoResize()
+})
+
+watch(command, () => {
+  autoResize()
+})
 
 const handleSave = () => {
+  if (!title.value) title.value = 'Prompt'
   emits('onSave', {
     title: title.value,
     command: command.value,
@@ -76,101 +114,155 @@ const handleHideEditor = () => {
   emits('onHide')
 }
 
+const handleSendCommand = () => {
+  emits('onSend', command.value)
+}
+
 watchEffect(() => {
   title.value = props.prompt.title
   command.value = props.prompt.command
 })
+
+const onNameInputFocus = () => {
+  nameFocused.value = true
+}
+const onNameInputBlur = () => {
+  nameFocused.value = false
+}
 </script>
 
 <style lang="scss" module>
-.propmtEditorWrap {
+// .background-shadow {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   border-radius: 10px;
+//   backdrop-filter: blur(2px);
+//   background-color: rgb(0 0 0 / 50%);
+// }
+
+.container {
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 341px;
-  background-color: rgb(0 0 0 / 50%);
-  backdrop-filter: blur(2px);
-}
-
-.editor {
-  width: 430px;
-  height: 310px;
-  padding: 16px;
-  background: #fff;
+  padding: 8px;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
   border-radius: 10px;
   box-shadow: 0 8px 24px rgb(149 157 165 / 20%);
 }
 
-.header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 12px !important;
-  color: #000;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 25px;
+.container__body {
+  position: relative;
+
+  // display: flex;
+  // flex-direction: row;
+  padding: 8px 0 8px 8px;
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
+  border-radius: 5px;
 }
 
-.closeIcon {
-  margin-left: auto;
+.content__textarea {
+  display: block;
+  width: 100%;
+  height: 20px;
+  max-height: 196px;
+  padding: 0 42px 0 0;
+  overflow-y: auto;
+  color: var(--webpilot-theme-main-text-color, #292929);
+  font-size: 14px !important;
+  line-height: 20px !important;
+
+  // flex: 1;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+  border: none;
+  outline: none;
+  appearance: none;
+  resize: none;
+}
+
+.content__send {
+  position: absolute;
+  right: 12px;
+  bottom: 6px;
+
+  // cursor: pointer;
+}
+
+.content__back {
+  position: absolute;
+  top: -1px;
+  right: -53px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--webpilot-theme-main-background-color, #fff);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
   cursor: pointer;
 }
 
-.promptName,
-.promptCommand {
+.container__footer {
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  color: #000;
-  font-weight: 400;
-  font-size: 14px;
-  font-style: normal;
+  margin-top: 12px;
+}
+
+.form-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+  margin-right: auto;
+  padding: 0 5px;
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
+  border-radius: 10px;
+}
+
+.form-name__txt {
+  width: 70px;
+  padding: 0 !important;
+  color: var(--webpilot-theme-main-text-color, #292929);
+  font-weight: 600 !important;
+  font-size: 12px !important;
   line-height: 20px;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+  border: 0 !important;
+  outline: none;
 }
 
-.inputName {
-  height: 36px;
-  margin-top: 4px;
-  padding: 8px;
-  border: 1px solid #dcdee1;
-  border-radius: 5px;
-
-  &:focus {
-    outline: none;
-  }
+.form-name__txt--focus {
+  color: #4f5aff;
 }
 
-.promptCommand {
-  margin-top: 16px !important;
+.form-button:last-of-type {
+  margin-left: 40px;
 }
 
-.inputCommand {
-  width: 398px;
-  height: 97px;
-  margin-top: 4px;
-  padding: 8px;
-  border: 1px solid #dcdee1;
-  border-radius: 5px;
-  resize: none;
+// .form-button {
+//   display: flex;
+//   align-items: center;
+//   cursor: pointer;
+// }
 
-  &:focus,
-  &:focus-visible {
-    outline: none;
-  }
-}
+// .form-button__txt {
+//   margin-left: 4px;
+//   font-weight: 600;
+//   font-size: 14px;
+// }
 
-.btnGroup {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 12px !important;
-}
+// .form-button__txt:hover {
+//   text-decoration: underline;
+// }
 
-.confirmBtn {
-  margin-left: 2px !important;
-}
+// .form-button--delete {
+//   margin-right: 40px;
+//   color: #585b58;
+// }
+
+// .form-button--save {
+//   color: #4f5aff;
+// }
 </style>

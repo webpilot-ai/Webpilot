@@ -75,6 +75,6 @@ function toggleSwitch() {
 }
 
 .off {
-  left: 60%;
+  left: 67%;
 }
 </style>

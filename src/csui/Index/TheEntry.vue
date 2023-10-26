@@ -26,15 +26,12 @@
     <ThePopupBox id="webpilot_popup" :is-ask-page="isAskPage" @close-popup="handleClosePopup" />
     <section ref="refDragHandle" :class="$style.dragHandle"></section>
   </section>
-
-  <!-- <section :class="$style.sidebarContainer">
-    <TheSidebar />
-  </section> -->
 </template>
 
 <script setup>
 import {computed, ref, watch} from 'vue'
 import '@assets/styles/csui-reset.scss'
+import '@assets/styles/csui-theme.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
 
@@ -74,13 +71,11 @@ const store = useStore()
 /** Mouse up and Ctrl+A text position */
 const position = ref({x: 0, y: 0})
 
-/** Select selct by keyboard or mouse */
+/** Select select by keyboard or mouse */
 const selectedText = ref('')
 
 /** Identify popup type */
-const isAskPage = computed(() => {
-  return selectedText.value === '' && !selectedText.value
-})
+const isAskPage = computed(() => selectedText.value === '' && !selectedText.value)
 
 const isShowWebpilotTail = computed(() => {
   if (!store.config.isAuth) return false
@@ -196,8 +191,8 @@ const tailPosition = computed(() => {
 })
 
 const popupPosition = computed(() => {
-  const x = window.innerWidth / 2 - 480 / 2
-  const y = 50
+  const x = window.innerWidth / 2 - 612 / 2
+  const y = 100
   return {x, y}
 })
 
@@ -211,9 +206,10 @@ const shortcutText = computed(() => {
   position: fixed;
   z-index: 99999999999;
   text-align: center;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
+
+  // background-color: var(--webpilot-theme-main-background-color, #fff);
+  // border-radius: 10px;
+  // box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 }
 
 .popupBoxContainer {
@@ -222,17 +218,17 @@ const shortcutText = computed(() => {
   position: fixed;
   top: 10%;
   left: 2%;
-  width: 480px;
+  width: 612px;
 }
 
-.sidebarContainer {
-  @include popup;
+// .sidebarContainer {
+//   @include popup;
 
-  top: 10%;
-  right: 0;
-  width: 200px;
-  height: 500px;
-}
+//   top: 10%;
+//   right: 0;
+//   width: 200px;
+//   height: 500px;
+// }
 
 .webpilotTail {
   @include popup;
@@ -242,10 +238,11 @@ const shortcutText = computed(() => {
   align-items: center;
   height: 28px;
   padding: 6px;
-  color: #292922;
+  color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 500;
   font-size: 12px;
-  border: 1px solid rgb(79 90 255 / 10%);
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+  border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
 
   /* line-height: 17px; */
   border-radius: 10px;
@@ -256,17 +253,19 @@ const shortcutText = computed(() => {
     width: 16px;
     height: 16px;
     margin-right: 4px;
+    background: transparent;
     filter: none !important;
   }
 }
 
 .webpilotTail:hover {
-  color: #4f5aff;
+  color: var(--webpilot-theme-brand-primary, #4f5aff);
+  background-color: var(--webpilot-theme-stoke-and-hover-status, #fff);
 
-  img {
-    background-color: rgb(79 90 255 / 20%);
-    border-radius: 3px;
-  }
+  // img {
+  //   background-color: rgb(79 90 255 / 20%);
+  //   border-radius: 3px;
+  // }
 }
 
 .webpilotLogo {
@@ -279,9 +278,9 @@ const shortcutText = computed(() => {
 .dragHandle {
   position: absolute;
   top: 0;
-  left: 140px;
-  width: 200px;
-  height: 36px;
+  left: 0;
+  width: 612px;
+  height: 8px;
   cursor: move;
   user-select: none;
 }

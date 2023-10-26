@@ -110,7 +110,7 @@
       </div>
       <WebpilotButton
         :auto-hide="true"
-        :disalbed="selectedOption === 'personal' && saveAuthKey === ''"
+        :disabled="selectedOption === 'personal' && saveAuthKey === ''"
         :loading="loading"
         style="width: 143px; margin-top: auto"
         :value="$gettext('Save Changes')"

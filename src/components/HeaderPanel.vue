@@ -6,13 +6,13 @@
     </section>
     <section :class="$style.headerIcons">
       <Popper :class="$style.popover" hover offset-distance="8" placement="top">
-        <IconGear :class="$style.icon" @click="openSettingPage" />
+        <InteractiveIcon :class="$style.icon" type="setting" @click="openSettingPage" />
         <template #content>
           <span :class="$style.popoverText">Settings</span>
         </template>
       </Popper>
       <Popper :class="$style.popover" hover offset-distance="8" placement="top">
-        <IconClose :class="$style.icon" @click="closePopup" />
+        <InteractiveIcon :class="$style.icon" type="close" @click="closePopup" />
         <template #content>
           <span :class="$style.popoverText">Close</span>
         </template>
@@ -25,11 +25,9 @@
 import {sendToBackground} from '@plasmohq/messaging'
 import Popper from 'vue3-popper'
 
-// eslint-disable-next-line import/no-unresolved
 import WebpilotLogo from 'data-base64:~assets/icon.png'
 
-import IconClose from './icon/IconClose.vue'
-import IconGear from './icon/IconGear.vue'
+import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 
 const emits = defineEmits(['onClose'])
 

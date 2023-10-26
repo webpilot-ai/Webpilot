@@ -2,113 +2,146 @@
   "extensionDescription": {
     "message": "Web copilot for all，免费且开源，贼好用！"
   },
-  "_to_use_WebPilot_on_any_website_": {
-    "message": "，即可在任何网站上使用 WebPilot。"
-  },
-  "About": {
-    "message": "About"
-  },
-  "Account": {
-    "message": "Account"
+  "_to_use": {
+    "message": " 就好了"
   },
   "Active_Webpilot": {
-    "message": "Active Webpilot"
+    "message": "启用 Webpilot"
   },
-  "Advanced": {
-    "message": "Advanced"
+  "and_pin_Webpilot_to_your_nav_bar": {
+    "message": "然后将 Webpilot 固定在导航栏"
   },
   "API_Settings": {
-    "message": "API Settings"
+    "message": "API 设置"
+  },
+  "Ask_a_question_about": {
+    "message": "对这个进行提问："
   },
   "Ask_a_question_about_this_webpage": {
     "message": "向这个网页提问"
   },
+  "Back": {
+    "message": "返回"
+  },
   "Change_Shortcut": {
     "message": "更改快捷键"
   },
-  "Choosing_Service": {
-    "message": "选择服务"
+  "Choose": {
+    "message": "选择"
   },
   "Chrome_s_Settings__History__and_Web_Store_pages": {
     "message": "Chrome 的设置、历史记录和 Web 商店页面"
+  },
+  "Click": {
+    "message": "点击"
+  },
+  "Close": {
+    "message": "关闭"
+  },
+  "Confirm": {
+    "message": "确认"
+  },
+  "Copy": {
+    "message": "复制"
   },
   "Current_Webpage_Not_Supported": {
     "message": "当前网页不支持"
   },
   "Display_Mode": {
-    "message": "Display Mode"
+    "message": "展示方式"
   },
   "Display_Webpilot": {
-    "message": "Display Webpilot"
+    "message": "展示 Webpilot"
+  },
+  "Display_Webpilot_icon_when_text_is_selected": {
+    "message": "选中文字后，展示悬浮框"
+  },
+  "Draw": {
+    "message": "画图"
   },
   "Due_to_Chrome_s_constraints__Webpilot_cannot_be_activated_on_the_following_webpages_": {
     "message": "由于 Chrome 的限制，Webpilot 无法在以下网页上启动："
   },
-  "Enter_your_API_Key": {
-    "message": "输入你的 API Key"
+  "Enjoy_Webpilot_AI_for": {
+    "message": "尽享 WebPilot AI，"
+  },
+  "Explain": {
+    "message": "解释"
+  },
+  "Explain_it_in_English_using_words_a_middle_schooler_can_understand": {
+    "message": "用初中生可以懂的话来解释，说中文"
   },
   "Extension_Settings": {
-    "message": "Extension Settings"
+    "message": "插件设置"
+  },
+  "Find_the_questions_todo_on_the_page__analyze_them_step_by_step__and_provide_a_complete_solution_in_the_end__If_a_specified_starting_point_is_given__use_it_directly_without_changing_": {
+    "message": "在页面上找到问题/待办事项，逐步分析它们，并在最后提供完整的解决方案。如果给定了特定的开头，不要更改，直接使用。"
+  },
+  "FREE": {
+    "message": "免费哒！"
   },
   "Free_usage_for_this_week_has_been_exhausted__50_times_week___You_can_input_your_OpenAI_API_Key_in_the_settings_page_for_unlimited_use__or_wait_for_the_quota_refresh_at_0_00_UTC_0_on_Monday_": {
     "message": "本周免费额度已用尽（50 次/周）。您可在设置页面填写自己的 OpenAI API Key 以实现无限使用，或等待周一 UTC+0 0:00 刷新额度。"
   },
-  "How_to_self_host_API_": {
-    "message": "How to self host API?"
+  "Generate_a_list_of_10_long_tail_keywords_for_SEO__related_to_this_page": {
+    "message": "针对该页面，列举10个长尾关键词，用作SEO"
   },
-  "https___api_openai_com": {
-    "message": "https://api.openai.com"
+  "How_to_Use": {
+    "message": "如何使用"
   },
-  "Let_s_draw_an_image_about_this__You_need_to_write_in_English_without_word_wraps_and_headlines__without_connection_words__back_to_back_separated_with_commas___1____element____2____3___environment____4____5____6___style_settings___________Replace__1__with_the_subject__A_image_of_____________________Replace__element__with_the_sentence_you_mentioned___________________Replace__2__with_a_list_of_creative_detailed_descriptions_about__element____________________Replace__3__with_a_list_of_detailed_descriptions_about_the_environment_of_the_scene___________________Replace__4__with_a_list_of_detailed_descriptions_about_the_mood_feelings_and_atmosphere_of_the_scene___________________Replace__5__with_a_list_of_specific_camera_model_including_specific_color_film_type_and_lens_details_as_well_as_techniques__set_a_artistic_style___________________Replace__6__with_a_list_of_multiple_directors__cinematographers__photographers__fashion_designers__cartoonist_or_artist__who_would_be_unlikely_to_collaborate_but_would_juxtapose_uniquely___________________Simply_write_the_without_explanation__replace_the_content_inside_the_brackets_with_details_about_the_content_word_inside_the_brackets_and_delete_the_brackets__Repeat_that_for_every_bracket_in_the_prompt__complex_prompt_for_an_AI_based_text_to_image_program_that_converts_a_prompt_about_a_topic_into_an_image__The_outcome_depends_on_the_prompt_s_coherence__The_topic_of_the_whole_scene_is_always_dependent_on_the_subject_that_is_replaced_with__element___always_start_the_prompt_with___imagine_prompt____don_t_use_any_line_breaks__Proper_grammar_is_unnecessary_and_details_can_be_listed___________________Do_not_show_things_like___1____element___in_your_response_": {
-    "message": "Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [element], [2], [3] {environment}, [4], [5], [6] {style settings}\n\n        Replace [1] with the subject \"A image of \";\n        \n        Replace [element] with the sentence you mentioned;\n        \n        Replace [2] with a list of creative detailed descriptions about [element];\n        \n        Replace [3] with a list of detailed descriptions about the environment of the scene;\n        \n        Replace [4] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n        \n        Replace [5] with a list of specific camera model(including specific color film type and lens details as well as techniques) set a artistic style;\n        \n        Replace [6] with a list of multiple directors, cinematographers, photographers, fashion designers, cartoonist or artist, who would be unlikely to collaborate but would juxtapose uniquely.\n        \n        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n        \n        Do not show things like \"[1]\"\"[element]\" in your response."
-  },
-  "MidJourney_Prompt": {
-    "message": "MidJourney 提词"
+  "Let_s_draw_an_image_about_this__You_need_to_write_in_English_without_word_wraps_and_headlines__without_connection_words__back_to_back_separated_with_commas___1____2____3____4___environment____5____6___style_settings__________Replace__1__with_the_subject__A_image_of____________Replace__2__with_the_sentence_you_mentioned__________Replace__3__with_a_list_of_creative_detailed_descriptions_about__element____________Replace__4__with_a_list_of_detailed_descriptions_about_the_environment_of_the_scene__________Replace__5__with_a_list_of_detailed_descriptions_about_the_mood_feelings_and_atmosphere_of_the_scene__________Replace__6__with_an_appropriate_director_or_artist__If_he_she_is_a_historical_figure__include_his_her_country_and_dynasty__________Simply_write_the_without_explanation__replace_the_content_inside_the_brackets_with_details_about_the_content_word_inside_the_brackets_and_delete_the_brackets__Repeat_that_for_every_bracket_in_the_prompt__complex_prompt_for_an_AI_based_text_to_image_program_that_converts_a_prompt_about_a_topic_into_an_image__The_outcome_depends_on_the_prompt_s_coherence__The_topic_of_the_whole_scene_is_always_dependent_on_the_subject_that_is_replaced_with__element___always_start_the_prompt_with___imagine_prompt____don_t_use_any_line_breaks__Proper_grammar_is_unnecessary_and_details_can_be_listed__________Do_not_show_things_like___1____element___in_your_response_": {
+    "message": "Let's draw an image about this. You need to write in English without word wraps and headlines, without connection words. back to back separated with commas: [1], [2], [3], [4] {environment}, [5], [6] {style settings}\n        Replace [1] with the subject \"A image of \";\n        Replace [2] with the sentence you mentioned;\n        Replace [3] with a list of creative detailed descriptions about [element]; \n        Replace [4] with a list of detailed descriptions about the environment of the scene;\n        Replace [5] with a list of detailed descriptions about the mood/feelings and atmosphere of the scene;\n        Replace [6] with an appropriate director or artist. If he/she is a historical figure, include his/her country and dynasty.\n        Simply write the without explanation, replace the content inside the brackets with details about the content/word inside the brackets and delete the brackets. Repeat that for every bracket in the prompt, complex prompt for an AI-based text to image program that converts a prompt about a topic into an image. The outcome depends on the prompt's coherence. The topic of the whole scene is always dependent on the subject that is replaced with [element], always start the prompt with \"/imagine prompt:\", don't use any line breaks, Proper grammar is unnecessary and details can be listed.\n        Do not show things like \"[1]\"\"[element]\" in your response."
   },
   "New_tab_and_blank_pages": {
     "message": "新标签页和空白页"
   },
-  "Opensource_AI_Assistant_On_All_Websites": {
-    "message": "Opensource AI Assistant On All Websites"
+  "OpenAI_Credits": {
+    "message": "OpenAI Credits"
+  },
+  "Pin_Webpilot": {
+    "message": "将 Webpilot 置顶"
   },
   "Pop_Up": {
-    "message": "Pop Up"
-  },
-  "Press_": {
-    "message": "只需按 "
+    "message": "弹窗"
   },
   "Refine": {
     "message": "润色"
   },
   "Refine_text__review_and_revise_problems_in_spelling__grammar__punctuation__word_usage__and_sentence_structure": {
-    "message": "润色文本，并修改拼写、语法、标点符号、用词、句子结构中出现的问题"
+    "message": "润色该段文字，修正语法、错字和段落结构，使其更通顺、易读"
   },
   "Save_Changes": {
-    "message": "Save Changes"
+    "message": "保存"
   },
-  "Select_text_first__hit_shortcut_next__gain_better_results_": {
-    "message": "先选定的文本，然后按快捷键，效果更棒！"
+  "Select_text__and_press_": {
+    "message": "先选中文字，再按 "
   },
-  "Self_Host": {
-    "message": "Self Host"
+  "SEO": {
+    "message": "SEO"
   },
-  "Show_WebPilot_icon_when_selecting_text": {
-    "message": "选择文本时显示 WebPilot 图标"
+  "Set_up_API": {
+    "message": "设置 API"
+  },
+  "Settings": {
+    "message": "设置"
+  },
+  "Setup_your_own_API_key__to_enjoy_more": {
+    "message": "设置自己的 API key, 无限使用"
   },
   "Side_Bar": {
-    "message": "Side Bar"
+    "message": "侧边栏"
   },
-  "Star_on_Github": {
-    "message": "Star on Github"
+  "Solve": {
+    "message": "解题"
   },
   "Summarize": {
     "message": "总结"
   },
-  "Summarize_and_express_these_words_concisely": {
-    "message": "概括主要内容"
+  "Summarize_in_English__concise_and_clear": {
+    "message": "用中文总结，简明扼要"
   },
-  "To_get_it__open_this_link_and_click__Create_new_secret_key__": {
-    "message": "打开这个链接后，点击 “Create new secret key”，以获取你的 Key."
+  "up_to_50_times_week": {
+    "message": "每周 50 次"
   },
   "Use_my_OpenAI_API_key": {
     "message": "使用我自己的 OpenAI API key"
@@ -116,13 +149,13 @@
   "Use_WebPilot_free_credit": {
     "message": "使用 WebPilot 提供的免费额度"
   },
-  "Using_WebPilot": {
-    "message": "使用 WebPilot"
+  "Webpilot_Credit": {
+    "message": "Webpilot Credit"
   },
-  "Webpilot_is_open_source": {
-    "message": "Webpilot is open source"
+  "Webpilot_will_answer_based_on_the_current_page_if_no_text_is_selected": {
+    "message": "Webpilot 将对选中文字进行问答"
   },
   "when_text_is_selected": {
-    "message": "when text is selected"
+    "message": "当文字被选中时"
   }
 }

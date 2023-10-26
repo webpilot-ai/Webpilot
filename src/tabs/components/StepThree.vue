@@ -1,36 +1,41 @@
 <template>
-  <div :class="stepThree.wrap">
-    <h3>{{ $gettext('Using WebPilot') }}</h3>
+  <div>
+    <WelcomeTitle @on-prev="goBack">{{ $gettext('How to Use') }}</WelcomeTitle>
 
-    <h2 :class="stepThree.shortcutGuideTitle">
-      <span>{{ $gettext('Press ') }}</span>
-      <span :class="stepThree.shotcut">{{ shotcut }}</span>
-      <span>{{ $gettext(' to use WebPilot on any website.') }}</span>
+    <h2 :class="stepThree['shortcut-guide']">
+      <span>{{ $gettext('Select text, and press ') }}</span>
+      <template v-for="(item, index) in shortcuts" :key="index">
+        <b v-if="index !== 0" :class="stepThree['key-add']">+</b>
+        <b
+          :class="[
+            stepThree['key-cap'],
+            stepThree[`key-cap${item.length > 1 ? '--big' : '--small'}`],
+          ]"
+          >{{ item }}</b
+        >
+      </template>
+      <span>{{ $gettext(' to use') }}</span>
     </h2>
-    <div :class="stepThree.changeShorcut">
-      <span>Change Shortcut</span>
-      <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShotcutChange" />
+    <div :class="stepThree['shortcut-input']">
+      <span>{{ $gettext('Change Shortcut') }}</span>
+      <ShortcutInput v-model="customShortcut" :show-reset="false" @change="onShortcutChange" />
     </div>
     <WebpilotCheckbox
       v-model="autoPopup"
-      :label="$gettext('Show WebPilot icon when selecting text')"
+      :label="$gettext('Display Webpilot icon when text is selected')"
       style="margin-top: 16px"
       @change="onAutoPopupChange"
     />
-    <IllustrationSelectText style="margin-top: 12px" />
+    <ImageSelectTextWithIcon v-if="autoPopup" style="margin-top: 12px" />
+    <ImageSelectTextWithoutIcon v-else style="margin-top: 12px" />
     <WebpilotAlert
       style="margin-top: 6px"
-      :tips="$gettext('Select text first, hit shortcut next, gain better results.')"
+      :tips="$gettext('Webpilot will answer based on the current page if no text is selected')"
       type="info"
     />
-    <div v-if="false" :class="stepThree.displayMode">
-      <h2 :class="stepThree.title">Display mode</h2>
-      <DisplayMode
-        v-model="mode"
-        style="margin-top: 2px; margin-bottom: 55px"
-        @change="osDisplayModeChange"
-      />
-    </div>
+    <footer :class="stepThree['nav-btn']">
+      <WebpilotButton :value="'NEXT'" @click="onNext" />
+    </footer>
   </div>
 </template>
 
@@ -42,24 +47,31 @@ import {$gettext} from '@/utils/i18n'
 
 import WebpilotCheckbox from '@/components/WebpilotCheckbox.vue'
 import WebpilotAlert from '@/components/WebpilotAlert.vue'
-import IllustrationSelectText from '@/components/icon/IllustrationSelectText.vue'
-import DisplayMode from '@/components/DisplayMode.vue'
+import WebpilotButton from '@/components/WebpilotButton.vue'
+import ImageSelectTextWithIcon from '@/components/image/ImageSelectTextWithIcon.vue'
+import ImageSelectTextWithoutIcon from '@/components/image/ImageSelectTextWithoutIcon.vue'
 import useStore from '@/stores/store'
 
 import ShortcutInput from '@/components/ShortcutInput.vue'
 
 import {formatShortcut} from '@/utils/index'
 
+import WelcomeTitle from './WelcomeTitle.vue'
+
 const store = useStore()
+
+const emits = defineEmits(['onPrev', 'onNext'])
+
+const goBack = () => emits('onPrev')
+const onNext = () => emits('onNext')
 
 const {config} = storeToRefs(store)
 
 const {customShortcut} = config.value
 
 const autoPopup = ref(config.value.autoPopup)
-const mode = ref(config.value.displayMode)
 
-const onShotcutChange = customShortcut => {
+const onShortcutChange = customShortcut => {
   store.setConfig({
     ...store.config,
     customShortcut,
@@ -73,48 +85,49 @@ const onAutoPopupChange = value => {
   })
 }
 
-const osDisplayModeChange = value => {
-  store.setConfig({
-    ...store.config,
-    displayMode: value,
-  })
-}
-
-const shotcut = computed(() => {
-  return formatShortcut(store.config.customShortcut)
-})
+const shortcuts = computed(() => formatShortcut(store.config.customShortcut).split(' + '))
 </script>
 
 <style module="stepThree" lang="scss">
-.wrap {
-  h3 {
-    margin: 0 0 16px;
-    color: #4f5aff;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 34px;
-    text-align: center;
-  }
-}
-
-.shortcutGuideTitle {
+.shortcut-guide {
+  margin-top: 32px;
   font-weight: 400;
   font-size: 18px;
-  line-height: 25px;
+  line-height: 24px;
+}
 
-  .shotcut {
-    padding: 2px 4px;
-    color: #4f5aff;
-    border: 1px solid #4f5aff;
-    border-radius: 5px;
+.key-cap,
+.key-add {
+  display: inline-block;
+  color: #4f5aff;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.key-cap {
+  margin: 0 5px;
+  padding: 0 8px;
+  background: 0 / 100% 100% no-repeat;
+
+  &--big {
+    background-image: url('../images/key-cap-big.png');
+  }
+
+  &--small {
+    background-image: url('../images/key-cap-small.png');
   }
 }
 
-.changeShorcut {
+.key-add {
+  width: 12px;
+  text-align: center;
+}
+
+.shortcut-input {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 8px;
 
   span {
     margin-right: 12px;
@@ -139,16 +152,10 @@ const shotcut = computed(() => {
   }
 }
 
-.displayMode {
+.nav-btn {
   display: flex;
-  flex-direction: column;
-  margin-top: 48px;
-
-  .title {
-    color: #292929;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 25px;
-  }
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 66px;
 }
 </style>

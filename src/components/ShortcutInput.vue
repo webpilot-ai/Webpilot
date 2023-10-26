@@ -90,7 +90,7 @@ const resetShortCut = () => {
       @keydown="onPressShortcut"
     />
     <span v-if="isFocus" :class="$style.shortcutMask"> {{ formatedShortcut || 'Press Key' }}</span>
-    <span v-if="showReset" :class="$style.reset" @click="resetShortCut">Reset</span>
+    <span v-if="showReset" :class="$style.reset" @click="resetShortCut">RESET</span>
   </section>
 </template>
 
@@ -108,11 +108,17 @@ const resetShortCut = () => {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  text-decoration: underline;
   cursor: pointer;
 }
 
+@media (prefers-color-scheme: dark) {
+  .reset {
+    color: #929497;
+  }
+}
+
 .shortcut {
+  box-sizing: border-box;
   width: 140px;
   height: 36px;
   margin-right: 8px;

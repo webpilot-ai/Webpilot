@@ -6,7 +6,7 @@
       :active="selectedIndex === index"
       :class="$style.propmtItem"
       :title="item.title"
-      @click="() => handleSelectPropmt(index)"
+      @click="() => handleSelectPrompt(index)"
       @on-edit="() => handleEditPrompt(index)"
     />
 
@@ -33,7 +33,7 @@ const props = defineProps({
   },
 })
 
-const handleSelectPropmt = index => {
+const handleSelectPrompt = index => {
   emits('onChange', {
     index,
     prompt: toRaw(props.prompts[index]),

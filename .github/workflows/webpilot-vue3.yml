@@ -8,10 +8,12 @@ on:
     branches:
       - 'main'
       - 'vue3'
+      - 'dev'
   pull_request:
     branches:
       - 'main'
       - 'vue3'
+      - 'dev'
 
 jobs:
   build:

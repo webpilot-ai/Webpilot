@@ -8,11 +8,11 @@
     }"
   >
     <slot name="icon">
-      <section :style="$style.icon">
-        <IconInfo v-if="type === ALERT_TYPE.INFO" />
+      <article :class="$style.icon">
+        <IconAlertInfo v-if="type === ALERT_TYPE.INFO" />
         <IconSuccess v-if="type === ALERT_TYPE.SUCCESS" />
         <IconError v-if="type === ALERT_TYPE.ERROR" />
-      </section>
+      </article>
     </slot>
     {{ tips }}
   </section>
@@ -22,7 +22,7 @@
 import {ref} from 'vue'
 import {onClickOutside} from '@vueuse/core'
 
-import IconInfo from './icon/IconAlertInfo.vue'
+import IconAlertInfo from './icon/IconAlertInfo.vue'
 import IconError from './icon/IconAlertError.vue'
 import IconSuccess from './icon/IconAlertSuccess.vue'
 
@@ -65,7 +65,7 @@ const ALERT_TYPE = {
 .tips {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 6px;
   align-items: center;
   width: fit-content;
   min-height: 27px;
@@ -78,8 +78,7 @@ const ALERT_TYPE = {
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
+  display: flex;
 }
 
 .tipsSuccess {
