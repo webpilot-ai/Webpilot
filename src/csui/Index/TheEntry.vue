@@ -71,12 +71,15 @@ const store = useStore()
 /** Mouse up and Ctrl+A text position */
 const position = ref({x: 0, y: 0})
 
-/** Select selct by keyboard or mouse */
+/** Select select by keyboard or mouse */
 const selectedText = ref('')
+
+/** Used a shortcut to call the popup */
+const shortcutUsed = ref(false)
 
 /** Identify popup type */
 const isAskPage = computed(() => {
-  return selectedText.value === '' && !selectedText.value
+  return shortcutUsed.value || (selectedText.value === '' && !selectedText.value)
 })
 
 const isShowWebpilotTail = computed(() => {
@@ -117,6 +120,7 @@ const keys = useMagicKeys()
 const shortcut = keys[store.config.customShortcut.join('+')]
 watch(shortcut, v => {
   if (!v) return
+  shortcutUsed.value = true
 
   // Not key not popup
   if (!store.config.isAuth) return

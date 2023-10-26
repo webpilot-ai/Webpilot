@@ -20,24 +20,24 @@ const useStore = defineStore('store', () => {
     if (storedConfig && typeof storedConfig === 'object') {
       config.value = storedConfig
 
-      // 对于保存了 key 的老用户，进行部分数据修正
+      // For old users who have saved some old data, perform some data correction
       if (config.value.apiOrigin === undefined) {
         config.value.apiOrigin = 'personal'
       }
       if (config.value.selfHostUrl === WEBPILOT_OPENAI.HOST_URL) {
         config.value.selfHostUrl = ''
       }
-      if (!config.value.latestAskedQuestionPromptIndex) {
-        config.value.latestAskedQuestionPromptIndex = 0
-      }
-      if (!config.value.latestTextSelectionPromptIndex) {
-        config.value.latestTextSelectionPromptIndex = 0
-      }
-      if (!config.value.AskedQuestionPrompts) {
-        config.value.AskedQuestionPrompts = []
-      }
-      if (!config.value.TextSelectionPrompts) {
-        config.value.TextSelectionPrompts = []
+      if (
+        !config.value.latestAskedQuestionPromptIndex &&
+        !config.value.latestTextSelectionPromptIndex &&
+        !config.value.AskedQuestionPrompts &&
+        !config.value.TextSelectionPrompts
+      ) {
+        config.value.latestAskedQuestionPromptIndex = defaultConfig.latestAskedQuestionPromptIndex
+        config.value.latestTextSelectionPromptIndex = defaultConfig.latestTextSelectionPromptIndex
+        config.value.AskedQuestionPrompts = defaultConfig.AskedQuestionPrompts
+        config.value.TextSelectionPrompts = defaultConfig.TextSelectionPrompts
+        saveToLocalStorage(config.value)
       }
     }
   }
@@ -46,19 +46,18 @@ const useStore = defineStore('store', () => {
     storage.set(WEBPILOT_CONFIG_STORAGE_KEY, config)
   }
 
-  function setConfig(newConfig) {
-    config.value = newConfig
-    saveToLocalStorage(config.value)
-  }
-
-  // 现在的 setConfig，更新 options 后，每个 tab 需要 reload 才生效
-  // 逐步替换为 updateConfig，获取最新的 LocalStorage
+  // The current setConfig method requires each tab to be reloaded for the updates in options to take effect
+  // Gradually replace setConfig and setPrompts methods with updateConfig, to fetch the latest LocalStorage each time
   async function updateConfig(newConfig) {
     const storedConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || config.value
     config.value = {...storedConfig, ...newConfig}
     saveToLocalStorage(config.value)
   }
 
+  function setConfig(newConfig) {
+    config.value = newConfig
+    saveToLocalStorage(config.value)
+  }
   function setPrompts(type, prompts) {
     if (!type) return
     config.value = {
@@ -73,9 +72,9 @@ const useStore = defineStore('store', () => {
     selectedText,
     initConfig,
     setSelectedText,
+    updateConfig,
     setPrompts,
     setConfig,
-    updateConfig,
   }
 })
 
