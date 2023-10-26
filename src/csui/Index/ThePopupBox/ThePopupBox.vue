@@ -156,8 +156,8 @@ useMagicKeys({
 //   }
 // })
 
-// const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
-const lastKey = LAST_PROMPT_STORAGE_KEY.COMMON
+const lastKey = props.isAskPage ? LAST_PROMPT_STORAGE_KEY.COMMON : LAST_PROMPT_STORAGE_KEY.SELECTED
+// const lastKey = LAST_PROMPT_STORAGE_KEY.COMMON
 
 onMounted(async () => {
   // const lastPrompt = (await storage.get(lastKey)) || ''
