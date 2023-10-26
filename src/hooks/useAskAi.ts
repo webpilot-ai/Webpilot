@@ -27,7 +27,7 @@ const getPrompt = (referenceText, command, isAskPage, previousCommand, previousA
       },
       {
         role: 'user',
-        content: referenceText.trim(),
+        content: command,
       },
     ]
   }

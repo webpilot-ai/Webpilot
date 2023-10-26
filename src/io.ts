@@ -47,6 +47,9 @@ function getNewCutMessages(messages) {
   const newContent = encoding.decode(newContentToken)
   newMessages[0].content = newContent
 
+  if (messages[2]) newMessages.push({...messages[2]})
+  if (messages[3]) newMessages.push({...messages[3]})
+
   return newMessages
 }
 
