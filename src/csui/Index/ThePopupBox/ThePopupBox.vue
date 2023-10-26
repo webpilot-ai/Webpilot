@@ -163,7 +163,7 @@ onMounted(async () => {
   // const lastPrompt = (await storage.get(lastKey)) || ''
   // const lastPrompt = props.isAskPage ? await storage.get(lastKey) : store.selectedText
   // inputCommand.value = lastPrompt
-  inputCommand.value = props.isAskPage ? await storage.get(lastKey) : store.selectedText
+  inputCommand.value = (await storage.get(lastKey)) || ''
   if (!props.isAskPage) return
 
   // init selected prompt

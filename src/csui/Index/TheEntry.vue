@@ -74,13 +74,8 @@ const position = ref({x: 0, y: 0})
 /** Select select by keyboard or mouse */
 const selectedText = ref('')
 
-/** Used a shortcut to call the popup */
-const shortcutUsed = ref(false)
-
 /** Identify popup type */
-const isAskPage = computed(() => {
-  return shortcutUsed.value || (selectedText.value === '' && !selectedText.value)
-})
+const isAskPage = computed(() => selectedText.value === '' && !selectedText.value)
 
 const isShowWebpilotTail = computed(() => {
   if (!store.config.isAuth) return false
@@ -120,7 +115,6 @@ const keys = useMagicKeys()
 const shortcut = keys[store.config.customShortcut.join('+')]
 watch(shortcut, v => {
   if (!v) return
-  shortcutUsed.value = true
 
   // Not key not popup
   if (!store.config.isAuth) return
@@ -178,7 +172,6 @@ const handleClosePopup = () => {
 }
 
 const handleMouseOverTail = () => {
-  shortcutUsed.value = false
   showWebpilotPopup.value = true
 }
 
