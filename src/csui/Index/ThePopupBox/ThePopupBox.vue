@@ -10,7 +10,7 @@
     <HeaderPanel @on-close="handleClosePopup" /> -->
     <!-- <PromptList
       v-if="showPrompts"
-      :prompts="currentPrompts"
+      :prompts="currentPromptsList"
       :selected-index="selectedPrompt.index"
       @on-add-prompt="handleAddPrompt"
       @on-change="handleChangePrompt"
@@ -20,7 +20,7 @@
       v-model="inputCommand"
       :disabled="aiThinking"
       :loading="aiThinking"
-      :prompts="currentPrompts"
+      :prompts="currentPromptsList"
       :selected-text="store.selectedText"
       :show-collect="showResult && !aiThinking && !showPrompts"
       :show-menu="showPrompts"
@@ -44,7 +44,7 @@
     />
     <PromptMenu
       v-if="showPrompts"
-      :prompts="currentPrompts"
+      :prompts="currentPromptsList"
       :selected-index="selectedPrompt.index"
       :show-back="showMenu"
       :tab-index="chooseIndex"
@@ -114,8 +114,11 @@ const selectedPrompt = reactive({
     command: '',
   },
 })
-const currentPrompts = computed(() => {
+const currentPromptsList = computed(() => {
   return props.isAskPage ? store.config.AskedQuestionPrompts : store.config.TextSelectionPrompts
+})
+const currentPromptsIndexName = computed(() => {
+  return props.isAskPage ? 'latestAskedQuestionPromptIndex' : 'latestTextSelectionPromptIndex'
 })
 
 // keyboard
@@ -133,7 +136,7 @@ useMagicKeys({
     // control prompts list
     if (!showPrompts.value) return
     const index = chooseIndex.value
-    const {length} = currentPrompts
+    const {length} = currentPromptsList
     if (e.key === 'ArrowUp' && e.type === 'keyup') {
       e.preventDefault()
       chooseIndex.value = index - 1 < 0 ? length - 1 : index - 1
@@ -145,7 +148,7 @@ useMagicKeys({
     if (e.key === 'Enter' && e.type === 'keyup') {
       e.preventDefault()
       if (index === -1) popUpAskAi()
-      else handleChangePrompt({index, prompt: currentPrompts[index]})
+      else handleChangePrompt({index, prompt: currentPromptsList[index]})
     }
   },
 })
@@ -163,18 +166,18 @@ onMounted(async () => {
   // const lastPrompt = (await storage.get(lastKey)) || ''
   // const lastPrompt = props.isAskPage ? await storage.get(lastKey) : store.selectedText
   // inputCommand.value = lastPrompt
-  inputCommand.value = (await storage.get(lastKey)) || ''
-  if (!props.isAskPage) return
+  // if (!props.isAskPage) return
+  const lastCommand = await storage.get(lastKey)
+  // first visit
+  if (!lastCommand) return
+  inputCommand.value = lastCommand
 
   // init selected prompt
-  const index =
-    store.config[
-      props.isAskPage ? 'latestAskedQuestionPromptIndex' : 'latestTextSelectionPromptIndex'
-    ]
-  if (index >= 0 && currentPrompts[index]) {
+  const index = store.config[currentPromptsIndexName.value]
+  if (index >= 0 && currentPromptsList.value[index]) {
     selectedPrompt.index = index
     chooseIndex.value = index
-    selectedPrompt.prompt = currentPrompts[index]
+    selectedPrompt.prompt = currentPromptsList.value[index]
   }
 })
 
@@ -309,9 +312,7 @@ const popUpAskAi = async () => {
     if (selectedPrompt.index === -1) {
       storage.set(lastKey, inputCommand.value)
 
-      store.updateConfig({
-        [props.isAskPage ? 'latestAskedQuestionPromptIndex' : 'latestTextSelectionPromptIndex']: -1,
-      })
+      store.updateConfig({[currentPromptsIndexName.value]: -1})
     }
 
     showError.value = false
@@ -339,9 +340,7 @@ const handleChangePrompt = promptInfo => {
   selectedPrompt.prompt = prompt
   inputCommand.value = prompt.command
 
-  store.updateConfig({
-    [props.isAskPage ? 'latestAskedQuestionPromptIndex' : 'latestTextSelectionPromptIndex']: index,
-  })
+  store.updateConfig({[currentPromptsIndexName.value]: index})
 
   popUpAskAi()
 }
@@ -407,7 +406,7 @@ const handleDeletePrompt = () => {
 }
 
 const handleAddPrompt = command => {
-  selectedPrompt.index = currentPrompts.value ? currentPrompts.value.length : 0
+  selectedPrompt.index = currentPromptsList.value ? currentPromptsList.value.length : 0
   selectedPrompt.prompt = {title: '', command}
   handleShowMenu()
   handleShowEditor()
@@ -415,8 +414,8 @@ const handleAddPrompt = command => {
 
 const hidePromptDelete = computed(() => {
   return (
-    currentPrompts.value.length === 1 ||
-    (currentPrompts.value && selectedPrompt.index === currentPrompts.value.length)
+    currentPromptsList.value.length === 1 ||
+    (currentPromptsList.value && selectedPrompt.index === currentPromptsList.value.length)
   )
 })
 
