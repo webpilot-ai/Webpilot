@@ -6,16 +6,6 @@
       [$style['container--joint']]: showMenu || (!showResult && showPrompts),
     }"
   >
-    <!-- [$style.showPromptEditor]: showEditor,
-    <HeaderPanel @on-close="handleClosePopup" /> -->
-    <!-- <PromptList
-      v-if="showPrompts"
-      :prompts="currentPromptsList"
-      :selected-index="selectedPrompt.index"
-      @on-add-prompt="handleAddPrompt"
-      @on-change="handleChangePrompt"
-      @on-edit-prompt="handleEditPrompt"
-    /> -->
     <PromptInput
       v-model="inputCommand"
       :disabled="aiThinking || generating"
@@ -134,20 +124,24 @@ useMagicKeys({
 
     // control prompts list
     if (!showPrompts.value) return
-    const index = chooseIndex.value
-    const {length} = currentPromptsList
+    const oldIndex = chooseIndex.value
+    const {length} = currentPromptsList.value
     if (e.key === 'ArrowUp' && e.type === 'keyup') {
       e.preventDefault()
-      chooseIndex.value = index - 1 < 0 ? length - 1 : index - 1
+      const newIndex = oldIndex - 1 < 0 ? length - 1 : oldIndex - 1
+      chooseIndex.value = newIndex
+      inputCommand.value = currentPromptsList.value[newIndex].command
     }
     if (e.key === 'ArrowDown' && e.type === 'keyup') {
       e.preventDefault()
-      chooseIndex.value = index + 1 >= length ? 0 : index + 1
+      const newIndex = oldIndex + 1 >= length ? 0 : oldIndex + 1
+      chooseIndex.value = newIndex
+      inputCommand.value = currentPromptsList.value[newIndex].command
     }
     if (e.key === 'Enter' && e.type === 'keyup') {
       e.preventDefault()
-      if (index === -1) popUpAskAi()
-      else handleChangePrompt({index, prompt: currentPromptsList[index]})
+      if (oldIndex === -1) popUpAskAi()
+      else handleChangePrompt({index: oldIndex, prompt: currentPromptsList.value[oldIndex]})
     }
   },
 })
@@ -335,8 +329,8 @@ const handleShowMenu = () => {
 const handleChangePrompt = promptInfo => {
   const {index, prompt} = promptInfo
   selectedPrompt.index = index
-  chooseIndex.value = index
   selectedPrompt.prompt = prompt
+  chooseIndex.value = index
   inputCommand.value = prompt.command
 
   store.updateConfig({[currentPromptsIndexName.value]: index})
