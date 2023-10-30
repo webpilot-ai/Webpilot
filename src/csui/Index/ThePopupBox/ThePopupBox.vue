@@ -18,7 +18,7 @@
     /> -->
     <PromptInput
       v-model="inputCommand"
-      :disabled="aiThinking"
+      :disabled="aiThinking || generating"
       :loading="aiThinking"
       :prompts="currentPromptsList"
       :selected-text="store.selectedText"
@@ -32,7 +32,7 @@
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
-    <PromptResult v-model="result" :show-shadow="showMenu" />
+    <PromptResult v-model="result" :show-shadow="showMenu" @click-shortcut="openExtension" />
     <FloatControlButtons
       v-show="!showEditor"
       :result="result"
@@ -68,12 +68,11 @@
 import {computed, onMounted, reactive, ref, watch} from 'vue'
 import {Readability, isProbablyReaderable} from '@mozilla/readability'
 import {Storage} from '@plasmohq/storage'
-
+import {sendToBackground} from '@plasmohq/messaging'
 import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 
-import {LAST_PROMPT_STORAGE_KEY} from '@/config'
-
+import {LAST_PROMPT_STORAGE_KEY, OPTIONS_PAGE_TAB_NAME} from '@/config'
 // import HeaderPanel from '@/components/HeaderPanel.vue'
 import FloatControlButtons from '@/components/FloatControlButtons.vue'
 import PromptInput from '@/components/PromptInput.vue'
@@ -437,6 +436,11 @@ const handleClosePopup = () => {
 }
 const handlePopupTurnBack = () => {
   showMenu.value = false
+}
+
+const openExtension = () => {
+  storage.set('OPTIONS_PAGE_ACTIVATED_TAB', OPTIONS_PAGE_TAB_NAME.EXTENSION)
+  sendToBackground({name: 'openSetting'})
 }
 </script>
 

@@ -136,3 +136,9 @@ export const SERVER_TYPE = {
   [SERVER_NAME.OPENAI_PROXY]: 'OpenAI Proxy',
   [SERVER_NAME.AZURE_PROXY]: 'Azure Proxy',
 }
+
+export const OPTIONS_PAGE_TAB_NAME = {
+  ACCOUNT: 'ACCOUNT',
+  EXTENSION: 'EXTENSION',
+  ABOUT: 'ABOUT',
+}

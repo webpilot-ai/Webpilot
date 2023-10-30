@@ -7,21 +7,21 @@
       </div>
       <div :class="index['logo-only']"><IconLogo /></div>
       <NavItem
-        :activated="activatedTab === TabList.Account"
-        :name="TabList.Account"
+        :activated="activatedTab === OPTIONS_PAGE_TAB_NAME.ACCOUNT"
+        :name="OPTIONS_PAGE_TAB_NAME.ACCOUNT"
         @change="onChangeTab"
       />
       <NavItem
-        :activated="activatedTab === TabList.Extension"
-        :name="TabList.Extension"
+        :activated="activatedTab === OPTIONS_PAGE_TAB_NAME.EXTENSION"
+        :name="OPTIONS_PAGE_TAB_NAME.EXTENSION"
         @change="onChangeTab"
       >
         <template #outline><IconNavExtensionOutline /> </template>
         <template #filled><IconNavExtensionFilled /> </template>
       </NavItem>
       <NavItem
-        :activated="activatedTab === TabList.About"
-        :name="TabList.About"
+        :activated="activatedTab === OPTIONS_PAGE_TAB_NAME.ABOUT"
+        :name="OPTIONS_PAGE_TAB_NAME.ABOUT"
         @change="onChangeTab"
       >
         <template #outline><IconNavAboutOutline /> </template>
@@ -35,10 +35,13 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, ref, onMounted} from 'vue'
 import {storeToRefs} from 'pinia'
+import {Storage} from '@plasmohq/storage'
 
 import useStore from '@/stores/store'
+
+import {OPTIONS_PAGE_TAB_NAME} from '@/config'
 
 import IconLogo from './images/icon-logo.vue'
 import IconLogoWithText from './images/icon-logo-with-text.vue'
@@ -47,7 +50,6 @@ import IconNavExtensionFilled from './images/icon-nav-extension-filled.vue'
 import IconNavExtensionOutline from './images/icon-nav-extension-outline.vue'
 import IconNavAboutOutline from './images/icon-nav-about-outline.vue'
 import IconNavAboutFilled from './images/icon-nav-about-filled.vue'
-
 import NavItem from './components/NavItem.vue'
 import AccountView from './views/AccountView.vue'
 import ExtensionView from './views/ExtensionView.vue'
@@ -56,6 +58,7 @@ import AboutView from './views/AboutView.vue'
 // Start setup states check
 const store = useStore()
 const {config} = storeToRefs(store)
+const storage = new Storage()
 
 if (!config.value.isFinishSetup) {
   const signURL = 'https://account.webpilot.ai/'
@@ -66,21 +69,20 @@ if (!config.value.isFinishSetup) {
 }
 // End Setup states check
 
-const TabList = {
-  Account: 'Account',
-  Extension: 'Extension',
-  About: 'About',
-}
-
-const activatedTab = ref(TabList.Account)
-
+const activatedTab = ref(OPTIONS_PAGE_TAB_NAME.ACCOUNT)
+onMounted(async () => {
+  const tabName = await storage.get('OPTIONS_PAGE_ACTIVATED_TAB')
+  if (tabName && Object.keys(OPTIONS_PAGE_TAB_NAME).includes(tabName)) {
+    activatedTab.value = tabName
+    storage.set('OPTIONS_PAGE_ACTIVATED_TAB', null)
+  }
+})
 const onChangeTab = tabName => {
   activatedTab.value = tabName
 }
-
 const currentComponent = computed(() => {
-  if (activatedTab.value === TabList.About) return AboutView
-  if (activatedTab.value === TabList.Extension) return ExtensionView
+  if (activatedTab.value === OPTIONS_PAGE_TAB_NAME.ABOUT) return AboutView
+  if (activatedTab.value === OPTIONS_PAGE_TAB_NAME.EXTENSION) return ExtensionView
   return AccountView
 })
 </script>

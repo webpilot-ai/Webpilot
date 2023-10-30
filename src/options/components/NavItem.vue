@@ -2,15 +2,15 @@
   <div :class="[$style['nav-item'], activated ? $style['active-nav'] : null]" @click="onChange">
     <span :class="$style['icon-outline']">
       <slot name="outline">
-        <IconPersonOutline v-if="name === TabList.Account" />
-        <IconAddonOutline v-else-if="name === TabList.Extension" />
+        <IconPersonOutline v-if="name === OPTIONS_PAGE_TAB_NAME.ACCOUNT" />
+        <IconAddonOutline v-else-if="name === OPTIONS_PAGE_TAB_NAME.EXTENSION" />
         <IconAboutOutline v-else />
       </slot>
     </span>
     <span :class="$style['icon-filled']">
       <slot name="filled">
-        <IconPersonFilled v-if="name === TabList.Account" />
-        <IconAddonFilled v-else-if="name === TabList.Extension" />
+        <IconPersonFilled v-if="name === OPTIONS_PAGE_TAB_NAME.ACCOUNT" />
+        <IconAddonFilled v-else-if="name === OPTIONS_PAGE_TAB_NAME.EXTENSION" />
         <IconAboutFilled v-else />
       </slot>
     </span>
@@ -19,18 +19,14 @@
 </template>
 
 <script setup lang="ts">
+import {OPTIONS_PAGE_TAB_NAME} from '@/config'
+
 import IconPersonOutline from '../images/icon-person-outline.vue'
 import IconPersonFilled from '../images/icon-person-filled.vue'
 import IconAddonOutline from '../images/icon-addon-outline.vue'
 import IconAddonFilled from '../images/icon-addon-filled.vue'
 import IconAboutOutline from '../images/icon-about-outline.vue'
 import IconAboutFilled from '../images/icon-about-filled.vue'
-
-const TabList = {
-  Account: 'Account',
-  Extension: 'Extension',
-  About: 'About',
-}
 
 const emits = defineEmits(['change'])
 

@@ -40,7 +40,7 @@
 
 <script setup>
 import {ref, watch, computed} from 'vue'
-import {sendToBackground} from '@plasmohq/messaging'
+// import {sendToBackground} from '@plasmohq/messaging'
 // import copyToClipboard from 'copy-to-clipboard'
 // import {useToast} from 'vue-toast-notification'
 import Markdown from 'vue3-markdown-it'
@@ -62,6 +62,7 @@ const isAutoScroll = ref(true)
 
 // const toast = useToast()
 
+const emits = defineEmits(['clickShortcut'])
 const props = defineProps({
   modelValue: {
     type: String,
@@ -179,7 +180,8 @@ const onDragEnd = () => {
 }
 
 const openSettingPage = () => {
-  sendToBackground({name: 'openSetting'})
+  // sendToBackground({name: 'openSetting'})
+  emits('clickShortcut')
 }
 const openHomePage = () => {
   window.open('https://webpilot.ai/', '_blank')
