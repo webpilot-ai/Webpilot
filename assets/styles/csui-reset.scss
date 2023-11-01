@@ -36,7 +36,7 @@
     box-shadow: none !important;
   }
 
-  @import './solarized_light.scss';
+  // @import './solarized_light.scss';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,6 +51,6 @@
       background: #002b36;
       color: #839496;}
       
-      @import './solarized_dark.scss';
+      // @import './solarized_dark.scss';
   }
 }
