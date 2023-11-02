@@ -94,9 +94,9 @@ const handleCopy = () => {
   list-style: none;
 
   .btn {
-    box-sizing: content-box;
-    width: 24px;
-    height: 24px;
+    // box-sizing: content-box;
+    width: 36;
+    height: 36;
     padding: 6px;
     background-color: var(--webpilot-theme-main-background-color, #fff);
     background-origin: content-box;

@@ -1,5 +1,6 @@
 /* stylelint-disable */
 #webpilot-template {
+  @import './reset.scss';
   @import './solarized_light.scss';
 }
 #webpilot-content {

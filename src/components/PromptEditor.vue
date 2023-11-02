@@ -176,7 +176,9 @@ watchEffect(() => {
   width: 100%;
   height: 20px;
   max-height: 196px;
-  padding: 0 42px 0 0;
+
+  // padding: 0 42px 0 0;
+  padding: 0;
   overflow-y: auto;
   font-size: 14px !important;
   line-height: 20px !important;
@@ -219,15 +221,17 @@ watchEffect(() => {
   height: 20px;
   margin-right: auto;
   padding: 0 5px;
+  font-size: 12px;
   border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
   border-radius: 5px;
 }
 
 .form-name__txt {
   width: 70px;
+  height: 18px;
   padding: 0;
   font-weight: 600;
-  font-size: 12px;
+  line-height: 18px;
   border: 0;
   outline: none;
 }
