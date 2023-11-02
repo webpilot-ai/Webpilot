@@ -227,7 +227,8 @@ const onNameInputBlur = () => {
   color: var(--webpilot-theme-main-text-color, #292929);
   font-weight: 600 !important;
   font-size: 12px !important;
-  line-height: 20px;
+
+  // line-height: 20px;
   background-color: var(--webpilot-theme-content-background-color, #fff);
   border: 0 !important;
   outline: none;

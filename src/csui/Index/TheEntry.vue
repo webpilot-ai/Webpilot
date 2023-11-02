@@ -30,8 +30,10 @@
 
 <script setup>
 import {computed, ref, watch} from 'vue'
-import '@assets/styles/csui-reset.scss'
-import '@assets/styles/csui-theme.scss'
+// import '@assets/styles/csui-reset.scss'
+// import '@assets/styles/csui-theme.scss'
+import '@assets/styles/reset.scss'
+import '@assets/styles/themes.scss'
 
 import {onClickOutside, useMagicKeys} from '@vueuse/core'
 

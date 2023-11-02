@@ -107,8 +107,10 @@ const placeholderText = computed(() => {
   return `${$gettext('Ask a question about')} "${props.selectedText}"`
 })
 const showSavePrompt = computed(() => {
-  if (!props.showCollect) return false
-  return props.prompts.every(v => v.command !== props.modelValue)
+  // save prompt button is deprecated
+  return false
+  // if (!props.showCollect) return false
+  // return props.prompts.every(v => v.command !== props.modelValue)
 })
 
 const handleSend = () => {

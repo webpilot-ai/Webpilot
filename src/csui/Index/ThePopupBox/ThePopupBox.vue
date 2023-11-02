@@ -39,6 +39,7 @@
       :show-back="showMenu"
       :tab-index="chooseIndex"
       @on-change="handleChangePrompt"
+      @on-create-prompt="handleCreatePrompt"
       @on-edit-prompt="handleEditPrompt"
       @on-mouse-over="handleHoverPrompt"
     />
@@ -126,23 +127,27 @@ useMagicKeys({
     if (!showPrompts.value) return
     const oldIndex = chooseIndex.value
     const {length} = currentPromptsList.value
-    if (e.key === 'ArrowUp' && e.type === 'keyup') {
-      e.preventDefault()
-      const newIndex = oldIndex - 1 < 0 ? length - 1 : oldIndex - 1
+    // when the index equals the array length, it indicates that the create prompt button is selected
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault()
+    if (e.type !== 'keyup') return
+    console.log(`%c${e.key}`, 'color:dodgerblue', oldIndex)
+    if (e.key === 'ArrowUp') {
+      const newIndex = oldIndex - 1 < 0 ? length : oldIndex - 1
       chooseIndex.value = newIndex
-      inputCommand.value = currentPromptsList.value[newIndex].command
+      inputCommand.value = oldIndex - 1 < 0 ? '' : currentPromptsList.value[newIndex].command
     }
-    if (e.key === 'ArrowDown' && e.type === 'keyup') {
-      e.preventDefault()
-      const newIndex = oldIndex + 1 >= length ? 0 : oldIndex + 1
+    if (e.key === 'ArrowDown') {
+      const newIndex = oldIndex + 1 > length ? 0 : oldIndex + 1
       chooseIndex.value = newIndex
-      inputCommand.value = currentPromptsList.value[newIndex].command
+      inputCommand.value = oldIndex + 1 === length ? '' : currentPromptsList.value[newIndex].command
     }
-    if (e.key === 'Enter' && e.type === 'keyup') {
-      e.preventDefault()
+    if (e.key === 'Enter') {
       if (oldIndex === -1) popUpAskAi()
+      else if (oldIndex === length) handleCreatePrompt()
       else handleChangePrompt({index: oldIndex, prompt: currentPromptsList.value[oldIndex]})
+      e.preventDefault()
     }
+    console.log(`%c${length}`, 'color:deepskyblue', chooseIndex.value)
   },
 })
 
@@ -396,6 +401,10 @@ const handleDeletePrompt = () => {
   }
   inputCommand.value = ''
   handleCloseEditor()
+}
+
+const handleCreatePrompt = () => {
+  handleShowEditor()
 }
 
 const handleAddPrompt = command => {

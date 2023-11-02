@@ -8,6 +8,9 @@
   "Active_Webpilot": {
     "message": "启用 Webpilot"
   },
+  "Add_a_new_prompt": {
+    "message": "新建一个提示"
+  },
   "and_pin_Webpilot_to_your_nav_bar": {
     "message": "然后将 Webpilot 固定在导航栏"
   },

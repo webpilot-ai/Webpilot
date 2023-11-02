@@ -15,6 +15,13 @@ msgstr ""
 msgid "Active Webpilot"
 msgstr ""
 
+#: src/components/PromptMenu.vue:12
+#: src/components/PromptMenu.vue:13
+#: src/components/PromptMenu.vue:18
+#: src/components/PromptMenu.vue:22
+msgid "Add a new prompt"
+msgstr ""
+
 #: src/tabs/components/StepFour.vue:4
 #: src/tabs/components/StepFour.vue:5
 #: src/tabs/components/StepFour.vue:6
@@ -36,9 +43,9 @@ msgstr ""
 
 #: src/components/FloatControlButtons.vue:20
 #: src/components/FloatControlButtons.vue:21
-#: src/components/PromptMenu.vue:14
-#: src/components/PromptMenu.vue:15
+#: src/components/PromptMenu.vue:19
 #: src/components/PromptMenu.vue:20
+#: src/components/PromptMenu.vue:29
 msgid "Back"
 msgstr ""
 
@@ -52,9 +59,9 @@ msgstr ""
 msgid "Change Shortcut"
 msgstr ""
 
-#: src/components/PromptMenu.vue:17
-#: src/components/PromptMenu.vue:18
+#: src/components/PromptMenu.vue:22
 #: src/components/PromptMenu.vue:23
+#: src/components/PromptMenu.vue:32
 msgid "Choose"
 msgstr ""
 
@@ -70,15 +77,15 @@ msgstr ""
 
 #: src/components/FloatControlButtons.vue:10
 #: src/components/FloatControlButtons.vue:9
-#: src/components/PromptMenu.vue:14
-#: src/components/PromptMenu.vue:15
+#: src/components/PromptMenu.vue:19
 #: src/components/PromptMenu.vue:20
+#: src/components/PromptMenu.vue:29
 msgid "Close"
 msgstr ""
 
-#: src/components/PromptMenu.vue:19
-#: src/components/PromptMenu.vue:20
+#: src/components/PromptMenu.vue:24
 #: src/components/PromptMenu.vue:25
+#: src/components/PromptMenu.vue:34
 msgid "Confirm"
 msgstr ""
 
@@ -265,7 +272,7 @@ msgstr ""
 msgid "Webpilot Credit"
 msgstr ""
 
-#: src/tabs/components/StepThree.vue:32
+#: src/tabs/components/StepThree.vue:33
 msgid "Webpilot will answer based on the current page if no text is selected"
 msgstr ""
 
