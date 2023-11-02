@@ -56,9 +56,9 @@ async function insertStylesheet(parentElement) {
   if (!config.content_scripts && !config.content_scripts.length) return
   const tasks = []
   config.content_scripts.forEach(item => {
-    if (!item.matches[0] || item.matches[0] !== '<all_urls>') return
+    if (!item.matches?.includes('<all_urls>')) return
     item.css.forEach(name => {
-      if (!/^Index\.\w+\.css$/.test(name)) return
+      // if (!/^Index\.\w+\.css$/.test(name)) return
       tasks.push(fetch(chrome.runtime.getURL(name)).then(v => v.text()))
     })
   })

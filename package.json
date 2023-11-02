@@ -75,7 +75,7 @@
         ],
         "resources": [
           "manifest.json",
-          "Index.*.css"
+          "*.css"
         ]
       }
     ]
