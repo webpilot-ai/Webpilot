@@ -1,6 +1,7 @@
 /* stylelint-disable */
-#webpilot-container {
+#webpilot-template {
   @import './reset.scss';
+  @import './solarized_light.scss';
 }
 
 #webpilot-content {
@@ -33,24 +34,26 @@
     background: #fdf6e3;
     color: #657b83;
     border-radius: 6px;
-    box-shadow: none !important;
+    // box-shadow: none !important;
+    box-shadow: none;
   }
-
-  // @import './solarized_light.scss';
 }
 
 @media (prefers-color-scheme: dark) {
   #webpilot-content {
     p {
     color: #dcdcdc;
-  }
-  li {
-    color: #dcdcdc;
-  }
+    }
+    li {
+      color: #dcdcdc;
+    }
     code {
       background: #002b36;
-      color: #839496;}
-      
-      // @import './solarized_dark.scss';
+      color: #839496;
+    }
+  }
+
+  #webpilot-template {
+    @import './solarized_dark.scss';
   }
 }

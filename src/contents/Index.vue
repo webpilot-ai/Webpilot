@@ -21,6 +21,9 @@ export const config = {
 async function render({createRootContainer}) {
   const rootElement = await createRootContainer()
   const shadowElement = rootElement.attachShadow({mode: 'open'})
+  const templateElement = document.createElement('div')
+  templateElement.setAttribute('id', 'webpilot-template')
+  shadowElement.append(templateElement)
 
   const pinia = createPinia()
   const app = createApp(App)
@@ -31,7 +34,7 @@ async function render({createRootContainer}) {
   // init pinia data
   const store = useStore()
   await store.initConfig()
-  app.mount(shadowElement)
+  app.mount(templateElement)
 
   // inject styles
   insertStylesheet(shadowElement)

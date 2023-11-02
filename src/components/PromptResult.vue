@@ -45,7 +45,7 @@ import {ref, watch, computed} from 'vue'
 // import {useToast} from 'vue-toast-notification'
 import Markdown from 'vue3-markdown-it'
 // eslint-disable-next-line import/no-unresolved
-import 'highlight.js/styles/monokai.css'
+// import 'highlight.js/styles/monokai.css'
 
 // import WebpilotButton from './WebpilotButton.vue'
 // import IconCheckmark from './icon/IconCheckmark.vue'

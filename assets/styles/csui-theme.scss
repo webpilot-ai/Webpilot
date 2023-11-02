@@ -1,5 +1,5 @@
 /* Theme Color */
-
+/* stylelint-disable */
 :root {
   --webpilot-theme-main-text-color: #929497;
   --webpilot-theme-icon-default-and-secondary-text: #585b58;
@@ -13,6 +13,10 @@
   --webpilot-theme-stoke-and-hover-status: #dbdeff;
   --webpilot-theme-brightness-number: 1;
   --webpilot-theme-invert-number: 0;
+}
+#webpilot-template {
+  @import './reset.scss';
+  @import './solarized_light.scss';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,5 +33,8 @@
     --webpilot-theme-stoke-and-hover-status: #585c8a;
     --webpilot-theme-brightness-number: 3;
     --webpilot-theme-invert-number: 1;
+  }
+  #webpilot-template {
+    @import './solarized_dark.scss';
   }
 }
