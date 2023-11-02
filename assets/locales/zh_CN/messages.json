@@ -122,6 +122,9 @@
   "SEO": {
     "message": "SEO"
   },
+  "Set_a_prompt_here": {
+    "message": "提词写这里"
+  },
   "Set_up_API": {
     "message": "设置 API"
   },

@@ -3,9 +3,6 @@
     <li v-show="!showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="close" @click="popupClose" />
-        <!-- <div :class="$style.btn">
-          <InteractiveIcon :class="$style.ico" type="close" @click="popupClose" />
-        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Close') }}</span>
         </template>
@@ -14,9 +11,6 @@
     <li v-show="showBack" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="previous" @click="popupBack" />
-        <!-- <div :class="$style.btn">
-          <InteractiveIcon :class="$style.ico" type="previous" @click="popupBack" />
-        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Back') }}</span>
         </template>
@@ -25,9 +19,6 @@
     <li v-show="showSetting" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="setting" @click="openSettingPage" />
-        <!-- <div :class="$style.btn">
-          <InteractiveIcon :class="$style.ico" type="setting" @click="openSettingPage" />
-        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Settings') }}</span>
         </template>
@@ -36,9 +27,6 @@
     <li v-show="showCopy" :class="$style.box">
       <Popper hover offset-distance="14" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="copy" @click="handleCopy" />
-        <!-- <div :class="$style.btn">
-          <InteractiveIcon :class="$style.ico" type="setting" @click="openSettingPage" />
-        </div> -->
         <template #content>
           <span :class="$style.popover">{{ $gettext('Copy') }}</span>
         </template>
@@ -97,7 +85,7 @@ const handleCopy = () => {
   position: absolute;
   top: 8px;
   right: -44px;
-  margin: 0 !important;
+  margin: 0;
   padding: 0;
 }
 
@@ -106,11 +94,7 @@ const handleCopy = () => {
   list-style: none;
 
   .btn {
-    box-sizing: content-box !important;
-
-    // display: flex;
-    // width: 36px;
-    // height: 36px;
+    box-sizing: content-box;
     width: 24px;
     height: 24px;
     padding: 6px;
@@ -120,11 +104,6 @@ const handleCopy = () => {
     box-shadow: 0 2px 6px var(--webpilot-theme-main-background-shadow, rgb(0 0 0 / 20%));
   }
 }
-
-// .ico {
-//   flex: 1;
-//   filter: brightness(var(--webpilot-theme-brightness-number));
-// }
 
 .popover {
   padding: 4px 8px;

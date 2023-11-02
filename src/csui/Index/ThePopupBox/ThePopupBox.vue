@@ -402,6 +402,8 @@ const handleDeletePrompt = () => {
 }
 
 const handleCreatePrompt = () => {
+  selectedPrompt.index = currentPromptsList.value ? currentPromptsList.value.length : 0
+  selectedPrompt.prompt = {title: '', command: ''}
   handleShowEditor()
 }
 

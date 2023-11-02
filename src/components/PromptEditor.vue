@@ -7,7 +7,7 @@
         :class="$style.content__send"
         @click="handleSendCommand"
       /> -->
-      <InteractiveIcon :class="$style.content__send" type="send" @click="handleSendCommand" />
+      <!-- <InteractiveIcon :class="$style.content__send" type="send" @click="handleSendCommand" /> -->
       <textarea
         ref="textareaRef"
         v-model="command"
@@ -15,7 +15,7 @@
         :placeholder="prompt.command || $gettext('Set a prompt here')"
       />
       <article :class="$style.content__back">
-        <InteractiveIcon type="previous" @click="handleHideEditor" />
+        <InteractiveIcon type="close" @click="handleHideEditor" />
       </article>
     </section>
     <section :class="$style.container__footer">
@@ -31,7 +31,7 @@
         <input
           v-model="title"
           :class="$style['form-name__txt']"
-          :placeholder="prompt.title || $gettext('Add prompt name')"
+          :placeholder="prompt.title || $gettext('Add name')"
           type="text"
         />
         <!-- <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" /> -->
@@ -103,6 +103,7 @@ watch(command, () => {
 })
 
 const handleSave = () => {
+  if (!command.value && !command.value.length) return
   if (!title.value) title.value = 'Prompt'
   emits('onSave', {
     title: title.value,
@@ -121,9 +122,9 @@ const handleHideEditor = () => {
   emits('onHide')
 }
 
-const handleSendCommand = () => {
-  emits('onSend', command.value)
-}
+// const handleSendCommand = () => {
+//   emits('onSend', command.value)
+// }
 
 watchEffect(() => {
   title.value = props.prompt.title
@@ -219,7 +220,7 @@ watchEffect(() => {
   margin-right: auto;
   padding: 0 5px;
   border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .form-name__txt {
