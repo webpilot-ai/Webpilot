@@ -10,8 +10,8 @@
         :placeholder="placeholderText"
         type="text"
         @focus="handleFocus"
-        @keydown.enter="handleSend"
       />
+      <!-- @keydown.enter="handleSend" -->
       <InteractiveIcon
         v-if="showSavePrompt"
         :class="$style['container__collect']"

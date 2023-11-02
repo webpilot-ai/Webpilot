@@ -130,7 +130,6 @@ useMagicKeys({
     // when the index equals the array length, it indicates that the create prompt button is selected
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault()
     if (e.type !== 'keyup') return
-    console.log(`%c${e.key}`, 'color:dodgerblue', oldIndex)
     if (e.key === 'ArrowUp') {
       const newIndex = oldIndex - 1 < 0 ? length : oldIndex - 1
       chooseIndex.value = newIndex
@@ -147,7 +146,6 @@ useMagicKeys({
       else handleChangePrompt({index: oldIndex, prompt: currentPromptsList.value[oldIndex]})
       e.preventDefault()
     }
-    console.log(`%c${length}`, 'color:deepskyblue', chooseIndex.value)
   },
 })
 

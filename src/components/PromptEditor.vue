@@ -12,7 +12,7 @@
         ref="textareaRef"
         v-model="command"
         :class="$style.content__textarea"
-        :placeholder="prompt.command"
+        :placeholder="prompt.command || $gettext('Set a prompt here')"
       />
       <article :class="$style.content__back">
         <InteractiveIcon type="previous" @click="handleHideEditor" />
@@ -20,15 +20,21 @@
     </section>
     <section :class="$style.container__footer">
       <article :class="$style['form-name']">
-        <input
+        <!-- <input
           v-model="title"
           :class="[$style['form-name__txt'], {[$style['form-name__txt--focus']]: nameFocused}]"
-          :placeholder="prompt.title || 'Add Name'"
+          :placeholder="prompt.title || $gettext('Add name')"
           type="text"
           @blur="onNameInputBlur"
           @focus="onNameInputFocus"
+        /> -->
+        <input
+          v-model="title"
+          :class="$style['form-name__txt']"
+          :placeholder="prompt.title || $gettext('Add prompt name')"
+          type="text"
         />
-        <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" />
+        <!-- <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" /> -->
       </article>
       <InteractiveIcon
         v-show="!disableDelete"
@@ -76,7 +82,7 @@ const props = defineProps({
 
 const title = ref(props.prompt.title)
 const command = ref(props.prompt.command)
-const nameFocused = ref(false)
+// const nameFocused = ref(false)
 const textareaRef = ref(null)
 
 const autoResize = () => {
@@ -87,6 +93,7 @@ const autoResize = () => {
 }
 
 onMounted(async () => {
+  textareaRef.value.focus()
   await nextTick()
   autoResize()
 })
@@ -123,12 +130,12 @@ watchEffect(() => {
   command.value = props.prompt.command
 })
 
-const onNameInputFocus = () => {
-  nameFocused.value = true
-}
-const onNameInputBlur = () => {
-  nameFocused.value = false
-}
+// const onNameInputFocus = () => {
+//   nameFocused.value = true
+// }
+// const onNameInputBlur = () => {
+//   nameFocused.value = false
+// }
 </script>
 
 <style lang="scss" module>
@@ -170,12 +177,8 @@ const onNameInputBlur = () => {
   max-height: 196px;
   padding: 0 42px 0 0;
   overflow-y: auto;
-  color: var(--webpilot-theme-main-text-color, #292929);
   font-size: 14px !important;
   line-height: 20px !important;
-
-  // flex: 1;
-  background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none;
   outline: none;
   appearance: none;
@@ -186,8 +189,6 @@ const onNameInputBlur = () => {
   position: absolute;
   right: 12px;
   bottom: 6px;
-
-  // cursor: pointer;
 }
 
 .content__back {
@@ -223,20 +224,27 @@ const onNameInputBlur = () => {
 
 .form-name__txt {
   width: 70px;
-  padding: 0 !important;
-  color: var(--webpilot-theme-main-text-color, #292929);
-  font-weight: 600 !important;
-  font-size: 12px !important;
-
-  // line-height: 20px;
-  background-color: var(--webpilot-theme-content-background-color, #fff);
-  border: 0 !important;
+  padding: 0;
+  font-weight: 600;
+  font-size: 12px;
+  border: 0;
   outline: none;
 }
 
-.form-name__txt--focus {
-  color: #4f5aff;
+.content__textarea,
+.form-name__txt {
+  color: var(--webpilot-theme-main-text-color, #292929);
+  font-weight: 400;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+
+  &::placeholder {
+    color: #929497;
+  }
 }
+
+// .form-name__txt--focus {
+//   color: #4f5aff;
+// }
 
 .form-button:last-of-type {
   margin-left: 40px;
