@@ -6,19 +6,9 @@
       [$style['container--joint']]: showMenu || (!showResult && showPrompts),
     }"
   >
-    <!-- [$style.showPromptEditor]: showEditor,
-    <HeaderPanel @on-close="handleClosePopup" /> -->
-    <!-- <PromptList
-      v-if="showPrompts"
-      :prompts="currentPromptsList"
-      :selected-index="selectedPrompt.index"
-      @on-add-prompt="handleAddPrompt"
-      @on-change="handleChangePrompt"
-      @on-edit-prompt="handleEditPrompt"
-    /> -->
     <PromptInput
       v-model="inputCommand"
-      :disabled="aiThinking"
+      :disabled="aiThinking || generating"
       :loading="aiThinking"
       :prompts="currentPromptsList"
       :selected-text="store.selectedText"
@@ -32,7 +22,7 @@
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
-    <PromptResult v-model="result" :show-shadow="showMenu" />
+    <PromptResult v-model="result" :show-shadow="showMenu" @click-shortcut="openExtension" />
     <FloatControlButtons
       v-show="!showEditor"
       :result="result"
@@ -49,6 +39,7 @@
       :show-back="showMenu"
       :tab-index="chooseIndex"
       @on-change="handleChangePrompt"
+      @on-create-prompt="handleCreatePrompt"
       @on-edit-prompt="handleEditPrompt"
       @on-mouse-over="handleHoverPrompt"
     />
@@ -68,12 +59,11 @@
 import {computed, onMounted, reactive, ref, watch} from 'vue'
 import {Readability, isProbablyReaderable} from '@mozilla/readability'
 import {Storage} from '@plasmohq/storage'
-
+import {sendToBackground} from '@plasmohq/messaging'
 import {useMagicKeys} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 
-import {LAST_PROMPT_STORAGE_KEY} from '@/config'
-
+import {LAST_PROMPT_STORAGE_KEY, OPTIONS_PAGE_TAB_NAME} from '@/config'
 // import HeaderPanel from '@/components/HeaderPanel.vue'
 import FloatControlButtons from '@/components/FloatControlButtons.vue'
 import PromptInput from '@/components/PromptInput.vue'
@@ -135,20 +125,26 @@ useMagicKeys({
 
     // control prompts list
     if (!showPrompts.value) return
-    const index = chooseIndex.value
-    const {length} = currentPromptsList
-    if (e.key === 'ArrowUp' && e.type === 'keyup') {
-      e.preventDefault()
-      chooseIndex.value = index - 1 < 0 ? length - 1 : index - 1
+    const oldIndex = chooseIndex.value
+    const {length} = currentPromptsList.value
+    // when the index equals the array length, it indicates that the create prompt button is selected
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault()
+    if (e.type !== 'keyup') return
+    if (e.key === 'ArrowUp') {
+      const newIndex = oldIndex - 1 < 0 ? length : oldIndex - 1
+      chooseIndex.value = newIndex
+      inputCommand.value = oldIndex - 1 < 0 ? '' : currentPromptsList.value[newIndex].command
     }
-    if (e.key === 'ArrowDown' && e.type === 'keyup') {
-      e.preventDefault()
-      chooseIndex.value = index + 1 >= length ? 0 : index + 1
+    if (e.key === 'ArrowDown') {
+      const newIndex = oldIndex + 1 > length ? 0 : oldIndex + 1
+      chooseIndex.value = newIndex
+      inputCommand.value = oldIndex + 1 === length ? '' : currentPromptsList.value[newIndex].command
     }
-    if (e.key === 'Enter' && e.type === 'keyup') {
+    if (e.key === 'Enter') {
+      if (oldIndex === -1) popUpAskAi()
+      else if (oldIndex === length) handleCreatePrompt()
+      else handleChangePrompt({index: oldIndex, prompt: currentPromptsList.value[oldIndex]})
       e.preventDefault()
-      if (index === -1) popUpAskAi()
-      else handleChangePrompt({index, prompt: currentPromptsList[index]})
     }
   },
 })
@@ -336,8 +332,8 @@ const handleShowMenu = () => {
 const handleChangePrompt = promptInfo => {
   const {index, prompt} = promptInfo
   selectedPrompt.index = index
-  chooseIndex.value = index
   selectedPrompt.prompt = prompt
+  chooseIndex.value = index
   inputCommand.value = prompt.command
 
   store.updateConfig({[currentPromptsIndexName.value]: index})
@@ -405,6 +401,12 @@ const handleDeletePrompt = () => {
   handleCloseEditor()
 }
 
+const handleCreatePrompt = () => {
+  selectedPrompt.index = currentPromptsList.value ? currentPromptsList.value.length : 0
+  selectedPrompt.prompt = {title: '', command: ''}
+  handleShowEditor()
+}
+
 const handleAddPrompt = command => {
   selectedPrompt.index = currentPromptsList.value ? currentPromptsList.value.length : 0
   selectedPrompt.prompt = {title: '', command}
@@ -437,6 +439,11 @@ const handleClosePopup = () => {
 }
 const handlePopupTurnBack = () => {
   showMenu.value = false
+}
+
+const openExtension = () => {
+  storage.set('OPTIONS_PAGE_ACTIVATED_TAB', OPTIONS_PAGE_TAB_NAME.EXTENSION)
+  sendToBackground({name: 'openSetting'})
 }
 </script>
 

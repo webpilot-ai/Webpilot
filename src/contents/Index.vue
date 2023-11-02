@@ -19,7 +19,11 @@ export const config = {
 }
 
 async function render({createRootContainer}) {
-  const rootContainer = await createRootContainer()
+  const rootElement = await createRootContainer()
+  const shadowElement = rootElement.attachShadow({mode: 'open'})
+  const templateElement = document.createElement('div')
+  templateElement.setAttribute('id', 'webpilot-template')
+  shadowElement.append(templateElement)
 
   const pinia = createPinia()
   const app = createApp(App)
@@ -30,8 +34,10 @@ async function render({createRootContainer}) {
   // init pinia data
   const store = useStore()
   await store.initConfig()
+  app.mount(templateElement)
 
-  app.mount(rootContainer)
+  // inject styles
+  insertStylesheet(shadowElement)
 }
 
 async function getRootContainer() {
@@ -43,5 +49,24 @@ async function getRootContainer() {
   $rootContainer.setAttribute('id', 'webpilot-container')
   $html.append($rootContainer)
   return $rootContainer
+}
+
+async function insertStylesheet(parentElement) {
+  const config = await (await fetch(chrome.runtime.getURL('manifest.json'))).json()
+  if (!config.content_scripts && !config.content_scripts.length) return
+  const tasks = []
+  config.content_scripts.forEach(item => {
+    if (!item.matches?.includes('<all_urls>')) return
+    item.css.forEach(name => {
+      // if (!/^Index\.\w+\.css$/.test(name)) return
+      tasks.push(fetch(chrome.runtime.getURL(name)).then(v => v.text()))
+    })
+  })
+  const files = await Promise.all(tasks)
+  files.forEach(themes => {
+    const childElement = document.createElement('style')
+    childElement.textContent = themes
+    parentElement.insertBefore(childElement, parentElement.firstChild)
+  })
 }
 </script>

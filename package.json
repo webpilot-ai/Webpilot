@@ -1,6 +1,6 @@
 {
   "name": "webpilot",
-  "version": "0.9.1025",
+  "version": "0.9.1102",
   "author": "webpilot.ai",
   "displayName": "Webpilot - Copilot for All, Free & Open",
   "description": "__MSG_extensionDescription__",
@@ -73,7 +73,10 @@
         "matches": [
           "<all_urls>"
         ],
-        "resources": []
+        "resources": [
+          "manifest.json",
+          "*.css"
+        ]
       }
     ]
   }

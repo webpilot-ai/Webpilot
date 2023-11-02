@@ -4,7 +4,7 @@
     :class="$style['webpilot-input']"
     :placeholder="placeholder"
     type="text"
-    @change="onChange"
+    @input="onChange"
   />
 </template>
 

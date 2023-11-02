@@ -13,6 +13,15 @@
           <InteractiveIcon type="pencil" />
         </div>
       </li>
+      <li
+        :key="prompts.length"
+        :class="[$style.item, {[$style['item--activate']]: tabIndex === prompts.length}]"
+        @mouseover="() => handleHoverPrompt(prompts.length)"
+      >
+        <h2 :class="$style.increase" @click="handleCreatePrompt">
+          + {{ $gettext('Add a new prompt') }}
+        </h2>
+      </li>
     </ol>
     <article :class="$style.footer">
       <span :class="$style.keys">Esc</span>
@@ -36,7 +45,13 @@ import {$gettext} from '@/utils/i18n'
 
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 
-const emits = defineEmits(['onChange', 'onEditPrompt', 'onAddPrompt', 'onMouseOver'])
+const emits = defineEmits([
+  'onChange',
+  'onEditPrompt',
+  'onAddPrompt',
+  'onMouseOver',
+  'onCreatePrompt',
+])
 const props = defineProps({
   prompts: {
     type: Array,
@@ -66,6 +81,10 @@ const handleSelectPrompt = index => {
 
 const handleHoverPrompt = index => {
   emits('onMouseOver', {index})
+}
+
+const handleCreatePrompt = () => {
+  emits('onCreatePrompt')
 }
 
 const handleEditPrompt = index => {
@@ -140,6 +159,15 @@ const handleEditPrompt = index => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .increase {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0;
+    color: var(--webpilot-theme-main-text-color, #292929);
+    font-size: 14px;
+    line-height: 22px;
   }
 }
 

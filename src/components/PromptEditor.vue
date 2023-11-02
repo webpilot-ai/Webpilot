@@ -7,28 +7,34 @@
         :class="$style.content__send"
         @click="handleSendCommand"
       /> -->
-      <InteractiveIcon :class="$style.content__send" type="send" @click="handleSendCommand" />
+      <!-- <InteractiveIcon :class="$style.content__send" type="send" @click="handleSendCommand" /> -->
       <textarea
         ref="textareaRef"
         v-model="command"
         :class="$style.content__textarea"
-        :placeholder="prompt.command"
+        :placeholder="prompt.command || $gettext('Set a prompt here')"
       />
       <article :class="$style.content__back">
-        <InteractiveIcon type="previous" @click="handleHideEditor" />
+        <InteractiveIcon type="close" @click="handleHideEditor" />
       </article>
     </section>
     <section :class="$style.container__footer">
       <article :class="$style['form-name']">
-        <input
+        <!-- <input
           v-model="title"
           :class="[$style['form-name__txt'], {[$style['form-name__txt--focus']]: nameFocused}]"
-          :placeholder="prompt.title || 'Add Name'"
+          :placeholder="prompt.title || $gettext('Add name')"
           type="text"
           @blur="onNameInputBlur"
           @focus="onNameInputFocus"
+        /> -->
+        <input
+          v-model="title"
+          :class="$style['form-name__txt']"
+          :placeholder="prompt.title || $gettext('Add name')"
+          type="text"
         />
-        <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" />
+        <!-- <InteractiveIcon :hover-state="title === '' ? 1 : 2" :size="18" type="pencil" /> -->
       </article>
       <InteractiveIcon
         v-show="!disableDelete"
@@ -76,7 +82,7 @@ const props = defineProps({
 
 const title = ref(props.prompt.title)
 const command = ref(props.prompt.command)
-const nameFocused = ref(false)
+// const nameFocused = ref(false)
 const textareaRef = ref(null)
 
 const autoResize = () => {
@@ -87,6 +93,7 @@ const autoResize = () => {
 }
 
 onMounted(async () => {
+  textareaRef.value.focus()
   await nextTick()
   autoResize()
 })
@@ -96,6 +103,7 @@ watch(command, () => {
 })
 
 const handleSave = () => {
+  if (!command.value && !command.value.length) return
   if (!title.value) title.value = 'Prompt'
   emits('onSave', {
     title: title.value,
@@ -114,21 +122,21 @@ const handleHideEditor = () => {
   emits('onHide')
 }
 
-const handleSendCommand = () => {
-  emits('onSend', command.value)
-}
+// const handleSendCommand = () => {
+//   emits('onSend', command.value)
+// }
 
 watchEffect(() => {
   title.value = props.prompt.title
   command.value = props.prompt.command
 })
 
-const onNameInputFocus = () => {
-  nameFocused.value = true
-}
-const onNameInputBlur = () => {
-  nameFocused.value = false
-}
+// const onNameInputFocus = () => {
+//   nameFocused.value = true
+// }
+// const onNameInputBlur = () => {
+//   nameFocused.value = false
+// }
 </script>
 
 <style lang="scss" module>
@@ -168,14 +176,12 @@ const onNameInputBlur = () => {
   width: 100%;
   height: 20px;
   max-height: 196px;
-  padding: 0 42px 0 0;
+
+  // padding: 0 42px 0 0;
+  padding: 0;
   overflow-y: auto;
-  color: var(--webpilot-theme-main-text-color, #292929);
   font-size: 14px !important;
   line-height: 20px !important;
-
-  // flex: 1;
-  background-color: var(--webpilot-theme-content-background-color, #fff);
   border: none;
   outline: none;
   appearance: none;
@@ -186,8 +192,6 @@ const onNameInputBlur = () => {
   position: absolute;
   right: 12px;
   bottom: 6px;
-
-  // cursor: pointer;
 }
 
 .content__back {
@@ -217,25 +221,35 @@ const onNameInputBlur = () => {
   height: 20px;
   margin-right: auto;
   padding: 0 5px;
+  font-size: 12px;
   border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .form-name__txt {
   width: 70px;
-  padding: 0 !important;
-  color: var(--webpilot-theme-main-text-color, #292929);
-  font-weight: 600 !important;
-  font-size: 12px !important;
-  line-height: 20px;
-  background-color: var(--webpilot-theme-content-background-color, #fff);
-  border: 0 !important;
+  height: 18px;
+  padding: 0;
+  font-weight: 600;
+  line-height: 18px;
+  border: 0;
   outline: none;
 }
 
-.form-name__txt--focus {
-  color: #4f5aff;
+.content__textarea,
+.form-name__txt {
+  color: var(--webpilot-theme-main-text-color, #292929);
+  font-weight: 400;
+  background-color: var(--webpilot-theme-content-background-color, #fff);
+
+  &::placeholder {
+    color: #929497;
+  }
 }
+
+// .form-name__txt--focus {
+//   color: #4f5aff;
+// }
 
 .form-button:last-of-type {
   margin-left: 40px;

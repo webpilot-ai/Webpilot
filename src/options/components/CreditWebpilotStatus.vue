@@ -17,7 +17,7 @@
           </template>
         </Popper>
         <span v-show="usage.current >= 0" :class="$style['credit-text']"
-          >{{ usage.current }}/{{ usage.total }} available</span
+          >{{ usage.total - usage.current }}/{{ usage.total }} available</span
         >
       </div>
     </div>
