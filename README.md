@@ -10,15 +10,12 @@
 
 Webpilot is a free, open-source "Copilot for web" that allows you to have free-form conversations with web pages or engage in automatic arguments with other users. Unlike ChatGPT, there is no need to chat or switch web pages, and no need to constantly copy and paste back and forth. 
 
-The current version of Webpilot is developed based on gpt-3.5-turbo, which binds some common prompts with shortcut commands, requests API, and displays results to manipulate the selected text on the webpage.
-
 Chrome Extension: [Add to Chrome](https://chrome.google.com/webstore/detail/Webpilot/biaggnjibplcfekllonekbonhfgchopo?utm_source=link&amp;utm_medium=git&amp)
 
 Official Website: [HomePage](https://www.Webpilot.ai/)
 
 Dev Team: dev@webpilot.ai
 
-Note: Webpilot is currently in Pre-Release version and will be officially released within the next month. It will continue to iterate (and remain open source and free).
 
 ## Getting Started
 
