@@ -5,6 +5,7 @@ export default function useDraggable(element) {
   const lastOffset = {x: 0, y: 0}
   const offsetX = ref(0)
   const offsetY = ref(0)
+  const isDragging = ref(false)
 
   const handleMousemove = e => {
     const {clientX: x, clientY: y} = e
@@ -20,10 +21,12 @@ export default function useDraggable(element) {
     originPosition.y = e.clientY
 
     document.addEventListener('mousemove', handleMousemove)
+    isDragging.value = true
     document.addEventListener('mouseup', () => {
       lastOffset.x = offsetX.value
       lastOffset.y = offsetY.value
       document.removeEventListener('mousemove', handleMousemove)
+      isDragging.value = false
     })
   }
 
@@ -37,6 +40,7 @@ export default function useDraggable(element) {
 
   onUnmounted(() => {
     element.value.removeEventListener('mousedown', startListenMove)
+    isDragging.value = false
   })
 
   const resetDrag = () => {
@@ -48,5 +52,5 @@ export default function useDraggable(element) {
     offsetY.value = 0
   }
 
-  return {offsetX, offsetY, resetDrag}
+  return {offsetX, offsetY, resetDrag, isDragging}
 }

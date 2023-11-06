@@ -136,9 +136,9 @@ const handleEditPrompt = index => {
     height: 20px;
     margin: 0 6px;
     padding: 0 6px;
-    color: var(--webpilot-theme-main-text-color, #292929);
+    color: var(--webpilot-theme-main-text-color, #292929) !important;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 12px !important;
     line-height: 20px;
     border: 1px solid var(--webpilot-theme-stoke-and-hover-status, #dcdee1);
     border-radius: 10px;
@@ -148,8 +148,8 @@ const handleEditPrompt = index => {
     flex: 1;
     margin: 0;
     padding: 8px 0;
-    color: var(--webpilot-theme-main-text-color, #292929);
-    font-size: 14px;
+    color: var(--webpilot-theme-main-text-color, #292929) !important;
+    font-size: 14px !important;
     line-height: 22px;
     text-align: left;
   }

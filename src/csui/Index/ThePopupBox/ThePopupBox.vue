@@ -350,7 +350,7 @@ const handleCommandChange = () => {
 }
 
 const handleInputFocus = () => {
-  if (showPrompts.value && !showResult.value) inputCommand.value = ''
+  // if (showPrompts.value && !showResult.value) inputCommand.value = ''
   if (!showPrompts.value && showResult.value) handleShowMenu()
 }
 
