@@ -24,7 +24,7 @@
     }"
   >
     <ThePopupBox id="webpilot_popup" :is-ask-page="isAskPage" @close-popup="handleClosePopup" />
-    <section ref="refDragHandle" :class="$style.dragHandle"></section>
+    <section ref="refDragHandle" :class="$style.draggingBody" />
   </section>
 </template>
 
@@ -277,13 +277,26 @@ const shortcutText = computed(() => {
   background-color: #fff;
 }
 
-.dragHandle {
+.draggingBody {
   position: absolute;
-  top: 0;
+  top: -14px;
   left: 0;
   width: 612px;
-  height: 8px;
-  cursor: move;
+  height: 22px;
+  background: var(--webpilot-theme-content-background-color, #fff) center / 14px no-repeat;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   user-select: none;
+
+  &:hover {
+    background-image: url('data-base64:~src/components/image/IconDraggingLight.svg');
+    cursor: pointer;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .draggingBody:hover {
+    background-image: url('data-base64:~src/components/image/IconDraggingDark.svg');
+  }
 }
 </style>
