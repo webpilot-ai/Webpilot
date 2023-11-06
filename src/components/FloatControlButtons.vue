@@ -1,7 +1,7 @@
 <template>
   <ul :class="$style.control">
     <li v-show="!showBack" :class="$style.box">
-      <Popper hover offset-distance="14" offset-skid="-4" placement="right">
+      <Popper hover offset-distance="2" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="close" @click="popupClose" />
         <template #content>
           <span :class="$style.popover">{{ $gettext('Close') }}</span>
@@ -9,7 +9,7 @@
       </Popper>
     </li>
     <li v-show="showBack" :class="$style.box">
-      <Popper hover offset-distance="14" offset-skid="-4" placement="right">
+      <Popper hover offset-distance="2" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="previous" @click="popupBack" />
         <template #content>
           <span :class="$style.popover">{{ $gettext('Back') }}</span>
@@ -17,7 +17,7 @@
       </Popper>
     </li>
     <li v-show="showSetting" :class="$style.box">
-      <Popper hover offset-distance="14" offset-skid="-4" placement="right">
+      <Popper hover offset-distance="2" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="setting" @click="openSettingPage" />
         <template #content>
           <span :class="$style.popover">{{ $gettext('Settings') }}</span>
@@ -25,7 +25,7 @@
       </Popper>
     </li>
     <li v-show="showCopy" :class="$style.box">
-      <Popper hover offset-distance="14" offset-skid="-4" placement="right">
+      <Popper hover offset-distance="2" offset-skid="-4" placement="right">
         <InteractiveIcon :class="$style.btn" type="copy" @click="handleCopy" />
         <template #content>
           <span :class="$style.popover">{{ $gettext('Copy') }}</span>

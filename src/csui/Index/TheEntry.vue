@@ -24,7 +24,10 @@
     }"
   >
     <ThePopupBox id="webpilot_popup" :is-ask-page="isAskPage" @close-popup="handleClosePopup" />
-    <section ref="refDragHandle" :class="$style.draggingBody" />
+    <section
+      ref="refDragHandle"
+      :class="[$style.draggingBody, {[$style.draggingHand]: isDragging}]"
+    />
   </section>
 </template>
 
@@ -110,7 +113,12 @@ const updateTextAndPosition = textAndPosition => {
 useSelectedText(updateTextAndPosition)
 
 const {offsetY: tailScrollYOffset, resetScroll} = useScroll(refTail, targetElementRef)
-const {offsetX: dragOffsetX, offsetY: dragOffsetY, resetDrag} = useDraggable(refDragHandle)
+const {
+  offsetX: dragOffsetX,
+  offsetY: dragOffsetY,
+  resetDrag,
+  isDragging,
+} = useDraggable(refDragHandle)
 
 // keyboard
 const keys = useMagicKeys()
@@ -279,18 +287,24 @@ const shortcutText = computed(() => {
 
 .draggingBody {
   position: absolute;
-  top: -14px;
+  top: -10px;
   left: 0;
   width: 612px;
-  height: 22px;
+  height: 18px;
   background: var(--webpilot-theme-content-background-color, #fff) center / 14px no-repeat;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  cursor: grab;
   user-select: none;
+
+  /* stylelint-disable */
+  &.draggingHand {
+    cursor: grabbing;
+  }
+  /* stylelint-enable */
 
   &:hover {
     background-image: url('data-base64:~src/components/image/IconDraggingLight.svg');
-    cursor: pointer;
   }
 }
 
