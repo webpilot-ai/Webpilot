@@ -97,6 +97,7 @@ const showMenu = ref(false)
 const showLogo = ref(true)
 const inputCommand = ref('')
 const chooseIndex = ref(-1)
+const lastArrowKey = ref('')
 const selectedPrompt = reactive({
   index: -1,
   prompt: {
@@ -132,16 +133,18 @@ useMagicKeys({
     if (e.type !== 'keyup') return
     if (e.key === 'ArrowUp') {
       const newIndex = oldIndex - 1 < 0 ? length : oldIndex - 1
-      chooseIndex.value = newIndex
       inputCommand.value = oldIndex - 1 < 0 ? '' : currentPromptsList.value[newIndex].command
+      chooseIndex.value = newIndex
+      lastArrowKey.value = e.key
     }
     if (e.key === 'ArrowDown') {
       const newIndex = oldIndex + 1 > length ? 0 : oldIndex + 1
-      chooseIndex.value = newIndex
       inputCommand.value = oldIndex + 1 === length ? '' : currentPromptsList.value[newIndex].command
+      chooseIndex.value = newIndex
+      lastArrowKey.value = e.key
     }
     if (e.key === 'Enter') {
-      if (oldIndex === -1) popUpAskAi()
+      if (!lastArrowKey.value || oldIndex === -1) popUpAskAi()
       else if (oldIndex === length) handleCreatePrompt()
       else handleChangePrompt({index: oldIndex, prompt: currentPromptsList.value[oldIndex]})
       e.preventDefault()

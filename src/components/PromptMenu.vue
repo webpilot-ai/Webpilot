@@ -149,6 +149,7 @@ const handleEditPrompt = index => {
     margin: 0;
     padding: 8px 0;
     color: var(--webpilot-theme-main-text-color, #292929) !important;
+    font-weight: 400;
     font-size: 14px !important;
     line-height: 22px;
     text-align: left;
