@@ -178,13 +178,6 @@ const handleEditPrompt = index => {
   .name {
     color: var(--webpilot-theme-brand-primary, #4f5aff);
     background-color: var(--webpilot-theme-main-background-color, #fff);
-
-    // color: #4f5aff;
-    // border-color: #4f5aff;
-  }
-
-  .describe {
-    font-weight: 600;
   }
 }
 

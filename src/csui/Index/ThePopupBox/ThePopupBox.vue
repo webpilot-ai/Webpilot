@@ -350,6 +350,7 @@ const handleHoverPrompt = ({index}) => {
 const handleCommandChange = () => {
   selectedPrompt.index = -1
   chooseIndex.value = -1
+  lastArrowKey.value = ''
 }
 
 const handleInputFocus = () => {
