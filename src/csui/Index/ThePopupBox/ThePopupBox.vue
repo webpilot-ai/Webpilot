@@ -354,6 +354,7 @@ const handleCommandChange = () => {
 
 const handleInputFocus = () => {
   // if (showPrompts.value && !showResult.value) inputCommand.value = ''
+  lastArrowKey.value = ''
   if (!showPrompts.value && showResult.value) handleShowMenu()
 }
 

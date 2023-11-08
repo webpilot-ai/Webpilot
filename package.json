@@ -1,6 +1,6 @@
 {
   "name": "webpilot",
-  "version": "0.9.1102",
+  "version": "0.9.1108",
   "author": "webpilot.ai",
   "displayName": "Webpilot - Copilot for All, Free & Open",
   "description": "__MSG_extensionDescription__",
@@ -34,7 +34,7 @@
     "jsonfile": "^6.1.0",
     "pangu": "^4.0.7",
     "pinia": "^2.0.36",
-    "plasmo": "0.76.3",
+    "plasmo": "0.83.0",
     "vue": "3.2.47",
     "vue-toast-notification": "^3.1.1",
     "vue3-markdown-it": "^1.0.10",
@@ -43,8 +43,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
-    "@parcel/optimizer-data-url": "2.9.1",
-    "@parcel/transformer-inline-string": "2.9.1",
+    "@parcel/optimizer-data-url": "2.9.3",
+    "@parcel/transformer-inline-string": "2.9.3",
     "@types/chrome": "0.0.231",
     "@types/node": "18.15.11",
     "eslint": "^8.38.0",
