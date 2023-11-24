@@ -14,11 +14,12 @@
       <!-- @keydown.enter="handleSend" -->
       <InteractiveIcon
         v-if="showSavePrompt"
-        :class="$style['container__collect']"
+        :class="$style.container__collect"
         type="keep"
         @click="handleAddNewPrompt"
       />
-      <IconLoading v-if="loading" :class="$style.pending" />
+      <IconScreenshot :class="$style.container__capture" @click="handleScreenshot" />
+      <IconLoading v-if="loading" :class="$style.container__pending" />
       <InteractiveIcon v-else type="send" @click="handleSend" />
       <!-- <SendButton
         :activate="modelValue !== ''"
@@ -32,17 +33,24 @@
 
 <script setup>
 import {ref, computed, onMounted} from 'vue'
-
 import WebpilotLogo from 'data-base64:~assets/icon.png'
+import ScreenShot from 'js-web-screen-shot'
 
 import {$gettext} from '@/utils/i18n'
-
 import IconLoading from '@/components/icon/IconLoading.vue'
+import IconScreenshot from '@/components/icon/IconScreenshot.vue'
 
 import InteractiveIcon from './InteractiveIcon/InteractiveIcon.vue'
 // import SendButton from './SendButton/SendButton.vue'
 
-const emits = defineEmits(['update:modelValue', 'onChange', 'onSubmit', 'onFocus', 'onAddPrompt'])
+const emits = defineEmits([
+  'update:modelValue',
+  'onChange',
+  'onSubmit',
+  'onFocus',
+  'onAddPrompt',
+  'onCapture',
+])
 
 const props = defineProps({
   modelValue: {
@@ -123,6 +131,14 @@ const handleFocus = () => {
 const handleAddNewPrompt = () => {
   emits('onAddPrompt', props.modelValue)
 }
+const handleScreenshot = () => {
+  return new ScreenShot({
+    enableWebRtc: true,
+    completeCallback: ({base64}) => {
+      emits('onCapture', base64)
+    },
+  })
+}
 </script>
 
 <style lang="scss" module>
@@ -197,11 +213,16 @@ const handleAddNewPrompt = () => {
   }
 }
 
-.container__collect {
+.container__collect,
+.container__capture {
   margin-right: 8px;
 }
 
-.pending {
+.container__capture {
+  cursor: pointer;
+}
+
+.container__pending {
   cursor: not-allowed;
   animation: rotation 1s infinite linear;
 }

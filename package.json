@@ -1,6 +1,6 @@
 {
   "name": "webpilot",
-  "version": "0.9.1108",
+  "version": "0.9.1115",
   "author": "webpilot.ai",
   "displayName": "Webpilot - Copilot for All, Free & Open",
   "description": "__MSG_extensionDescription__",
@@ -31,6 +31,7 @@
     "@vueuse/core": "^10.1.2",
     "copy-to-clipboard": "^3.3.3",
     "js-tiktoken": "^1.0.7",
+    "js-web-screen-shot": "1.9.9-rc.5",
     "jsonfile": "^6.1.0",
     "pangu": "^4.0.7",
     "pinia": "^2.0.36",

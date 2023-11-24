@@ -8,11 +8,31 @@ import {askOpenAI, parseStream} from '@/io'
 
 import {$gettext} from '@/utils/i18n'
 
-const getPrompt = (referenceText, command, isAskPage, previousCommand, previousAnswer) => {
+const getPrompt = (referenceText, command, isAskPage, previousCommand, previousAnswer, capture) => {
   const foundResult = !!previousAnswer && previousAnswer !== ''
-  // select mode
-  if (!isAskPage && foundResult) {
-    return [
+  let information
+  if (capture?.length > 0) {
+    // vision mode
+    information = [
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'text',
+            text: command,
+          },
+          {
+            type: 'image_url',
+            image_url: {
+              url: capture,
+            },
+          },
+        ],
+      },
+    ]
+  } else if (!isAskPage && foundResult) {
+    // select mode
+    information = [
       {
         role: 'assistant',
         content: `For your next input, I will do without any explanation: ${previousCommand}`,
@@ -30,10 +50,21 @@ const getPrompt = (referenceText, command, isAskPage, previousCommand, previousA
         content: command,
       },
     ]
-  }
-  // QA mode
-  if (isAskPage && foundResult) {
-    return [
+  } else if (!isAskPage) {
+    // first time select
+    information = [
+      {
+        role: 'assistant',
+        content: `For your next input, I will do without any explanation: ${command}`,
+      },
+      {
+        role: 'user',
+        content: referenceText.trim(),
+      },
+    ]
+  } else if (isAskPage && foundResult) {
+    // QA mode
+    information = [
       {
         role: 'function',
         name: 'current_webpage',
@@ -52,58 +83,21 @@ const getPrompt = (referenceText, command, isAskPage, previousCommand, previousA
         content: command,
       },
     ]
-  }
-  // first time select
-  if (!isAskPage) {
-    return [
+  } else {
+    // first time QA
+    information = [
       {
-        role: 'assistant',
-        content: `For your next input, I will do without any explanation: ${command}`,
+        role: 'function',
+        name: 'current_webpage',
+        content: referenceText,
       },
       {
         role: 'user',
-        content: referenceText.trim(),
+        content: command,
       },
     ]
   }
-  // first time QA
-  return [
-    {
-      role: 'function',
-      name: 'current_webpage',
-      content: referenceText,
-    },
-    {
-      role: 'user',
-      content: command,
-    },
-  ]
-  // if (isAskPage) {
-  //   return [
-  //     {
-  //       role: 'assistant',
-  //       content: referenceText,
-  //       // content: `This is a webpage contains content and metadata (that adheres to The Open Graph protocol guidelines).
-
-  //       // Content: ${referenceText.content}
-  //       // Meta: ${JSON.stringify(referenceText.meta)}`,
-  //     },
-  //     {
-  //       role: 'user',
-  //       content: command,
-  //     },
-  //   ]
-  // }
-  // return [
-  //   {
-  //     role: 'assistant',
-  //     content: `For your next input, I will do without any explanation: ${command}`,
-  //   },
-  //   {
-  //     role: 'user',
-  //     content: referenceText.trim(),
-  //   },
-  // ]
+  return information
 }
 
 export default function useAskAi() {
@@ -132,6 +126,7 @@ export default function useAskAi() {
   const askAi = async ({
     referenceText = '',
     command,
+    capture = '',
     authKey = '',
     url = null,
     isAskPage = true,
@@ -145,7 +140,14 @@ export default function useAskAi() {
     if (!referenceText && !command) return askOpenAI()
 
     const text = referenceText || store.selectedText
-    const message = getPrompt(text, command, isAskPage, previousCommand.value, previousAnswer)
+    const message = getPrompt(
+      text,
+      command,
+      isAskPage,
+      previousCommand.value,
+      previousAnswer,
+      capture
+    )
 
     const currentConfig = (await storage.get(WEBPILOT_CONFIG_STORAGE_KEY)) || store.config
 
@@ -155,7 +157,8 @@ export default function useAskAi() {
     const model = {
       ...toRaw(currentConfig.model),
     }
-    if (isAskPage) {
+    if (capture) model.model = 'gpt-4-vision-preview'
+    else if (isAskPage) {
       // 全局 popup，默认使用 16k 接口`
       model.model = 'gpt-3.5-turbo-16k'
     }

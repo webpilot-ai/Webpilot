@@ -16,6 +16,7 @@
       :show-menu="showPrompts"
       :show-prefix="showLogo"
       @on-add-prompt="handleAddPrompt"
+      @on-capture="showCapture"
       @on-change="handleCommandChange"
       @on-focus="handleInputFocus"
       @on-submit="popUpAskAi"
@@ -31,6 +32,11 @@
       :show-setting="showResult || showError"
       @on-back="handlePopupTurnBack"
       @on-close="handleClosePopup"
+    />
+    <PromptBoard
+      v-if="screenshotInfo.length > 0"
+      :picture="screenshotInfo"
+      @on-delete="removeCapture"
     />
     <PromptMenu
       v-if="showPrompts"
@@ -70,6 +76,7 @@ import PromptInput from '@/components/PromptInput.vue'
 // import ShortcutTips from '@/components/ShortcutTips.vue'
 // import PromptList from '@/components/PromptList.vue'
 import PromptMenu from '@/components/PromptMenu.vue'
+import PromptBoard from '@/components/PromptBoard.vue'
 import PromptEditor from '@/components/PromptEditor.vue'
 import PromptResult from '@/components/PromptResult.vue'
 import useStore from '@/stores/store'
@@ -95,6 +102,7 @@ const props = defineProps({
 const showEditor = ref(false)
 const showMenu = ref(false)
 const showLogo = ref(true)
+const screenshotInfo = ref('')
 const inputCommand = ref('')
 const chooseIndex = ref(-1)
 const lastArrowKey = ref('')
@@ -298,14 +306,17 @@ const getPageReference = () => {
 }
 
 const popUpAskAi = async () => {
-  showMenu.value = false
+  const capture = screenshotInfo.value
   const command = inputCommand.value !== '' ? inputCommand.value : selectedPrompt.prompt.command
+  showMenu.value = false
+  screenshotInfo.value = ''
 
   try {
     await askAi({
       referenceText: props.isAskPage ? getPageReference() : store.selectedText,
-      command,
       isAskPage: props.isAskPage,
+      command,
+      capture,
     })
 
     if (selectedPrompt.index === -1) {
@@ -432,6 +443,7 @@ const showResult = computed(() => {
 
 const showPrompts = computed(() => {
   return (
+    screenshotInfo.value.length === 0 &&
     (showMenu.value || !showResult.value) &&
     !aiThinking.value &&
     !generating.value &&
@@ -449,6 +461,13 @@ const handlePopupTurnBack = () => {
 const openExtension = () => {
   storage.set('OPTIONS_PAGE_ACTIVATED_TAB', OPTIONS_PAGE_TAB_NAME.EXTENSION)
   sendToBackground({name: 'openSetting'})
+}
+
+const showCapture = img => {
+  screenshotInfo.value = img
+}
+const removeCapture = () => {
+  screenshotInfo.value = ''
 }
 </script>
 
