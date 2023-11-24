@@ -34,7 +34,7 @@
         <WebpilotAttribution :class="$style.hover" @click="openHomePage" />
       </section>
     </article>
-    <aside v-if="showShadow" :class="$style.container__shadow" />
+    <!-- <aside v-if="showShadow" :class="$style.container__shadow" /> -->
   </section>
 </template>
 
@@ -68,10 +68,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  showShadow: {
+  showResult: {
     type: Boolean,
     default: false,
   },
+  // showShadow: {
+  //   type: Boolean,
+  //   default: false,
+  // },
 })
 
 // const emits = defineEmits(['update:modelValue'])
@@ -103,14 +107,17 @@ const onScroll = () => {
   oldScrollTop = currentScrollTop
 }
 
-const showResult = computed(() => {
-  return !!props.modelValue && props.modelValue !== '' && !props.showShadow
-})
+// const showResult = computed(() => {
+//   return !!props.modelValue && props.modelValue !== '' && !props.showShadow
+// })
 
-watch(showResult, v => {
-  /** Reset auto scroll */
-  if (!v) isAutoScroll.value = true
-})
+watch(
+  () => props.showResult,
+  v => {
+    /** Reset auto scroll */
+    if (!v) isAutoScroll.value = true
+  }
+)
 
 const result = computed(() => props.modelValue)
 

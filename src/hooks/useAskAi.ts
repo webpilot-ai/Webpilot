@@ -51,7 +51,7 @@ const getPrompt = (referenceText, command, isAskPage, previousCommand, previousA
       },
     ]
   } else if (!isAskPage) {
-    // first time select
+    // select mode in first time
     information = [
       {
         role: 'assistant',
@@ -84,7 +84,7 @@ const getPrompt = (referenceText, command, isAskPage, previousCommand, previousA
       },
     ]
   } else {
-    // first time QA
+    // QA mode in first time
     information = [
       {
         role: 'function',
@@ -157,8 +157,10 @@ export default function useAskAi() {
     const model = {
       ...toRaw(currentConfig.model),
     }
-    if (capture) model.model = 'gpt-4-vision-preview'
-    else if (isAskPage) {
+    if (capture) {
+      model.model = 'gpt-4-vision-preview'
+      model.max_tokens = 300
+    } else if (isAskPage) {
       // 全局 popup，默认使用 16k 接口`
       model.model = 'gpt-3.5-turbo-16k'
     }

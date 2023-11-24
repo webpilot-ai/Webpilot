@@ -23,7 +23,7 @@
     />
     <WebpilotAlert v-if="showError" :class="$style.alert" :tips="errorMessage" type="error" />
     <!-- <ShortcutTips v-if="store.config.showShortcutTips" :show-text-tips="true" tips-text="hello?" /> -->
-    <PromptResult v-model="result" :show-shadow="showMenu" @click-shortcut="openExtension" />
+    <PromptResult v-model="result" :show-result="showResult" @click-shortcut="openExtension" />
     <FloatControlButtons
       v-show="!showEditor"
       :result="result"
@@ -129,6 +129,11 @@ useMagicKeys({
       if (showEditor.value) showEditor.value = false
       else if (showMenu.value) showMenu.value = false
       else emits('closePopup')
+      return
+    }
+    // press enter
+    if (screenshotInfo.value.length > 0) {
+      popUpAskAi()
       return
     }
 
@@ -438,7 +443,7 @@ const hidePromptDelete = computed(() => {
 })
 
 const showResult = computed(() => {
-  return !!result.value && result.value !== ''
+  return !!result.value && result.value !== '' && screenshotInfo.value.length === 0
 })
 
 const showPrompts = computed(() => {
