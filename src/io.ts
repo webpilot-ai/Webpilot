@@ -67,7 +67,7 @@ export async function askOpenAI({authKey, model, message, baseURL = null, apiOri
   // Reassemble model and process long content request
   const requestModel = {...model}
   requestModel.messages =
-    requestModel.model === 'gpt-3.5-turbo-16k' ? getNewCutMessages(message) : message
+    requestModel.model === 'gpt-3.5-turbo-1106' ? getNewCutMessages(message) : message
   requestModel.stream = true
 
   // Assemble url

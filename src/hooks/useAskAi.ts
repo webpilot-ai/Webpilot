@@ -162,7 +162,7 @@ export default function useAskAi() {
       model.max_tokens = 300
     } else if (isAskPage) {
       // 全局 popup，默认使用 16k 接口`
-      model.model = 'gpt-3.5-turbo-16k'
+      model.model = 'gpt-3.5-turbo-1106'
     }
 
     let storeAuthKey = currentConfig.authKey

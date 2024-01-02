@@ -12,7 +12,7 @@
         ref="textareaRef"
         v-model="command"
         :class="$style.content__textarea"
-        maxlength="2048"
+        maxlength="8192"
         :placeholder="prompt.command || $gettext('Set a prompt here')"
       />
       <article :class="$style.content__back">
