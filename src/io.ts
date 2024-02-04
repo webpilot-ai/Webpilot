@@ -67,7 +67,7 @@ export async function askOpenAI({authKey, model, message, baseURL = null, apiOri
   // Reassemble model and process long content request
   const requestModel = {...model}
   requestModel.messages =
-    requestModel.model === 'gpt-3.5-turbo-16k' ? getNewCutMessages(message) : message
+    requestModel.model === 'gpt-3.5-turbo-0125' ? getNewCutMessages(message) : message
   requestModel.stream = true
 
   // Assemble url
@@ -144,7 +144,7 @@ export async function parseStream(streamReader, onUpdate) {
     if (done) return onUpdate({done, text})
 
     const chunk = decoder.decode(value, {stream: true})
-    const dataStrList = chunk.split('\n\n')
+    const dataStrList = chunk.split('\n').filter(line => line !== '' && line !== '[DONE]')
 
     // eslint-disable-next-line
     dataStrList.forEach(dataStr => {

@@ -156,8 +156,8 @@ export default function useAskAi() {
       ...toRaw(currentConfig.model),
     }
     if (isAskPage) {
-      // 全局 popup，默认使用 16k 接口`
-      model.model = 'gpt-3.5-turbo-16k'
+      // Global popup，use 0125 as default`
+      model.model = 'gpt-3.5-turbo-0125'
     }
 
     let storeAuthKey = currentConfig.authKey
