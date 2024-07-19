@@ -157,7 +157,7 @@ export default function useAskAi() {
     }
     if (isAskPage) {
       // Global popup，use 0125 as default`
-      model.model = 'gpt-3.5-turbo-0125'
+      model.model = 'gpt-4o-mini'
     }
 
     let storeAuthKey = currentConfig.authKey

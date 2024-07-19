@@ -84,7 +84,7 @@ export const defaultConfig = {
   ],
   /* Model type, for now use open ai template */
   model: {
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o-mini',
     temperature: 1,
     top_p: 0.9,
     frequency_penalty: 0,
@@ -106,7 +106,7 @@ export const SUPER_BUTTON_STATUS = {
 export const WEBPILOT_OPENAI = {
   AUTH_KEY: 'KEY_PLACEHOLDER',
   HOST_URL: 'https://api.webpilotai.com/api/webpilot',
-  MODEL: 'gpt-3.5-turbo',
+  MODEL: 'gpt-4o-mini',
 }
 
 export const LAST_PROMPT_STORAGE_KEY = {
