@@ -6,7 +6,7 @@ import {WEBPILOT_CONFIG_STORAGE_KEY, defaultConfig, WEBPILOT_OPENAI} from '@/con
 
 const useStore = defineStore('store', () => {
   const storage = new Storage()
-  const config = ref(defaultConfig)
+  const config = ref(JSON.parse(JSON.stringify(defaultConfig)))
 
   // selected text
   const selectedText = ref('')

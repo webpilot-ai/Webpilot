@@ -367,15 +367,15 @@ const handleSavePrompt = prompt => {
 
   const data = {}
   if (props.isAskPage) {
-    const {AskedQuestionPrompts} = config.value
-    AskedQuestionPrompts[selectedPrompt.index] = prompt
+    const newPrompts = [...config.value.AskedQuestionPrompts]
+    newPrompts[selectedPrompt.index] = prompt
     data.latestAskedQuestionPromptIndex = selectedPrompt.index
-    data.AskedQuestionPrompts = AskedQuestionPrompts
+    data.AskedQuestionPrompts = newPrompts
   } else {
-    const {TextSelectionPrompts} = config.value
-    TextSelectionPrompts[selectedPrompt.index] = prompt
+    const newPrompts = [...config.value.TextSelectionPrompts]
+    newPrompts[selectedPrompt.index] = prompt
     data.latestTextSelectionPromptIndex = selectedPrompt.index
-    data.TextSelectionPrompts = TextSelectionPrompts
+    data.TextSelectionPrompts = newPrompts
   }
   handleCloseEditor()
   store.updateConfig(data)
@@ -389,13 +389,15 @@ const handleAskPrompt = command => {
 
 const handleDeletePrompt = () => {
   if (props.isAskPage) {
-    const {AskedQuestionPrompts} = config.value
-    AskedQuestionPrompts.splice(selectedPrompt.index, 1)
-    store.updateConfig({AskedQuestionPrompts})
+    const newPrompts = config.value.AskedQuestionPrompts.filter(
+      (_, i) => i !== selectedPrompt.index
+    )
+    store.updateConfig({AskedQuestionPrompts: newPrompts})
   } else {
-    const {TextSelectionPrompts} = config.value
-    TextSelectionPrompts.splice(selectedPrompt.index, 1)
-    store.updateConfig({TextSelectionPrompts})
+    const newPrompts = config.value.TextSelectionPrompts.filter(
+      (_, i) => i !== selectedPrompt.index
+    )
+    store.updateConfig({TextSelectionPrompts: newPrompts})
   }
   inputCommand.value = ''
   handleCloseEditor()
