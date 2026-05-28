@@ -35,11 +35,11 @@ defineProps({
   height: 24px;
   background: center / 100% no-repeat;
 
-  // background-image: url('data-base64:~src/components/SendButton/image/SendOutlineLight.svg');
+  // background-image: url('data-base64:~components/SendButton/image/SendOutlineLight.svg');
   cursor: pointer;
 
   // &--activate {
-  //   background-image: url('data-base64:~src/components/SendButton/image/SendFilledLight.svg');
+  //   background-image: url('data-base64:~components/SendButton/image/SendFilledLight.svg');
   // }
 
   &--disabled {
@@ -49,10 +49,10 @@ defineProps({
 
 @media (prefers-color-scheme: dark) {
   .airplane {
-    // background-image: url('data-base64:~src/components/SendButton/image/SendOutlineDark.svg');
+    // background-image: url('data-base64:~components/SendButton/image/SendOutlineDark.svg');
 
     // &--activate {
-    //   background-image: url('data-base64:~src/components/SendButton/image/SendFilledDark.svg');
+    //   background-image: url('data-base64:~components/SendButton/image/SendFilledDark.svg');
     // }
   }
 }

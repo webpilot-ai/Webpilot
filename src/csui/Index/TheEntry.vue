@@ -304,13 +304,13 @@ const shortcutText = computed(() => {
   /* stylelint-enable */
 
   &:hover {
-    background-image: url('data-base64:~src/components/image/IconDraggingLight.svg');
+    background-image: url('data-base64:~components/image/IconDraggingLight.svg');
   }
 }
 
 @media (prefers-color-scheme: dark) {
   .draggingBody:hover {
-    background-image: url('data-base64:~src/components/image/IconDraggingDark.svg');
+    background-image: url('data-base64:~components/image/IconDraggingDark.svg');
   }
 }
 </style>
