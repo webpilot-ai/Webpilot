@@ -133,287 +133,287 @@ watch(delayClick, currentState => {
 
 // icon effect config
 .img-close--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CloseLightClick.svg');
 }
 
 .img-close--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CloseLightDefault.svg');
 }
 
 .img-close--disable {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseLightDisable.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CloseLightDisable.svg');
 }
 
 .img-close--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CloseLightHover.svg');
 }
 
 .img-collect--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CollectLightClick.svg');
 }
 
 .img-collect--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CollectLightDefault.svg');
 }
 
 .img-collect--disable {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectLightDisable.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CollectLightDisable.svg');
 }
 
 .img-collect--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CollectLightHover.svg');
 }
 
 .img-copy--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CopyLightClick.svg');
 }
 
 .img-copy--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CopyLightDefault.svg');
 }
 
 .img-copy--disable {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyLightDisable.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CopyLightDisable.svg');
 }
 
 .img-copy--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/CopyLightHover.svg');
 }
 
 .img-delete--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/DeleteLightClick.svg');
 }
 
 // no disable state
 .img-delete--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/DeleteLightDefault.svg');
 }
 
 .img-delete--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/DeleteLightHover.svg');
 }
 
 .img-previous--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PreviousLightClick.svg');
 }
 
 .img-previous--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PreviousLightDefault.svg');
 }
 
 .img-previous--disable {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightDisable.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PreviousLightDisable.svg');
 }
 
 .img-previous--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PreviousLightHover.svg');
 }
 
 .img-setting--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SettingLightClick.svg');
 }
 
 .img-setting--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SettingLightDefault.svg');
 }
 
 .img-setting--disable {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightDisable.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SettingLightDisable.svg');
 }
 
 .img-setting--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SettingLightHover.svg');
 }
 
 .img-keep--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SaveLightClick.svg');
 }
 
 .img-keep--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightDisable.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SaveLightDisable.svg');
 }
 
 .img-keep--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SaveLightHover.svg');
 }
 
 // no disable state
 .img-save--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SaveLightClick.svg');
 }
 
 .img-save--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SaveLightDefault.svg');
 }
 
 .img-save--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SaveLightHover.svg');
 }
 
 .img-pencil--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PencilLightClick.svg');
 }
 
 .img-pencil--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PencilLightDefault.svg');
 }
 
 .img-pencil--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/PencilLightHover.svg');
 }
 
 .img-send--default {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SendLightDefault.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SendLightDefault.svg');
 }
 
 .img-send--hover {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SendLightHover.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SendLightHover.svg');
 }
 
 .img-send--click {
-  background-image: url('data-base64:~src/components/InteractiveIcon/image/SendLightClick.svg');
+  background-image: url('data-base64:~components/InteractiveIcon/image/SendLightClick.svg');
 }
 
 @media (prefers-color-scheme: dark) {
   .img-close--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CloseDarkClick.svg');
   }
 
   .img-close--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CloseDarkDefault.svg');
   }
 
   .img-close--disable {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseDarkDisable.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CloseDarkDisable.svg');
   }
 
   .img-close--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CloseDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CloseDarkHover.svg');
   }
 
   .img-collect--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CollectDarkClick.svg');
   }
 
   .img-collect--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CollectDarkDefault.svg');
   }
 
   .img-collect--disable {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectDarkDisable.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CollectDarkDisable.svg');
   }
 
   .img-collect--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CollectDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CollectDarkHover.svg');
   }
 
   .img-copy--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CopyDarkClick.svg');
   }
 
   .img-copy--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CopyDarkDefault.svg');
   }
 
   .img-copy--disable {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyDarkDisable.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CopyDarkDisable.svg');
   }
 
   .img-copy--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/CopyDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/CopyDarkHover.svg');
   }
 
   .img-delete--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/DeleteDarkClick.svg');
   }
 
   .img-delete--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/DeleteDarkDefault.svg');
   }
 
   .img-delete--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/DeleteDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/DeleteDarkHover.svg');
   }
 
   .img-previous--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PreviousDarkClick.svg');
   }
 
   .img-previous--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PreviousDarkDefault.svg');
   }
 
   .img-previous--disable {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousDarkDisable.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PreviousDarkDisable.svg');
   }
 
   .img-previous--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PreviousDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PreviousDarkHover.svg');
   }
 
   .img-setting--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SettingDarkClick.svg');
   }
 
   .img-setting--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SettingDarkDefault.svg');
   }
 
   .img-setting--disable {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkDisable.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SettingDarkDisable.svg');
   }
 
   .img-setting--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SettingDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SettingDarkHover.svg');
   }
 
   .img-keep--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SaveDarkClick.svg');
   }
 
   .img-keep--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkDisable.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SaveDarkDisable.svg');
   }
 
   .img-keep--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SaveDarkHover.svg');
   }
 
   // no disable state
   .img-save--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SaveDarkClick.svg');
   }
 
   .img-save--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SaveDarkDefault.svg');
   }
 
   .img-save--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SaveDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SaveDarkHover.svg');
   }
 
   .img-pencil--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PencilDarkClick.svg');
   }
 
   .img-pencil--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PencilDarkDefault.svg');
   }
 
   .img-pencil--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/PencilDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/PencilDarkHover.svg');
   }
 
   .img-send--default {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SendDarkDefault.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SendDarkDefault.svg');
   }
 
   .img-send--hover {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SendDarkHover.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SendDarkHover.svg');
   }
 
   .img-send--click {
-    background-image: url('data-base64:~src/components/InteractiveIcon/image/SendDarkClick.svg');
+    background-image: url('data-base64:~components/InteractiveIcon/image/SendDarkClick.svg');
   }
 }
 </style>

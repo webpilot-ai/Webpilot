@@ -211,16 +211,16 @@ function toggleClickEdit() {
 
 .undoButton {
   .superButtonIcon {
-    background-image: url('data-base64:~src/components/SuperButton/icon/undo.svg');
+    background-image: url('data-base64:~components/SuperButton/icon/undo.svg');
     background-repeat: no-repeat;
   }
 
   &:hover .superButtonIcon {
-    background-image: url('data-base64:~src/components/SuperButton/icon/undoHover.svg');
+    background-image: url('data-base64:~components/SuperButton/icon/undoHover.svg');
   }
 
   &:active .superButtonIcon {
-    background-image: url('data-base64:~src/components/SuperButton/icon/undoActive.svg');
+    background-image: url('data-base64:~components/SuperButton/icon/undoActive.svg');
   }
 }
 
