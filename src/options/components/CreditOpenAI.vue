@@ -1,45 +1,57 @@
 <template>
   <div :class="$style['openai-credit-wrap']">
     <ServerTypeSelector v-model="serverName" />
+    <WebpilotInput v-model="form.apiKey" placeholder="API_KEY" />
 
-    <template v-if="serverName === SERVER_NAME.OPENAI_OFFICIAL">
-      <WebpilotInput v-model="openAIOfficialForm.apiKey" placeholder="API key from OpenAI" />
+    <template v-if="!isAzure">
+      <WebpilotInput v-model="form.baseUrl" placeholder="BASE_URL" />
+      <WebpilotInput v-model="form.endpointPath" placeholder="ENDPOINT_PATH" />
+    </template>
 
-      <SettingAlert
-        v-if="success || error"
-        :color="success ? '#318619' : '#CC0000'"
-        inline
-        :title="success ? 'Successfully added API Key' : 'Invalid Key'"
-      >
-        <template #icon>
-          <IconAlertSuccess v-if="success" />
-          <IconAlertError v-else />
-        </template>
-      </SettingAlert>
+    <template v-else>
+      <WebpilotInput v-model="form.baseUrl" placeholder="AZURE_RESOURCE_NAME" />
+      <WebpilotInput v-model="form.azureApiVersion" placeholder="API_VERSION" />
+      <WebpilotInput v-model="form.azureDeploymentID" placeholder="DEPLOYMENT_ID" />
+    </template>
 
-      <div :class="$style['openai-guide']">
-        <SettingAlert title="How">
-          <template #desc>
-            Log into
-            <a href="https://platform.openai.com/account/api-keys" target="_blank">
-              Open AI > API Keys</a
-            >. Click “Create new secret key”, and get yours.
-          </template>
-        </SettingAlert>
+    <WebpilotInput v-model="form.authHeaderName" placeholder="AUTH_HEADER_NAME" />
+    <WebpilotInput v-model="form.authPrefix" placeholder="AUTH_PREFIX (optional)" />
+
+    <div :class="$style['model-settings']">
+      <div :class="$style['section-title']">Model</div>
+      <select v-model="form.modelId" :class="$style['model-select']">
+        <option value="" disabled>Select model</option>
+        <option v-for="model in form.modelList" :key="model" :value="model">
+          {{ model }}
+        </option>
+      </select>
+      <div :class="$style['model-input-wrap']">
+        <WebpilotInput v-model="modelInput" placeholder="Custom model code" />
+        <WebpilotButton value="ADD" :class="$style['add-btn']" @click="onAddModel" />
       </div>
-    </template>
+      <div :class="$style['model-tags']">
+        <button
+          v-for="model in form.modelList"
+          :key="model"
+          :class="$style['model-tag']"
+          @click="onRemoveModel(model)"
+        >
+          {{ model }} ×
+        </button>
+      </div>
+    </div>
 
-    <template v-else-if="serverName === SERVER_NAME.OPENAI_PROXY">
-      <WebpilotInput v-model="openAiProxyForm.apiKey" placeholder="OPENAI_API_KEY" />
-      <WebpilotInput v-model="openAiProxyForm.apiHost" placeholder="OPENAI_API_HOST" />
-    </template>
-
-    <template v-else-if="serverName === SERVER_NAME.AZURE_PROXY">
-      <WebpilotInput v-model="azureProxyForm.apiKey" placeholder="API_KEY" />
-      <WebpilotInput v-model="azureProxyForm.apiHost" placeholder="API_HOST" />
-      <WebpilotInput v-model="azureProxyForm.apiVersion" placeholder="API_VERSION" />
-      <WebpilotInput v-model="azureProxyForm.deploymentID" placeholder="DEPLOYMENT_ID" />
-    </template>
+    <SettingAlert
+      v-if="success || error"
+      :color="success ? '#318619' : '#CC0000'"
+      inline
+      :title="success ? 'Saved successfully' : 'Validation failed'"
+    >
+      <template #icon>
+        <IconAlertSuccess v-if="success" />
+        <IconAlertError v-else />
+      </template>
+    </SettingAlert>
 
     <div :class="$style['btn-wrap']">
       <WebpilotButton
@@ -49,26 +61,19 @@
         value="SAVE CHANGES"
         @click="save"
       />
-      <template v-if="serverName === SERVER_NAME.AZURE_PROXY">
-        <SettingAlert
-          v-if="success || error"
-          :color="success ? '#318619' : '#CC0000'"
-          inline
-          :title="success ? 'Success' : 'Failed to update'"
-        >
-          <template #icon>
-            <IconAlertSuccess v-if="success" />
-            <IconAlertError v-else />
-          </template>
-        </SettingAlert>
-      </template>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import {computed, reactive, ref, onMounted, watch} from 'vue'
 
-import {API_ORIGINS, OPENAI_BASE_URL, SERVER_NAME} from '@/config'
+import {
+  API_ORIGINS,
+  OPENAI_BASE_URL,
+  PROVIDER_REGISTRY,
+  PROVIDER_ID,
+  AUTH_TYPE,
+} from '@/config'
 import useAskAi from '@/hooks/useAskAi'
 import WebpilotButton from '@/components/WebpilotButton.vue'
 import useStore from '@/stores/store'
@@ -81,64 +86,71 @@ import SettingAlert from './SettingAlert.vue'
 
 const store = useStore()
 
-const openAIOfficialForm = reactive({
+const form = reactive({
+  providerId: PROVIDER_ID.OPENAI,
   apiKey: '',
+  baseUrl: OPENAI_BASE_URL,
+  endpointPath: '/v1/chat/completions',
+  authType: AUTH_TYPE.BEARER,
+  authHeaderName: 'Authorization',
+  authPrefix: 'Bearer ',
+  modelId: 'gpt-4o-mini',
+  modelList: ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4.1'],
+  extraHeaders: [],
+  azureApiVersion: '',
+  azureDeploymentID: '',
 })
 
-const openAiProxyForm = reactive({
-  apiKey: '',
-  apiHost: '',
-})
+const serverName = ref(PROVIDER_ID.OPENAI)
+const modelInput = ref('')
+const isAzure = computed(() => serverName.value === PROVIDER_ID.AZURE)
 
-const azureProxyForm = reactive({
-  apiKey: '',
-  apiHost: '',
-  apiVersion: '',
-  deploymentID: '',
-})
+const hydrateByProvider = providerId => {
+  const registry = PROVIDER_REGISTRY[providerId]
+  if (!registry) return
 
-const serverName = ref(SERVER_NAME.OPENAI_OFFICIAL)
+  form.providerId = providerId
+  form.authType = registry.authType
+  form.authHeaderName = registry.authHeaderName
+  form.authPrefix = registry.authPrefix
+
+  if (!isAzure.value) {
+    form.baseUrl = form.baseUrl || registry.defaultBaseUrl
+    form.endpointPath = form.endpointPath || registry.defaultEndpointPath
+  }
+
+  if (!form.modelList?.length) {
+    form.modelList = [...registry.models]
+  }
+
+  if (!form.modelId) {
+    form.modelId = registry.defaultModel
+  }
+}
 
 onMounted(() => {
-  const {apiOrigin} = store.config
-
-  if (apiOrigin === API_ORIGINS.OPENAI) {
-    const {authKey} = store.config
-    serverName.value = SERVER_NAME.OPENAI_OFFICIAL
-    openAIOfficialForm.apiKey = authKey
-  } else if (apiOrigin === API_ORIGINS.OPENAI_PROXY) {
-    const {authKey, selfHostUrl} = store.config
-    serverName.value = SERVER_NAME.OPENAI_PROXY
-    openAiProxyForm.apiKey = authKey
-    openAiProxyForm.apiHost = selfHostUrl
-  } else if (apiOrigin === API_ORIGINS.AZURE) {
-    const {authKey, selfHostUrl, azureApiVersion, azureDeploymentID} = store.config
-    serverName.value = SERVER_NAME.AZURE_PROXY
-    azureProxyForm.apiHost = selfHostUrl
-    azureProxyForm.apiKey = authKey
-    azureProxyForm.apiVersion = azureApiVersion
-    azureProxyForm.deploymentID = azureDeploymentID
+  const {providerConfig} = store.config
+  if (providerConfig) {
+    serverName.value = providerConfig.providerId || PROVIDER_ID.OPENAI
+    Object.assign(form, JSON.parse(JSON.stringify(providerConfig)))
+    hydrateByProvider(serverName.value)
+  } else {
+    hydrateByProvider(serverName.value)
   }
 })
 
 const isDisableSaveConfig = computed(() => {
-  if (serverName.value === SERVER_NAME.OPENAI_OFFICIAL) {
-    const {apiKey} = openAIOfficialForm
-    return apiKey === '' || !apiKey
-  }
+  if (!form.apiKey) return true
+  if (!form.authHeaderName) return true
+  if (!form.modelId) return true
 
-  if (serverName.value === SERVER_NAME.OPENAI_PROXY) {
-    const {apiKey, apiHost} = openAiProxyForm
-    return apiKey === '' || !apiKey || apiHost === '' || !apiHost
-  }
-
-  if (serverName.value === SERVER_NAME.AZURE_PROXY) {
-    const {apiKey, apiHost, apiVersion, deploymentID} = azureProxyForm
-
-    if (apiKey === '' || !apiKey) return true
-    if (apiHost === '' || !apiHost) return true
-    if (apiVersion === '' || !apiVersion) return true
-    if (deploymentID === '' || !deploymentID) return true
+  if (isAzure.value) {
+    if (!form.baseUrl) return true
+    if (!form.azureApiVersion) return true
+    if (!form.azureDeploymentID) return true
+  } else {
+    if (!form.baseUrl) return true
+    if (!form.endpointPath) return true
   }
 
   return false
@@ -146,70 +158,68 @@ const isDisableSaveConfig = computed(() => {
 
 const {loading, success, error, askAi} = useAskAi()
 
+const onAddModel = () => {
+  const modelCode = modelInput.value.trim()
+  if (!modelCode) return
+  if (!form.modelList.includes(modelCode)) {
+    form.modelList.push(modelCode)
+  }
+  form.modelId = modelCode
+  modelInput.value = ''
+}
+
+const onRemoveModel = modelCode => {
+  form.modelList = form.modelList.filter(v => v !== modelCode)
+  if (form.modelId === modelCode) {
+    form.modelId = form.modelList[0] || ''
+  }
+}
+
 const save = async () => {
   // check config change
 
   // check token
   try {
-    let authKey = ''
-    let apiHost = ''
-    let apiOrigin = API_ORIGINS.OPENAI
-
-    // OpenAI Official
-    if (serverName.value === SERVER_NAME.OPENAI_OFFICIAL) {
-      authKey = openAIOfficialForm.apiKey
-      apiHost = OPENAI_BASE_URL
-    }
-
-    // OpenAIProxy
-    if (serverName.value === SERVER_NAME.OPENAI_PROXY) {
-      authKey = openAiProxyForm.apiKey
-      apiHost = openAiProxyForm.apiHost
-      apiOrigin = API_ORIGINS.OPENAI_PROXY
-    }
-
-    // Azure API
-    if (serverName.value === SERVER_NAME.AZURE_PROXY) {
-      apiOrigin = API_ORIGINS.AZURE
-      authKey = azureProxyForm.apiKey
-      apiHost = `https://${azureProxyForm.apiHost}.openai.azure.com/openai/deployments/${azureProxyForm.deploymentID}/chat/completions?api-version=${azureProxyForm.apiVersion}`
+    const providerId = serverName.value
+    const providerRegistry = PROVIDER_REGISTRY[providerId]
+    const apiOrigin = providerId === PROVIDER_ID.AZURE ? API_ORIGINS.AZURE : API_ORIGINS.OPENAI
+    const nextProviderConfig = {
+      ...form,
+      providerId,
+      protocol: providerRegistry.protocol,
+      authType: form.authType || providerRegistry.authType,
+      authHeaderName: form.authHeaderName || providerRegistry.authHeaderName,
+      authPrefix: form.authPrefix ?? providerRegistry.authPrefix,
+      endpointPath: isAzure.value ? '' : form.endpointPath,
+      baseUrl: form.baseUrl,
+      azureApiVersion: isAzure.value ? form.azureApiVersion : '',
+      azureDeploymentID: isAzure.value ? form.azureDeploymentID : '',
     }
 
     await askAi({
-      authKey,
+      authKey: form.apiKey,
       command: 'Say hi',
-      url: apiHost,
+      url: isAzure.value ? null : form.baseUrl,
       apiOrigin,
-      azureApiVersion: azureProxyForm.apiVersion === '' ? null : azureProxyForm.apiVersion,
-      azureDeploymentID: azureProxyForm.deploymentID === '' ? null : azureProxyForm.deploymentID,
+      providerConfig: nextProviderConfig,
     })
 
-    // update config
-    if (serverName.value !== SERVER_NAME.AZURE_PROXY) {
-      store.setConfig({
-        ...store.config,
-        apiOrigin,
-        isAuth: true,
-        isFinishSetup: true,
-        authKey,
-        selfHostUrl: apiHost,
-      })
-    } else {
-      store.setConfig({
-        ...store.config,
-        apiOrigin,
-        isAuth: true,
-        isFinishSetup: true,
-        authKey,
-        selfHostUrl: azureProxyForm.apiHost,
-        azureApiVersion: azureProxyForm.apiVersion,
-        azureDeploymentID: azureProxyForm.deploymentID,
-      })
-    }
+    store.setConfig({
+      ...store.config,
+      apiOrigin,
+      isAuth: true,
+      isFinishSetup: true,
+      authKey: form.apiKey,
+      selfHostUrl: form.baseUrl,
+      azureApiVersion: nextProviderConfig.azureApiVersion,
+      azureDeploymentID: nextProviderConfig.azureDeploymentID,
+      providerConfig: nextProviderConfig,
+    })
   } catch (error) {}
 }
 
 watch(serverName, (newValue, oldValue) => {
+  hydrateByProvider(newValue)
   if (newValue !== oldValue) {
     loading.value = false
     error.value = false
@@ -222,6 +232,52 @@ watch(serverName, (newValue, oldValue) => {
 .openai-credit-wrap {
   display: grid;
   row-gap: 16px;
+}
+
+.model-settings {
+  display: grid;
+  row-gap: 8px;
+}
+
+.section-title {
+  color: var(--color-baseline-text);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.model-select {
+  width: 360px;
+  height: 36px;
+  padding: 0 8px;
+  color: var(--color-baseline-text);
+  background: #fff;
+  border: 1px solid #dcdee1;
+  border-radius: 5px;
+}
+
+.model-input-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 8px;
+}
+
+.add-btn {
+  width: 72px;
+}
+
+.model-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.model-tag {
+  padding: 4px 8px;
+  color: var(--color-baseline-text);
+  background: #f0f2f7;
+  border: 1px solid #d6dae5;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .btn-wrap {

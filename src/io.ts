@@ -2,7 +2,14 @@ import {Storage} from '@plasmohq/storage'
 
 import {getEncoding} from 'js-tiktoken'
 
-import {OPENAI_BASE_URL, API_PATH, WEBPILOT_OPENAI, API_ORIGINS} from '@/config'
+import {
+  OPENAI_BASE_URL,
+  API_PATH,
+  WEBPILOT_OPENAI,
+  API_ORIGINS,
+  PROVIDER_PROTOCOL,
+  AUTH_TYPE,
+} from '@/config'
 import {GOOGLE_CREDENTIAL} from '@/apiConfig'
 
 // function getTokensNum(messages) {
@@ -55,7 +62,95 @@ function getNewCutMessages(messages) {
 
 let prevAbortController = null
 
-export async function askOpenAI({authKey, model, message, baseURL = null, apiOrigin} = {}) {
+function normalizeUrl(baseUrl, endpointPath) {
+  const safeBase = (baseUrl || '').replace(/\/+$/, '')
+  const safePath = endpointPath
+    ? endpointPath.startsWith('/')
+      ? endpointPath
+      : `/${endpointPath}`
+    : ''
+  return `${safeBase}${safePath}`
+}
+
+function buildHeaders(providerConfig, key) {
+  const headers = {
+    'Content-Type': 'application/json',
+  }
+
+  const authType = providerConfig?.authType || AUTH_TYPE.BEARER
+  const authHeaderName = providerConfig?.authHeaderName || 'Authorization'
+  const authPrefix = providerConfig?.authPrefix || ''
+
+  if (authType === AUTH_TYPE.BEARER) {
+    headers[authHeaderName] = `${authPrefix || 'Bearer '}${key}`
+  } else if (authType === AUTH_TYPE.API_KEY || authType === AUTH_TYPE.CUSTOM_HEADER) {
+    headers[authHeaderName] = `${authPrefix}${key}`
+  }
+
+  if (Array.isArray(providerConfig?.extraHeaders)) {
+    providerConfig.extraHeaders.forEach(item => {
+      if (item?.key) {
+        headers[item.key] = item.value || ''
+      }
+    })
+  }
+
+  if (providerConfig?.protocol === PROVIDER_PROTOCOL.ANTHROPIC_MESSAGES) {
+    headers['anthropic-version'] = '2023-06-01'
+  }
+
+  return headers
+}
+
+function buildRequestBody(providerConfig, model, message) {
+  const requestModel = {...model}
+  requestModel.messages =
+    requestModel.model === 'gpt-4o-mini' ? getNewCutMessages(message) : message
+  requestModel.stream = true
+
+  if (providerConfig?.protocol === PROVIDER_PROTOCOL.ANTHROPIC_MESSAGES) {
+    const userText = message.map(item => `${item.role}: ${item.content}`).join('\n\n')
+
+    return {
+      model: providerConfig.modelId || requestModel.model,
+      stream: true,
+      max_tokens: 2048,
+      messages: [{role: 'user', content: userText}],
+    }
+  }
+
+  return requestModel
+}
+
+function resolveRequestUrl({baseURL, apiOrigin, providerConfig}) {
+  if (!providerConfig) {
+    let prefixURL = baseURL || OPENAI_BASE_URL
+
+    if (prefixURL.endsWith('/')) {
+      prefixURL = prefixURL.substring(0, prefixURL.length - 1)
+    }
+
+    return apiOrigin === API_ORIGINS.AZURE ? prefixURL : `${prefixURL}${API_PATH}`
+  }
+
+  if (providerConfig.protocol === PROVIDER_PROTOCOL.AZURE_OPENAI) {
+    const host = providerConfig.baseUrl
+    const deployment = providerConfig.azureDeploymentID
+    const version = providerConfig.azureApiVersion
+    return `https://${host}.openai.azure.com/openai/deployments/${deployment}/chat/completions?api-version=${version}`
+  }
+
+  return normalizeUrl(providerConfig.baseUrl, providerConfig.endpointPath)
+}
+
+export async function askOpenAI({
+  authKey,
+  model,
+  message,
+  baseURL = null,
+  apiOrigin,
+  providerConfig = null,
+} = {}) {
   // abort control
   const abortController = new AbortController()
 
@@ -64,19 +159,8 @@ export async function askOpenAI({authKey, model, message, baseURL = null, apiOri
 
   if (!model) return Promise.resolve()
 
-  // Reassemble model and process long content request
-  const requestModel = {...model}
-  requestModel.messages =
-    requestModel.model === 'gpt-4o-mini' ? getNewCutMessages(message) : message
-  requestModel.stream = true
-
-  // Assemble url
-  let prefixURL = baseURL || OPENAI_BASE_URL
-
-  if (prefixURL.endsWith('/')) {
-    prefixURL = prefixURL.substring(0, prefixURL.length - 1)
-  }
-  const url = apiOrigin === API_ORIGINS.AZURE ? prefixURL : `${prefixURL}${API_PATH}`
+  const requestBody = buildRequestBody(providerConfig, model, message)
+  const url = resolveRequestUrl({baseURL, apiOrigin, providerConfig})
 
   const storage = new Storage()
   const webpilotKey = await storage.get(GOOGLE_CREDENTIAL)
@@ -88,8 +172,9 @@ export async function askOpenAI({authKey, model, message, baseURL = null, apiOri
   // throw error
   // return
 
-  const headers =
-    apiOrigin === API_ORIGINS.AZURE
+  const headers = providerConfig
+    ? buildHeaders(providerConfig, key)
+    : apiOrigin === API_ORIGINS.AZURE
       ? {
           'Content-Type': 'application/json',
           'api-key': key,
@@ -102,7 +187,7 @@ export async function askOpenAI({authKey, model, message, baseURL = null, apiOri
   return fetch(url, {
     method: 'POST',
     headers,
-    body: JSON.stringify(requestModel),
+    body: JSON.stringify(requestBody),
     signal: abortController.signal,
   }).then(async response => {
     const streamReader = response.body.getReader()
@@ -129,6 +214,18 @@ export async function parseStream(streamReader, onUpdate) {
   const decoder = new TextDecoder()
   let text = ''
 
+  const parseChunk = payload => {
+    if (payload?.choices?.[0]?.delta?.content) {
+      return payload.choices[0].delta.content
+    }
+
+    if (payload?.delta?.text) {
+      return payload.delta.text
+    }
+
+    return ''
+  }
+
   while (true) {
     let done = false
     let value = ''
@@ -144,14 +241,17 @@ export async function parseStream(streamReader, onUpdate) {
     if (done) return onUpdate({done, text})
 
     const chunk = decoder.decode(value, {stream: true})
-    const dataStrList = chunk.split('\n').filter(line => line !== '' && line !== '[DONE]')
+    const dataStrList = chunk
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line !== '' && line !== '[DONE]')
 
     // eslint-disable-next-line
     dataStrList.forEach(dataStr => {
       const dataJson = dataStr.replace(/^data:/, '').trim()
       try {
         const data = JSON.parse(dataJson)
-        const content = data?.choices[0]?.delta?.content
+        const content = parseChunk(data)
         if (!content) return
 
         text += content

@@ -99,7 +99,10 @@
     "message": "新标签页和空白页"
   },
   "OpenAI_Credits": {
-    "message": "OpenAI Credits"
+    "message": "用户提供 API"
+  },
+  "Customer_Provide_API": {
+    "message": "用户提供 API"
   },
   "Pin_Webpilot": {
     "message": "将 Webpilot 置顶"
@@ -150,7 +153,7 @@
     "message": "每周 50 次"
   },
   "Use_my_OpenAI_API_key": {
-    "message": "使用我自己的 OpenAI API key"
+    "message": "使用我自己的 API key"
   },
   "Use_WebPilot_free_credit": {
     "message": "使用 WebPilot 提供的免费额度"

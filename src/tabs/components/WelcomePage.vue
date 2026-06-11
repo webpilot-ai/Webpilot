@@ -47,7 +47,15 @@ import useAskAi from '@/hooks/useAskAi'
 import useStore from '@/stores/store'
 import useUserStore from '@/stores/user'
 import IconLogoAndText from '@/components/icon/IconLogoAndText.vue'
-import {API_ORIGINS, OPENAI_BASE_URL, SERVER_NAME, WEBPILOT_OPENAI} from '@/config'
+import {
+  API_ORIGINS,
+  OPENAI_BASE_URL,
+  WEBPILOT_OPENAI,
+  PROVIDER_ID,
+  PROVIDER_REGISTRY,
+  AUTH_TYPE,
+  PROVIDER_PROTOCOL,
+} from '@/config'
 
 import StepTwo from './StepTwo.vue'
 import StepThree from './StepThree.vue'
@@ -66,19 +74,21 @@ const stepIndex = ref(2)
 const showWarn = ref(false)
 const authInfo = ref({
   selectedOption: storeConfig.config.apiOrigin,
-  serverName: SERVER_NAME.OPENAI_OFFICIAL,
-  openAIOfficialForm: {
+  serverName: storeConfig.config?.providerConfig?.providerId || PROVIDER_ID.OPENAI,
+  providerConfig: storeConfig.config?.providerConfig || {
+    providerId: PROVIDER_ID.OPENAI,
+    protocol: PROVIDER_PROTOCOL.OPENAI_CHAT,
     apiKey: storeConfig.config.authKey,
-  },
-  openAiProxyForm: {
-    apiKey: storeConfig.config.authKey,
-    apiHost: storeConfig.config.selfHostUrl,
-  },
-  azureProxyForm: {
-    apiKey: storeConfig.config.authKey,
-    apiHost: storeConfig.config.selfHostUrl,
-    apiVersion: storeConfig.config.azureApiVersion,
-    deploymentID: storeConfig.config.azureDeploymentID,
+    baseUrl: storeConfig.config.selfHostUrl || OPENAI_BASE_URL,
+    endpointPath: '/v1/chat/completions',
+    authType: AUTH_TYPE.BEARER,
+    authHeaderName: 'Authorization',
+    authPrefix: 'Bearer ',
+    modelId: storeConfig.config?.model?.model || 'gpt-4o-mini',
+    modelList: [...PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].models],
+    extraHeaders: [],
+    azureApiVersion: storeConfig.config.azureApiVersion,
+    azureDeploymentID: storeConfig.config.azureDeploymentID,
   },
 })
 // onMounted(() => {
@@ -144,25 +154,19 @@ const goToLogin = () => {
 
 const buttonDisabled = computed(() => {
   if (authInfo.value.selectedOption === DEFAULT_SERVICE) return false
-  const {serverName} = authInfo.value
+  const provider = authInfo.value.providerConfig
 
-  if (serverName === SERVER_NAME.OPENAI_OFFICIAL) {
-    const {apiKey} = authInfo.value.openAIOfficialForm
-    return !apiKey || apiKey === ''
-  }
+  if (!provider?.apiKey) return true
+  if (!provider?.authHeaderName) return true
+  if (!provider?.modelId) return true
 
-  if (serverName === SERVER_NAME.OPENAI_PROXY) {
-    const {apiKey, apiHost} = authInfo.value.openAiProxyForm
-    return !apiKey || apiKey === '' || !apiHost || apiHost === ''
-  }
-
-  if (serverName === SERVER_NAME.AZURE_PROXY) {
-    const {apiKey, apiHost, apiVersion, deploymentID} = authInfo.value.azureProxyForm
-
-    if (!apiKey || apiKey === '') return true
-    if (!apiHost || apiHost === '') return true
-    if (!apiVersion || apiVersion === '') return true
-    if (!deploymentID || deploymentID === '') return true
+  if (provider?.providerId === PROVIDER_ID.AZURE) {
+    if (!provider.baseUrl) return true
+    if (!provider.azureApiVersion) return true
+    if (!provider.azureDeploymentID) return true
+  } else {
+    if (!provider?.baseUrl) return true
+    if (!provider?.endpointPath) return true
   }
 
   return false
@@ -174,29 +178,15 @@ const saveForm = async () => {
   const info = {command: 'Say hi'}
   const generalMode = selectedOption === DEFAULT_SERVICE
   try {
-    const {serverName} = authInfo.value
+    const {providerConfig} = authInfo.value
     if (generalMode) {
       info.authKey = WEBPILOT_OPENAI.AUTH_KEY
-    } else if (serverName === SERVER_NAME.OPENAI_OFFICIAL) {
-      // OpenAI Official
-      const {openAIOfficialForm} = authInfo.value
-      info.authKey = openAIOfficialForm.apiKey
-      info.url = OPENAI_BASE_URL
-      info.apiOrigin = API_ORIGINS.OPENAI
-    } else if (serverName === SERVER_NAME.OPENAI_PROXY) {
-      // OpenAIProxy
-      const {openAiProxyForm} = authInfo.value
-      info.authKey = openAiProxyForm.apiKey
-      info.url = openAiProxyForm.apiHost
-      info.apiOrigin = API_ORIGINS.OPENAI_PROXY
-    } else if (serverName === SERVER_NAME.AZURE_PROXY) {
-      // Azure API
-      const {azureProxyForm} = authInfo.value
-      info.authKey = azureProxyForm.apiKey
-      info.url = `https://${azureProxyForm.apiHost}.openai.azure.com/openai/deployments/${azureProxyForm.deploymentID}/chat/completions?api-version=${azureProxyForm.apiVersion}`
-      info.apiOrigin = API_ORIGINS.AZURE
     } else {
-      throw new Error('api not match')
+      info.authKey = providerConfig.apiKey
+      info.url = providerConfig.providerId === PROVIDER_ID.AZURE ? null : providerConfig.baseUrl
+      info.apiOrigin =
+        providerConfig.providerId === PROVIDER_ID.AZURE ? API_ORIGINS.AZURE : API_ORIGINS.OPENAI
+      info.providerConfig = providerConfig
     }
     await askAi(info)
 
@@ -209,13 +199,10 @@ const saveForm = async () => {
     if (!generalMode) {
       data.apiOrigin = info.apiOrigin
       data.authKey = info.authKey
-      data.selfHostUrl = info.url
-      if (serverName === SERVER_NAME.AZURE_PROXY) {
-        const {azureProxyForm} = authInfo.value
-        data.selfHostUrl = azureProxyForm.apiHost
-        data.azureApiVersion = azureProxyForm.apiVersion
-        data.azureDeploymentID = azureProxyForm.deploymentID
-      }
+      data.selfHostUrl = authInfo.value.providerConfig.baseUrl
+      data.azureApiVersion = authInfo.value.providerConfig.azureApiVersion || ''
+      data.azureDeploymentID = authInfo.value.providerConfig.azureDeploymentID || ''
+      data.providerConfig = authInfo.value.providerConfig
     }
     storeConfig.setConfig(data)
     stepIndex.value = 3

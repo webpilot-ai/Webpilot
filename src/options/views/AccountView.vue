@@ -8,7 +8,7 @@
         @change="onChangeApiSource"
       />
       <CreditWebpilotStatus v-if="creditSource === CREDIT_SOURCES.WEBPILOT" />
-      <CreditOpenAI v-else-if="creditSource === CREDIT_SOURCES.OPENAI" />
+      <CreditOpenAI v-else-if="creditSource === CREDIT_SOURCES.CUSTOMER_API" />
     </div>
 
     <h2>Linked Account</h2>
@@ -29,7 +29,7 @@ import LinkedAccount from '../components/LinkedAccount.vue'
 
 const CREDIT_SOURCES = {
   WEBPILOT: 'webpilot',
-  OPENAI: 'openAI',
+  CUSTOMER_API: 'customerApi',
 }
 
 const store = useStore()
@@ -39,7 +39,7 @@ const creditSource = ref(CREDIT_SOURCES.WEBPILOT)
 onMounted(() => {
   const {apiOrigin} = store.config
   if (apiOrigin !== API_ORIGINS.GENERAL) {
-    creditSource.value = CREDIT_SOURCES.OPENAI
+    creditSource.value = CREDIT_SOURCES.CUSTOMER_API
   }
 })
 

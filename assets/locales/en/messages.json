@@ -99,7 +99,10 @@
     "message": "New tab and blank pages"
   },
   "OpenAI_Credits": {
-    "message": "OpenAI Credits"
+    "message": "Customer Provide API"
+  },
+  "Customer_Provide_API": {
+    "message": "Customer Provide API"
   },
   "Pin_Webpilot": {
     "message": "Pin Webpilot"
@@ -150,7 +153,7 @@
     "message": "up to 50 times/week"
   },
   "Use_my_OpenAI_API_key": {
-    "message": "Use my OpenAI API key"
+    "message": "Use my own API key"
   },
   "Use_WebPilot_free_credit": {
     "message": "Use WebPilot free credit"

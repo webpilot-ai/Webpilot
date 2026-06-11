@@ -4,25 +4,22 @@
       :class="[$style['select-btn'], showOptions ? $style['select-btn-show-options'] : null]"
       @click="showDropdownMenu"
     >
-      <div :class="$style['select-logo']">
-        <currentLogo />
-      </div>
-      {{ SERVER_TYPE[modelValue] }}
+      {{ currentLabel }}
       <IconCerat :class="$style['select-caret']" />
     </button>
     <div ref="elementOpenDropMenu" :class="$style['options-wrap']">
       <ul v-if="showOptions" :class="$style['select-options']">
         <li
-          v-for="key in SERVER_NAME"
-          :key="key"
+          v-for="providerId in providerIds"
+          :key="providerId"
           :class="$style['select-option']"
-          @click="onOptionChange(key)"
+          @click="onOptionChange(providerId)"
         >
           <IconConfirmation
             :style="{
-              visibility: modelValue === key ? null : 'hidden',
+              visibility: modelValue === providerId ? null : 'hidden',
             }"
-          />{{ SERVER_TYPE[key] }}
+          />{{ PROVIDER_REGISTRY[providerId].label }}
         </li>
       </ul>
     </div>
@@ -34,18 +31,15 @@ import {computed, ref} from 'vue'
 
 import {onClickOutside} from '@vueuse/core'
 
-import {SERVER_NAME, SERVER_TYPE} from '@/config'
+import {PROVIDER_ID, PROVIDER_REGISTRY} from '@/config'
 
 import IconCerat from '../images/icon-caret.vue'
-import IconLogoOpenai from '../images/icon-logo-openai.vue'
-import IconLogoOpenaiProxy from '../images/icon-logo-openai-proxy.vue'
-import IconLogoMicrosoft from '../images/icon-logo-microsoft.vue'
 import IconConfirmation from '../images/icon-confirmation.vue'
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: SERVER_NAME.OPENAI_OFFICIAL,
+    default: PROVIDER_ID.OPENAI,
   },
 })
 
@@ -53,6 +47,7 @@ const emits = defineEmits(['update:modelValue', 'change'])
 
 const showOptions = ref(false)
 const elementOpenDropMenu = ref(null)
+const providerIds = computed(() => Object.keys(PROVIDER_REGISTRY))
 
 onClickOutside(elementOpenDropMenu, () => {
   if (showOptions.value) {
@@ -72,11 +67,7 @@ const onOptionChange = value => {
   showOptions.value = false
 }
 
-const currentLogo = computed(() => {
-  if (props.modelValue === SERVER_NAME.OPENAI_OFFICIAL) return IconLogoOpenai
-  if (props.modelValue === SERVER_NAME.OPENAI_PROXY) return IconLogoOpenaiProxy
-  return IconLogoMicrosoft
-})
+const currentLabel = computed(() => PROVIDER_REGISTRY[props.modelValue]?.label || 'Provider')
 </script>
 
 <style lang="scss" module>
@@ -108,11 +99,6 @@ const currentLogo = computed(() => {
     top: 0;
     left: 0;
   }
-}
-
-.select-logo {
-  // margin-right: 8px;
-  padding: 6px 8px 0 0;
 }
 
 .select-caret {
