@@ -41,4 +41,4 @@ Open your Chrome browser and load the appropriate development build：
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=webpilot-ai/Webpilot&type=Date)](https://star-history.com/#webpilot-ai/Webpilot&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=webpilot-ai/Webpilot&type=Date)](https://star-history.dera.page/#webpilot-ai/Webpilot&Date)
