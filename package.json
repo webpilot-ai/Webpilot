@@ -28,7 +28,7 @@
     "@mozilla/readability": "^0.6.0",
     "@plasmohq/messaging": "^0.7.2",
     "@plasmohq/storage": "^1.15.0",
-    "@vueuse/core": "^14.3.0",
+    "@vueuse/core": "^14.4.0",
     "copy-to-clipboard": "^4.0.2",
     "js-tiktoken": "^1.0.21",
     "jsonfile": "^6.2.1",
