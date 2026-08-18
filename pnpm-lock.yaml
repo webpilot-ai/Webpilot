@@ -60,9 +60,6 @@ importers:
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@6.0.3)(vue@3.5.35(typescript@6.0.3))
-      plasmo:
-        specifier: 0.90.5
-        version: 0.90.5(@swc/core@1.15.40(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(@types/node@25.9.1)(lodash@4.18.1)(postcss@8.5.23)(ts-node@10.9.1(@swc/core@1.15.40(@swc/helpers@0.5.23))(@types/node@25.9.1)(typescript@6.0.3))
       vue:
         specifier: 3.5.35
         version: 3.5.35(typescript@6.0.3)
@@ -106,6 +103,9 @@ importers:
       lint-staged:
         specifier: ^17.0.5
         version: 17.0.5
+      plasmo:
+        specifier: 0.90.5
+        version: 0.90.5(@swc/core@1.15.40(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)(@types/node@25.9.1)(lodash@4.18.1)(postcss@8.5.23)(ts-node@10.9.1(@swc/core@1.15.40(@swc/helpers@0.5.23))(@types/node@25.9.1)(typescript@6.0.3))
       prettier:
         specifier: 3.8.3
         version: 3.8.3
