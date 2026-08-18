@@ -46,7 +46,7 @@
     "@parcel/transformer-inline-string": "2.9.3",
     "@types/chrome": "0.1.42",
     "@types/node": "25.9.1",
-    "eslint": "^10.4.0",
+    "eslint": "^10.8.1",
     "eslint-config-standard-one": "^0.0.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.5",
