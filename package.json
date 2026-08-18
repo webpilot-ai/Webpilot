@@ -84,18 +84,26 @@
     "overrides": {
       "brace-expansion@^1.0.0": "1.1.18",
       "brace-expansion@^5.0.0": "5.0.9",
+      "braces": "3.0.3",
+      "content-security-policy-parser": "0.6.0",
+      "esbuild": "0.25.0",
       "fast-uri": "3.1.5",
+      "flatted": "3.4.2",
       "immutable": "5.1.8",
       "js-yaml@^3.0.0": "3.15.1",
       "js-yaml@^4.0.0": "4.3.1",
       "linkify-it": "5.0.2",
       "markdown-it": "14.2.0",
+      "micromatch": "4.0.8",
       "msgpackr": "1.11.12",
       "nanoid@^3.0.0": "3.3.18",
       "nanoid@^5.0.0": "5.1.16",
       "postcss": "8.5.23",
+      "sharp": "0.35.0",
+      "svelte": "5.55.7",
       "svgo@^2.0.0": "2.8.3",
       "trim": "0.0.3",
+      "trim-newlines": "3.0.1",
       "yargs-parser": "13.1.2"
     }
   }
