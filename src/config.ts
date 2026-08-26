@@ -4,11 +4,114 @@ import {$gettext} from './utils/i18n'
 
 export const WEBPILOT_CONFIG_STORAGE_KEY = 'WEBPILOT_CONFIG_STORAGE_KEY'
 
+export const CONFIG_VERSION = 2
+
 export const OPENAI_BASE_URL = 'https://api.openai.com'
 
 export const API_PATH = '/v1/chat/completions'
 
+export const PROVIDER_PROTOCOL = {
+  OPENAI_CHAT: 'openai_chat',
+  ANTHROPIC_MESSAGES: 'anthropic_messages',
+  AZURE_OPENAI: 'azure_openai',
+  CUSTOM_OPENAI_COMPATIBLE: 'custom_openai_compatible',
+}
+
+export const AUTH_TYPE = {
+  BEARER: 'bearer',
+  API_KEY: 'api-key',
+  CUSTOM_HEADER: 'custom-header',
+}
+
+export const PROVIDER_ID = {
+  OPENAI: 'OPENAI',
+  CLAUDE: 'CLAUDE',
+  ZAI: 'ZAI',
+  AZURE: 'AZURE',
+  CUSTOM: 'CUSTOM',
+}
+
+export const PROVIDER_REGISTRY = {
+  [PROVIDER_ID.OPENAI]: {
+    id: PROVIDER_ID.OPENAI,
+    label: 'OpenAI',
+    protocol: PROVIDER_PROTOCOL.OPENAI_CHAT,
+    authType: AUTH_TYPE.BEARER,
+    authHeaderName: 'Authorization',
+    authPrefix: 'Bearer ',
+    defaultBaseUrl: 'https://api.openai.com',
+    defaultEndpointPath: '/v1/chat/completions',
+    defaultModel: 'gpt-4o-mini',
+    models: ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4.1'],
+  },
+  [PROVIDER_ID.CLAUDE]: {
+    id: PROVIDER_ID.CLAUDE,
+    label: 'Claude',
+    protocol: PROVIDER_PROTOCOL.ANTHROPIC_MESSAGES,
+    authType: AUTH_TYPE.API_KEY,
+    authHeaderName: 'x-api-key',
+    authPrefix: '',
+    defaultBaseUrl: 'https://api.anthropic.com',
+    defaultEndpointPath: '/v1/messages',
+    defaultModel: 'claude-3-5-sonnet-latest',
+    models: ['claude-3-5-sonnet-latest', 'claude-3-7-sonnet-latest'],
+  },
+  [PROVIDER_ID.ZAI]: {
+    id: PROVIDER_ID.ZAI,
+    label: 'z.ai',
+    protocol: PROVIDER_PROTOCOL.OPENAI_CHAT,
+    authType: AUTH_TYPE.BEARER,
+    authHeaderName: 'Authorization',
+    authPrefix: 'Bearer ',
+    defaultBaseUrl: '',
+    defaultEndpointPath: '/v1/chat/completions',
+    defaultModel: '',
+    models: [],
+  },
+  [PROVIDER_ID.AZURE]: {
+    id: PROVIDER_ID.AZURE,
+    label: 'Azure OpenAI',
+    protocol: PROVIDER_PROTOCOL.AZURE_OPENAI,
+    authType: AUTH_TYPE.API_KEY,
+    authHeaderName: 'api-key',
+    authPrefix: '',
+    defaultBaseUrl: '',
+    defaultEndpointPath: '',
+    defaultModel: 'gpt-4o-mini',
+    models: ['gpt-4o-mini', 'gpt-4.1-mini'],
+  },
+  [PROVIDER_ID.CUSTOM]: {
+    id: PROVIDER_ID.CUSTOM,
+    label: 'Custom Provider',
+    protocol: PROVIDER_PROTOCOL.CUSTOM_OPENAI_COMPATIBLE,
+    authType: AUTH_TYPE.CUSTOM_HEADER,
+    authHeaderName: 'Authorization',
+    authPrefix: 'Bearer ',
+    defaultBaseUrl: '',
+    defaultEndpointPath: '/v1/chat/completions',
+    defaultModel: '',
+    models: [],
+  },
+}
+
+export const createDefaultProviderConfig = () => ({
+  providerId: PROVIDER_ID.OPENAI,
+  protocol: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].protocol,
+  apiKey: '',
+  baseUrl: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].defaultBaseUrl,
+  endpointPath: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].defaultEndpointPath,
+  authType: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].authType,
+  authHeaderName: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].authHeaderName,
+  authPrefix: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].authPrefix,
+  modelId: PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].defaultModel,
+  modelList: [...PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].models],
+  extraHeaders: [],
+  azureApiVersion: '',
+  azureDeploymentID: '',
+})
+
 export const defaultConfig = {
+  configVersion: CONFIG_VERSION,
   /**
    * general: use webpilot
    * personal: use openai or third party
@@ -24,6 +127,8 @@ export const defaultConfig = {
   autoPopup: false,
   /** Self host url */
   selfHostUrl: '',
+  /** Unified provider config for user-supplied APIs */
+  providerConfig: createDefaultProviderConfig(),
   /** Azure specify ApiVersion */
   azureApiVersion: '',
   /** Azure specify deploymentID */
@@ -129,12 +234,18 @@ export const SERVER_NAME = {
   OPENAI_OFFICIAL: 'OPENAI_OFFICIAL',
   OPENAI_PROXY: 'OPENAI_PROXY',
   AZURE_PROXY: 'AZURE_PROXY',
+  CLAUDE: 'CLAUDE',
+  ZAI: 'ZAI',
+  CUSTOM: 'CUSTOM',
 }
 
 export const SERVER_TYPE = {
   [SERVER_NAME.OPENAI_OFFICIAL]: 'OpenAI Official',
   [SERVER_NAME.OPENAI_PROXY]: 'OpenAI Proxy',
   [SERVER_NAME.AZURE_PROXY]: 'Azure Proxy',
+  [SERVER_NAME.CLAUDE]: 'Claude',
+  [SERVER_NAME.ZAI]: 'z.ai',
+  [SERVER_NAME.CUSTOM]: 'Custom Provider',
 }
 
 export const OPTIONS_PAGE_TAB_NAME = {

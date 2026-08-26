@@ -3,10 +3,37 @@ import {Storage} from '@plasmohq/storage'
 import pangu from 'pangu'
 
 import useStore from '@/stores/store'
-import {WEBPILOT_OPENAI, WEBPILOT_CONFIG_STORAGE_KEY, API_ORIGINS} from '@/config'
+import {
+  WEBPILOT_OPENAI,
+  WEBPILOT_CONFIG_STORAGE_KEY,
+  API_ORIGINS,
+  PROVIDER_REGISTRY,
+} from '@/config'
 import {askOpenAI, parseStream} from '@/io'
 
 import {$gettext} from '@/utils/i18n'
+
+const applyPanguSpacing = text => {
+  if (!text) return text
+
+  if (typeof pangu === 'function') {
+    return pangu(text)
+  }
+
+  if (typeof pangu?.spacing === 'function') {
+    return pangu.spacing(text)
+  }
+
+  if (typeof pangu?.default === 'function') {
+    return pangu.default(text)
+  }
+
+  if (typeof pangu?.default?.spacing === 'function') {
+    return pangu.default.spacing(text)
+  }
+
+  return text
+}
 
 const getPrompt = (referenceText, command, isAskPage, previousCommand, previousAnswer) => {
   const foundResult = !!previousAnswer && previousAnswer !== ''
@@ -136,6 +163,7 @@ export default function useAskAi() {
     url = null,
     isAskPage = true,
     apiOrigin = null,
+    providerConfig = null,
   } = {}) => {
     const previousAnswer = result.value
 
@@ -155,14 +183,14 @@ export default function useAskAi() {
     const model = {
       ...toRaw(currentConfig.model),
     }
-    if (isAskPage) {
-      // Global popup，use 0125 as default`
-      model.model = 'gpt-4o-mini'
+    if (!model.model && currentConfig?.providerConfig?.modelId) {
+      model.model = currentConfig.providerConfig.modelId
     }
 
     let storeAuthKey = currentConfig.authKey
     let storeHostUrl = currentConfig.selfHostUrl
     const currentApiOrigin = apiOrigin || currentConfig.apiOrigin
+    const activeProviderConfig = providerConfig || currentConfig.providerConfig
 
     if (currentApiOrigin === API_ORIGINS.GENERAL) {
       storeAuthKey = WEBPILOT_OPENAI.AUTH_KEY
@@ -184,12 +212,13 @@ export default function useAskAi() {
       message,
       baseURL: url || storeHostUrl,
       apiOrigin: currentApiOrigin,
+      providerConfig: activeProviderConfig,
     })
       .then(streamReader => {
         loading.value = false
         success.value = true
         parseStream(streamReader, reqResult => {
-          result.value = pangu.spacing(reqResult.text)
+          result.value = applyPanguSpacing(reqResult.text)
           done.value = reqResult.done
           previousCommand.value = command
           if (done.value) {
@@ -227,20 +256,22 @@ export default function useAskAi() {
           throw err
         } else if (err.response && err.response.status === 402) {
           errorMessage.value = $gettext(
-            'Free usage for this week has been exhausted (50 times/week). You can input your OpenAI API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday.'
+            'Free usage for this week has been exhausted (50 times/week). You can input your own API Key in the settings page for unlimited use, or wait for the quota refresh at 0:00 UTC+0 on Monday.'
           )
 
           throw err
         } else {
           let errorMsg = err.message || ''
+          const providerName =
+            PROVIDER_REGISTRY[activeProviderConfig?.providerId]?.label || 'Provider'
 
           if (err?.response?.data?.error?.message) {
             // eslint-disable-next-line
-            errorMsg = `OpenAI: ${err.response.data.error.message}`
+            errorMsg = `${providerName}: ${err.response.data.error.message}`
             // TODO: add toast
           }
 
-          errorMessage.value = `OpenAI: ${errorMsg}`
+          errorMessage.value = `${providerName}: ${errorMsg}`
         }
 
         throw err

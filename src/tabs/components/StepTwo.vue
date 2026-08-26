@@ -34,7 +34,7 @@
           :value="CUSTOM_SERVICE"
           @change="handleOptionChange"
         />
-        <label for="option2">{{ $gettext('OpenAI Credits') }}</label>
+        <label for="option2">{{ $gettext('Customer Provide API') }}</label>
       </li>
     </ol>
     <article>
@@ -50,61 +50,59 @@
       </section>
       <section v-if="selectedOption === CUSTOM_SERVICE" :class="stepTwo.configuration">
         <ServerTypeSelector v-model="serverName" :class="stepTwo['dropdown-menu']" />
-
-        <template v-if="serverName === SERVER_NAME.OPENAI_OFFICIAL">
+        <WebpilotInput v-model="providerConfig.apiKey" :class="stepTwo.gap" placeholder="API_KEY" />
+        <template v-if="serverName !== PROVIDER_ID.AZURE">
           <WebpilotInput
-            v-model="openAIOfficialForm.apiKey"
+            v-model="providerConfig.baseUrl"
             :class="stepTwo.gap"
-            placeholder="API key from OpenAI"
-          />
-
-          <article :class="[stepTwo.guide]">
-            <SettingAlert :class="stepTwo['guide-content']" title="How">
-              <template #desc>
-                Log into
-                <a href="https://platform.openai.com/account/api-keys" target="_blank">
-                  Open AI > API Keys</a
-                >. Click “Create new secret key”, and get yours.
-              </template>
-            </SettingAlert>
-          </article>
-        </template>
-
-        <template v-else-if="serverName === SERVER_NAME.OPENAI_PROXY">
-          <WebpilotInput
-            v-model="openAiProxyForm.apiKey"
-            :class="stepTwo.gap"
-            placeholder="OPENAI_API_KEY"
+            placeholder="BASE_URL"
           />
           <WebpilotInput
-            v-model="openAiProxyForm.apiHost"
+            v-model="providerConfig.endpointPath"
             :class="stepTwo.gap"
-            placeholder="OPENAI_API_HOST"
+            placeholder="ENDPOINT_PATH"
           />
         </template>
-
-        <template v-else-if="serverName === SERVER_NAME.AZURE_PROXY">
+        <template v-else>
           <WebpilotInput
-            v-model="azureProxyForm.apiKey"
+            v-model="providerConfig.baseUrl"
             :class="stepTwo.gap"
-            placeholder="API_KEY"
+            placeholder="AZURE_RESOURCE_NAME"
           />
           <WebpilotInput
-            v-model="azureProxyForm.apiHost"
-            :class="stepTwo.gap"
-            placeholder="API_HOST"
-          />
-          <WebpilotInput
-            v-model="azureProxyForm.apiVersion"
+            v-model="providerConfig.azureApiVersion"
             :class="stepTwo.gap"
             placeholder="API_VERSION"
           />
           <WebpilotInput
-            v-model="azureProxyForm.deploymentID"
+            v-model="providerConfig.azureDeploymentID"
             :class="stepTwo.gap"
             placeholder="DEPLOYMENT_ID"
           />
         </template>
+        <WebpilotInput
+          v-model="providerConfig.authHeaderName"
+          :class="stepTwo.gap"
+          placeholder="AUTH_HEADER_NAME"
+        />
+        <WebpilotInput
+          v-model="providerConfig.authPrefix"
+          :class="stepTwo.gap"
+          placeholder="AUTH_PREFIX (optional)"
+        />
+        <WebpilotInput
+          v-model="providerConfig.modelId"
+          :class="stepTwo.gap"
+          placeholder="MODEL_CODE"
+        />
+        <article :class="[stepTwo.guide]">
+          <SettingAlert :class="stepTwo['guide-content']" title="How">
+            <template #desc>
+              Fill in your provider API info. You can use OpenAI, Claude, z.ai, Azure, or custom
+              compatible endpoints.
+            </template>
+          </SettingAlert>
+        </article>
       </section>
       <div v-if="isWarning" :class="stepTwo['warn-txt']">
         <WebpilotAlert :tips="errorMessage" :type="'error'" />
@@ -120,7 +118,13 @@
 import {ref, watch} from 'vue'
 
 // import useStore from '@/stores/store'
-import {SERVER_NAME} from '@/config'
+import {
+  PROVIDER_ID,
+  PROVIDER_REGISTRY,
+  AUTH_TYPE,
+  PROVIDER_PROTOCOL,
+  OPENAI_BASE_URL,
+} from '@/config'
 import {$gettext} from '@/utils/i18n'
 import ImageFreePlan from '@/components/image/ImageFreePlan.vue'
 import SettingAlert from '@/options/components/SettingAlert.vue'
@@ -171,12 +175,49 @@ const onNext = () => emits('onNext')
 const selectedOption = ref(
   props.modelValue.selectedOption === DEFAULT_SERVICE ? DEFAULT_SERVICE : CUSTOM_SERVICE
 )
-const serverName = ref(props.modelValue.serverName || SERVER_NAME.OPENAI_OFFICIAL)
-const openAIOfficialForm = ref(props.modelValue.openAIOfficialForm || {apiKey: ''})
-const openAiProxyForm = ref(props.modelValue.openAiProxyForm || {apiKey: '', apiHost: ''})
-const azureProxyForm = ref(
-  props.modelValue.azureProxyForm || {apiKey: '', apiHost: '', apiVersion: '', deploymentID: ''}
+const serverName = ref(props.modelValue.serverName || PROVIDER_ID.OPENAI)
+
+const providerConfig = ref(
+  props.modelValue.providerConfig || {
+    providerId: PROVIDER_ID.OPENAI,
+    protocol: PROVIDER_PROTOCOL.OPENAI_CHAT,
+    apiKey: '',
+    baseUrl: OPENAI_BASE_URL,
+    endpointPath: '/v1/chat/completions',
+    authType: AUTH_TYPE.BEARER,
+    authHeaderName: 'Authorization',
+    authPrefix: 'Bearer ',
+    modelId: 'gpt-4o-mini',
+    modelList: [...PROVIDER_REGISTRY[PROVIDER_ID.OPENAI].models],
+    extraHeaders: [],
+    azureApiVersion: '',
+    azureDeploymentID: '',
+  }
 )
+
+const hydrateProvider = providerId => {
+  const registry = PROVIDER_REGISTRY[providerId]
+  if (!registry) return
+
+  providerConfig.value.providerId = providerId
+  providerConfig.value.protocol = registry.protocol
+  providerConfig.value.authType = registry.authType
+  providerConfig.value.authHeaderName =
+    providerConfig.value.authHeaderName || registry.authHeaderName
+  providerConfig.value.authPrefix = providerConfig.value.authPrefix ?? registry.authPrefix
+  providerConfig.value.modelId = providerConfig.value.modelId || registry.defaultModel
+  providerConfig.value.modelList = providerConfig.value.modelList?.length
+    ? providerConfig.value.modelList
+    : [...registry.models]
+
+  if (providerId !== PROVIDER_ID.AZURE) {
+    providerConfig.value.baseUrl = providerConfig.value.baseUrl || registry.defaultBaseUrl
+    providerConfig.value.endpointPath =
+      providerConfig.value.endpointPath || registry.defaultEndpointPath
+  }
+}
+
+hydrateProvider(serverName.value)
 
 const handleOptionChange = event => {
   const {value} = event.target
@@ -191,38 +232,20 @@ watch(selectedOption, (newValue, oldValue) => {
   })
 })
 watch(serverName, (newValue, oldValue) => {
+  hydrateProvider(newValue)
   if (newValue !== oldValue) emits('onRefresh')
   emits('update:modelValue', {
     ...props.modelValue,
     serverName: newValue,
+    providerConfig: providerConfig.value,
   })
 })
 watch(
-  openAIOfficialForm,
+  providerConfig,
   newValue => {
     emits('update:modelValue', {
       ...props.modelValue,
-      openAIOfficialForm: newValue,
-    })
-  },
-  {deep: true}
-)
-watch(
-  openAiProxyForm,
-  newValue => {
-    emits('update:modelValue', {
-      ...props.modelValue,
-      openAiProxyForm: newValue,
-    })
-  },
-  {deep: true}
-)
-watch(
-  azureProxyForm,
-  newValue => {
-    emits('update:modelValue', {
-      ...props.modelValue,
-      azureProxyForm: newValue,
+      providerConfig: newValue,
     })
   },
   {deep: true}

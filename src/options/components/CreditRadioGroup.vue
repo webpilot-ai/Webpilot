@@ -22,11 +22,14 @@
         v-model="picked"
         :class="$style['input-radio']"
         type="radio"
-        :value="CREDIT_SOURCES.OPENAI"
+        :value="CREDIT_SOURCES.CUSTOMER_API"
         @change="onChange"
       />
-      <label :class="picked !== CREDIT_SOURCES.OPENAI || $style['radio-activated']" for="openai">
-        Open AI Credits
+      <label
+        :class="picked !== CREDIT_SOURCES.CUSTOMER_API || $style['radio-activated']"
+        for="openai"
+      >
+        Customer Provide API
       </label>
     </div>
   </div>
@@ -37,7 +40,7 @@ import {ref, watch} from 'vue'
 
 const CREDIT_SOURCES = {
   WEBPILOT: 'webpilot',
-  OPENAI: 'openAI',
+  CUSTOMER_API: 'customerApi',
 }
 
 const props = defineProps({
